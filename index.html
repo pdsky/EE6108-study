@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EE6108 学习站</title>
+<style>
+  :root { --bg:#F5F6F8; --surface:#FFFFFF; --border:#DCE1E8; --ink:#16202E; --muted:#5B6675; --t1:#0E7C86; --t2:#4F46C7; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0B1220; --surface:#121B2C; --border:#253148; --ink:#E7ECF5; --muted:#93A0B8; --t1:#2DD4C7; --t2:#8F87F5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); line-height:1.55;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
+  .wrap { max-width:720px; margin:0 auto; padding:40px 16px; }
+  .eyebrow { font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace; font-size:12.5px; letter-spacing:.09em; color:var(--muted); text-transform:uppercase; }
+  h1 { font-size:26px; margin:4px 0 24px; }
+  a.topic { display:block; text-decoration:none; color:inherit; background:var(--surface); border:1px solid var(--border);
+            border-radius:12px; padding:18px 20px; margin-bottom:12px; transition:border-color .15s; }
+  a.topic:hover, a.topic:focus-visible { border-color:currentColor; outline:none; }
+  .code { font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace; font-size:12px; font-weight:600; }
+  .t1 .code { color:var(--t1); } .t2 .code { color:var(--t2); }
+  .name { font-size:17px; font-weight:600; margin:2px 0 4px; }
+  .desc { font-size:14px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">EE6108 · Computer Networks (Part I)</div>
+  <h1>EE6108 学习站</h1>
+  <a class="topic t1" href="topic1.html">
+    <div class="code">TOPIC 1</div>
+    <div class="name">计算机网络导论</div>
+    <div class="desc">网络组成、电路/分组交换、四类时延、存储转发、分层架构与封装、TCP/UDP、吞吐量</div>
+  </a>
+  <a class="topic t2" href="topic2_1.html">
+    <div class="code">TOPIC 2.1</div>
+    <div class="name">数据链路控制</div>
+    <div class="desc">Stop-and-Wait、滑动窗口、ARQ(S&amp;W / Go-back-N / Selective-Repeat)、奇偶校验、Checksum、CRC</div>
+  </a>
+</div>
+</body>
+</html>

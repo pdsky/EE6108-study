@@ -1,0 +1,936 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>EE6108 Topic 2.1 学习站</title>
+<style>
+  :root {
+    --bg: #F5F6F9;
+    --surface: #FFFFFF;
+    --surface-2: #EEF0F6;
+    --border: #DCE0EA;
+    --ink: #191E2E;
+    --ink-muted: #5C6178;
+    --accent: #4F46C7;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #EBE9FA;
+    --warn: #B45309;
+    --warn-soft: #FDF1E0;
+    --good: #157F3C;
+    --good-soft: #E5F5EA;
+    --bad: #C0392B;
+    --bad-soft: #FBEAE8;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(20,20,45,.06), 0 10px 28px rgba(20,20,45,.06);
+    --font-display: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, "Cascadia Code", monospace;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0C0E1A;
+      --surface: #14172A;
+      --surface-2: #1B1F38;
+      --border: #2B2F4A;
+      --ink: #E9EAF6;
+      --ink-muted: #9497B5;
+      --accent: #8F87F5;
+      --accent-ink: #10102A;
+      --accent-soft: rgba(143,135,245,0.16);
+      --warn: #F5A94E;
+      --warn-soft: rgba(245,169,78,0.14);
+      --good: #4ADE80;
+      --good-soft: rgba(74,222,128,0.14);
+      --bad: #F87171;
+      --bad-soft: rgba(248,113,113,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0C0E1A;
+    --surface: #14172A;
+    --surface-2: #1B1F38;
+    --border: #2B2F4A;
+    --ink: #E9EAF6;
+    --ink-muted: #9497B5;
+    --accent: #8F87F5;
+    --accent-ink: #10102A;
+    --accent-soft: rgba(143,135,245,0.16);
+    --warn: #F5A94E;
+    --warn-soft: rgba(245,169,78,0.14);
+    --good: #4ADE80;
+    --good-soft: rgba(74,222,128,0.14);
+    --bad: #F87171;
+    --bad-soft: rgba(248,113,113,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  header.top {
+    display: flex; flex-direction: column; gap: 6px;
+    padding-bottom: 22px; margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--font-display); font-size: 12.5px; letter-spacing: .09em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  h1 { font-size: 25px; margin: 2px 0 4px; text-wrap: balance; letter-spacing: -0.01em; }
+  .subtitle { color: var(--ink-muted); font-size: 14.5px; max-width: 68ch; }
+
+  nav.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+  nav.tabs button {
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+    padding: 9px 15px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink-muted); cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  nav.tabs button:hover { color: var(--ink); }
+  nav.tabs button.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  nav.tabs button:focus-visible, .btn:focus-visible, [tabindex]:focus-visible, input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .panel.active { animation: none; } * { transition: none !important; } }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+  .ov-section { padding: 18px 20px; margin-bottom: 14px; }
+  .ov-section h2 { font-size: 15px; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+  .ov-tag {
+    font-family: var(--font-display); font-size: 11px; background: var(--accent-soft);
+    color: var(--accent); padding: 2px 8px; border-radius: 6px; letter-spacing: .04em;
+  }
+  .ov-section ul { margin: 0; padding-left: 20px; }
+  .ov-section li { margin-bottom: 5px; font-size: 14.5px; }
+  .ov-section li b { color: var(--ink); }
+  .ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .ov-mini { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; }
+  .ov-mini .k { font-family: var(--font-display); font-size: 11px; color: var(--ink-muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
+  .ov-mini .v { font-size: 14px; }
+  code.f { font-family: var(--font-display); background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
+
+  .fc-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .fc-progress { font-family: var(--font-display); font-size: 12.5px; color: var(--ink-muted); }
+  .fc-stage { width: 100%; max-width: 580px; height: 270px; perspective: 1400px; cursor: pointer; }
+  .fc-card { position: relative; width: 100%; height: 100%; transition: transform .5s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius);
+    border: 1px solid var(--border); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 30px;
+  }
+  .fc-face.front { background: var(--surface); }
+  .fc-face.back { background: var(--accent-soft); transform: rotateY(180deg); }
+  .fc-label { font-family: var(--font-display); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 14px; }
+  .fc-face.back .fc-label { color: var(--accent); }
+  .fc-text { font-size: 16.5px; font-weight: 600; text-wrap: balance; }
+  .fc-face.back .fc-text { font-size: 14.5px; font-weight: 500; }
+  .fc-hint { margin-top: 16px; font-size: 12px; color: var(--ink-muted); }
+
+  .fc-controls { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600; padding: 9px 16px;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+    cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:active { transform: scale(.97); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { opacity: .92; color: var(--accent-ink); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .quiz-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .quiz-progress { font-family: var(--font-display); font-size: 12.5px; color: var(--ink-muted); }
+  .quiz-card { padding: 24px; }
+  .quiz-q { font-size: 16px; font-weight: 600; margin-bottom: 18px; text-wrap: balance; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 9px; }
+  .opt {
+    text-align: left; padding: 12px 14px; border-radius: 9px; border: 1px solid var(--border);
+    background: var(--surface-2); font-size: 14.5px; cursor: pointer; display: flex; gap: 10px; color: var(--ink);
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt .tag { font-family: var(--font-display); color: var(--ink-muted); flex-shrink: 0; }
+  .opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .opt.correct .tag { color: var(--good); }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .opt.wrong .tag { color: var(--bad); }
+  .opt:disabled { cursor: default; }
+  .quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+  .quiz-result { font-size: 13.5px; font-weight: 600; }
+  .quiz-result.good { color: var(--good); }
+  .quiz-result.bad { color: var(--bad); }
+  .quiz-explain {
+    margin-top: 12px;
+    background: var(--surface-2);
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    display: none;
+  }
+  .quiz-explain.show { display: block; }
+  .quiz-explain b { color: var(--ink); }
+
+  .score-screen { text-align: center; padding: 44px 20px; }
+  .score-num { font-family: var(--font-display); font-size: 50px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .score-label { color: var(--ink-muted); font-size: 14px; margin-bottom: 22px; }
+
+  .calc-card { padding: 20px 22px; margin-bottom: 16px; }
+  .calc-card h3 { font-size: 15px; margin: 0 0 4px; }
+  .calc-desc { font-size: 13px; color: var(--ink-muted); margin-bottom: 16px; }
+  .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .field label { display: block; font-family: var(--font-display); font-size: 11px; color: var(--ink-muted); letter-spacing: .04em; margin-bottom: 5px; }
+  .field input, .field select {
+    width: 100%; font-family: var(--font-display); font-size: 14px; padding: 8px 10px;
+    border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--ink);
+  }
+  .field.wide { grid-column: 1 / -1; }
+  .field input:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .calc-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .out-box { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; border: 1px solid var(--border); }
+  .out-box.total { background: var(--accent-soft); border-color: var(--accent); }
+  .out-box .k { font-family: var(--font-display); font-size: 10.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+  .out-box .v { font-family: var(--font-display); font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; word-break: break-all; }
+  .out-box.total .v { color: var(--accent); }
+  .out-box.state .v { font-size: 14px; }
+
+  .example-box { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 9px; padding: 14px 16px; font-size: 13.5px; margin-top: 14px; }
+  .example-box b { color: var(--warn); }
+
+  .ex-card { padding: 20px 22px; margin-bottom: 16px; }
+  .ex-card .ex-eyebrow { font-family: var(--font-display); font-size: 11px; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .ex-card h3 { font-size: 15.5px; margin: 0 0 10px; }
+  .ex-given { font-size: 14px; margin-bottom: 12px; color: var(--ink-muted); }
+  .ex-sol { background: var(--surface-2); border-radius: 9px; padding: 14px 16px; font-family: var(--font-display); font-size: 13px; white-space: pre-wrap; line-height: 1.7; }
+  .ex-answer { margin-top: 10px; font-size: 13.5px; font-weight: 600; color: var(--good); }
+
+  /* Tutorial (learning-mode) content */
+  .tut-block { margin-bottom: 8px; }
+  .tut-block p { font-size: 14.5px; margin: 0 0 10px; }
+  .tut-block p:last-child { margin-bottom: 0; }
+  .tut-sub {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 14px 0 6px;
+  }
+  .tut-sub:first-child { margin-top: 0; }
+  .analogy-box {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  .analogy-box b { color: var(--accent); }
+  .worked {
+    background: var(--surface-2);
+    border-radius: 9px;
+    padding: 14px 16px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    margin: 10px 0;
+  }
+  .takeaway {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+  .takeaway ul { margin: 0; padding-left: 20px; }
+  .takeaway li { font-size: 13.5px; margin-bottom: 4px; }
+
+  footer.pagefoot { text-align: center; color: var(--ink-muted); font-size: 12px; margin-top: 36px; font-family: var(--font-display); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">EE6108 · Computer Networks (Part I)</div>
+    <h1>Topic 2.1 · 数据链路控制 从零学习</h1>
+    <div class="subtitle">把你当成完全没学过的新手 —— 每个概念都配有生活类比、逐步推导公式和完整例题。建议先完整读一遍"图文教程",再用卡片、自测题和计算器巩固。</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="overview">图文教程</button>
+    <button class="tab-btn" data-tab="cards">知识卡片</button>
+    <button class="tab-btn" data-tab="quiz">自测题</button>
+    <button class="tab-btn" data-tab="calc">计算器</button>
+    <button class="tab-btn" data-tab="examples">补充例题</button>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section class="panel active" id="panel-overview">
+    <div class="card ov-section">
+      <h2><span class="ov-tag">01</span> 数据链路层在干什么?——邻里之间的"快递小哥"</h2>
+      <div class="tut-block">
+        <p>回忆一下 Topic 1:网络层(IP)负责把数据报从"源头"一路规划路线送到"终点",走的是一整条跨越多个路由器的路径。而<b>数据链路层只管一件事</b>:把数据"安全地送到隔壁那一个相邻节点"——它不关心最终目的地在哪,只负责"这一跳"。</p>
+        <div class="analogy-box"><b>类比</b>:如果网络层是快递公司的"总调度系统"(规划从上海到北京要经过哪些中转站),那数据链路层就是<b>每一段路上具体开车的快递小哥</b>——他只负责把包裹从这一个中转站安全送到下一个相邻的中转站,中途换了车、换了司机(不同链路用不同协议,比如第一段用以太网、中间用帧中继、最后一段用 WiFi),对总路线毫不关心。</div>
+        <div class="tut-sub">几个基础术语</div>
+        <ul>
+          <li>主机、路由器统称<b>节点(nodes)</b>;连接相邻节点的信道叫<b>链路(links)</b></li>
+          <li>两种链路信道:<b>广播信道</b>(大家共用同一条"频道",如 LAN、无线LAN,谁都能听到)、<b>点对点信道</b>(专线,如 HDLC)</li>
+          <li>链路层的 PDU 叫<b>帧(frame)</b>——它把网络层传下来的数据报"装进信封"再发出去</li>
+        </ul>
+        <div class="tut-sub">数据链路层要负责的四件事</div>
+        <ul>
+          <li><b>成帧(Framing)</b>:给数据报加上头部/尾部,包成一个"帧"</li>
+          <li><b>链路接入</b>:大家共用同一条信道时,谁先说话、怎么排队,由 MAC 协议规定,帧头里的 MAC 地址标明"这是谁发的、要给谁"</li>
+          <li><b>相邻节点间可靠传输</b>:靠确认(ACK)和重传机制,保证这一跳不出错——常用于容易出错的链路(比如无线),光纤这种低错误率链路则很少用</li>
+          <li><b>流量控制</b>与<b>差错控制</b>:本章接下来两大块的主题</li>
+        </ul>
+        <p>IEEE 802 标准把链路层再细分成两个子层:<b>LLC(逻辑链路控制)</b>负责对上层提供统一接口、做流量与差错控制;<b>MAC(介质访问控制)</b>负责实际的组帧/拆帧、地址识别、差错检测。这一整套逻辑最终落地在你电脑里的<b>网卡(NIC)</b>上,是软硬件结合的产物。</p>
+        <div class="takeaway">
+          <ul>
+            <li>数据链路层只管"相邻两节点之间的这一跳",不管全局路径</li>
+            <li>核心四件事:成帧、链路接入、可靠传输、流量/差错控制</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">02</span> 流量控制是什么问题?——先从最简单的 Stop-and-Wait 讲起</h2>
+      <div class="tut-block">
+        <p>接收方的"收件箱"(缓冲区)是有限的。如果发送方发得太快,接收方来不及处理,缓冲区就会溢出、数据丢失。<b>流量控制</b>就是想办法让发送方的速度"配合"接收方的处理能力,别把对方压垮。本节先假设网络非常理想——<b>所有帧都能正确送达,不会丢、不会错</b>——先专注理解"节奏"问题,下一节才引入"出错"这个变量。</p>
+        <div class="analogy-box"><b>类比</b>:Stop-and-Wait 就像用对讲机说话——你说完一段话必须说"完毕(over)",然后<b>停下来等对方回一句"收到(roger)"</b>,才能继续说下一段。哪怕你还有很多话要说,也必须一段一段来,说完等,等完再说。</div>
+        <div class="tut-sub">这样做的代价:被"晾在一边"的时间</div>
+        <p>发送方发完一帧后,要经过"帧传过去的时间(tframe)"+"信号跑到对方那儿的时间(tprop)"+"对方回一个 ACK 传回来的时间"才能开始发下一帧。忽略掉 ACK 本身很短的传输时间,一来一回的总时间(记作 TD)是:</p>
+        <div class="worked">TD = 2 × tprop + tframe
+(2个tprop:一次是数据帧跑过去,一次是ACK跑回来;tframe:把整个帧"推"上链路的时间)</div>
+        <p>这段时间里,链路真正在"干活"(传输有效数据)的只有 tframe 这一小段,其余时间都在"干等"。于是我们定义一个非常关键的比值:</p>
+        <div class="worked">a = tprop / tframe   (传播时延 相对于 帧传输时间 有多长)
+
+链路利用率(效率) U = tframe / TD = tframe / (2·tprop + tframe) = 1 / (1 + 2a)</div>
+        <p>直觉上看:<b>a 越大(意味着链路很长、或者帧很短很快就发完了),等待 ACK 的时间相对占比就越大,效率 U 就越低</b>。反过来,如果链路很短(a 很小),几乎不用怎么等,效率就接近 1。这就是为什么 Stop-and-Wait 在"长肥管道"(高带宽、长距离,比如卫星链路)上效率极低——例题里 1Gbps + 15ms 传播时延的场景,算出效率只有 0.027%!</p>
+        <p>更精确一点的模型还会算上节点处理时延 tproc、以及 ACK 帧本身的传输时间(它也占用带宽,只是通常很短):</p>
+        <div class="worked">TD = 2·tprop + 2·tproc + Lf/R + La/R
+(Lf = 数据帧长度,La = ACK帧长度,R = 信道速率)</div>
+        <div class="takeaway">
+          <ul>
+            <li>Stop-and-Wait:发一帧、等 ACK,简单但可能大量时间在"空等"</li>
+            <li>a = tprop/tframe 是理解一切流控效率公式的钥匙</li>
+            <li>U = 1/(1+2a):a 越大,链路利用率越低</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">03</span> 滑动窗口——与其"一句一等",不如"攒着一起发"</h2>
+      <div class="tut-block">
+        <p>Stop-and-Wait 的毛病很明显:大部分时间都在"傻等"。滑动窗口协议的思路很简单——<b>既然反正要等,不如趁着等 ACK 的这段时间,多发几帧出去,而不是一帧发完就停手</b>。</p>
+        <div class="analogy-box"><b>类比</b>:这就像一个项目经理不再"布置一个任务、等做完汇报了才布置下一个",而是<b>一次性派发编号 1~7 的 7 个任务</b>给下属,下属做完第 3 个时可以回复"1、2、3 都收到确认",经理看到确认后又能立刻再派发新任务补满到 7 个——始终保持"手里有活在跑",而不是干等。</div>
+        <div class="tut-sub">规则</div>
+        <ul>
+          <li>最多允许 <b>W</b> 帧"在途"(已发出但还没确认)</li>
+          <li>帧按编号发送,编号在 0 到 2^k−1 之间循环(k 位序号字段)</li>
+          <li>ACK 是<b>累积确认</b>:收到 "RR i" 意味着"编号 i−1 及之前的全部帧都已正确收到,现在期待编号 i"</li>
+        </ul>
+        <div class="tut-sub">效率取决于窗口 W 够不够"填满"等待时间</div>
+        <p>还是用参数 a = tprop/tframe。关键在于比较 <b>W</b> 和 <b>2a+1</b> 谁大:</p>
+        <div class="worked">情况一:W ≥ 2a+1(窗口足够大)
+ —— 在"第一帧的 ACK 赶回来"之前,窗口还没被发完,链路一直有数据在传,不会出现空闲
+ —— U = 1 (100% 利用率!)
+
+情况二:W < 2a+1(窗口不够大)
+ —— 发完 W 帧后,ACK 还没回来,只能干等,链路出现空闲
+ —— U = W / (2a+1)</div>
+        <p>其中 a 完整展开是 <code class="f">a = tprop/tframe = Rd/(VL)</code>(R=数据速率,d=链路距离,V=信号传播速度,L=帧长)。可以看到:滑动窗口的效率最高能达到 Stop-and-Wait(相当于 W=1)的 W 倍——这正是"攒着发"带来的收益。</p>
+        <div class="takeaway">
+          <ul>
+            <li>核心思想:与其一帧一等,不如让多帧"同时在路上"</li>
+            <li>W ≥ 2a+1 时效率可达 100%;W 太小时,效率退化为 W/(2a+1)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">04</span> 差错控制:出错了怎么办?——ARQ 三兄弟</h2>
+      <div class="tut-block">
+        <p>前两节假设"网络很完美,不会出错"。现实中链路会有噪声、信号衰减,帧可能<b>丢失</b>(压根没到)或者<b>损坏</b>(到了但内容错了)。<b>ARQ(自动重传请求)</b>就是把一条不可靠的链路,通过"检测错误 + 确认/重传"的机制,变成一条可靠的链路。三种主流方案,复杂度和效率依次递增:</p>
+        <div class="tut-sub">① Stop-and-Wait ARQ ——最朴素的版本</div>
+        <div class="analogy-box"><b>类比</b>:还是对讲机模式,只是现在信号可能不好——你说完一段话等对方回复,<b>如果超过一段时间没听到"收到"就重新说一遍(超时重传)</b>;如果你收到的那段话本身听不清(帧损坏),直接当没收到处理,让对方超时后自己重说。优点是简单,缺点是效率低,而且一旦出错就要完整再等一轮。典型应用:TFTP(简单文件传输协议)。</div>
+        <div class="tut-sub">② Go-back-N ARQ ——回退重传一整批</div>
+        <div class="analogy-box"><b>类比</b>:项目经理发出编号 1~7 的任务,下属发现第 3 个任务的说明有问题(读不懂,即帧损坏),于是<b>直接拒收第 3 个及其后所有已收到的任务(4、5、6、7 全部作废)</b>,让经理"回退"到第 3 个重新派发 3、4、5、6、7 这一整批——哪怕 4、5、6、7 其实内容是对的,也要全部重来一遍,因为接收方图省事,只维护一个"简单期望值",不愿意缓存乱序到达的任务。典型应用:HDLC。</div>
+        <div class="tut-sub">③ Selective-Repeat ARQ ——只补发出问题的那一个</div>
+        <div class="analogy-box"><b>类比</b>:同样是 1~7 号任务,第 3 个出问题时,下属<b>把 4、5、6、7(虽然乱序)先收好放进自己的"暂存柜",只单独要求经理重发第 3 个</b>,补齐后再按顺序整理提交。这样重传的开销最小,但下属需要更聪明的"暂存柜"逻辑(缓冲区+重排序),实现更复杂。典型应用:TCP 使用的是这种思路的变体。</div>
+        <div class="tut-sub">ARQ 的四个基本要素</div>
+        <ul>
+          <li><b>错误检测</b>(接收方怎么发现帧坏了 —— 见下一节)</li>
+          <li><b>正向确认 ACK</b>(收到就告诉对方)</li>
+          <li><b>超时重传</b>(等太久没回复就重发)</li>
+          <li><b>负向确认 NAK + 重传</b>(明确告诉对方"这个坏了,重发")</li>
+        </ul>
+        <div class="tut-sub">出错概率 p 会怎样拖累效率?</div>
+        <p>用误码率 p(一帧出错的概率)修正之前的效率公式。三种方案的直觉是:<b>重传开销越大的方案,受 p 的影响越严重</b>——Go-back-N 每次出错要重传一整个窗口,受影响最大;Selective-Repeat 只重传出错的那一帧,受影响最小。具体公式可以在"计算器"标签页里直接代入 a、p、W 观察三者差异。</p>
+        <div class="takeaway">
+          <ul>
+            <li>S&amp;W ARQ 简单但慢;Go-back-N 效率较高但出错代价大;Selective-Repeat 效率最高但实现最复杂</li>
+            <li>ARQ 把不可靠链路"包装"成可靠链路,靠的就是检测+确认+重传</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">05</span> 差错检测——接收方怎么知道帧坏了?</h2>
+      <div class="tut-block">
+        <p>ARQ 能重传的前提是接收方得先<b>发现</b>数据错了。三种由浅入深的检测手段:</p>
+        <div class="tut-sub">① 奇偶校验(Parity Check)——最简单的"数数游戏"</div>
+        <div class="analogy-box"><b>类比</b>:发送前先数一下这串比特里"1"的个数,如果是奇数就在末尾补一个 1、凑成偶数(这叫"偶校验");接收方收到后也数一遍 1 的个数,如果不是偶数,就知道传输中出错了。问题是:如果<b>恰好有两位同时翻转</b>(比如两个 0 变 1),1 的总个数还是偶数,校验位就发现不了——所以单一奇偶校验<b>只能检测奇数个比特的错误</b>,大约只能覆盖 50% 的错误模式。想要更强,可以用<b>二维奇偶校验</b>(给每一行、每一列都加校验位),这样能可靠检测 1~3 位错误。</div>
+        <div class="tut-sub">② Internet Checksum ——"对账"的思路</div>
+        <div class="analogy-box"><b>类比</b>:好比记账时把所有收据金额加总,写在最后一栏作为"核对数"。具体做法:把要发送的数据切成若干个 16 位的"字"(word),当成整数全部加起来,再取一个特殊的"补数"作为校验和,一起发出去。接收方收到后把所有字(含校验和)加总,如果结果应该是"全 1",就说明没出错。它的弱点是<b>只关心"总和"、不关心"顺序"</b>——如果有人把几个字的<b>顺序打乱</b>,或者<b>插入/删除几个全零的字</b>,总和完全不变,checksum 根本发现不了。</div>
+        <p>具体计算:把 L 个 16 位字当整数相加,<code class="f">x = (b0+b1+…+bL-1) mod (2^16−1)</code>,校验和 <code class="f">bL = −x mod (2^16−1)</code>。可以在"计算器"标签页里代入课件例题(4位字长的 1000/1010/0000/1001)亲手验证一遍,结果应该是 0011。</p>
+        <div class="tut-sub">③ CRC(循环冗余校验)——目前最强、用得最广的方法</div>
+        <div class="analogy-box"><b>类比</b>:CRC 不只关心"总和",而是把整串数据当成一个很长的"数字"(用多项式表示),双方事先约定好一个"除数"(生成多项式 C(x))。发送方在数据末尾补上一段"余数"位,使得整个"数据+余数"恰好能被这个除数<b>整除</b>——这段余数就叫 FCS(帧校验序列)。接收方拿到整个码字后用同一个除数去除,<b>如果除得尽(余数为 0),就认为没错;除不尽,就说明中途出错了</b>。这跟你小学做除法验算是同一个道理,只是这里的"数字"和"除法"都是在二进制、"模2运算"下进行的(加减法都变成异或 XOR,不用进位借位)。</div>
+        <p>CRC 之所以强,是因为选对生成多项式后能<b>数学证明</b>它能可靠抓住哪些类型的错误:</p>
+        <ul>
+          <li><b>性质 P1</b>:只要 C(x) 的项数多于 1 项,就能保证检测出<b>所有单比特错误</b></li>
+          <li><b>性质 P2</b>:C(x) 含有因子 (x+1),就能检测出<b>所有奇数个比特错误</b></li>
+          <li><b>性质 P3</b>:满足特定条件时能检测出<b>所有双比特错误</b></li>
+          <li><b>性质 P4</b>:C(x) 阶数为 k,就能检测出<b>长度 ≤ k 的所有突发错误(连续一串错误)</b></li>
+        </ul>
+        <p>实际标准里常见的生成多项式包括 CRC-8(用于 ATM、Bisync)、CRC-16、CCITT-16(用于 HDLC)、CCITT-32(用于以太网等 IEEE 802 标准)——阶数越高,能可靠检测的突发错误长度也越长。可以在"计算器"标签页里输入课件例题(数据 1100,生成多项式 x³+x+1 即 1011)看看完整的除法过程与结果。</p>
+        <div class="takeaway">
+          <ul>
+            <li>奇偶校验:简单但弱(漏掉偶数个错误)</li>
+            <li>Checksum:看总和不看顺序,漏掉重排序/全零增删</li>
+            <li>CRC:基于多项式除法,数学上能保证检测特定类型的错误,是实际标准的主流选择</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-cards">
+    <div class="fc-wrap">
+      <div class="fc-progress" id="fc-progress">1 / 24</div>
+      <div class="fc-stage" id="fc-stage">
+        <div class="fc-card" id="fc-card">
+          <div class="fc-face front">
+            <div class="fc-label">问题</div>
+            <div class="fc-text" id="fc-q"></div>
+            <div class="fc-hint">点击卡片查看答案</div>
+          </div>
+          <div class="fc-face back">
+            <div class="fc-label">答案</div>
+            <div class="fc-text" id="fc-a"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="btn" id="fc-prev">← 上一张</button>
+        <button class="btn" id="fc-shuffle">🔀 随机</button>
+        <button class="btn primary" id="fc-next">下一张 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz">
+    <div id="quiz-active">
+      <div class="quiz-head">
+        <div class="quiz-progress" id="quiz-progress">第 1 / 14 题</div>
+        <div class="quiz-progress" id="quiz-score">得分 0</div>
+      </div>
+      <div class="card quiz-card">
+        <div class="quiz-q" id="quiz-q"></div>
+        <div class="quiz-opts" id="quiz-opts"></div>
+        <div class="quiz-foot">
+          <div class="quiz-result" id="quiz-result"></div>
+          <button class="btn primary" id="quiz-next" disabled>下一题 →</button>
+        </div>
+        <div class="quiz-explain" id="quiz-explain"></div>
+      </div>
+    </div>
+    <div id="quiz-done" class="card score-screen" style="display:none;">
+      <div class="score-num" id="score-final">0 / 14</div>
+      <div class="score-label">最终得分</div>
+      <button class="btn primary" id="quiz-retry">重新测验</button>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="panel" id="panel-calc">
+    <div class="card calc-card">
+      <h3>流量控制效率计算器</h3>
+      <div class="calc-desc">输入链路参数与窗口大小 W(Stop-and-Wait 相当于 W=1),自动判断 W 与 2a+1 的关系并计算链路利用率</div>
+      <div class="calc-grid">
+        <div class="field"><label>数据速率 R (bps)</label><input type="number" id="fc1-R" value="4000"></div>
+        <div class="field"><label>帧长 L (bit)</label><input type="number" id="fc1-L" value="160"></div>
+        <div class="field"><label>链路距离 d (m)</label><input type="number" id="fc1-d" value="4000000"></div>
+        <div class="field"><label>传播速度 V (m/s)</label><input type="number" id="fc1-V" value="200000000"></div>
+        <div class="field"><label>窗口大小 W</label><input type="number" id="fc1-W" value="1"></div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">帧传输时间 tframe</div><div class="v" id="fc1-tframe">–</div></div>
+        <div class="out-box"><div class="k">传播时延 tprop</div><div class="v" id="fc1-tprop">–</div></div>
+        <div class="out-box"><div class="k">a = tprop/tframe</div><div class="v" id="fc1-a">–</div></div>
+        <div class="out-box state"><div class="k">窗口状态</div><div class="v" id="fc1-case">–</div></div>
+        <div class="out-box total"><div class="k">链路利用率 U</div><div class="v" id="fc1-U">–</div></div>
+        <div class="out-box total"><div class="k">有效吞吐 R·U</div><div class="v" id="fc1-Reff">–</div></div>
+      </div>
+    </div>
+
+    <div class="card calc-card">
+      <h3>ARQ 效率计算器(考虑误码率 p)</h3>
+      <div class="calc-desc">给定 a、误码率 p、窗口 W,同时比较 Stop-and-Wait ARQ、Go-back-N ARQ、Selective-Repeat ARQ 的链路利用率</div>
+      <div class="calc-grid">
+        <div class="field"><label>a = tprop/tframe</label><input type="number" step="0.01" id="arq-a" value="0.5"></div>
+        <div class="field"><label>误码率 p</label><input type="number" step="0.001" id="arq-p" value="0.01"></div>
+        <div class="field"><label>窗口大小 W</label><input type="number" id="arq-W" value="4"></div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box state"><div class="k">2a+1</div><div class="v" id="arq-thresh">–</div></div>
+        <div class="out-box"><div class="k">S&amp;W ARQ 效率</div><div class="v" id="arq-sw">–</div></div>
+        <div class="out-box"><div class="k">Go-back-N 效率</div><div class="v" id="arq-gbn">–</div></div>
+        <div class="out-box"><div class="k">Selective-Repeat 效率</div><div class="v" id="arq-sr">–</div></div>
+      </div>
+    </div>
+
+    <div class="card calc-card">
+      <h3>Internet Checksum 计算器</h3>
+      <div class="calc-desc">输入以空格分隔的等长二进制字(word),按反码运算求校验和:x = Σ字 mod(2ⁿ−1),checksum = −x mod(2ⁿ−1)</div>
+      <div class="calc-grid">
+        <div class="field wide"><label>二进制字(空格分隔,等长)</label><input type="text" id="cs-words" value="1000 1010 0000 1001"></div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">字长 n</div><div class="v" id="cs-n">–</div></div>
+        <div class="out-box"><div class="k">Σ字 (十进制)</div><div class="v" id="cs-sum">–</div></div>
+        <div class="out-box"><div class="k">x = Σ mod (2ⁿ−1)</div><div class="v" id="cs-x">–</div></div>
+        <div class="out-box total"><div class="k">Checksum (二进制)</div><div class="v" id="cs-out">–</div></div>
+      </div>
+    </div>
+
+    <div class="card calc-card">
+      <h3>CRC 计算器</h3>
+      <div class="calc-desc">输入数据比特与生成多项式(二进制串,如 x³+x+1 → 1011),计算 FCS 并生成发送码字;也可粘贴接收码字校验是否有错</div>
+      <div class="calc-grid">
+        <div class="field"><label>数据比特 (data)</label><input type="text" id="crc-data" value="1100"></div>
+        <div class="field"><label>生成多项式比特 (C(x))</label><input type="text" id="crc-gen" value="1011"></div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">FCS 余数</div><div class="v" id="crc-fcs">–</div></div>
+        <div class="out-box total"><div class="k">发送码字 T(x)</div><div class="v" id="crc-tx">–</div></div>
+      </div>
+      <div class="calc-grid" style="margin-top:14px;">
+        <div class="field wide"><label>接收码字(校验用,可手动改几位模拟误码)</label><input type="text" id="crc-recv" value=""></div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">余数 R'(x)</div><div class="v" id="crc-rem2">–</div></div>
+        <div class="out-box state"><div class="k">校验结果</div><div class="v" id="crc-result">–</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section class="panel" id="panel-examples">
+    <div class="card ex-card">
+      <div class="ex-eyebrow">Topic 1 补充例题 · 存储转发(含处理/传播时延)</div>
+      <h3>Host A → Host B,三条 1 Mbps 链路</h3>
+      <div class="ex-given">分组头部 80 字节,每个中间节点处理时延 1 ms,每条链路传播时延 10 ms,排队时延忽略。M = 8000 字节大文件。</div>
+      <div class="ex-sol">a) 整体作为一个大分组发送 (h=640 bit)
+Tm = L(M+h)/R = 3×(64000+640)/10⁶ = 193.92 ms
+Ttotal = 2·Tproc + 3·Tprop + Tm = 2×1 + 3×10 + 193.92 = 225.92 ms
+
+b) 切成 N=8 个 1000 字节分组 (k=8000 bit, h=640 bit)
+单分组传输时间 Tpacket = (k+h)/R = 8.64 ms
+第一个分组到达: T1 = L·Tpacket + 3·Tprop + 2·Tproc
+              = 3×8.64 + 30 + 2 = 57.92 ms
+其余 N−1 个分组依次到达: T2 = (N−1)·Tpacket = 60.48 ms
+总时延 D = T1 + T2 = 118.4 ms</div>
+      <div class="ex-answer">结论:切分为更小分组后总时延从 225.92 ms 降至 118.4 ms — 流水线效应显著。</div>
+    </div>
+
+    <div class="card ex-card">
+      <div class="ex-eyebrow">Topic 2.1 补充例题 1 · Stop-and-Wait 效率</div>
+      <h3>已知效率求帧长</h3>
+      <div class="ex-given">信道速率 R = 4 Kbps,传播时延 tprop = 20 ms,要求 Stop-and-Wait 效率 U = 50%,求帧长 L。</div>
+      <div class="ex-sol">U = tframe / (tframe + 2tprop)
+0.5 = tframe / (tframe + 2×20ms)
+=> tframe = 2×tprop = 40 ms
+L = R × tframe = 4×10³ × 40×10⁻³ = 160 bit(20 字节)</div>
+      <div class="ex-answer">答:帧长应为 160 bit(20 字节)。</div>
+    </div>
+
+    <div class="card ex-card">
+      <div class="ex-eyebrow">Topic 2.1 补充例题 2 · Stop-and-Wait 效率与吞吐量</div>
+      <h3>已知帧长求效率与吞吐量</h3>
+      <div class="ex-given">信道速率 R = 1 Gbps,传播时延 tprop = 15 ms,帧长 1000 字节(8000 bit)。求链路效率与吞吐量(bps)。</div>
+      <div class="ex-sol">tframe = L/R = 8000/10⁹ = 8 µs
+U = tframe / (2tprop + tframe) = 0.008 / 30.008 ≈ 0.00027
+吞吐量 = U × R ≈ 270 kbps</div>
+      <div class="ex-answer">答:效率仅约 0.027%,吞吐量约 270 kbps — 长传播时延严重拖累 Stop-and-Wait 性能。</div>
+    </div>
+
+    <div class="card ex-card">
+      <div class="ex-eyebrow">Topic 2.1 补充例题 · Checksum 短练习(4 位字长)</div>
+      <h3>求校验和</h3>
+      <div class="ex-given">字长 4 bit,4 个字:1000, 1010, 0000, 1001</div>
+      <div class="ex-sol">8+10+0+9 = 27
+27 mod 15 = 12
+checksum = 15 − 12 = 3
+checksum = 0011</div>
+      <div class="ex-answer">答:校验和为 0011(可在"计算器"标签页中验证)。</div>
+    </div>
+
+    <div class="card ex-card">
+      <div class="ex-eyebrow">Topic 2.1 补充例题 · Checksum 短练习(8 位字长)</div>
+      <h3>求校验和</h3>
+      <div class="ex-given">字长 8 bit,2 个字:10001010, 00001001</div>
+      <div class="ex-sol">138 + 9 = 147
+checksum = −147 mod 255 = 255 − 147 = 108
+checksum = 01101100</div>
+      <div class="ex-answer">答:校验和为 01101100。</div>
+    </div>
+  </section>
+
+  <footer class="pagefoot">EE6108 COMPUTER NETWORKS (PART I) — TOPIC 2.1 LEARNING GUIDE</footer>
+</div>
+
+<script>
+(function(){
+  // ---------- Tabs ----------
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = {
+    overview: document.getElementById('panel-overview'),
+    cards: document.getElementById('panel-cards'),
+    quiz: document.getElementById('panel-quiz'),
+    calc: document.getElementById('panel-calc'),
+    examples: document.getElementById('panel-examples')
+  };
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+      panels[btn.dataset.tab].classList.add('active');
+    });
+  });
+
+  // ---------- Flashcards ----------
+  var cards = [
+    ["数据链路层的基本服务是什么?", "在单条通信链路上,把数据报从一个节点移动到相邻节点"],
+    ["帧(frame)与数据报(datagram)的关系?", "帧是链路层的 PDU,封装(encapsulate)网络层传下来的数据报"],
+    ["两种链路层信道类型?", "广播信道(如 LAN、无线LAN)和点对点信道(如 HDLC)"],
+    ["数据链路层提供的四大服务?", "成帧(Framing)、链路接入(MAC协议/地址)、相邻节点间可靠传输(ACK+重传)、流量控制与差错控制"],
+    ["IEEE 802 将链路层分为哪两个子层?", "LLC(逻辑链路控制,提供高层接口、流量与差错控制)和 MAC(介质访问控制,组帧/拆帧、地址识别、差错检测)"],
+    ["流量控制的目的?", "防止发送方发送速度超过接收方处理能力,导致接收缓冲区溢出"],
+    ["Stop-and-Wait 流控协议的基本规则?", "发送方发一帧后必须等收到 ACK 才能发送下一帧"],
+    ["忽略 ACK 时间时,S&W 的总时延 TD 公式?", "TD = 2·tprop + tframe"],
+    ["参数 a 的定义?", "a = tprop / tframe(传播时延与帧传输时延之比)"],
+    ["S&W 链路利用率(效率)公式?", "U = 1 / (1 + 2a)"],
+    ["滑动窗口中,当 W ≥ 2a+1 时效率?", "U = 1(链路可被充分利用)"],
+    ["滑动窗口中,当 W < 2a+1 时效率?", "U = W / (2a+1)"],
+    ["滑动窗口中 a 的完整表达式?", "a = tprop/tframe = Rd/(VL)(d=距离,V=信号速度,L=帧长,R=数据速率)"],
+    ["ARQ 的作用?", "把不可靠的链路变为可靠链路(错误检测 + 确认/重传机制)"],
+    ["ARQ 的三种基本方案?", "Stop-and-Wait ARQ、Go-back-N ARQ、Selective-Repeat ARQ"],
+    ["Stop-and-Wait ARQ 的优缺点?", "优点:简单;缺点:效率低,每次只能发一帧并等待 ACK"],
+    ["Go-back-N ARQ 出错时如何处理?", "接收方丢弃出错帧及之后所有帧;发送方需回退,重传出错帧及其后全部帧"],
+    ["Selective-Repeat ARQ 的特点?", "只重传出错或超时的帧;接收方需缓存乱序到达的帧并重新排序;逻辑更复杂但重传开销最小"],
+    ["S&W ARQ / GBN / SR ARQ 的典型应用?", "S&W ARQ → TFTP;Go-back-N → HDLC;Selective-Repeat → TCP(变体)"],
+    ["考虑误码率 p 时,S&W ARQ 的效率公式?", "U = (1−p) / (1+2a)"],
+    ["单一奇偶校验能检测多少错误?", "只能检测奇数个比特错误(约50%错误模式);偶数个比特错误检测不到"],
+    ["Internet Checksum 的计算方法?", "把各 16 位字当整数模 (2¹⁶−1) 相加得 x,校验和 = −x mod(2¹⁶−1)(反码运算)"],
+    ["Checksum 检测不到哪些类型的错误?", "字节重排序、插入/删除全零字节、相互抵消的多重错误(只看值不看顺序)"],
+    ["CRC 的基本原理?", "用生成多项式 C(x) 给数据附加 FCS,使整个码字 T(x) 能被 C(x) 整除;接收端做同样除法,余数非零则说明有错"]
+  ];
+  var fcIndex = 0, fcFlipped = false;
+  var fcStage = document.getElementById('fc-stage');
+  var fcCard = document.getElementById('fc-card');
+  var fcQ = document.getElementById('fc-q');
+  var fcA = document.getElementById('fc-a');
+  var fcProgress = document.getElementById('fc-progress');
+
+  function renderCard(){
+    fcCard.classList.remove('flipped');
+    fcFlipped = false;
+    fcQ.textContent = cards[fcIndex][0];
+    fcA.textContent = cards[fcIndex][1];
+    fcProgress.textContent = (fcIndex+1) + ' / ' + cards.length;
+  }
+  fcStage.addEventListener('click', function(){
+    fcFlipped = !fcFlipped;
+    fcCard.classList.toggle('flipped', fcFlipped);
+  });
+  document.getElementById('fc-next').addEventListener('click', function(){
+    fcIndex = (fcIndex+1) % cards.length; renderCard();
+  });
+  document.getElementById('fc-prev').addEventListener('click', function(){
+    fcIndex = (fcIndex-1+cards.length) % cards.length; renderCard();
+  });
+  document.getElementById('fc-shuffle').addEventListener('click', function(){
+    fcIndex = Math.floor(Math.random()*cards.length); renderCard();
+  });
+  renderCard();
+
+  // ---------- Quiz ----------
+  var quiz = [
+    { q: "关于 Stop-and-Wait 流控协议,以下哪项正确?", opts: ["可以连续发送多帧无需等待", "发送方发一帧后必须等 ACK 才能发下一帧", "不需要接收方确认", "只适用于无线网络"], correct: 1, explain: "Stop-and-Wait 就像对讲机通话:说完一段必须等对方回“收到”,才能继续说下一段。" },
+    { q: "参数 a 定义为?", opts: ["tframe / tprop", "tprop / tframe", "tprop × tframe", "R × L"], correct: 1, explain: "a = tprop/tframe,衡量“传播时延”相对“帧传输时间”有多长,是理解所有流控效率公式的关键比值。" },
+    { q: "Stop-and-Wait 链路利用率公式 U = ?", opts: ["1 / (1+2a)", "1 + 2a", "2a / (1+a)", "a / (1+2a)"], correct: 0, explain: "U = tframe / (2tprop + tframe) = 1/(1+2a);a 越大(链路越长/帧越短),效率越低。" },
+    { q: "滑动窗口中,当 W ≥ 2a+1 时,链路效率 U = ?", opts: ["W / (2a+1)", "1", "1 / (1+2a)", "2a+1"], correct: 1, explain: "窗口足够大,第一帧的 ACK 赶回来之前窗口还没发完,链路始终有数据在传,效率达到 100%。" },
+    { q: "滑动窗口中,当 W < 2a+1 时,链路效率 U = ?", opts: ["1", "W / (2a+1)", "(1−p) / (1+2a)", "(2a+1) / W"], correct: 1, explain: "窗口不够大,发完 W 帧后 ACK 还没回来,只能干等,效率退化为 W/(2a+1)。" },
+    { q: "Go-back-N ARQ 出错时的处理方式是?", opts: ["只重传出错的那一帧", "丢弃出错帧及之后所有帧,重传出错帧及后续全部帧", "忽略错误继续传输", "立即断开连接"], correct: 1, explain: "接收方逻辑简单,不缓存乱序帧:出错帧之后的所有帧一律丢弃,发送方要“回退”重传一整批。" },
+    { q: "Selective-Repeat ARQ 相比 Go-back-N 的主要优势是?", opts: ["实现更简单", "只重传出错/超时的帧,重传开销更小", "不需要缓冲区", "不需要序号"], correct: 1, explain: "接收方把乱序到达的帧先缓存好,只要求重发真正出错的那一帧,代价是需要更复杂的缓冲与重排序逻辑。" },
+    { q: "TCP 使用哪种 ARQ 的变体?", opts: ["Stop-and-Wait ARQ", "Go-back-N ARQ", "Selective-Repeat ARQ", "不使用 ARQ"], correct: 2, explain: "TCP 的确认与重传机制接近 Selective-Repeat 的思路,只重传真正丢失/出错的数据段。" },
+    { q: "单一奇偶校验位无法检测到?", opts: ["1 个比特错误", "3 个比特错误", "偶数个比特错误", "所有错误"], correct: 2, explain: "偶校验只保证“1 的个数是偶数”;如果恰好两位同时翻转,1 的总数依然是偶数,检测不出来。" },
+    { q: "Internet Checksum 的计算基于什么模运算?", opts: ["模 2¹⁶", "模 2¹⁶ − 1", "模 2⁸", "模 2"], correct: 1, explain: "16 位字的反码求和运算以 2¹⁶−1 为模(对应“加过头就折返”的反码进位规则)。" },
+    { q: "Checksum 检测不到以下哪种错误?", opts: ["单比特错误", "字节重新排序", "单个字节值错误", "校验和本身出错"], correct: 1, explain: "Checksum 只关心各字的“总和”,不关心顺序——把几个字的顺序打乱,总和不变,检测不出来。" },
+    { q: "若生成多项式 C(x) 的项数多于 1 项,CRC 能保证检测出?", opts: ["所有双比特错误", "所有奇数个比特错误", "所有单比特错误", "所有长度小于 k 的突发错误"], correct: 2, explain: "这是 CRC 的性质 P1:项数大于 1 的 C(x) 不可能整除只有一项的错误多项式,所以单比特错误必被检测出。" },
+    { q: "若生成多项式 C(x) 阶数为 k,CRC 能检测出长度不超过多少的突发错误?", opts: ["k−1", "k", "k+1", "2k"], correct: 1, explain: "性质 P4:突发错误多项式的阶数最高为 k−1,阶数为 k 的 C(x) 除不尽它,所以长度 ≤k 的突发错误必被检测到。" },
+    { q: "ARQ 的基本组成要素不包括?", opts: ["错误检测", "正向确认", "超时重传", "数据压缩"], correct: 3, explain: "ARQ 的四要素是错误检测、正向确认(ACK)、超时重传、负向确认(NAK)+重传;数据压缩不属于 ARQ 的范畴。" }
+  ];
+  var qIndex = 0, score = 0, answered = false;
+  var quizQ = document.getElementById('quiz-q');
+  var quizOpts = document.getElementById('quiz-opts');
+  var quizProgress = document.getElementById('quiz-progress');
+  var quizScore = document.getElementById('quiz-score');
+  var quizResult = document.getElementById('quiz-result');
+  var quizExplain = document.getElementById('quiz-explain');
+  var quizNext = document.getElementById('quiz-next');
+  var quizActive = document.getElementById('quiz-active');
+  var quizDone = document.getElementById('quiz-done');
+
+  function renderQuiz(){
+    answered = false;
+    var item = quiz[qIndex];
+    quizQ.textContent = item.q;
+    quizProgress.textContent = '第 ' + (qIndex+1) + ' / ' + quiz.length + ' 题';
+    quizScore.textContent = '得分 ' + score;
+    quizResult.textContent = '';
+    quizResult.className = 'quiz-result';
+    quizExplain.textContent = '';
+    quizExplain.className = 'quiz-explain';
+    quizNext.disabled = true;
+    quizOpts.innerHTML = '';
+    var letters = ['A','B','C','D'];
+    item.opts.forEach(function(opt, i){
+      var b = document.createElement('button');
+      b.className = 'opt';
+      b.innerHTML = '<span class="tag">' + letters[i] + '</span><span>' + opt + '</span>';
+      b.addEventListener('click', function(){ selectAnswer(i, b); });
+      quizOpts.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i, btnEl){
+    if (answered) return;
+    answered = true;
+    var item = quiz[qIndex];
+    var allBtns = quizOpts.querySelectorAll('.opt');
+    allBtns.forEach(function(b){ b.disabled = true; });
+    if (i === item.correct) {
+      score++;
+      btnEl.classList.add('correct');
+      quizResult.textContent = '✓ 回答正确';
+      quizResult.className = 'quiz-result good';
+    } else {
+      btnEl.classList.add('wrong');
+      allBtns[item.correct].classList.add('correct');
+      quizResult.textContent = '✗ 回答错误,正确答案已高亮';
+      quizResult.className = 'quiz-result bad';
+    }
+    quizExplain.innerHTML = '<b>为什么:</b>' + item.explain;
+    quizExplain.className = 'quiz-explain show';
+    quizScore.textContent = '得分 ' + score;
+    quizNext.disabled = false;
+  }
+
+  quizNext.addEventListener('click', function(){
+    qIndex++;
+    if (qIndex >= quiz.length) {
+      quizActive.style.display = 'none';
+      quizDone.style.display = 'block';
+      document.getElementById('score-final').textContent = score + ' / ' + quiz.length;
+    } else {
+      renderQuiz();
+    }
+  });
+  document.getElementById('quiz-retry').addEventListener('click', function(){
+    qIndex = 0; score = 0;
+    quizDone.style.display = 'none';
+    quizActive.style.display = 'block';
+    renderQuiz();
+  });
+  renderQuiz();
+
+  // ---------- Calculators ----------
+  function fmtTime(sec){
+    if (!isFinite(sec)) return '–';
+    if (sec === 0) return '0 s';
+    var abs = Math.abs(sec);
+    if (abs < 1e-3) return (sec*1e6).toFixed(2) + ' µs';
+    if (abs < 1) return (sec*1e3).toFixed(3) + ' ms';
+    return sec.toFixed(4) + ' s';
+  }
+  function fmtRate(bps){
+    if (!isFinite(bps)) return '–';
+    if (Math.abs(bps) >= 1e9) return (bps/1e9).toFixed(3) + ' Gbps';
+    if (Math.abs(bps) >= 1e6) return (bps/1e6).toFixed(3) + ' Mbps';
+    if (Math.abs(bps) >= 1e3) return (bps/1e3).toFixed(3) + ' Kbps';
+    return bps.toFixed(2) + ' bps';
+  }
+
+  // Flow control calculator
+  function calcFlow(){
+    var R = parseFloat(document.getElementById('fc1-R').value) || 1;
+    var L = parseFloat(document.getElementById('fc1-L').value) || 0;
+    var d = parseFloat(document.getElementById('fc1-d').value) || 0;
+    var V = parseFloat(document.getElementById('fc1-V').value) || 1;
+    var W = parseFloat(document.getElementById('fc1-W').value) || 1;
+    var tframe = L / R;
+    var tprop = d / V;
+    var a = tframe > 0 ? tprop / tframe : NaN;
+    var threshold = 2*a + 1;
+    var U, caseLabel;
+    if (W >= threshold) { U = 1; caseLabel = 'W ≥ 2a+1 (窗口未耗尽)'; }
+    else { U = W / threshold; caseLabel = 'W < 2a+1 (窗口先耗尽)'; }
+    document.getElementById('fc1-tframe').textContent = fmtTime(tframe);
+    document.getElementById('fc1-tprop').textContent = fmtTime(tprop);
+    document.getElementById('fc1-a').textContent = isFinite(a) ? a.toFixed(4) : '–';
+    document.getElementById('fc1-case').textContent = caseLabel;
+    document.getElementById('fc1-U').textContent = isFinite(U) ? U.toFixed(5) : '–';
+    document.getElementById('fc1-Reff').textContent = isFinite(U) ? fmtRate(U*R) : '–';
+  }
+  ['fc1-R','fc1-L','fc1-d','fc1-V','fc1-W'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcFlow);
+  });
+  calcFlow();
+
+  // ARQ efficiency calculator
+  function calcArq(){
+    var a = parseFloat(document.getElementById('arq-a').value) || 0;
+    var p = parseFloat(document.getElementById('arq-p').value) || 0;
+    var W = parseFloat(document.getElementById('arq-W').value) || 1;
+    var threshold = 2*a + 1;
+    var sw = (1-p) / (1+2*a);
+    var gbn, sr;
+    if (W >= threshold) {
+      gbn = (1-p) / (1 + 2*a*p);
+      sr = 1 - p;
+    } else {
+      gbn = (W*(1-p)) / (threshold * (1 - p + W*p));
+      sr = (W*(1-p)) / threshold;
+    }
+    document.getElementById('arq-thresh').textContent = threshold.toFixed(4) + (W >= threshold ? ' (W≥此值)' : ' (W<此值)');
+    document.getElementById('arq-sw').textContent = sw.toFixed(5);
+    document.getElementById('arq-gbn').textContent = gbn.toFixed(5);
+    document.getElementById('arq-sr').textContent = sr.toFixed(5);
+  }
+  ['arq-a','arq-p','arq-W'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calcArq);
+  });
+  calcArq();
+
+  // Checksum calculator
+  function calcChecksum(){
+    var raw = document.getElementById('cs-words').value.trim();
+    var out = document.getElementById('cs-out');
+    var nBox = document.getElementById('cs-n');
+    var sumBox = document.getElementById('cs-sum');
+    var xBox = document.getElementById('cs-x');
+    if (!raw) { out.textContent='–'; nBox.textContent='–'; sumBox.textContent='–'; xBox.textContent='–'; return; }
+    var words = raw.split(/\s+/).filter(Boolean);
+    var valid = words.every(function(w){ return /^[01]+$/.test(w); }) && words.length > 0;
+    if (!valid) { out.textContent='请输入合法二进制字'; nBox.textContent='–'; sumBox.textContent='–'; xBox.textContent='–'; return; }
+    var n = words[0].length;
+    var sameLen = words.every(function(w){ return w.length === n; });
+    if (!sameLen) { out.textContent='各字长度需一致'; nBox.textContent='–'; sumBox.textContent='–'; xBox.textContent='–'; return; }
+    var mod = Math.pow(2, n) - 1;
+    var sum = words.reduce(function(acc,w){ return acc + parseInt(w,2); }, 0);
+    var x = sum % mod;
+    var checksum = (mod - x) % mod;
+    nBox.textContent = n + ' bit';
+    sumBox.textContent = sum;
+    xBox.textContent = x;
+    out.textContent = checksum.toString(2).padStart(n,'0') + '  (dec ' + checksum + ')';
+  }
+  document.getElementById('cs-words').addEventListener('input', calcChecksum);
+  calcChecksum();
+
+  // CRC calculator
+  function mod2div(dividendArr, divisorArr){
+    var arr = dividendArr.slice();
+    var n = divisorArr.length;
+    for (var i = 0; i <= arr.length - n; i++){
+      if (arr[i] === 1){
+        for (var j = 0; j < n; j++){ arr[i+j] = arr[i+j] ^ divisorArr[j]; }
+      }
+    }
+    return arr.slice(arr.length - (n-1));
+  }
+  function toBitArr(str){ return str.split('').map(function(c){ return c === '1' ? 1 : 0; }); }
+
+  function calcCrc(){
+    var dataStr = document.getElementById('crc-data').value.trim();
+    var genStr = document.getElementById('crc-gen').value.trim();
+    var fcsBox = document.getElementById('crc-fcs');
+    var txBox = document.getElementById('crc-tx');
+    if (!/^[01]+$/.test(dataStr) || !/^[01]+$/.test(genStr) || genStr.length < 2) {
+      fcsBox.textContent = '请输入合法二进制串'; txBox.textContent = '–';
+      return null;
+    }
+    var data = toBitArr(dataStr);
+    var gen = toBitArr(genStr);
+    var k = gen.length - 1;
+    var padded = data.concat(new Array(k).fill(0));
+    var rem = mod2div(padded, gen);
+    var fcsStr = rem.join('');
+    var txStr = dataStr + fcsStr;
+    fcsBox.textContent = fcsStr;
+    txBox.textContent = txStr;
+    var recvField = document.getElementById('crc-recv');
+    if (!recvField.value) recvField.value = txStr;
+    return { fcsStr: fcsStr, txStr: txStr, gen: gen };
+  }
+
+  function calcCrcVerify(genOverride){
+    var recvStr = document.getElementById('crc-recv').value.trim();
+    var genStr = document.getElementById('crc-gen').value.trim();
+    var remBox = document.getElementById('crc-rem2');
+    var resultBox = document.getElementById('crc-result');
+    if (!/^[01]+$/.test(recvStr) || !/^[01]+$/.test(genStr) || genStr.length < 2) {
+      remBox.textContent = '–'; resultBox.textContent = '–'; resultBox.style.color=''; return;
+    }
+    var gen = toBitArr(genStr);
+    var recv = toBitArr(recvStr);
+    if (recv.length < gen.length) { remBox.textContent='码字过短'; resultBox.textContent='–'; return; }
+    var rem = mod2div(recv, gen);
+    var remStr = rem.join('');
+    var noError = rem.every(function(b){ return b === 0; });
+    remBox.textContent = remStr;
+    resultBox.textContent = noError ? '✓ 未检测到错误' : '✗ 检测到错误';
+    resultBox.style.color = noError ? 'var(--good)' : 'var(--bad)';
+  }
+
+  ['crc-data','crc-gen'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){
+      calcCrc();
+      calcCrcVerify();
+    });
+  });
+  document.getElementById('crc-recv').addEventListener('input', function(){ calcCrcVerify(); });
+  calcCrc();
+  calcCrcVerify();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,982 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>EE6108 Topic 1 学习站</title>
+<style>
+  :root {
+    --bg: #F5F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #EEF1F5;
+    --border: #DCE1E8;
+    --ink: #16202E;
+    --ink-muted: #5B6675;
+    --accent: #0E7C86;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #E3F4F3;
+    --warn: #B45309;
+    --warn-soft: #FDF1E0;
+    --good: #157F3C;
+    --good-soft: #E5F5EA;
+    --bad: #C0392B;
+    --bad-soft: #FBEAE8;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(20,30,45,.06), 0 10px 28px rgba(20,30,45,.06);
+    --font-display: ui-monospace, "SFMono-Regular", "JetBrains Mono", Consolas, "Cascadia Code", monospace;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B1220;
+      --surface: #121B2C;
+      --surface-2: #182437;
+      --border: #253148;
+      --ink: #E7ECF5;
+      --ink-muted: #93A0B8;
+      --accent: #2DD4C7;
+      --accent-ink: #06201E;
+      --accent-soft: rgba(45,212,199,0.14);
+      --warn: #F5A94E;
+      --warn-soft: rgba(245,169,78,0.14);
+      --good: #4ADE80;
+      --good-soft: rgba(74,222,128,0.14);
+      --bad: #F87171;
+      --bad-soft: rgba(248,113,113,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B1220;
+    --surface: #121B2C;
+    --surface-2: #182437;
+    --border: #253148;
+    --ink: #E7ECF5;
+    --ink-muted: #93A0B8;
+    --accent: #2DD4C7;
+    --accent-ink: #06201E;
+    --accent-soft: rgba(45,212,199,0.14);
+    --warn: #F5A94E;
+    --warn-soft: rgba(245,169,78,0.14);
+    --good: #4ADE80;
+    --good-soft: rgba(74,222,128,0.14);
+    --bad: #F87171;
+    --bad-soft: rgba(248,113,113,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+  }
+
+  /* Header */
+  header.top {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    letter-spacing: .09em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 2px 0 4px;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    color: var(--ink-muted);
+    font-size: 14.5px;
+    max-width: 65ch;
+  }
+
+  /* Tabs */
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  nav.tabs button {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  nav.tabs button:hover { color: var(--ink); }
+  nav.tabs button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  nav.tabs button:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .panel.active { animation: none; }
+    * { transition: none !important; }
+  }
+
+  /* Cards / surfaces */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  /* Overview */
+  .ov-section {
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .ov-section h2 {
+    font-size: 15px;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ov-tag {
+    font-family: var(--font-display);
+    font-size: 11px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: .04em;
+  }
+  .ov-section ul { margin: 0; padding-left: 20px; }
+  .ov-section li { margin-bottom: 5px; font-size: 14.5px; }
+  .ov-section li b { color: var(--ink); }
+  .ov-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .ov-mini {
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .ov-mini .k {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .ov-mini .v { font-size: 14px; }
+  code.f {
+    font-family: var(--font-display);
+    background: var(--surface-2);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  /* Flashcards */
+  .fc-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .fc-progress {
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    color: var(--ink-muted);
+  }
+  .fc-stage {
+    width: 100%;
+    max-width: 560px;
+    height: 260px;
+    perspective: 1400px;
+    cursor: pointer;
+  }
+  .fc-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transform-style: preserve-3d;
+  }
+  .fc-card.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 32px;
+  }
+  .fc-face.front { background: var(--surface); }
+  .fc-face.back { background: var(--accent-soft); transform: rotateY(180deg); }
+  .fc-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .fc-face.back .fc-label { color: var(--accent); }
+  .fc-text { font-size: 17px; font-weight: 600; text-wrap: balance; }
+  .fc-face.back .fc-text { font-size: 15px; font-weight: 500; }
+  .fc-hint { margin-top: 16px; font-size: 12px; color: var(--ink-muted); }
+
+  .fc-controls { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:active { transform: scale(.97); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { opacity: .92; color: var(--accent-ink); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* Quiz */
+  .quiz-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .quiz-progress { font-family: var(--font-display); font-size: 12.5px; color: var(--ink-muted); }
+  .quiz-card { padding: 24px; }
+  .quiz-q { font-size: 16.5px; font-weight: 600; margin-bottom: 18px; text-wrap: balance; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 9px; }
+  .opt {
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    font-size: 14.5px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    color: var(--ink);
+  }
+  .opt:hover:not(:disabled) { border-color: var(--accent); }
+  .opt .tag {
+    font-family: var(--font-display);
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+  .opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .opt.correct .tag { color: var(--good); }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .opt.wrong .tag { color: var(--bad); }
+  .opt:disabled { cursor: default; }
+  .quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+  .quiz-result { font-size: 13.5px; font-weight: 600; }
+  .quiz-result.good { color: var(--good); }
+  .quiz-result.bad { color: var(--bad); }
+  .quiz-explain {
+    margin-top: 12px;
+    background: var(--surface-2);
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    display: none;
+  }
+  .quiz-explain.show { display: block; }
+  .quiz-explain b { color: var(--ink); }
+
+  .score-screen { text-align: center; padding: 44px 20px; }
+  .score-num {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .score-label { color: var(--ink-muted); font-size: 14px; margin-bottom: 22px; }
+
+  /* Calculator */
+  .calc-card { padding: 20px 22px; margin-bottom: 16px; }
+  .calc-card h3 {
+    font-size: 15px;
+    margin: 0 0 4px;
+  }
+  .calc-desc { font-size: 13px; color: var(--ink-muted); margin-bottom: 16px; }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .field label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: .04em;
+    margin-bottom: 5px;
+  }
+  .field input, .field select {
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  .field input:focus, .field select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .calc-out {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .out-box {
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+  }
+  .out-box.total { background: var(--accent-soft); border-color: var(--accent); }
+  .out-box .k { font-family: var(--font-display); font-size: 10.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+  .out-box .v { font-family: var(--font-display); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .out-box.total .v { color: var(--accent); }
+
+  .example-box {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn);
+    border-radius: 9px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    margin-top: 14px;
+  }
+  .example-box b { color: var(--warn); }
+
+  /* Tutorial (learning-mode) content */
+  .tut-block { margin-bottom: 8px; }
+  .tut-block p { font-size: 14.5px; margin: 0 0 10px; }
+  .tut-block p:last-child { margin-bottom: 0; }
+  .tut-sub {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 14px 0 6px;
+  }
+  .tut-sub:first-child { margin-top: 0; }
+  .analogy-box {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  .analogy-box b { color: var(--accent); }
+  .worked {
+    background: var(--surface-2);
+    border-radius: 9px;
+    padding: 14px 16px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    margin: 10px 0;
+  }
+  .takeaway {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+  .takeaway ul { margin: 0; padding-left: 20px; }
+  .takeaway li { font-size: 13.5px; margin-bottom: 4px; }
+
+  footer.pagefoot {
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 12px;
+    margin-top: 36px;
+    font-family: var(--font-display);
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">EE6108 · Computer Networks (Part I)</div>
+    <h1>Topic 1 · 计算机网络导论 从零学习</h1>
+    <div class="subtitle">把你当成完全没学过网络的新手 —— 每个概念都配有生活类比、逐步推导和完整例题,不假设你已经懂任何术语。建议先完整读一遍"图文教程",再用卡片和自测题巩固。</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="overview">图文教程</button>
+    <button class="tab-btn" data-tab="cards">知识卡片</button>
+    <button class="tab-btn" data-tab="quiz">自测题</button>
+    <button class="tab-btn" data-tab="calc">时延计算器</button>
+  </nav>
+
+  <!-- OVERVIEW / TUTORIAL -->
+  <section class="panel active" id="panel-overview">
+    <div class="card ov-section">
+      <h2><span class="ov-tag">01</span> 网络到底是什么?——用"城市交通"来理解</h2>
+      <div class="tut-block">
+        <p>你可以把整个互联网想象成一座巨大的城市交通系统。<b>网络节点(nodes)</b>就是路口和建筑物(主机、路由器、交换机);<b>链路(links)</b>就是连接它们的道路(光纤、铜缆、无线信号);<b>协议(protocols)</b>就是交通规则——比如"红灯停、绿灯行",规定了大家该怎么"开车"(怎么发数据)才不会撞车、才能互相听懂。网络的组成部件包括:链路(路)、接口(网卡,相当于车的"车牌接口")、交换机/路由器(路口的红绿灯/岔路口)、主机(出发地和目的地)、协议(交规),以及运行在上面的应用(比如你要送的"包裹"——网页、邮件、文件)。</p>
+        <div class="tut-sub">网络结构的三个区域</div>
+        <p>整座"城市"可以粗略分成三块:</p>
+        <ul>
+          <li><b>网络边缘(Network Edge)</b> —— 相当于千家万户和写字楼,也就是你的电脑、手机这些"端系统"。这里运行着实际的应用程序(网页浏览器、邮件客户端)。两种打交道方式:<b>客户端/服务器模式</b>(你去餐厅点菜,厨房是server,你是client)和<b>对等模式 P2P</b>(邻里之间互相借东西,没有固定的"店家",人人既是客人也是老板,例如 BitTorrent)。</li>
+          <li><b>网络核心(Network Core)</b> —— 相当于城市的主干道和高速公路网,由大量互相连接的路由器组成,负责把"车辆"（数据）从一个地方导向另一个地方。</li>
+          <li><b>接入网络(Access Network)</b> —— 相当于你家门口连到主干道的那条小路(匝道)。分三种:住宅接入(拨号、DSL、Cable、光纤入户 FTTH)、机构接入(公司/学校常用以太网)、移动接入(无线LAN、手机蜂窝网络)。</li>
+        </ul>
+        <div class="takeaway">
+          <ul>
+            <li>网络 = 节点 + 链路 + 协议,三者缺一不可</li>
+            <li>结构分三块:边缘(用户)、核心(骨干路由器)、接入(连接两者的"最后一公里")</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">02</span> 电路交换 vs 分组交换——包一辆车,还是拼车?</h2>
+      <div class="tut-block">
+        <p>数据要从 A 传到 B,中间要"占用"通信资源,历史上有两种做法。</p>
+        <div class="analogy-box"><b>类比</b>:电路交换像是你<b>包了一整辆出租车</b>去和朋友通话——从你上车那一刻起,这辆车全程只属于你,哪怕你在车上一句话不说,别人也用不了。分组交换更像是<b>拼车软件里的共享座位</b>——你的"话"被切成一段段"乘客",谁先到站台谁先上车,大家轮流用同一批车,车不够用时就得排队等,甚至被请下车(丢弃)。</div>
+        <div class="ov-grid">
+          <div class="ov-mini">
+            <div class="k">电路交换 Circuit Switching</div>
+            <div class="v">通话前先"呼叫建立"预留好带宽和交换容量;资源专用、不与别人共享;传输速度稳定有保证;典型例子是传统电话网络。</div>
+          </div>
+          <div class="ov-mini">
+            <div class="k">分组交换 Packet Switching</div>
+            <div class="v">数据被切成一个个"分组(packet)";大家共享网络资源;采用"存储转发"方式一站一站传;资源紧张时会出现排队甚至丢包。</div>
+          </div>
+        </div>
+        <div class="tut-sub">为什么分组交换反而更划算?</div>
+        <p>课件给出一个很直观的例子:假设一条 1 Mbps 的链路,每个用户"活跃"时需要 100 Kbps,但只有 10% 的时间处于活跃状态。电路交换只能塞下 10 个用户(1Mbps ÷ 100Kbps)。但用分组交换,即使塞进 35 个用户,同时有超过 10 人同时活跃的概率也只有 0.04% 左右——因为大部分时间大家轮流使用,资源被"摊薄"共享了。这就是"大多数时间,分组交换网络能服务的用户数远超其硬件容量"的道理。</p>
+        <div class="takeaway">
+          <ul>
+            <li>电路交换 = 独占资源,稳定但浪费</li>
+            <li>分组交换 = 共享资源,高效但可能拥塞/丢包</li>
+            <li>今天的互联网几乎全部采用分组交换</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">03</span> 四类时延——过收费站的完整旅程</h2>
+      <div class="tut-block">
+        <p>一个数据分组从源头到目的地,要经过好几个路由器"接力"。在<b>每一跳(每个路由器)</b>都会产生四种延迟,理解它们最好的办法是想象"车队通过高速公路收费站"。</p>
+        <div class="analogy-box">
+          <b>类比</b>:想象你的数据分组是一队车。到达收费站后依次经历——
+          <br>① <b>节点处理时延</b>:收费员检查你的车票有没有问题、决定你该走哪条路(检错、选路由),类似人工审核的时间;
+          <br>② <b>排队时延</b>:前面已经堵了一排车,你得排队等轮到你,前车越多等得越久;
+          <br>③ <b>传输时延</b>:轮到你了,收费杆升起、整队车"逐个"通过收费口所花的时间——车队(比特数)越长、收费口通过速度(带宽)越慢,这段时间越久;
+          <br>④ <b>传播时延</b>:过了收费站后,车队还要在路上真正"跑"到下一个路口,这段纯粹取决于路有多长、车跑多快,和车队长短(比特数)无关。
+        </div>
+        <div class="tut-sub">公式怎么来的(把变量的含义讲清楚)</div>
+        <ul>
+          <li><b>传输时延 = L / R</b> —— L 是分组长度(单位:比特 bit,即"车队里有几辆车"),R 是链路带宽(单位:bps,即"收费口每秒能放几辆车过去")。车越多或收费口越慢,传输时延越长。</li>
+          <li><b>传播时延 = d / s</b> —— d 是链路的物理长度(比如光纤有多少米),s 是信号传播速度(约 2×10⁸ 米/秒,接近光速)。这段时间只和"路有多长"有关,和车队大小无关。</li>
+          <li><b>排队时延 = Q / R</b> —— Q 是你到达时,队列里已经积压的比特数。前面堵车越严重,你等得越久。</li>
+        </ul>
+        <div class="tut-sub">一个具体例子帮你建立直觉</div>
+        <div class="worked">已知:分组 P = 1 KB = 8000 bit,链路带宽 R = 1 Gbps,链路长 100 米(铜缆)
+
+传输时延 = P/R = 8000 / 10^9 = 8 微秒(很快,因为带宽很大)
+传播时延 = d/s ≈ 100m / (2×10^8 m/s) = 0.5 微秒(短距离,传播很快)
+
+对比:如果链路长度换成 100 公里的光纤,R 变成 1 Gbps 仍不变
+传播时延 = 100,000m / (2×10^8) = 500 微秒
+此时传播时延反而远大于传输时延——说明"距离"在长距离链路里的影响可能超过"带宽"。</div>
+        <div class="takeaway">
+          <ul>
+            <li>四种时延各管一段:处理(审核)→ 排队(等位)→ 传输(过关口)→ 传播(赶路)</li>
+            <li>传输时延取决于"数据量 ÷ 带宽";传播时延只取决于"距离 ÷ 速度",互不影响</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">04</span> 存储转发(Store-and-Forward)——为什么切成小包更快?</h2>
+      <div class="tut-block">
+        <p>路由器转发分组的规则很朴素但很重要:<b>必须先把整个分组完整地收下来,才能开始往下一条链路转发它的第一个比特</b>。这跟接力赛跑不一样——接力赛可以边跑边把接力棒递出去,但路由器不行,它得等"包裹"完全到手、验完货,才敢往下一站送。</p>
+        <div class="analogy-box"><b>类比</b>:想象一条快递流水线,每个分拣站要等一整个包裹送到自己手上、扫描确认无误后,才能把它放上下一段传送带——不能"扫一半就先送半个包裹出去"。</div>
+        <div class="tut-sub">切成小包为什么反而更快?——流水线效应</div>
+        <p>如果把一个大文件整体当一个"大包裹"发送,那么它必须完整地在每一站都被从头传完才能继续。但如果把文件切成很多"小包裹",第一个小包裹很快就能传完并送到下一站,与此同时上一站已经开始传第二个小包裹了——这就像流水线作业,多个"小包裹"在不同路段上同时被传输,大大缩短总时间。</p>
+        <div class="tut-sub">公式与例题</div>
+        <p>设消息总长 M 位,切成 N 个分组,经过 L 条链路(即 L−1 个中间路由器),每个分组的传输时间 T=(k+h)/R(k 是每个分组的有效载荷,h 是分组头部开销,R 是链路带宽)。总时延:</p>
+        <div class="worked">T_N = (L + N − 1) × (k + h) / R
+拆开理解:
+ · "L × T" 是第一个分组走完 L 条链路所需时间(它必须一站一站接力)
+ · "(N−1) × T" 是后面 N−1 个分组紧跟着、每隔 T 时间到达一次的时间(因为链路已经被"占用流水线"了)
+
+课件例题:Host A → B,经过 3 条 1Mbps 链路,文件 8000 字节(=64000 bit)
+(a) 整体当 1 个大分组发送:
+   T_N = (3 + 1 − 1) × 64000 / 1,000,000 = 192 ms
+(b) 切成 8 个 1000 字节(=8000 bit)小分组发送:
+   T_N = (3 + 8 − 1) × 8000 / 1,000,000 = 80 ms</div>
+        <p>可以看到,同样的文件,切成小包后总时延从 192ms 降到 80ms——因为多个小分组可以在不同链路段上"同时在路上"跑,减少了整体的等待。</p>
+        <div class="takeaway">
+          <ul>
+            <li>路由器必须收完整个分组才能转发(不能"边收边转")</li>
+            <li>把大消息切成多个小分组能触发流水线效应,显著降低端到端总时延</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">05</span> 局域网 LAN——小区里的"内部道路系统"</h2>
+      <div class="tut-block">
+        <p>局域网(LAN)就像是一个小区、一栋楼、一个校园内部的道路系统——范围不大,通常归属于同一个组织(比如公司或学校自己拥有和维护)。区分局域网的三个特征:</p>
+        <ul>
+          <li><b>规模(Size)</b> —— 通常局限在一栋楼或一个园区内,内部数据速率往往比广域网(WAN)高</li>
+          <li><b>传输技术</b> —— 大家共用的物理介质(网线的类型等)</li>
+          <li><b>网络拓扑</b> —— 设备之间是怎么连接的:总线形(大家接在同一根干线上)、环形(首尾相连成一个圈)、树形、星形(常见,大家都连到中心交换机)</li>
+        </ul>
+        <p>最典型的代表是<b>以太网 Ethernet</b>(1970年代发明),使用 CSMA/CD 方式协调"谁能说话",速率从最早的 10 Mbps 一路发展到今天的 10 Gbps 甚至更高。</p>
+        <div class="takeaway">
+          <ul>
+            <li>LAN = 小范围、自己拥有维护、内部速率高</li>
+            <li>三大区分特征:规模、传输技术、拓扑结构</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">06</span> 分层协议架构——像寄快递一样一层层打包</h2>
+      <div class="tut-block">
+        <p>网络系统非常复杂(主机、路由器、各种链路、应用……),如果不分层管理会乱成一团。所以工程师们把整个通信过程拆成若干"层",<b>每一层只管自己的事,对上一层提供服务,不用关心下一层具体怎么实现</b>——好比"某一层改造升级,不会影响其他层照常工作"。</p>
+        <div class="analogy-box"><b>类比</b>:寄快递时,你先把信写好(应用层数据),装进信封写上收件地址(传输层加"信封"),快递公司再把信封放进邮政编织袋(网络层加"编织袋标签"),编织袋又被装上卡车(链路层),最后卡车真正行驶在公路上(物理层)。每一层都在"上一层的包裹外面"又包了一层新的包装并写上自己需要的信息——这个过程就叫<b>封装(Encapsulation)</b>。到达目的地后,则一层层拆开(解封装),交还给对应的上一层。</div>
+        <div class="tut-sub">TCP/IP 五层,各管什么?</div>
+        <ul>
+          <li><b>应用层</b>:你直接用的软件功能,比如网页(HTTP)、邮件(SMTP)、文件传输(FTP)</li>
+          <li><b>传输层</b>:负责"点对点"(端到端)地把数据从一个程序送到另一个程序,常见的是 TCP、UDP</li>
+          <li><b>网络层</b>:负责数据报的路由寻址,决定"该走哪条路",核心协议是 IP</li>
+          <li><b>链路层</b>:负责相邻两个设备之间的一跳传输,比如以太网、WiFi(802.11)</li>
+          <li><b>物理层</b>:把比特真正变成电信号/光信号/无线信号,在物理介质上"跑"起来</li>
+        </ul>
+        <div class="tut-sub">OSI 七层模型多了什么?</div>
+        <p>OSI 模型在 TCP/IP 五层基础上,又多切出两层:<b>表示层(presentation)</b>负责数据格式转换,比如加密、压缩,让不同系统之间"看得懂"同一份数据;<b>会话层(session)</b>负责建立/维护/恢复一次通信过程中的同步。互联网实际使用的 TCP/IP 协议栈里没有单独实现这两层,如果确实需要这些功能,一般由应用层自己去做。</p>
+        <div class="takeaway">
+          <ul>
+            <li>分层的核心思路:各司其职、互不干扰,便于设计和维护</li>
+            <li>封装 = 每层往数据外面加一层自己的"包装头"</li>
+            <li>TCP/IP 五层 vs OSI 七层,多出"表示层+会话层"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">07</span> 传输层:TCP 像挂号信,UDP 像明信片</h2>
+      <div class="tut-block">
+        <p>传输层负责把数据从源主机的一个"程序"送到目标主机的另一个"程序"(用端口号区分不同程序),同时决定要不要建立连接、要不要保证可靠。两大主力协议风格完全不同。</p>
+        <div class="analogy-box">
+          <b>类比</b>:<b>TCP 像寄挂号信</b>——寄之前先"确认对方在家"(建立连接),寄丢了会重新补寄(可靠传输),而且会根据对方的"接收速度"和"路上是否拥堵"来调整发信节奏(流量控制 + 拥塞控制)。<b>UDP 像寄明信片</b>——写完直接扔进邮筒,不确认对方是否在家,也不保证一定送到,寄丢了也不会重发,但胜在快、开销小。
+        </div>
+        <div class="ov-grid">
+          <div class="ov-mini">
+            <div class="k">TCP</div>
+            <div class="v">面向连接(先握手)、可靠传输(丢了会重传)、流量控制(不让发送方压垮接收方)、拥塞控制(网络堵了就放慢速度)</div>
+          </div>
+          <div class="ov-mini">
+            <div class="k">UDP</div>
+            <div class="v">无连接、不可靠,不提供连接建立/可靠性/流量控制/拥塞控制/时延或带宽保证 —— 适合对速度敏感、能容忍少量丢失的场景(视频通话、游戏)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ov-section">
+      <h2><span class="ov-tag">08</span> 网络流量与指标——水管里的水流</h2>
+      <div class="tut-block">
+        <p>把网络想象成一套水管系统,数据就是水流,链路带宽就是水管的粗细。</p>
+        <div class="analogy-box"><b>类比</b>:<b>吞吐量(Throughput)</b>就是水龙头实际流出的水量(单位时间传输的比特数),分"瞬时吞吐量"(此刻的水流)和"平均吞吐量"(一段时间内的平均水流)。如果路径上有一段水管特别细,那么无论前后水管多粗,整体水流都被这段细管卡住——这段最细的水管就叫<b>瓶颈链路(bottleneck link)</b>,它决定了端到端的最大吞吐量。</div>
+        <p>当水流速度(分组到达速率 a)接近水管的处理能力(链路带宽 R)时,水会在管道前"憋住"排队,这就是排队时延变大;当队列(缓冲区)满了却还有水涌进来,多出来的水就只能溢出——对应网络里的<b>丢包</b>。</p>
+        <p>课件用<b>流量强度</b>来量化这种"拥挤程度":<code class="f">流量强度 = La/R</code>(L=平均分组长度,a=平均到达速率,R=链路带宽)。当流量强度趋近于 0,说明链路很空闲,排队时延很小;当流量强度趋近于 1,说明链路几乎被跑满,排队时延会急剧增大,甚至趋于无穷。</p>
+        <div class="takeaway">
+          <ul>
+            <li>吞吐量 = 实际"流水量";瓶颈链路 = 路径上最细的那段水管,决定整体上限</li>
+            <li>流量强度越接近 1,排队时延和丢包风险越高</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-cards">
+    <div class="fc-wrap">
+      <div class="fc-progress" id="fc-progress">1 / 20</div>
+      <div class="fc-stage" id="fc-stage">
+        <div class="fc-card" id="fc-card">
+          <div class="fc-face front">
+            <div class="fc-label">问题</div>
+            <div class="fc-text" id="fc-q"></div>
+            <div class="fc-hint">点击卡片查看答案</div>
+          </div>
+          <div class="fc-face back">
+            <div class="fc-label">答案</div>
+            <div class="fc-text" id="fc-a"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="btn" id="fc-prev">← 上一张</button>
+        <button class="btn" id="fc-shuffle">🔀 随机</button>
+        <button class="btn primary" id="fc-next">下一张 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz">
+    <div id="quiz-active">
+      <div class="quiz-head">
+        <div class="quiz-progress" id="quiz-progress">第 1 / 12 题</div>
+        <div class="quiz-progress" id="quiz-score">得分 0</div>
+      </div>
+      <div class="card quiz-card">
+        <div class="quiz-q" id="quiz-q"></div>
+        <div class="quiz-opts" id="quiz-opts"></div>
+        <div class="quiz-foot">
+          <div class="quiz-result" id="quiz-result"></div>
+          <button class="btn primary" id="quiz-next" disabled>下一题 →</button>
+        </div>
+        <div class="quiz-explain" id="quiz-explain"></div>
+      </div>
+    </div>
+    <div id="quiz-done" class="card score-screen" style="display:none;">
+      <div class="score-num" id="score-final">0 / 12</div>
+      <div class="score-label">最终得分</div>
+      <button class="btn primary" id="quiz-retry">重新测验</button>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="panel" id="panel-calc">
+    <div class="card calc-card">
+      <h3>单跳时延计算器</h3>
+      <div class="calc-desc">分别计算传输时延 <code class="f">L/R</code>、传播时延 <code class="f">d/s</code>、排队时延 <code class="f">Q/R</code> —— 改一改数字,亲手感受"距离"和"带宽"谁的影响更大</div>
+      <div class="calc-grid">
+        <div class="field">
+          <label>分组长度 L (bit)</label>
+          <input type="number" id="c1-L" value="8000">
+        </div>
+        <div class="field">
+          <label>链路带宽 R (bps)</label>
+          <input type="number" id="c1-R" value="1000000">
+        </div>
+        <div class="field">
+          <label>链路长度 d (m)</label>
+          <input type="number" id="c1-d" value="100000">
+        </div>
+        <div class="field">
+          <label>传播速度 s (m/s)</label>
+          <input type="number" id="c1-s" value="200000000">
+        </div>
+        <div class="field">
+          <label>到达时队列比特数 Q (bit)</label>
+          <input type="number" id="c1-Q" value="0">
+        </div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">传输时延 L/R</div><div class="v" id="c1-trans">–</div></div>
+        <div class="out-box"><div class="k">传播时延 d/s</div><div class="v" id="c1-prop">–</div></div>
+        <div class="out-box"><div class="k">排队时延 Q/R</div><div class="v" id="c1-queue">–</div></div>
+        <div class="out-box total"><div class="k">端到端总时延</div><div class="v" id="c1-total">–</div></div>
+      </div>
+    </div>
+
+    <div class="card calc-card">
+      <h3>存储转发多跳计算器</h3>
+      <div class="calc-desc">消息切成 N 个分组、经过 L 条链路时的端到端时延 <code class="f">T_N = (L+N−1)(k+h)/R</code>(忽略传播/排队时延)</div>
+      <div class="calc-grid">
+        <div class="field">
+          <label>分组有效载荷 k (bit)</label>
+          <input type="number" id="c2-k" value="8000">
+        </div>
+        <div class="field">
+          <label>分组头部 h (bit)</label>
+          <input type="number" id="c2-h" value="0">
+        </div>
+        <div class="field">
+          <label>链路带宽 R (bps)</label>
+          <input type="number" id="c2-R" value="1000000">
+        </div>
+        <div class="field">
+          <label>链路数 L</label>
+          <input type="number" id="c2-L" value="3">
+        </div>
+        <div class="field">
+          <label>分组数 N</label>
+          <input type="number" id="c2-N" value="1">
+        </div>
+      </div>
+      <div class="calc-out">
+        <div class="out-box"><div class="k">单分组传输时间 T</div><div class="v" id="c2-T">–</div></div>
+        <div class="out-box total"><div class="k">端到端总时延 T_N</div><div class="v" id="c2-total">–</div></div>
+      </div>
+      <div class="example-box">
+        <b>课件例题参考</b>:Host A → B 经 3 条 1Mbps 链路,文件 8000 字节(=64000 bit)。<br>
+        (a) 整体作为 1 个大分组发送 → T_N = (3+1−1)×64000/10⁶ = <b>192 ms</b><br>
+        (b) 切成 8 个 1000 字节(=8000 bit)分组发送 → T_N = (3+8−1)×8000/10⁶ = <b>80 ms</b><br>
+        可在上方输入这两组数值验证结果 — 分组切分越细,流水线效应越明显,端到端时延越低。
+      </div>
+    </div>
+  </section>
+
+  <footer class="pagefoot">EE6108 COMPUTER NETWORKS (PART I) — TOPIC 1 LEARNING GUIDE</footer>
+</div>
+
+<script>
+(function(){
+  // ---------- Tabs ----------
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = { overview: document.getElementById('panel-overview'), cards: document.getElementById('panel-cards'), quiz: document.getElementById('panel-quiz'), calc: document.getElementById('panel-calc') };
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+      panels[btn.dataset.tab].classList.add('active');
+    });
+  });
+
+  // ---------- Flashcards ----------
+  var cards = [
+    ["计算机网络的三个基本组成部分?", "网络节点(nodes)、网络链路(links)、网络协议(protocols)—— 好比路口、道路和交规"],
+    ["网络结构分为哪三个部分?", "网络边缘(端系统所在,如家庭/写字楼)、网络核心(路由器组成的主干道)、接入网络(连接两者的最后一公里)"],
+    ["网络边缘上运行着什么?两种服务模型?", "端系统(主机)运行应用程序;客户端/服务器模型(点菜像 client,厨房像 server)与 对等 P2P 模型(人人既是客人也是老板)"],
+    ["电路交换的特点?", "像包一整辆车:呼叫建立、预留链路带宽和交换容量、专用资源不共享、性能有保证,如电话网络"],
+    ["分组交换的特点?", "像拼车:数据切分为分组、共享网络资源、存储转发、可能出现排队和丢包(资源竞争)"],
+    ["分组交换网络中的四种时延类型?", "节点处理时延(审核)、排队时延(等位)、传输时延(过关口,L/R)、传播时延(赶路,d/s)"],
+    ["传输时延公式?", "L/R (L=分组长度 bit,R=链路带宽 bps)—— 数据量除以带宽"],
+    ["传播时延公式?", "d/s (d=物理链路长度,s=传播速度≈2×10⁸ m/s)—— 只看距离,和数据量无关"],
+    ["排队时延公式?", "Q/R (Q=到达时队列中已有的比特数)—— 前面堵了多少车,决定你等多久"],
+    ["什么是存储转发(store-and-forward)?", "交换机必须接收完整个分组后,才能开始向外链路转发该分组的第一个比特 —— 不能边收边转"],
+    ["为什么把大文件切成小分组能降低总时延?", "小分组能在不同链路段上同时被传输(流水线效应),不用等整个大文件走完每一站才能开始下一站"],
+    ["局域网(LAN)的三个区分特征?", "规模(Size)、传输技术(cable 类型)、网络拓扑(总线/环形/树形/星形)"],
+    ["TCP/IP 协议栈的五层?", "应用层、传输层、网络层、链路层、物理层"],
+    ["OSI 模型比 TCP/IP 多出的两层?", "表示层(presentation,如加密压缩)、会话层(session,同步与恢复)"],
+    ["什么是封装(Encapsulation)?", "在每一层为数据(SDU)添加协议控制信息(头部 PCI),形成该层的 PDU,再传给下一层 —— 像一层层套快递包装"],
+    ["TCP 提供的传输服务特点?", "像挂号信:面向连接、可靠传输、流量控制、拥塞控制"],
+    ["UDP 提供的传输服务特点?", "像明信片:无连接、不可靠传输,不提供连接建立/可靠性/流量控制/拥塞控制/时延或带宽保证"],
+    ["吞吐量(throughput)的定义?", "单位时间内在发送方与接收方之间传输的比特数,好比水龙头的实际出水量,分瞬时吞吐量和平均吞吐量"],
+    ["什么是瓶颈链路(bottleneck link)?", "端到端路径中,限制整条路径端到端吞吐量的那条链路 —— 好比水管里最细的那一段"],
+    ["流量强度 La/R 与排队时延的关系?", "La/R → 0 时平均排队时延小(水管很空);La/R → 1 时平均排队时延趋于很大(水管快跑满了)"]
+  ];
+  var fcIndex = 0, fcFlipped = false;
+  var fcStage = document.getElementById('fc-stage');
+  var fcCard = document.getElementById('fc-card');
+  var fcQ = document.getElementById('fc-q');
+  var fcA = document.getElementById('fc-a');
+  var fcProgress = document.getElementById('fc-progress');
+
+  function renderCard(){
+    fcCard.classList.remove('flipped');
+    fcFlipped = false;
+    fcQ.textContent = cards[fcIndex][0];
+    fcA.textContent = cards[fcIndex][1];
+    fcProgress.textContent = (fcIndex+1) + ' / ' + cards.length;
+  }
+  fcStage.addEventListener('click', function(){
+    fcFlipped = !fcFlipped;
+    fcCard.classList.toggle('flipped', fcFlipped);
+  });
+  document.getElementById('fc-next').addEventListener('click', function(){
+    fcIndex = (fcIndex+1) % cards.length;
+    renderCard();
+  });
+  document.getElementById('fc-prev').addEventListener('click', function(){
+    fcIndex = (fcIndex-1+cards.length) % cards.length;
+    renderCard();
+  });
+  document.getElementById('fc-shuffle').addEventListener('click', function(){
+    fcIndex = Math.floor(Math.random()*cards.length);
+    renderCard();
+  });
+  renderCard();
+
+  // ---------- Quiz ----------
+  var quiz = [
+    { q: "以下哪一个不是网络的基本组成部分?", opts: ["链路 (links)", "协议 (protocols)", "操作系统 (OS)", "节点 (nodes)"], correct: 2, explain: "网络三要素是节点、链路、协议;操作系统是主机上运行的软件,不是网络本身的组成部分。" },
+    { q: "电路交换的主要特征是?", opts: ["资源共享,尽力而为", "存储转发,可能拥塞", "呼叫建立后专用资源,不共享", "无需建立连接"], correct: 2, explain: "电路交换像包一整辆车:先建立呼叫,资源被你独占,不与他人共享,直到通话结束释放。" },
+    { q: "一个分组的传输时延计算公式是?", opts: ["d/s", "L/R", "Q/R", "N × L/R"], correct: 1, explain: "传输时延 = 分组长度(bit)÷ 链路带宽(bps),即把整个分组“推”上链路所需的时间。" },
+    { q: "排队时延 Q/R 中的 Q 代表什么?", opts: ["分组长度", "链路带宽", "到达时队列中已有的比特数", "传播距离"], correct: 2, explain: "Q 是你到达时前面已经积压待发送的比特数,类似前面还有多少辆车在排队。" },
+    { q: "TCP/IP 协议栈从上到下的顺序是?", opts: ["应用-传输-网络-链路-物理", "应用-会话-传输-网络-物理", "物理-链路-网络-传输-应用", "传输-应用-网络-链路-物理"], correct: 0, explain: "记忆口诀:应用(你用的软件)→ 传输(端到端)→ 网络(路由寻址)→ 链路(相邻一跳)→ 物理(电信号)。" },
+    { q: "以下哪个协议属于传输层?", opts: ["HTTP", "IP", "TCP", "Ethernet"], correct: 2, explain: "HTTP 属应用层,IP 属网络层,Ethernet 属链路层;TCP(与 UDP)才是传输层协议。" },
+    { q: "OSI 模型比 TCP/IP 模型多出的层是?", opts: ["应用层和传输层", "表示层和会话层", "网络层和链路层", "物理层和数据链路层"], correct: 1, explain: "OSI 七层在 TCP/IP 五层基础上,额外拆出表示层(数据格式/加密压缩)和会话层(同步与恢复)。" },
+    { q: "\"存储转发(store-and-forward)\"指的是?", opts: ["交换机边接收边转发", "交换机必须收完整个分组才能开始转发", "交换机主动丢弃分组", "交换机对分组进行压缩"], correct: 1, explain: "路由器要等分组完整到达、校验无误后才会向下一跳转发第一个比特,不能边收边转。" },
+    { q: "关于 UDP,以下说法正确的是?", opts: ["面向连接", "提供拥塞控制", "不保证可靠性", "保证最小带宽"], correct: 2, explain: "UDP 就像寄明信片:无连接、不可靠,不提供任何流量/拥塞控制或带宽保证。" },
+    { q: "\"瓶颈链路(bottleneck link)\"指的是?", opts: ["带宽最大的链路", "限制端到端吞吐量的链路", "物理长度最长的链路", "丢包率最低的链路"], correct: 1, explain: "好比水管系统里最细的那一段,不管别的路段多宽,整体流量都被它卡住。" },
+    { q: "局域网(LAN)区分于其他网络的三个特征不包括?", opts: ["规模 (Size)", "传输技术", "网络拓扑", "地理跨度(WAN 概念)"], correct: 3, explain: "LAN 的三大特征是规模、传输技术、网络拓扑;“地理跨度大”是广域网(WAN)的概念,不是 LAN 的区分特征。" },
+    { q: "封装(Encapsulation)的作用是?", opts: ["删除头部信息", "压缩数据", "每层添加协议控制信息(头部)形成 PDU", "对数据加密"], correct: 2, explain: "每经过一层,就像多套一层快递包装:加上这一层自己需要的头部信息,形成该层的 PDU 再往下传。" }
+  ];
+  var qIndex = 0, score = 0, answered = false;
+  var quizQ = document.getElementById('quiz-q');
+  var quizOpts = document.getElementById('quiz-opts');
+  var quizProgress = document.getElementById('quiz-progress');
+  var quizScore = document.getElementById('quiz-score');
+  var quizResult = document.getElementById('quiz-result');
+  var quizExplain = document.getElementById('quiz-explain');
+  var quizNext = document.getElementById('quiz-next');
+  var quizActive = document.getElementById('quiz-active');
+  var quizDone = document.getElementById('quiz-done');
+
+  function renderQuiz(){
+    answered = false;
+    var item = quiz[qIndex];
+    quizQ.textContent = item.q;
+    quizProgress.textContent = '第 ' + (qIndex+1) + ' / ' + quiz.length + ' 题';
+    quizScore.textContent = '得分 ' + score;
+    quizResult.textContent = '';
+    quizResult.className = 'quiz-result';
+    quizExplain.textContent = '';
+    quizExplain.className = 'quiz-explain';
+    quizNext.disabled = true;
+    quizOpts.innerHTML = '';
+    var letters = ['A','B','C','D'];
+    item.opts.forEach(function(opt, i){
+      var b = document.createElement('button');
+      b.className = 'opt';
+      b.innerHTML = '<span class="tag">' + letters[i] + '</span><span>' + opt + '</span>';
+      b.addEventListener('click', function(){ selectAnswer(i, b); });
+      quizOpts.appendChild(b);
+    });
+  }
+
+  function selectAnswer(i, btnEl){
+    if (answered) return;
+    answered = true;
+    var item = quiz[qIndex];
+    var allBtns = quizOpts.querySelectorAll('.opt');
+    allBtns.forEach(function(b){ b.disabled = true; });
+    if (i === item.correct) {
+      score++;
+      btnEl.classList.add('correct');
+      quizResult.textContent = '✓ 回答正确';
+      quizResult.className = 'quiz-result good';
+    } else {
+      btnEl.classList.add('wrong');
+      allBtns[item.correct].classList.add('correct');
+      quizResult.textContent = '✗ 回答错误,正确答案已高亮';
+      quizResult.className = 'quiz-result bad';
+    }
+    quizExplain.innerHTML = '<b>为什么:</b>' + item.explain;
+    quizExplain.className = 'quiz-explain show';
+    quizScore.textContent = '得分 ' + score;
+    quizNext.disabled = false;
+  }
+
+  quizNext.addEventListener('click', function(){
+    qIndex++;
+    if (qIndex >= quiz.length) {
+      quizActive.style.display = 'none';
+      quizDone.style.display = 'block';
+      document.getElementById('score-final').textContent = score + ' / ' + quiz.length;
+    } else {
+      renderQuiz();
+    }
+  });
+  document.getElementById('quiz-retry').addEventListener('click', function(){
+    qIndex = 0; score = 0;
+    quizDone.style.display = 'none';
+    quizActive.style.display = 'block';
+    renderQuiz();
+  });
+  renderQuiz();
+
+  // ---------- Calculators ----------
+  function fmt(sec){
+    if (!isFinite(sec)) return '–';
+    if (sec === 0) return '0 s';
+    var abs = Math.abs(sec);
+    if (abs < 1e-3) return (sec*1e6).toFixed(2) + ' µs';
+    if (abs < 1) return (sec*1e3).toFixed(3) + ' ms';
+    return sec.toFixed(4) + ' s';
+  }
+
+  function calc1(){
+    var L = parseFloat(document.getElementById('c1-L').value) || 0;
+    var R = parseFloat(document.getElementById('c1-R').value) || 1;
+    var d = parseFloat(document.getElementById('c1-d').value) || 0;
+    var s = parseFloat(document.getElementById('c1-s').value) || 1;
+    var Q = parseFloat(document.getElementById('c1-Q').value) || 0;
+    var trans = L / R;
+    var prop = d / s;
+    var queue = Q / R;
+    document.getElementById('c1-trans').textContent = fmt(trans);
+    document.getElementById('c1-prop').textContent = fmt(prop);
+    document.getElementById('c1-queue').textContent = fmt(queue);
+    document.getElementById('c1-total').textContent = fmt(trans + prop + queue);
+  }
+  ['c1-L','c1-R','c1-d','c1-s','c1-Q'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calc1);
+  });
+  calc1();
+
+  function calc2(){
+    var k = parseFloat(document.getElementById('c2-k').value) || 0;
+    var h = parseFloat(document.getElementById('c2-h').value) || 0;
+    var R = parseFloat(document.getElementById('c2-R').value) || 1;
+    var L = parseFloat(document.getElementById('c2-L').value) || 0;
+    var N = parseFloat(document.getElementById('c2-N').value) || 0;
+    var T = (k + h) / R;
+    var total = (L + N - 1) * T;
+    document.getElementById('c2-T').textContent = fmt(T);
+    document.getElementById('c2-total').textContent = fmt(total);
+  }
+  ['c2-k','c2-h','c2-R','c2-L','c2-N'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', calc2);
+  });
+  calc2();
+})();
+</script>
+
+</body></html>
