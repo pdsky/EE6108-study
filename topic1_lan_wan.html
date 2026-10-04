@@ -1,0 +1,614 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>局域网与广域网</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --bg:#f5f6fa; --surface:#ffffff; --surface-2:#eef0f6; --surface-3:#e2e6f0;
+  --ink:#191f2e; --ink-dim:#5b6478; --ink-faint:#8891a6; --border:#dde1eb;
+  --accent:#0e6f7a; --accent-ink:#ffffff; --accent-soft:#e1f2f1; --accent-soft-ink:#0b5a63;
+  --host:#5b4b9a; --host-soft:#ece8fb;
+  --danger:#b23b3b; --danger-soft:#fbe9e9;
+  --amber:#9a5b12; --amber-soft:#fbf0dd; --amber-border:#ecd6a8;
+  --shadow:0 1px 2px rgba(24,31,52,.06), 0 8px 24px rgba(24,31,52,.06);
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1120; --surface:#121a2c; --surface-2:#182036; --surface-3:#212c46;
+    --ink:#e7ebf5; --ink-dim:#9aa5c0; --ink-faint:#6b7593; --border:#26314e;
+    --accent:#52d6c9; --accent-ink:#062421; --accent-soft:#153230; --accent-soft-ink:#7fe6da;
+    --host:#b9a6ff; --host-soft:#241f42;
+    --danger:#ff8f7a; --danger-soft:#3a1a14;
+    --amber:#f2b955; --amber-soft:#2b2311; --amber-border:#4a3a17;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1120; --surface:#121a2c; --surface-2:#182036; --surface-3:#212c46;
+  --ink:#e7ebf5; --ink-dim:#9aa5c0; --ink-faint:#6b7593; --border:#26314e;
+  --accent:#52d6c9; --accent-ink:#062421; --accent-soft:#153230; --accent-soft-ink:#7fe6da;
+  --host:#b9a6ff; --host-soft:#241f42;
+  --danger:#ff8f7a; --danger-soft:#3a1a14;
+  --amber:#f2b955; --amber-soft:#2b2311; --amber-border:#4a3a17;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.wrap{ max-width:920px; margin:0 auto; padding:28px 20px 80px; }
+.hero{
+  display:flex; flex-direction:column; gap:10px; padding:26px 24px 24px;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); margin-bottom:20px;
+}
+.eyebrow{ font-family:"IBM Plex Mono", monospace; font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+.hero h1{ margin:0; font-size:clamp(22px,3.6vw,30px); font-weight:700; text-wrap:balance; letter-spacing:-.01em; }
+.hero p{ margin:0; color:var(--ink-dim); font-size:14.7px; max-width:66ch; font-family:"Source Serif 4",serif; }
+
+.card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:20px 22px 22px; margin-bottom:18px;
+}
+.card h2{ margin:0 0 4px; font-size:18px; letter-spacing:-.01em; display:flex; align-items:center; gap:9px;}
+.card h2 .badge{ font-family:"IBM Plex Mono"; font-size:11px; color:var(--accent); background:var(--accent-soft); border-radius:6px; padding:2px 7px; font-weight:700; }
+.card > .lede{ margin:2px 0 16px; color:var(--ink-dim); font-size:14px; font-family:"Source Serif 4",serif; max-width:70ch; }
+.card p{ font-family:"Source Serif 4",serif; font-size:15px; color:var(--ink); line-height:1.65; max-width:70ch; }
+.card ul{ font-family:"Source Serif 4",serif; font-size:15px; color:var(--ink); padding-left:20px; }
+.card li{ margin-bottom:6px; }
+.card li::marker{ color:var(--accent); }
+code{ font-family:"IBM Plex Mono", monospace; font-size:.9em; background:var(--surface-2); border:1px solid var(--border); padding:1px 5px; border-radius:5px; }
+
+/* topology tabs */
+.pillnav{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+.pillnav button{
+  appearance:none; border:1px solid var(--border); background:var(--surface-2); color:var(--ink-dim);
+  font-family:"IBM Plex Sans"; font-weight:600; font-size:13px; padding:7px 14px; border-radius:999px; cursor:pointer;
+}
+.pillnav button.active{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.pillnav button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+.stage{ background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:10px; }
+figure{ margin:0; }
+figure svg{ display:block; width:100%; height:auto; }
+figcaption{ font-size:13px; color:var(--ink-dim); font-family:"Source Serif 4",serif; padding:10px 4px 2px; }
+figcaption b{ color:var(--ink); font-weight:600; }
+
+.controls{ display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+.btn{
+  appearance:none; border:1px solid var(--border); background:var(--surface); color:var(--ink);
+  font-family:"IBM Plex Sans"; font-weight:600; font-size:13.5px; padding:9px 16px; border-radius:10px; cursor:pointer;
+}
+.btn:hover{ background:var(--surface-2); }
+.btn.primary{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.btn:disabled{ opacity:.4; cursor:default; }
+.btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.state-label{
+  font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--ink-dim); background:var(--surface); border:1px solid var(--border);
+  padding:6px 12px; border-radius:999px;
+}
+.state-label b{ color:var(--accent); }
+
+.topo-desc{
+  margin-top:12px; background:var(--host-soft); border:1px solid var(--border); border-radius:10px; padding:12px 14px;
+  font-family:"Source Serif 4",serif; font-size:14px; color:var(--ink);
+}
+.topo-desc .tag{ font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; color:var(--host); text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:4px;}
+
+/* SVG element styling via currentColor + classes */
+.g-link{ stroke:var(--border); stroke-width:2; fill:none; }
+.g-node-fill{ fill:var(--surface); stroke:var(--ink-faint); stroke-width:1.6; }
+.g-node-text{ font-family:"IBM Plex Mono"; font-size:11px; fill:var(--ink); text-anchor:middle; }
+.g-hub{ fill:var(--host-soft); stroke:var(--host); stroke-width:2; }
+.g-hub-text{ font-family:"IBM Plex Mono"; font-size:10.5px; fill:var(--host); text-anchor:middle; font-weight:600;}
+.g-packet{ fill:var(--accent); stroke:var(--surface); stroke-width:2; }
+.g-label{ font-family:"IBM Plex Mono"; font-size:10.5px; fill:var(--ink-faint); text-anchor:middle; }
+
+/* CSMA/CD */
+.csma-bus{ stroke:var(--ink-faint); stroke-width:3; }
+.csma-drop{ stroke:var(--ink-faint); stroke-width:2; }
+.csma-host-fill{ fill:var(--surface); stroke:var(--ink-faint); stroke-width:1.6; }
+.csma-signal{ stroke:var(--accent); stroke-width:4; stroke-linecap:round; }
+.csma-signal.c-A{ stroke:var(--accent); }
+.csma-signal.c-C{ stroke:var(--host); }
+.csma-signal.collide{ stroke:var(--danger); }
+.csma-jam-flash{ fill:var(--danger); opacity:0; }
+.csma-jam-flash.on{ opacity:.16; }
+.step-log{
+  margin-top:14px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px;
+  font-family:"Source Serif 4",serif; font-size:14.5px; min-height:48px;
+}
+.step-log b{ font-family:"IBM Plex Mono"; color:var(--accent); font-weight:700; }
+.steps-track{ display:flex; gap:5px; margin-top:10px; }
+.steps-track span{ flex:1; height:5px; border-radius:3px; background:var(--surface-3); }
+.steps-track span.done{ background:var(--accent); }
+.steps-track span.now{ background:var(--host); }
+
+/* WAN */
+.wan-region{ fill:none; stroke:var(--border); stroke-width:1.4; stroke-dasharray:5 5; }
+.wan-region-label{ font-family:"IBM Plex Mono"; font-size:10px; fill:var(--ink-faint); letter-spacing:.05em; }
+.wan-node{ fill:var(--surface); stroke:var(--accent); stroke-width:2; }
+.wan-node.buffering{ fill:var(--amber-soft); stroke:var(--amber); }
+.wan-link{ stroke:var(--border); stroke-width:2; fill:none; }
+.wan-lan-box{ fill:var(--host-soft); stroke:var(--host); stroke-width:1.6; rx:8; }
+.wan-hop-tag{ font-family:"IBM Plex Mono"; font-size:9.5px; fill:var(--amber); text-anchor:middle; opacity:0; }
+.wan-hop-tag.show{ opacity:1; }
+
+/* comparison strip */
+.cmp-grid{ display:grid; grid-template-columns:110px 1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:6px;}
+.cmp-grid > div{ background:var(--surface); padding:10px 12px; font-size:13px; }
+.cmp-grid .h{ background:var(--surface-2); font-weight:700; font-family:"IBM Plex Mono"; font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-dim); }
+.cmp-grid .lan-h{ color:var(--accent); }
+.cmp-grid .wan-h{ color:var(--host); }
+.cmp-grid .k{ font-weight:600; color:var(--ink-dim); font-family:"IBM Plex Mono"; font-size:12px; }
+
+footer{ text-align:center; color:var(--ink-faint); font-size:12px; margin-top:26px; font-family:"IBM Plex Mono"; }
+@media (prefers-reduced-motion: reduce){ * { transition-duration:.01ms !important; animation-duration:.01ms !important; } }
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="eyebrow">EE6108 · Topic 1 补充演示</span>
+    <h1>局域网与广域网</h1>
+    <p>局域网（LAN）和广域网（WAN）是按<b>覆盖范围</b>划分的两类网络。本页用四种动画演示帮助理解：LAN 的四种物理拓扑如何组织主机、以太网 CSMA/CD 如何在共享介质上避免/处理冲突，以及 WAN 如何通过多跳分组交换连接相距遥远的 LAN。</p>
+  </div>
+
+  <!-- ============ Topology Explorer ============ -->
+  <div class="card">
+    <h2><span class="badge">01</span>LAN 的四种网络拓扑</h2>
+    <p class="lede">拓扑（Topology）描述主机与链路之间的连接方式，是区分 LAN 的三个特征之一（规模、传输技术、拓扑）。点击切换，再点"播放"观察数据如何在结构中流动。</p>
+    <div class="pillnav" id="topo-nav">
+      <button class="topo-btn active" data-topo="bus">总线型 Bus</button>
+      <button class="topo-btn" data-topo="ring">环型 Ring</button>
+      <button class="topo-btn" data-topo="star">星型 Star</button>
+      <button class="topo-btn" data-topo="tree">树型 Tree</button>
+    </div>
+    <div class="stage">
+      <figure>
+        <svg id="topo-svg" viewBox="0 0 600 260" role="img" aria-label="网络拓扑动画图"></svg>
+        <figcaption id="topo-caption"></figcaption>
+      </figure>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="topo-play">▶ 播放数据流动</button>
+      <span class="state-label" id="topo-state">就绪</span>
+    </div>
+    <div class="topo-desc" id="topo-desc"></div>
+  </div>
+
+  <!-- ============ CSMA/CD demo ============ -->
+  <div class="card">
+    <h2><span class="badge">02</span>以太网 CSMA/CD 冲突处理</h2>
+    <p class="lede">总线型 LAN 中所有主机共享同一介质，以太网使用 <b>CSMA/CD</b>（载波监听多路访问 / 冲突检测）来协调谁能发送。逐步点击"下一步"，观察 A、C 两台主机因传播时延几乎同时发送而产生冲突、发送 Jam 信号，再各自随机退避后重试的全过程。</p>
+    <div class="stage">
+      <figure>
+        <svg id="csma-svg" viewBox="0 0 600 200" role="img" aria-label="CSMA/CD 冲突检测与退避动画"></svg>
+        <figcaption>示意图：A、C 为两台主机，共享同一条总线介质；B 为总线上的第三方主机（观察者）。</figcaption>
+      </figure>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="csma-next">下一步 →</button>
+      <button class="btn" id="csma-reset">↺ 重置</button>
+      <span class="state-label" id="csma-stepnum">步骤 0 / 5</span>
+    </div>
+    <div class="steps-track" id="csma-track"></div>
+    <div class="step-log" id="csma-log">点击"下一步"开始演示：信道当前处于<b>空闲</b>状态。</div>
+  </div>
+
+  <!-- ============ WAN demo ============ -->
+  <div class="card">
+    <h2><span class="badge">03</span>WAN：跨地域多跳分组交换</h2>
+    <p class="lede">广域网跨越大范围地理区域，需要穿越公共通道，由多个互联的交换节点组成——WAN 本身不关心数据内容，只提供交换能力。数据在到达目的 LAN 前，要经过多个 WAN 交换节点，每个节点都要<b>完整接收</b>后再转发（存储转发，与前面"分组交换时延"一节的原理一致）。</p>
+    <div class="stage">
+      <figure>
+        <svg id="wan-svg" viewBox="0 0 640 260" role="img" aria-label="广域网多跳分组交换动画"></svg>
+        <figcaption>左右两个虚线框分别代表两个机构的 <b>LAN</b>（单一建筑范围）；中间跨越大片区域的是 <b>WAN</b> 交换节点网络，数据需逐跳存储转发。</figcaption>
+      </figure>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="wan-play">▶ 播放跨域传输</button>
+      <span class="state-label" id="wan-state">就绪</span>
+    </div>
+  </div>
+
+  <!-- ============ Comparison strip ============ -->
+  <div class="card">
+    <h2><span class="badge">04</span>速记对比</h2>
+    <div class="cmp-grid">
+      <div class="h"></div><div class="h lan-h">LAN</div><div class="h wan-h">WAN</div>
+      <div class="k">范围</div><div>单一建筑内</div><div>大范围地理区域，跨越公共通道</div>
+      <div class="k">归属</div><div>通常归属单一机构</div><div>由电信/运营商等多方共同构成</div>
+      <div class="k">数据速率</div><div>内部速率通常更高</div><div>受限于长距离链路与多跳转发</div>
+      <div class="k">拓扑</div><div>总线 / 环 / 星 / 树</div><div>多个交换节点互联组成的网状结构</div>
+      <div class="k">典型技术</div><div>Ethernet（CSMA/CD）</div><div>电路交换、分组交换、Frame Relay、ATM</div>
+      <div class="k">关心内容？</div><div>—</div><div>不关心数据内容，只提供交换能力</div>
+    </div>
+  </div>
+
+  <footer>EE6108 Computer Networks · Topic 1 动画演示 · 内容整理自课程 PPT 及标准网络原理，仅供学习使用</footer>
+</div>
+
+<script>
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ns = 'http://www.w3.org/2000/svg';
+function el(tag, attrs){
+  const e = document.createElementNS(ns, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function easeInOut(t){ return t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
+
+/* ---------------- Topology Explorer ---------------- */
+const topoSvg = document.getElementById('topo-svg');
+const topoCaption = document.getElementById('topo-caption');
+const topoStateEl = document.getElementById('topo-state');
+const topoDescEl = document.getElementById('topo-desc');
+let topoAnimId = null;
+
+const topoDescs = {
+  bus: {tag:'总线型 BUS', text:'所有主机通过分支线接入同一条共享主干电缆。任一主机发送的信号沿主干向两端传播，会被所有主机"听到"（广播介质）。布线简单、成本低，但主干一旦故障，全网瘫痪；多台主机同时发送容易产生冲突，需要 CSMA/CD 之类的机制协调（见下一节演示）。经典以太网 10BASE5/10BASE2 即采用此结构。'},
+  ring: {tag:'环型 RING', text:'主机依次相连成一个闭环，数据沿环单向逐节点传递，每个节点接收后再生信号并转发给下一节点。没有冲突问题（如令牌环 Token Ring 靠"令牌"授权发送），但环上任一节点或链路故障都可能中断整个环路，除非采用双环冗余。'},
+  star: {tag:'星型 STAR', text:'所有主机通过独立链路连接到中央设备（集线器 Hub 或交换机 Switch）。集线器以广播方式转发（效果类似总线），而交换机可点对点定向转发，减少冲突、提升性能与安全性。中心节点是单点故障，但某条链路或某台主机故障不影响其他主机——是现代以太网布线的主流结构。'},
+  tree: {tag:'树型 TREE', text:'由多个星型结构通过层级交换机（根交换机、分支交换机）级联而成，用于扩展网络规模。是企业网/校园网常见的分层结构，对应接入层—汇聚层—核心层的雏形。'}
+};
+
+function drawHostIcon(g, x, y, label, cls){
+  g.appendChild(el('rect',{x:x-16,y:y-11,width:32,height:22,rx:4,class:cls||'g-node-fill'}));
+  g.appendChild(el('line',{x1:x-9,y1:y-4,x2:x+9,y2:y-4,class:'g-link',opacity:.5}));
+  g.appendChild(el('line',{x1:x-9,y1:y+2,x2:x+4,y2:y+2,class:'g-link',opacity:.5}));
+  const t = el('text',{x:x,y:y+26,class:'g-node-text'}); t.textContent = label; g.appendChild(t);
+}
+function drawHub(g,x,y,label){
+  g.appendChild(el('circle',{cx:x,cy:y,r:22,class:'g-hub'}));
+  const t = el('text',{x:x,y:y+4,class:'g-hub-text'}); t.textContent = label; g.appendChild(t);
+}
+
+function buildBus(){
+  const g = el('g',{});
+  const busY = 130, xs=[100,220,340,460,540];
+  g.appendChild(el('line',{x1:60,y1:busY,x2:580,y2:busY,class:'g-link',style:'stroke-width:3'}));
+  const hostX=[100,190,310,430,540];
+  hostX.forEach((x,i)=>{
+    g.appendChild(el('line',{x1:x,y1:busY,x2:x,y2:busY-40,class:'g-link'}));
+    drawHostIcon(g,x,busY-52,'H'+(i+1));
+  });
+  const guide = el('path',{d:`M100 ${busY} L60 ${busY} M100 ${busY} L580 ${busY}`});
+  return {g, hostX, busY};
+}
+function buildRing(){
+  const g = el('g',{});
+  const cx=300, cy=140, r=95;
+  const n=5, pos=[];
+  for(let i=0;i<n;i++){ const a=(-90+i*360/n)*Math.PI/180; pos.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); }
+  for(let i=0;i<n;i++){
+    const [x1,y1]=pos[i], [x2,y2]=pos[(i+1)%n];
+    g.appendChild(el('line',{x1,y1,x2,y2,class:'g-link'}));
+  }
+  pos.forEach((p,i)=> drawHostIcon(g,p[0],p[1],'H'+(i+1)));
+  return {g,pos,cx,cy};
+}
+function buildStar(){
+  const g = el('g',{});
+  const cx=300, cy=140, r=100;
+  const n=5, pos=[];
+  for(let i=0;i<n;i++){ const a=(-90+i*360/n)*Math.PI/180; pos.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); }
+  pos.forEach(p=> g.appendChild(el('line',{x1:cx,y1:cy,x2:p[0],y2:p[1],class:'g-link'})));
+  drawHub(g,cx,cy,'HUB');
+  pos.forEach((p,i)=> drawHostIcon(g,p[0],p[1],'H'+(i+1)));
+  return {g,pos,cx,cy};
+}
+function buildTree(){
+  const g = el('g',{});
+  const root=[300,45], b1=[160,140], b2=[440,140];
+  const leaves=[[80,235,'H1'],[240,235,'H2'],[360,235,'H3'],[520,235,'H4']];
+  g.appendChild(el('line',{x1:root[0],y1:root[1],x2:b1[0],y2:b1[1],class:'g-link'}));
+  g.appendChild(el('line',{x1:root[0],y1:root[1],x2:b2[0],y2:b2[1],class:'g-link'}));
+  g.appendChild(el('line',{x1:b1[0],y1:b1[1],x2:leaves[0][0],y2:leaves[0][1],class:'g-link'}));
+  g.appendChild(el('line',{x1:b1[0],y1:b1[1],x2:leaves[1][0],y2:leaves[1][1],class:'g-link'}));
+  g.appendChild(el('line',{x1:b2[0],y1:b2[1],x2:leaves[2][0],y2:leaves[2][1],class:'g-link'}));
+  g.appendChild(el('line',{x1:b2[0],y1:b2[1],x2:leaves[3][0],y2:leaves[3][1],class:'g-link'}));
+  drawHub(g,root[0],root[1],'ROOT');
+  drawHub(g,b1[0],b1[1],'SW-A');
+  drawHub(g,b2[0],b2[1],'SW-B');
+  leaves.forEach(l=> drawHostIcon(g,l[0],l[1]-14,l[2]));
+  return {g, root, b1, b2, leaves};
+}
+
+const topoRoutes = {
+  bus: [[100,90],[100,130],[60,130],[100,130],[580,130]], // will handle specially (bidirectional)
+  ring: null, star: null, tree: null
+};
+
+function renderTopo(name){
+  topoSvg.innerHTML = '';
+  const desc = topoDescs[name];
+  topoDescEl.innerHTML = `<span class="tag">${desc.tag}</span>${desc.text}`;
+  topoStateEl.textContent = '就绪';
+  if(topoAnimId) cancelAnimationFrame(topoAnimId);
+
+  if(name==='bus'){
+    const b = buildBus();
+    topoSvg.appendChild(b.g);
+    topoCaption.innerHTML = '<b>广播介质</b>：H1 发送的信号会沿主干同时向两端传播，途经的每一台主机都能"听到"该信号。';
+    topoSvg.dataset.play = 'bus';
+  } else if(name==='ring'){
+    const r = buildRing();
+    topoSvg.appendChild(r.g);
+    topoCaption.innerHTML = '<b>逐节点传递</b>：数据从 H1 出发，沿环单向逐站转发，经过 H2、H3 到达目的主机 H4。';
+    topoSvg.dataset.play = 'ring';
+  } else if(name==='star'){
+    const s = buildStar();
+    topoSvg.appendChild(s.g);
+    topoCaption.innerHTML = '<b>集中转发</b>：H1 发往 H3 的数据先到达中央 HUB，再由 HUB 转发到 H3，全程两段链路。';
+    topoSvg.dataset.play = 'star';
+  } else if(name==='tree'){
+    const t = buildTree();
+    topoSvg.appendChild(t.g);
+    topoCaption.innerHTML = '<b>分层汇聚</b>：H1 发往 H4 的数据先上行到 SW-A，再到 ROOT，再下行经 SW-B 到达 H4。';
+    topoSvg.dataset.play = 'tree';
+  }
+}
+
+function animateAlongPoints(points, duration, onDone){
+  const g = topoSvg;
+  const packet = el('circle',{r:7,class:'g-packet'});
+  g.appendChild(packet);
+  const segLens = [];
+  let total = 0;
+  for(let i=0;i<points.length-1;i++){
+    const dx=points[i+1][0]-points[i][0], dy=points[i+1][1]-points[i][1];
+    const len = Math.hypot(dx,dy); segLens.push(len); total+=len;
+  }
+  if(reduced){
+    packet.setAttribute('cx', points[points.length-1][0]);
+    packet.setAttribute('cy', points[points.length-1][1]);
+    setTimeout(()=>{ g.removeChild(packet); if(onDone) onDone(); }, 200);
+    return;
+  }
+  const start = performance.now();
+  function frame(now){
+    let t = Math.min(1, (now-start)/duration);
+    const dist = easeInOut(t) * total;
+    let acc = 0, seg = 0;
+    while(seg < segLens.length-1 && acc + segLens[seg] < dist){ acc += segLens[seg]; seg++; }
+    const segT = segLens[seg] > 0 ? (dist-acc)/segLens[seg] : 0;
+    const x = points[seg][0] + (points[seg+1][0]-points[seg][0]) * segT;
+    const y = points[seg][1] + (points[seg+1][1]-points[seg][1]) * segT;
+    packet.setAttribute('cx', x); packet.setAttribute('cy', y);
+    if(t < 1){ topoAnimId = requestAnimationFrame(frame); }
+    else { setTimeout(()=>{ if(g.contains(packet)) g.removeChild(packet); if(onDone) onDone(); }, 250); }
+  }
+  topoAnimId = requestAnimationFrame(frame);
+}
+
+function playTopo(){
+  const mode = topoSvg.dataset.play;
+  topoStateEl.textContent = '播放中…';
+  document.getElementById('topo-play').disabled = true;
+  const finish = ()=>{ topoStateEl.textContent = '完成'; document.getElementById('topo-play').disabled = false; };
+
+  if(mode==='bus'){
+    const busY=130;
+    const pL = el('circle',{r:7,class:'g-packet'}); const pR = el('circle',{r:7,class:'g-packet'});
+    topoSvg.appendChild(pL); topoSvg.appendChild(pR);
+    if(reduced){ pL.setAttribute('cx',60); pL.setAttribute('cy',busY); pR.setAttribute('cx',580); pR.setAttribute('cy',busY);
+      setTimeout(()=>{ topoSvg.removeChild(pL); topoSvg.removeChild(pR); finish(); },200); return; }
+    const start = performance.now(), duration=1400, x0=100;
+    function frame(now){
+      const t = Math.min(1,(now-start)/duration); const e=easeInOut(t);
+      pL.setAttribute('cx', x0-(x0-60)*e); pL.setAttribute('cy',busY);
+      pR.setAttribute('cx', x0+(580-x0)*e); pR.setAttribute('cy',busY);
+      if(t<1){ topoAnimId=requestAnimationFrame(frame); }
+      else { setTimeout(()=>{ topoSvg.removeChild(pL); topoSvg.removeChild(pR); finish(); },250); }
+    }
+    topoAnimId = requestAnimationFrame(frame);
+  } else if(mode==='ring'){
+    const cx=300,cy=140,r=95,n=5;
+    const pos=[]; for(let i=0;i<n;i++){ const a=(-90+i*360/n)*Math.PI/180; pos.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]); }
+    const route = [pos[0],pos[1],pos[2],pos[3]];
+    animateAlongPoints(route, 2200, finish);
+  } else if(mode==='star'){
+    const cx=300,cy=140,r=100,n=5;
+    const pos=[]; for(let i=0;i<n;i++){ const a=(-90+i*360/n)*Math.PI/180; pos.push([cx+r*Math.cos(a),cy+r*Math.sin(a)]); }
+    const route=[pos[0],[cx,cy],pos[2]];
+    animateAlongPoints(route, 1800, finish);
+  } else if(mode==='tree'){
+    const root=[300,45], b1=[160,140], b2=[440,140], h1=[80,221], h4=[520,221];
+    const route=[h1,b1,root,b2,h4];
+    animateAlongPoints(route, 2600, finish);
+  }
+}
+document.getElementById('topo-play').addEventListener('click', playTopo);
+document.querySelectorAll('.topo-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.topo-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTopo(btn.dataset.topo);
+  });
+});
+renderTopo('bus');
+
+/* ---------------- CSMA/CD demo ---------------- */
+const csmaSvg = document.getElementById('csma-svg');
+const busY = 110, xA=100, xB=300, xC=500, leftEnd=50, rightEnd=550;
+function buildCsma(){
+  csmaSvg.innerHTML='';
+  csmaSvg.appendChild(el('line',{x1:leftEnd,y1:busY,x2:rightEnd,y2:busY,class:'csma-bus'}));
+  [[xA,'A'],[xB,'B'],[xC,'C']].forEach(([x,label])=>{
+    csmaSvg.appendChild(el('line',{x1:x,y1:busY,x2:x,y2:busY-38,class:'csma-drop',id:'drop-'+label}));
+    csmaSvg.appendChild(el('rect',{x:x-17,y:busY-60,width:34,height:24,rx:4,class:'csma-host-fill',id:'host-'+label}));
+    const t=el('text',{x,y:busY-43,class:'g-node-text'}); t.textContent=label; csmaSvg.appendChild(t);
+  });
+  // signal lines A-> and C->
+  csmaSvg.appendChild(el('line',{x1:xA,y1:busY,x2:xA,y2:busY,id:'sig-A',class:'csma-signal c-A'}));
+  csmaSvg.appendChild(el('line',{x1:xC,y1:busY,x2:xC,y2:busY,id:'sig-C',class:'csma-signal c-C'}));
+  // collision flash rect covering whole bus
+  csmaSvg.appendChild(el('rect',{x:leftEnd,y:busY-14,width:rightEnd-leftEnd,height:28,id:'jamflash',class:'csma-jam-flash'}));
+  // backoff timer badges
+  ['A','C'].forEach(label=>{
+    const x = label==='A'?xA:xC;
+    const t = el('text',{x, y:busY-70, class:'g-label', id:'timer-'+label, style:'font-weight:700;opacity:0'});
+    t.textContent=''; csmaSvg.appendChild(t);
+  });
+  const legend = el('text',{x:300,y:190,class:'g-label'}); legend.textContent='———  A 的信号     ———  C 的信号     ———  冲突';
+  csmaSvg.appendChild(legend);
+}
+buildCsma();
+
+function setLine(id, x1,x2){ const e=document.getElementById(id); e.setAttribute('x1',x1); e.setAttribute('x2',x2); }
+
+const csmaSteps = [
+  {log:'信道当前处于<b>空闲</b>状态，A、B、C 都在监听总线。', state:'空闲 Idle'},
+  {log:'A 侦听到信道空闲，开始发送帧。由于<b>传播时延</b>，信号还未到达 C 时，C 也侦听到"空闲"并开始发送——两路信号相向传播。', state:'A / C 同时发送'},
+  {log:'两路信号在总线上相遇，产生<b>冲突（Collision）</b>！A、C 检测到线路上的异常电压，立即向总线发送 <b>Jam 信号</b>，通知所有站点。', state:'冲突 + Jam'},
+  {log:'A、C 各自按<b>二进制指数退避</b>算法生成一个随机等待时间（如 A=2 个时隙，C=5 个时隙），停止发送并等待。', state:'随机退避'},
+  {log:'退避时间较短的 A 率先重新侦听信道，发现空闲后重新发送，这次顺利抵达总线另一端，未再发生冲突。', state:'A 重发成功'}
+];
+let csmaStep = 0;
+function renderCsmaTrack(){
+  const track = document.getElementById('csma-track');
+  track.innerHTML='';
+  for(let i=0;i<csmaSteps.length;i++){
+    const s = el('span',{}); s.className = i<csmaStep?'done':(i===csmaStep?'now':'');
+    track.appendChild(s);
+  }
+}
+function animAttr(id, attr, from, to, duration, cb){
+  const node = document.getElementById(id);
+  if(reduced){ node.setAttribute(attr,to); if(cb) cb(); return; }
+  const start = performance.now();
+  function frame(now){
+    const t = Math.min(1,(now-start)/duration);
+    node.setAttribute(attr, from + (to-from)*easeInOut(t));
+    if(t<1) requestAnimationFrame(frame); else if(cb) cb();
+  }
+  requestAnimationFrame(frame);
+}
+function applyCsmaStep(i){
+  const logEl = document.getElementById('csma-log');
+  logEl.innerHTML = csmaSteps[i].log;
+  document.getElementById('csma-stepnum').innerHTML = `步骤 ${i} / ${csmaSteps.length-1} · <b>${csmaSteps[i].state}</b>`;
+  renderCsmaTrack();
+  const nextBtn = document.getElementById('csma-next');
+  nextBtn.disabled = i >= csmaSteps.length-1;
+
+  if(i===0){
+    buildCsma();
+  }
+  if(i===1){
+    document.getElementById('host-A').setAttribute('style','filter:none');
+    animAttr('sig-A','x2', xA, xB+20, 700);
+    animAttr('sig-C','x1', xC, xB-20, 700);
+    setLine('sig-A', xA, xA); setLine('sig-C', xC, xC);
+  }
+  if(i===2){
+    document.getElementById('sig-A').classList.add('collide');
+    document.getElementById('sig-C').classList.add('collide');
+    setLine('sig-A', xA, rightEnd); setLine('sig-C', xC, leftEnd);
+    document.getElementById('jamflash').classList.add('on');
+  }
+  if(i===3){
+    document.getElementById('jamflash').classList.remove('on');
+    setLine('sig-A', xA, xA); setLine('sig-C', xC, xC);
+    document.getElementById('sig-A').classList.remove('collide');
+    document.getElementById('sig-C').classList.remove('collide');
+    const tA = document.getElementById('timer-A'); tA.textContent='等待 2 时隙'; tA.style.opacity=1;
+    const tC = document.getElementById('timer-C'); tC.textContent='等待 5 时隙'; tC.style.opacity=1;
+  }
+  if(i===4){
+    document.getElementById('timer-A').style.opacity=0;
+    document.getElementById('timer-C').style.opacity=0;
+    animAttr('sig-A','x2', xA, rightEnd, 900);
+  }
+}
+document.getElementById('csma-next').addEventListener('click', ()=>{
+  if(csmaStep < csmaSteps.length-1){ csmaStep++; applyCsmaStep(csmaStep); }
+});
+document.getElementById('csma-reset').addEventListener('click', ()=>{
+  csmaStep = 0; applyCsmaStep(0);
+});
+applyCsmaStep(0);
+
+/* ---------------- WAN demo ---------------- */
+const wanSvg = document.getElementById('wan-svg');
+function buildWan(){
+  wanSvg.innerHTML='';
+  // LAN regions
+  wanSvg.appendChild(el('rect',{x:15,y:70,width:110,height:130,rx:10,class:'wan-lan-box'}));
+  const lanLabelL = el('text',{x:70,y:60,class:'g-label'}); lanLabelL.style.fill='var(--host)'; lanLabelL.textContent='LAN A (机构A)'; wanSvg.appendChild(lanLabelL);
+  wanSvg.appendChild(el('rect',{x:515,y:70,width:110,height:130,rx:10,class:'wan-lan-box'}));
+  const lanLabelR = el('text',{x:570,y:60,class:'g-label'}); lanLabelR.style.fill='var(--host)'; lanLabelR.textContent='LAN B (机构B)'; wanSvg.appendChild(lanLabelR);
+  // hosts inside LAN boxes
+  drawHostIcon(wanSvg, 70, 130, 'H-src');
+  drawHostIcon(wanSvg, 570, 130, 'H-dst');
+
+  wanSvg.appendChild(el('rect',{x:150,y:20,width:340,height:220,class:'wan-region'}));
+  const wanLabel = el('text',{x:320,y:14,class:'wan-region-label'}); wanLabel.setAttribute('text-anchor','middle'); wanLabel.textContent='WAN — 跨越大范围地理区域的交换节点网络'; wanSvg.appendChild(wanLabel);
+
+  // WAN switch nodes
+  const nodes = [[190,130,'R1'],[300,80,'R2'],[300,190,'R3'],[420,130,'R4']];
+  window._wanNodes = nodes;
+  const links = [[0,1],[0,2],[1,3],[2,3],[1,2]];
+  links.forEach(([i,j])=>{
+    wanSvg.appendChild(el('line',{x1:nodes[i][0],y1:nodes[i][1],x2:nodes[j][0],y2:nodes[j][1],class:'wan-link'}));
+  });
+  // edges connecting LAN hosts to WAN
+  wanSvg.appendChild(el('line',{x1:70,y1:130,x2:190,y2:130,class:'wan-link'}));
+  wanSvg.appendChild(el('line',{x1:420,y1:130,x2:570,y2:130,class:'wan-link'}));
+
+  nodes.forEach(([x,y,label])=>{
+    wanSvg.appendChild(el('circle',{cx:x,cy:y,r:16,class:'wan-node',id:'wnode-'+label}));
+    const t=el('text',{x,y:y+4,class:'g-node-text'}); t.textContent=label; wanSvg.appendChild(t);
+  });
+}
+buildWan();
+
+function wanPlay(){
+  const stateEl = document.getElementById('wan-state');
+  const btn = document.getElementById('wan-play');
+  btn.disabled = true; stateEl.textContent='播放中…';
+  const route = [[70,130],[190,130],[300,80],[420,130],[570,130]];
+  const hopNodes = ['R1','R2','R4'];
+
+  if(reduced){
+    setTimeout(()=>{ stateEl.textContent='完成'; btn.disabled=false; }, 200);
+    return;
+  }
+  let hop = 0;
+  function doHop(){
+    if(hop >= route.length-1){ stateEl.textContent='完成 — 数据已从 LAN A 抵达 LAN B'; btn.disabled=false; return; }
+    const from = route[hop], to = route[hop+1];
+    const packet = el('circle',{r:7,class:'g-packet'});
+    wanSvg.appendChild(packet);
+    const start = performance.now(), duration=650;
+    stateEl.textContent = `传输中：hop ${hop+1} / ${route.length-1}`;
+    function frame(now){
+      const t = Math.min(1,(now-start)/duration); const e=easeInOut(t);
+      packet.setAttribute('cx', from[0]+(to[0]-from[0])*e);
+      packet.setAttribute('cy', from[1]+(to[1]-from[1])*e);
+      if(t<1) requestAnimationFrame(frame);
+      else {
+        wanSvg.removeChild(packet);
+        // buffering pulse at intermediate WAN nodes
+        if(hop < hopNodes.length){
+          const nid = 'wnode-'+hopNodes[hop];
+          const node = document.getElementById(nid);
+          if(node){ node.classList.add('buffering'); setTimeout(()=>node.classList.remove('buffering'), 260); }
+        }
+        hop++;
+        setTimeout(doHop, 320);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  doHop();
+}
+document.getElementById('wan-play').addEventListener('click', wanPlay);
+</script>
+
+</body></html>

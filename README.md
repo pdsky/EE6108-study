@@ -6,6 +6,7 @@ NTU EE6108 Computer Networks (Part I) 的中文自学网页,零基础向:图文�
 |---|---|
 | `index.html` | 入口目录 |
 | `topic1.html` | Topic 1 计算机网络导论(时延、存储转发、分层协议…) |
+| `topic1_lan_wan.html` | Topic 1 补充:局域网与广域网动画演示(LAN 四种拓扑、以太网 CSMA/CD、WAN 多跳分组交换) |
 | `topic2_1.html` | Topic 2.1 数据链路控制(流量控制、ARQ、Checksum、CRC…) |
 
 纯静态 HTML,不依赖网络和任何外部库,离线即可使用。
