@@ -2,47 +2,115 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>EE6108 学习站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
 <style>
-  :root { --bg:#F5F6F8; --surface:#FFFFFF; --border:#DCE1E8; --ink:#16202E; --muted:#5B6675; --t1:#0E7C86; --t2:#4F46C7; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#0B1220; --surface:#121B2C; --border:#253148; --ink:#E7ECF5; --muted:#93A0B8; --t1:#2DD4C7; --t2:#8F87F5; }
-  }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); line-height:1.55;
-         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
-  .wrap { max-width:720px; margin:0 auto; padding:40px 16px; }
-  .eyebrow { font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace; font-size:12.5px; letter-spacing:.09em; color:var(--muted); text-transform:uppercase; }
-  h1 { font-size:26px; margin:4px 0 24px; }
-  a.topic { display:block; text-decoration:none; color:inherit; background:var(--surface); border:1px solid var(--border);
-            border-radius:12px; padding:18px 20px; margin-bottom:12px; transition:border-color .15s; }
-  a.topic:hover, a.topic:focus-visible { border-color:currentColor; outline:none; }
-  .code { font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace; font-size:12px; font-weight:600; }
-  .t1 .code { color:var(--t1); } .t2 .code { color:var(--t2); }
-  .name { font-size:17px; font-weight:600; margin:2px 0 4px; }
-  .desc { font-size:14px; color:var(--muted); }
+:root{
+  color-scheme:light;
+  --bg:#eef2f6; --grid:#dfe8ef; --surface:#ffffff; --surface-2:#e3eaf1;
+  --ink:#12222f; --ink-soft:#33495a; --muted:#5c7182; --line:#c7d4e0;
+  --accent:#b85c17; --accent-strong:#8f4610; --accent-soft:#f3e2cf;
+  --teal:#0e6d61; --teal-soft:#dcefec;
+  --display:'IBM Plex Sans Condensed','IBM Plex Sans','Microsoft YaHei','PingFang SC',sans-serif;
+  --body:'IBM Plex Sans','Microsoft YaHei','PingFang SC',sans-serif;
+  --mono:'IBM Plex Mono',Consolas,'Microsoft YaHei',monospace;
+}
+@media (prefers-color-scheme: dark){ :root{
+  color-scheme:dark;
+  --bg:#0a1725; --grid:#0f2032; --surface:#0f2136; --surface-2:#153049;
+  --ink:#e9f1f7; --ink-soft:#c1d2e0; --muted:#87a1b6; --line:#22415e;
+  --accent:#ef9f4f; --accent-strong:#ffc083; --accent-soft:#2c2011;
+  --teal:#5fd9c8; --teal-soft:#0e2f2b;
+}}
+*{box-sizing:border-box}
+body{margin:0; color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.65;
+  background:repeating-linear-gradient(0deg,var(--grid) 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,var(--grid) 0 1px,transparent 1px 28px),var(--bg);}
+.wrap{max-width:980px; margin:0 auto; padding-inline:20px; padding-block:48px 80px;}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.14em; color:var(--accent-strong); text-transform:uppercase; margin:0 0 14px}
+h1{font-family:var(--display); font-size:clamp(32px,5vw,52px); line-height:1.08; margin:0 0 14px; text-wrap:balance}
+h1 em{font-style:normal; color:var(--accent-strong)}
+.lede{max-width:64ch; color:var(--ink-soft); margin:0 0 30px}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:30px}
+.card{background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--accent-strong); border-radius:3px; padding:20px 20px 18px; display:flex; flex-direction:column; gap:10px}
+.card.bank{border-top-color:var(--teal)}
+.card h2{font-family:var(--display); font-size:24px; margin:0}
+.card .file{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.card p{margin:0; color:var(--ink-soft); font-size:15px}
+.go{align-self:flex-start; font-family:var(--mono); font-weight:700; font-size:14px; text-decoration:none; padding:9px 16px; border-radius:3px; background:var(--accent-strong); color:#fff8f0}
+.card.bank .go{background:var(--teal); color:#fff}
+@media (prefers-color-scheme: dark){ .go{color:#1b1102} .card.bank .go{color:#04231f} }
+.links{display:flex; flex-wrap:wrap; gap:6px}
+.links a{font-size:13px; text-decoration:none; padding:3px 10px; border-radius:20px; border:1px solid var(--line); color:var(--ink-soft); background:var(--surface-2)}
+.links a:hover, .go:hover{filter:brightness(1.08)}
+a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+h3{font-family:var(--display); font-size:20px; margin:34px 0 10px}
+table{border-collapse:collapse; width:100%; background:var(--surface); border:1px solid var(--line); font-size:14.5px}
+th,td{text-align:left; padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-family:var(--mono); font-size:12px; color:var(--muted); background:var(--surface-2); font-weight:600}
+.tw{overflow-x:auto}
+.old a{color:var(--accent-strong)}
+.note{font-size:14px; color:var(--muted); margin-top:30px; border-top:1px solid var(--line); padding-top:14px}
+code{font-family:var(--mono); font-size:.9em; background:var(--surface-2); padding:1px 5px; border-radius:2px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">EE6108 · Computer Networks (Part I)</div>
-  <h1>EE6108 学习站</h1>
-  <a class="topic t1" href="topic1.html">
-    <div class="code">TOPIC 1</div>
-    <div class="name">计算机网络导论</div>
-    <div class="desc">网络组成、电路/分组交换、四类时延、存储转发、分层架构与封装、TCP/UDP、吞吐量</div>
-  </a>
-  <a class="topic t1" href="topic1_lan_wan.html">
-    <div class="code">TOPIC 1 · 动画补充</div>
-    <div class="name">局域网与广域网</div>
-    <div class="desc">LAN 四种拓扑(总线/环/星/树)动画、以太网 CSMA/CD 冲突处理步骤演示、WAN 多跳分组交换动画</div>
-  </a>
-  <a class="topic t2" href="topic2_1.html">
-    <div class="code">TOPIC 2.1</div>
-    <div class="name">数据链路控制</div>
-    <div class="desc">Stop-and-Wait、滑动窗口、ARQ(S&amp;W / Go-back-N / Selective-Repeat)、奇偶校验、Checksum、CRC</div>
-  </a>
+  <p class="eyebrow">NTU EE6108 Computer Networks · 中文自学站 · 更新于 2026-10-29</p>
+  <h1>一份<em>学习手册</em>，一份<em>题库</em></h1>
+  <p class="lede">双击这个文件就能用，不需要安装任何东西。两个主页面都是单个 HTML 文件，离线也能打开（有网时字体更好看）；做题进度、"已掌握"勾选保存在你自己的浏览器里。</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>学习手册</h2>
+      <div class="file">ee6108-learn.html</div>
+      <p>Part I 全部（时延、ARQ、Checksum/CRC、MAC/局域网、IP/子网）+ Part II 网络层 II（Quiz 范围，标了「Quiz 考」和「必背」）+ 传输层（上）：UDP、rdt 状态机、GBN/SR。19 个交互实验。</p>
+      <div class="links">
+        <a href="ee6108-learn.html#m0">考试信息</a>
+        <a href="ee6108-learn.html#n2">网络层 II · Quiz 范围</a>
+        <a href="ee6108-learn.html#n2-must">Quiz 必背清单</a>
+        <a href="ee6108-learn.html#tp">传输层（上）</a>
+      </div>
+      <a class="go" href="ee6108-learn.html">打开学习手册 →</a>
+    </div>
+    <div class="card bank">
+      <h2>题库</h2>
+      <div class="file">ee6108-practice.html</div>
+      <p>CA2 Quiz 模拟卷 3 套（翻译、讲解、知识点、举一反三、60 分钟计时）；往年期末 5 卷 Part I 全解 + Part II 网络层、传输层小题；课件例题；随机刷题。数值答案可以自动核对。</p>
+      <div class="links">
+        <a href="ee6108-practice.html#mock">Quiz 模拟卷</a>
+        <a href="ee6108-practice.html#past">往年真题</a>
+        <a href="ee6108-practice.html#ex">课件例题</a>
+        <a href="ee6108-practice.html#drill">随机刷题</a>
+      </div>
+      <a class="go" href="ee6108-practice.html">打开题库 →</a>
+    </div>
+  </div>
+
+  <h3>题库里有什么</h3>
+  <div class="tw"><table>
+    <thead><tr><th>分区</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>Quiz 模拟</td><td>CA2 Quiz（网络层 II，P2A）模拟卷 A 基础 / B 变式 / C 补考难度，各 4 题 100 分；英文题干 + 中文翻译、讲解、解答、评分要点、易错点、涉及知识点、举一反三；核心小问约 60 分钟，其余标「加练」</td></tr>
+      <tr><td>往年真题</td><td>2023/24 S1 – 2025/26 S2 共 5 份期末卷：Part I 全部小题；Part II 网络层 II 7 题、传输层 9 题（FSM、流水线有效利用率等）。可按试卷、考点筛选，"只看未掌握"</td></tr>
+      <tr><td>课件例题</td><td>Part I 讲义 Example、Session 2–6 补充 slides、Week 6 子网练习、P2A slides 例题</td></tr>
+      <tr><td>随机刷题</td><td>12+ 种题型，每次随机出数，答完核对再看完整解答</td></tr>
+    </tbody></table></div>
+
+  <h3>考试时间</h3>
+  <div class="tw"><table>
+    <thead><tr><th>项目</th><th>时间</th><th>范围</th></tr></thead>
+    <tbody>
+      <tr><td>CA2 Quiz 20%</td><td>Week 12 周一（11 月 2 日）上课第一个小时，平时上课的教室，约 6:35 / 6:40 开始</td><td>只考 P2A 网络层 II；闭卷 60 分钟，无选择题</td></tr>
+      <tr><td>Final 60%</td><td>12 月 1 日（周二）9:00–12:00</td><td>4 题，Part I、Part II 各两题，闭卷</td></tr>
+    </tbody></table></div>
+
+  <h3>旧版页面（10 月 5 日）</h3>
+  <p class="old">早期按单个 Topic 写的版本，内容已并入学习手册，保留备查：<a href="old/topic1.html">Topic 1</a> · <a href="old/topic1_lan_wan.html">局域网与广域网动画</a> · <a href="old/topic2_1.html">Topic 2.1</a></p>
+
+  <p class="note">个人学习笔记，根据 Dr. Shao Xuguang、A/P Xiao Gaoxi 的课程讲义、课堂录音和往年试卷整理，不是 NTU 官方材料；模拟卷是自己出的练习题，不是老师给的题。真题答案是按讲义方法推导的参考答案。</p>
 </div>
 </body>
 </html>
