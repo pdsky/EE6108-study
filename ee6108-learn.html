@@ -617,6 +617,82 @@ table.mustlist td a{white-space:nowrap;}
 @media (max-width:1180px){ #tp-lab3 .mapwrap, #tp-lab5 .mapwrap{grid-template-columns:minmax(0,1fr) !important;} }
 @media (max-width:520px){ .encap > div{grid-template-columns:56px minmax(0,1fr) auto;} .encap .pdu i.m{width:auto;} .encap .nm{overflow-wrap:anywhere;} }
 
+/* ============ Quiz 部分：动画 + 例题（2026-10-29） ============ */
+.pair{display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr); gap:16px; align-items:start; margin:26px 0 32px 0;}
+.pair > .lab{margin:0;}
+@media (max-width:1180px){ .pair{grid-template-columns:minmax(0,1fr);} }
+.qa-anim .chartbox svg.qa-svg{min-width:560px;}
+.qa-svg text{font-family:var(--font-mono);}
+.qa-lbl{font-size:12px; fill:var(--ink-soft); font-weight:600;}
+.qa-h{font-size:12.5px; fill:var(--ink); font-weight:700;}
+.qa-dim{font-size:11px; fill:var(--muted);}
+.qa-bt{font-size:11px; fill:var(--ink); font-weight:600;}
+.qa-bit{fill:var(--surface-2); stroke:var(--line-strong); stroke-width:1;}
+.qa-bit.ok{fill:var(--ok-soft); stroke:var(--ok);}
+.qa-bit.bad{fill:var(--warn-soft); stroke:var(--warn); stroke-width:2;}
+.qa-bit.off{opacity:.45;}
+.qa-tag{font-size:11.5px; fill:var(--muted); font-weight:600;}
+.qa-tag.ok{fill:var(--ok);} .qa-tag.bad{fill:var(--warn);}
+.qa-win{fill:none; stroke:var(--accent); stroke-width:2.5;}
+.qa-panel{fill:var(--surface); stroke:var(--line-strong); stroke-width:1.2;}
+.qa-mem{fill:var(--teal-soft); stroke:var(--teal);}
+.qa-bus{stroke:var(--line-strong); stroke-width:2;}
+.qa-bus.thick{stroke-width:5;}
+.qa-pkt rect{stroke:var(--surface); stroke-width:1.5;}
+.qa-pkt.now rect{stroke:var(--ink); stroke-width:3;}
+.qa-pkt.blk rect{stroke:var(--warn); stroke-width:3;}
+.qa-pkt.could rect{stroke:var(--ink); stroke-width:2; stroke-dasharray:4 3;}
+.qa-pt{font-size:11px; font-weight:700; fill:#fff;}
+.qa-flow{fill:none; stroke:var(--accent); stroke-width:2.5; stroke-dasharray:6 4;}
+.qa-edge{stroke:var(--line-strong); stroke-width:2;}
+.qa-edge.thin{stroke-width:1.2; stroke-dasharray:3 3;}
+.qa-edge.loop{stroke:var(--warn); stroke-width:3.5;}
+.qa-edge.best{stroke:var(--ok); stroke-width:4;}
+.qa-w{font-size:12px; fill:var(--ink-soft); font-weight:700;}
+.qa-w.bad{fill:var(--warn);}
+.qa-nh{stroke:var(--teal); stroke-width:3;}
+.qa-nh.loop{stroke:var(--warn);}
+.qa-arrow{fill:var(--ink-soft);}
+.qa-node{fill:var(--surface-2); stroke:var(--ink-soft); stroke-width:1.6;}
+.qa-node.now{fill:var(--accent-soft); stroke:var(--accent); stroke-width:3;}
+.qa-node.dst{fill:var(--ok-soft); stroke:var(--ok); stroke-width:2.5;}
+.qa-nt{font-size:13px; font-weight:700; fill:var(--ink);}
+.qa-ntsm{font-size:10.5px; font-weight:700; fill:var(--ink);}
+.qa-dv{font-size:12px; fill:var(--ink-soft); font-weight:600;}
+.qa-dv.now{fill:var(--accent-strong);}
+.qa-as{fill:color-mix(in srgb, var(--surface-2) 70%, transparent); stroke:var(--line-strong); stroke-width:1.2;}
+.qa-xnet{fill:var(--ok-soft); stroke:var(--ok);}
+.qa-adv{fill:none; stroke-width:2.5;}
+.qa-adv.e3, .qa-adv.i3{stroke:var(--s2);} .qa-adv.e2, .qa-adv.i2{stroke:var(--s1);}
+.qa-adv.i3, .qa-adv.i2{stroke-dasharray:5 4; stroke-width:1.8;}
+.qa-advt{font-size:10.5px; font-weight:700;}
+.qa-advt.e3{fill:var(--s2);} .qa-advt.e2{fill:var(--s1);}
+.qa-pkthdr{display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 10px 0;}
+.qa-pkthdr span{font-family:var(--font-mono); font-size:12px; padding:4px 8px; border-radius:var(--radius); background:var(--accent-soft); color:var(--ink); border:1px solid var(--accent);}
+.qa-pkthdr small{display:block; font-size:10px; color:var(--muted);}
+table.qa-of{min-width:620px;}
+table.qa-of td, table.qa-of th{padding:6px 8px; font-size:12.5px;}
+table.qa-of tr.qa-of-miss td{opacity:.55;}
+table.qa-of tr.qa-of-hit td{background:var(--ok-soft); font-weight:700;}
+table.qa-of tr.qa-of-now td{outline:2px solid var(--accent); outline-offset:-2px;}
+.exq{border:1px solid var(--line); border-top:3px solid var(--teal); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); padding:14px 16px 12px 16px; min-width:0;}
+.exq.wide{margin:22px 0 30px 0; max-width:100%;}
+.exq-h{display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; margin-bottom:8px;}
+.exq-tag{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; color:var(--teal); font-weight:700; text-transform:uppercase;}
+.exq-src{font-family:var(--font-mono); font-size:11px; color:var(--muted);}
+.exq-q{font-size:14.5px; line-height:1.65; margin:0 0 6px 0;}
+.exq-zh{font-size:14px; color:var(--ink-soft); background:var(--surface-2); border-left:3px solid var(--line-strong); padding:6px 10px; border-radius:0 var(--radius) var(--radius) 0; margin:0 0 8px 0;}
+.exq-k{font-size:13.5px; margin:6px 0;}
+.exq-how{font-size:13.5px; margin:6px 0;}
+.exq-how ol{margin:4px 0 0 0; padding-left:20px;}
+.exq-how li{margin-bottom:3px;}
+details.exq-a{border:1px dashed var(--teal); border-radius:var(--radius); margin:8px 0;}
+details.exq-a > summary{cursor:pointer; padding:6px 10px; font-family:var(--font-mono); font-size:12.5px; font-weight:700; color:var(--teal); list-style:none;}
+details.exq-a > summary::-webkit-details-marker{display:none;}
+details.exq-a > div{padding:4px 12px 8px 12px; font-size:14px; line-height:1.65; border-top:1px dashed var(--line);}
+.exq .trap{max-width:none;}
+.exq .tablewrap{margin:8px 0;}
+
 </style>
 </head>
 <body>
@@ -751,10 +827,10 @@ table.mustlist td a{white-space:nowrap;}
     <header class="hero">
       <p class="eyebrow">交互式学习手册 · COMPUTER NETWORKS PART I + II</p>
       <h1>从<em>一个比特</em>怎么过链路，<br>到<em>一个数据报</em>怎么找到子网</h1>
-      <p class="lede">这是根据 EE6108 Part I 全部讲义（Topic 1、2.1、2.2、3）、Session 2–6 补充 slides、Week 6 子网练习、Part II 第一套 slides（网络层 II：路由器、路由算法、路由协议、SDN）、第二套 slides 前半（传输层：UDP、可靠数据传输、GBN/SR）、课堂录音和 5 份往年期末卷整理的自学手册。每一章都从最基本的概念讲起，公式都说明每个符号的含义，讲义例题都给出完整步骤。19 个交互实验可以直接拿来验算作业和真题。橙色 <span class="qz in">Quiz 考</span> 标出 CA2 Quiz 范围，<span class="mustc">必背</span> 标出闭卷要背的公式。讲义里没有、但理解需要的内容放在紫色的"课外补充"框里，考试以讲义为准。TCP（P2B 后半）、应用层、网络安全等讲完后继续补充。</p>
+      <p class="lede">这是根据 EE6108 Part I 全部讲义（Topic 1、2.1、2.2、3）、Session 2–6 补充 slides、Week 6 子网练习、Part II 第一套 slides（网络层 II：路由器、路由算法、路由协议、SDN）、第二套 slides 前半（传输层：UDP、可靠数据传输、GBN/SR）、课堂录音和 5 份往年期末卷整理的自学手册。每一章都从最基本的概念讲起，公式都说明每个符号的含义，讲义例题都给出完整步骤。19 个交互实验可以直接拿来验算作业和真题；Quiz 范围（网络层 II）每个重点旁边还有动画和"例题 · 怎么考 · 怎么答"。橙色 <span class="qz in">Quiz 考</span> 标出 CA2 Quiz 范围，<span class="mustc">必背</span> 标出闭卷要背的公式。讲义里没有、但理解需要的内容放在紫色的"课外补充"框里，考试以讲义为准。TCP（P2B 后半）、应用层、网络安全等讲完后继续补充。</p>
       <div class="meta">
         <span class="chip">Part I 4 个 Topic + Part II 网络层、传输层</span>
-        <span class="chip">19 个交互实验</span>
+        <span class="chip">19 个交互实验 + 6 个 Quiz 动画</span>
         <span class="chip">往年 5 卷 Part I 全解</span>
         <span class="chip">Part I <b>Dr. Shao Xuguang</b> · Part II <b>A/P Xiao Gaoxi</b></span>
       </div>
@@ -2298,6 +2374,36 @@ netE 28</textarea></label>
           <span class="fl">DA = 11001000 00010111 00011<b>000</b> 10101010：匹配第 2 行（24 位）和第 3 行（21 位）→ 取更长的 → <b>接口 1</b></span>
         </div>
         <p>结论（slide 12）：列前缀而不是逐个 IP 地址，大大简化了转发表。这和 Part I Topic 3 的 <a href="#t3-s2">3.2</a> 是同一个例子。</p>
+<!-- QB:n1 -->
+        <div class="pair" id="qb-n1">
+          <div class="lab qa-anim" id="qa-lpm">
+            <div class="lab-head"><div><div class="lab-cap">动画 · 最长前缀匹配</div><div class="lab-title">一个目的地址怎么查转发表</div></div></div>
+            <div class="presets" id="qaLpmPre"><button data-k="a" class="on">DA-1</button><button data-k="b">DA-2（两行都匹配）</button><button data-k="c">DA-3</button><button data-k="d">DA-4（都不匹配）</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaLpmPlay">▶ 播放</button><button class="btn" id="qaLpmPrev">←</button><button class="btn" id="qaLpmNext">下一步 →</button><button class="btn" id="qaLpmReset">重来</button><span class="steplabel mono" id="qaLpmStep"></span></div>
+            <div class="chartbox"><svg id="qaLpmSvg" class="qa-svg" viewBox="0 0 790 230" role="img" aria-label="最长前缀匹配动画"></svg></div>
+            <div class="narr" id="qaLpmNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 8–12</span></div>
+            <div class="exq-q"><b>Q1.</b> (a) Distinguish routing and forwarding in the network layer. (b) Using the forwarding table on the left, determine the output interface for DA = 11001000 00010111 00011000 10101010, and explain the rule you used.</div>
+            <div class="exq-zh">(a) 区分网络层的路由和转发。(b) 用左边的转发表，求目的地址 11001000 00010111 00011000 10101010 的输出接口，并说明用的规则。</div>
+            <p class="exq-k"><b>考点</b>：路由 / 转发的定义（问答）；最长前缀匹配（计算）。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>(a) 各写一句定义 + 范围（全网 vs 单台路由器）+ 两者关系（路由算法决定转发表里的值），最后补一句比喻。</li>
+              <li>(b) 逐行比较前缀，<b>写出哪几行匹配、各多少位</b>，再说"选最长前缀"，给出接口。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <p>(a) <b>Routing</b> determines the route taken by packets from source to destination; it is network-wide and done by a routing algorithm (centrally or distributed). <b>Forwarding</b> moves a packet from a router's input to the appropriate output; it involves only a single router and is a lookup of the header value in the forwarding table. Routing algorithms determine the values in the forwarding tables. (Analogy: planning a trip vs getting through one interchange.)</p>
+              <p>(b) The DA matches entry 2 (prefix 11001000 00010111 00011000, 24 bits) and entry 3 (11001000 00010111 00011, 21 bits); entry 1 fails at bit 21. By <b>longest prefix matching</b> the most specific entry wins → <b>interface 1</b>.</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：只写"匹配表项 3"就停（漏看更长的那一行）；把"转发"写成"决定整条路径"。</p>
+          </div>
+        </div>
+<!-- /QB:n1 -->
+
+
+
+
       </div>
 
       <div class="sub" id="n2-s2">
@@ -2391,6 +2497,36 @@ netE 28</textarea></label>
           </ul></div>
         <div class="callout extra"><div class="lbl">课外补充：为什么"过两次总线"就慢一半</div><p>经内存交换时，一个分组要占用总线/内存两次（写入一次、读出一次）。如果内存每秒最多读写 B 个分组，转发速率最多只有 B/2 个分组每秒。经总线交换只占用一次，但所有端口共用这一条总线，总的交换速率不能超过总线速率。crossbar 让不同输入到不同输出的分组并行通过，总速率可以达到"端口数 × 线速"。</p></div>
 
+<!-- QB:n2a -->
+        <div class="pair" id="qb-n2a">
+          <div class="lab qa-anim" id="qa-fab">
+            <div class="lab-head"><div><div class="lab-cap">动画 · 三种交换结构</div><div class="lab-title">同样 3 个分组，各要几个时隙？</div></div></div>
+            <div class="presets" id="qaFabPre"><button data-k="diff" class="on">目的各不相同</button><button data-k="same">两个去同一输出</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaFabPlay">▶ 播放</button><button class="btn" id="qaFabPrev">←</button><button class="btn" id="qaFabNext">下一步 →</button><button class="btn" id="qaFabReset">重来</button><span class="steplabel mono" id="qaFabStep"></span></div>
+            <div class="chartbox"><svg id="qaFabSvg" class="qa-svg" viewBox="0 0 660 250" role="img" aria-label="经内存、经总线、crossbar 的搬运动画"></svg></div>
+            <div class="narr" id="qaFabNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 16–19</span></div>
+            <div class="exq-q"><b>Q2.</b> A router has 8 input ports, each at 1 Gbps. Its system bus can carry 10 Gbps. (a) If it switches via memory, can it forward at full line rate on all inputs? (b) If it switches via the shared bus? (c) Explain why a crossbar avoids this limit and state its drawback.</div>
+            <div class="exq-zh">路由器有 8 个输入端口，每个 1 Gbps，系统总线 10 Gbps。(a) 经内存交换能不能所有输入都满速转发？(b) 经共享总线呢？(c) 解释 crossbar 为什么没有这个限制，并说出它的缺点。</div>
+            <p class="exq-k"><b>考点</b>：经内存"过两次总线"、总线一次只能一个、crossbar 并行（计算 + 问答）。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>先算总需求：8 × 1 = <b>8 Gbps</b>。</li>
+              <li>经内存：每个数据报写入一次、读出一次，<b>总线要搬 2 次</b> → 能支持的最大转发速率 = 10 / 2 = 5 Gbps，与 8 比较。</li>
+              <li>经总线：只过一次 → 10 Gbps，与 8 比较。</li>
+              <li>crossbar：写"2n 条总线、去不同输出可并行"，再写缺点。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <p>Aggregate demand = 8 × 1 Gbps = 8 Gbps.</p>
+              <p>(a) Via memory, each datagram crosses the bus twice (input → memory, memory → output), so the maximum forwarding rate is 10/2 = <b>5 Gbps &lt; 8 Gbps → No</b>.</p>
+              <p>(b) Via a shared bus, each datagram crosses the bus once: 10 Gbps ≥ 8 Gbps → <b>Yes</b> (only one packet on the bus at a time).</p>
+              <p>(c) A crossbar uses 2n buses connecting n inputs to n outputs; packets to <b>different outputs</b> cross simultaneously, so it is not limited by a single bus. Drawback: large, high-speed crossbars are complex and expensive (and packets to the same output still contend).</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：经内存不除以 2；以为 crossbar 下两个分组去同一输出也能同时过（那是输出争用）。</p>
+          </div>
+        </div>
+<!-- /QB:n2a -->
         <h4>排队发生在哪里</h4>
         <p>输入端口和输出端口都可能排队，取决于速率是否匹配：</p>
         <ul class="speclist">
@@ -2555,6 +2691,34 @@ netE 28</textarea></label>
             <tr><td><b>核心路由器</b></td><td>运行在 Internet 骨干（核心）：要支持核心网里正在使用的最高速率的多种电信接口，并在<b>所有接口上全速转发</b> IP 分组；还要支持核心使用的路由协议</td></tr>
           </tbody>
         </table></div>
+<!-- QB:n2b -->
+        <div class="pair" id="qb-n2b">
+          <div class="lab qa-anim" id="qa-hol">
+            <div class="lab-head"><div><div class="lab-cap">动画 · 队头阻塞与三种改进</div><div class="lab-title">9 个分组，四种排队方式各要几个时隙</div></div></div>
+            <div class="presets" id="qaHolMode"><button data-k="fifo" class="on">FIFO 输入排队</button><button data-k="look">前瞻 w = 2</button><button data-k="voq">VOQ</button><button data-k="out">输出排队</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaHolPlay">▶ 播放</button><button class="btn" id="qaHolPrev">←</button><button class="btn" id="qaHolNext">下一步 →</button><button class="btn" id="qaHolReset">重来</button><span class="steplabel mono" id="qaHolStep"></span></div>
+            <div class="chartbox"><svg id="qaHolSvg" class="qa-svg" viewBox="0 0 640 245" role="img" aria-label="输入排队与队头阻塞动画"></svg></div>
+            <div class="narr" id="qaHolNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 21–24</span></div>
+            <div class="exq-q"><b>Q3.</b> (a) Explain head-of-line (HOL) blocking. (b) For a 2×2 input-queued switch with FIFO queues, both queues are always non-empty and the destination of each HOL packet is uniformly distributed and independent. Find the average throughput. (c) Name two ways to reduce HOL blocking and the price of each.</div>
+            <div class="exq-zh">(a) 解释队头阻塞。(b) 2×2 输入排队交换机，FIFO，两个队列总不空，队首目的均匀、独立，求平均吞吐量。(c) 说出两种减轻 HOL 的方法和各自的代价。</div>
+            <p class="exq-k"><b>考点</b>：HOL 定义；2×2 枚举（老师课上算过）；VOQ / 输出排队的代价（老师说 performance vs price 的折中）。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>(a) 一句话定义 + 一个小例子（队首被挡，后面去空闲输出的也走不了）。</li>
+              <li>(b) <b>列出 4 种组合</b>，写每种送出几个，再求期望、除以端口数。</li>
+              <li>(c) 每种方法写"怎么做 + 代价"两点。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <p>(a) In FIFO input queuing, the packet at the head of a queue may be blocked because another input's packet wins the same output; the packets behind it must wait even if their own outputs are idle. This wastes output capacity (about 58.6% throughput for large N).</p>
+              <p>(b) HOL destinations (in1, in2): (1,1), (1,2), (2,1), (2,2), each with probability 1/4. Same output (2 cases): 1 packet sent; different outputs (2 cases): 2 sent. E[sent] = ½·1 + ½·2 = 1.5 per slot → throughput = 1.5 / 2 = <b>0.75</b>.</p>
+              <p>(c) <b>VOQ</b>: one queue per output at each input + a matching scheduler → no HOL blocking, but N² queues and complex scheduling (expensive). <b>Output queuing</b>: switch fabric N times faster than the line rate → 100% throughput, but very high fabric/memory speed. (Also: lookahead scheduling — look beyond the HOL packet; more complex.)</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：吞吐量写成 1.5（忘了除以端口数）；把 58.6% 当成 2×2 的答案。</p>
+          </div>
+        </div>
+<!-- /QB:n2b -->
         <div class="callout teal"><div class="lbl">这一节 Quiz 可能怎么考</div>
           <ul class="speclist">
             <li>算 HOL 吞吐量：2 个、3 个端口（或者推广到 4 个），写出分类和概率。</li>
@@ -2591,6 +2755,25 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
+                        <!-- QB:n3 -->
+        <div class="exq wide" id="qb-n3">
+          <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
+          <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
+          <div class="exq-zh">S 到 D 有两条候选路径：P 两段，成功概率 0.9、0.95；Q 三段，0.99、0.97、0.96（独立）。(a) 链路权值怎么设，最短路算法才能找出最可靠的路径？(b) 算 P、Q 的总权值和可靠性，选哪条？(c) 求最少跳数用什么权值？要求每段带宽都 ≥ 100 Mbps 怎么找？</div>
+          <p class="exq-k"><b>考点</b>：老师课上强调的"设好权值，最短路算法能解决很多问题"；可靠性要把乘积变成和。</p>
+          <div class="exq-how"><b>怎么答</b><ol>
+            <li>写出推导：max ∏p<sub>i</sub> ⇔ max Σlog p<sub>i</sub> ⇔ min Σ(−log p<sub>i</sub>)，所以 w<sub>i</sub> = −log p<sub>i</sub>（p ≤ 1 时 w ≥ 0）。</li>
+            <li>用计算器算每段权值（4 位小数），加起来，<b>小的更可靠</b>；再写 ∏p 验证。</li>
+            <li>最少跳：w = 1；带宽约束：<b>先删掉</b> &lt; 100 Mbps 的链路，再跑最短路。</li>
+          </ol></div>
+          <details class="exq-a"><summary>看标准答案</summary><div>
+            <p>(a) Reliability of a path = ∏p<sub>i</sub>. Maximising ∏p<sub>i</sub> is equivalent to minimising Σ(−log p<sub>i</sub>), so set <b>w<sub>i</sub> = −log<sub>10</sub> p<sub>i</sub></b> and run Dijkstra.</p>
+            <p>(b) P: 0.0458 + 0.0223 = <b>0.0680</b>, reliability 0.9 × 0.95 = <b>0.855</b>. Q: 0.0044 + 0.0132 + 0.0177 = <b>0.0353</b>, reliability 0.99 × 0.97 × 0.96 = <b>0.922</b>. Q has the smaller total weight → <b>Q is chosen</b>, although it has more hops.</p>
+            <p>(c) Min hops: every link weight = 1. Bandwidth constraint: remove (on paper) all links with capacity &lt; 100 Mbps, then run the shortest-path algorithm on the remaining graph.</p>
+          </div></details>
+          <p class="trap"><b>易错</b>：直接把 p 加起来；−log 前后用了不同的底；以为"跳数少就更可靠"。</p>
+        </div>
+<!-- /QB:n3 -->
       </div>
 
       <div class="sub" id="n2-s4">
@@ -2653,6 +2836,32 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
+                        <!-- QB:n4 -->
+        <div class="exq wide" id="qb-n4">
+          <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
+          <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
+          <div class="exq-zh">链路 A–B 2、A–C 5、B–C 1、B–D 4、C–D 1、C–E 3、D–E 1。从 A 运行 Dijkstra，写出每一步的表（N'、D(v)、p(v)）、最短路树和 A 的转发表。</div>
+          <p class="exq-k"><b>考点</b>：完整的 Dijkstra 表，带前驱；转发表只写下一跳。可以在上面的步进器里把这张图粘进去核对。</p>
+          <div class="exq-how"><b>怎么答</b><ol>
+            <li>写 Initialization 一行：与 A 相邻的填代价和 p = A，其余 ∞。</li>
+            <li>每一行：选 D 最小的加入 N'，只更新它的邻居，变小的格子写新值和新前驱，没变的照抄。</li>
+            <li>最后从 p(·) 往回找出树，转发表写 destination → 第一跳。</li>
+          </ol></div>
+          <details class="exq-a"><summary>看标准答案</summary><div>
+            <div class="tablewrap"><table class="fsmtab" style="min-width:0">
+              <thead><tr><th>Step</th><th>N'</th><th>D(B), p(B)</th><th>D(C), p(C)</th><th>D(D), p(D)</th><th>D(E), p(E)</th></tr></thead>
+              <tbody>
+                <tr><td>0</td><td>A</td><td>2, A</td><td>5, A</td><td>∞</td><td>∞</td></tr>
+                <tr><td>1</td><td>AB</td><td></td><td><b>3, B</b></td><td><b>6, B</b></td><td>∞</td></tr>
+                <tr><td>2</td><td>ABC</td><td></td><td></td><td><b>4, C</b></td><td><b>6, C</b></td></tr>
+                <tr><td>3</td><td>ABCD</td><td></td><td></td><td></td><td><b>5, D</b></td></tr>
+                <tr><td>4</td><td>ABCDE</td><td></td><td></td><td></td><td></td></tr>
+              </tbody></table></div>
+            <p>Shortest-path tree: A–B, B–C, C–D, D–E (distances B 2, C 3, D 4, E 5). Forwarding table of A: every destination B, C, D, E → next hop <b>B</b> (link (A,B)).</p>
+          </div></details>
+          <p class="trap"><b>易错</b>：Step 1 忘了 C 从 5 变 3；已加入 N' 的节点还在更新；转发表写成整条路径 A-B-C-D-E。</p>
+        </div>
+<!-- /QB:n4 -->
       </div>
 
       <div class="sub" id="n2-s5">
@@ -2737,6 +2946,34 @@ netE 28</textarea></label>
             <tr><td>健壮性（某台路由器出故障）</td><td>节点可能广播错误的<b>链路</b>代价；但每个节点只算自己的表，错误影响有限</td><td>节点可能广播错误的<b>路径</b>代价；每个节点的表会被别人使用，<b>错误会传遍全网</b></td></tr>
           </tbody>
         </table></div>
+<!-- QB:n5 -->
+        <div class="pair" id="qb-n5">
+          <div class="lab qa-anim" id="qa-pr">
+            <div class="lab-head"><div><div class="lab-cap">动画 · slide 62 的 4 节点例子</div><div class="lab-title">毒性逆转为什么还会无穷计数</div></div></div>
+            <div class="presets" id="qaPrMode"><button data-k="on" class="on">有毒性逆转</button><button data-k="off">没有毒性逆转</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaPrPlay">▶ 播放</button><button class="btn" id="qaPrPrev">←</button><button class="btn" id="qaPrNext">下一步 →</button><button class="btn" id="qaPrEnd">跳到稳定</button><button class="btn" id="qaPrReset">重来</button><span class="steplabel mono" id="qaPrStep"></span></div>
+            <div class="chartbox"><svg id="qaPrSvg" class="qa-svg" viewBox="0 0 640 250" role="img" aria-label="四节点距离向量与毒性逆转动画"></svg></div>
+            <div class="narr" id="qaPrNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 59–62 · 老师："here comes the important thing"</span></div>
+            <div class="exq-q"><b>Q6.</b> (a) Why does "good news travel fast, bad news travel slowly" in distance-vector routing? (b) Describe poisoned reverse. (c) Using the four-node network on the left (x–y increases from 4 to 60), show the first three updates and explain why poisoned reverse does not prevent count-to-infinity here.</div>
+            <div class="exq-zh">(a) 为什么距离向量里"好消息传得快、坏消息传得慢"？(b) 描述毒性逆转。(c) 用左边的 4 节点网络（x–y 从 4 变 60），写出前三次更新，并解释为什么这里毒性逆转防不住无穷计数。</div>
+            <p class="exq-k"><b>考点</b>：DV 的缺点、毒性逆转的规则和局限；会按 Bellman-Ford 方程逐次算。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>(a) 关键词：只交换距离、不知道路径 → 用了对方过时的、其实经过自己的路。</li>
+              <li>(b) "Z 经 Y 到 X → Z 告诉 Y 自己到 X 是 ∞，对其他邻居说真话"。</li>
+              <li>(c) 每次更新都写 D = min{各邻居的代价 + 它报的值}，注明谁报 ∞；最后指出环有<b>三个</b>节点。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <p>(a) Nodes exchange only distances, not paths. When a cost decreases, the better value spreads in one or two exchanges. When it increases, a node may switch to a neighbour's old route that actually goes through itself, so two nodes keep increasing their estimates step by step (count-to-infinity, 44 iterations in slide 60).</p>
+              <p>(b) If Z routes to X via Y, Z tells Y that its distance to X is ∞, so Y will not route to X via Z; Z tells all other neighbours the truth.</p>
+              <p>(c) Before: D<sub>y</sub> = 4, D<sub>A</sub> = 5 (via y), D<sub>z</sub> = 6 (via A). A tells y ∞ and z tells A ∞, but z tells y the truth, 6. After x–y = 60: y: min(60, 1+∞, 3+6) = <b>9 via z</b>; A: min(1+9, 1+∞) = <b>10 via y</b>; z: min(50, 1+10, 3+∞) = <b>11 via A</b>; then y = 14, … The loop y → z → A → y has three nodes; each node only lies to its own next hop, so the false information still circulates and the values grow by 5 per round until z prefers its direct link (50). Poisoned reverse only fixes two-node loops.</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：以为毒性逆转对所有邻居都报 ∞；更新时用了别人"这一轮"还没发出的新值。</p>
+          </div>
+        </div>
+<!-- /QB:n5 -->
         <h4>讲义 slide 64 的四个思考题</h4>
         <ol class="steps">
           <li><b>删掉一条链路，要重算所有最短路吗？</b>不用。从某个源看，只有最短路树用到这条链路的那些目的节点（这条链路下面的子树）受影响；树外的链路被删掉，源的最短路不变。</li>
@@ -2808,6 +3045,51 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
+                        <!-- QB:n7 -->
+        <div class="pair" id="qb-n7">
+          <div class="lab qa-anim" id="qa-bgp">
+            <div class="lab-head"><div><div class="lab-cap">动画 · BGP 通告 + 热土豆</div><div class="lab-title">1d 去子网 X 该走哪个网关</div></div></div>
+            <div class="presets" id="qaBgpMode"><button data-k="hot" class="on">本地偏好相同（热土豆）</button><button data-k="pref">经 AS3 的本地偏好更高</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaBgpPlay">▶ 播放</button><button class="btn" id="qaBgpPrev">←</button><button class="btn" id="qaBgpNext">下一步 →</button><button class="btn" id="qaBgpReset">重来</button><span class="steplabel mono" id="qaBgpStep"></span></div>
+            <div class="chartbox"><svg id="qaBgpSvg" class="qa-svg" viewBox="0 0 660 260" role="img" aria-label="BGP 通告与热土豆路由动画"></svg></div>
+            <div class="narr" id="qaBgpNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 72–97</span></div>
+            <div class="exq-q"><b>Q7.</b> Router r in AS1 has learned four BGP routes to prefix 138.16.64/22:</div>
+            <div class="tablewrap"><table style="min-width:0"><thead><tr><th>Route</th><th>LOCAL-PREF</th><th>AS-PATH</th><th>cost from r to NEXT-HOP</th></tr></thead><tbody>
+              <tr><td>R1</td><td>100</td><td>AS7 AS3</td><td>3</td></tr>
+              <tr><td>R2</td><td>100</td><td>AS5</td><td>6</td></tr>
+              <tr><td>R3</td><td>100</td><td>AS9</td><td>2</td></tr>
+              <tr><td>R4</td><td>80</td><td>AS2</td><td>1</td></tr></tbody></table></div>
+            <div class="exq-q">(a) Which route does r select? Explain each step. (b) Which route if R3 is withdrawn? (c) Why do intra-AS and inter-AS routing use different protocols?</div>
+            <div class="exq-zh">AS1 的路由器 r 学到 4 条去 138.16.64/22 的 BGP 路由（见表）。(a) r 选哪条？每一步说明理由。(b) R3 被撤销后选哪条？(c) 为什么域内和域间路由用不同的协议？</div>
+            <p class="exq-k"><b>考点</b>：BGP 选路顺序（slide 94）、热土豆；Policy / Scale / Performance（slide 97）。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>严格按顺序淘汰：① LOCAL-PREF 最大 → ② AS-PATH 最短 → ③ NEXT-HOP 最近（热土豆）。每一步写剩下哪几条。</li>
+              <li>(c) 写三个关键词，各一句解释。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <p>(a) ① Highest LOCAL-PREF = 100 → R1, R2, R3 (R4 out, although it is closest). ② Shortest AS-PATH among them: R2 and R3 (length 1; R1 has 2). ③ Hot potato: closest NEXT-HOP → R3 (cost 2 &lt; 6). <b>r selects R3.</b></p>
+              <p>(b) Without R3: R1, R2 have LOCAL-PREF 100; shortest AS-PATH → <b>R2</b> (even though R1's next hop is closer).</p>
+              <p>(c) <b>Policy</b>: inter-AS admins want control over how traffic is routed and who routes through their network; intra-AS has one admin. <b>Scale</b>: hierarchical routing reduces table sizes and update traffic. <b>Performance</b>: intra-AS can focus on performance; inter-AS policy may overrule performance.</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：一上来就比 NEXT-HOP 距离（选了 R4）；把 AS-PATH 长度和链路代价混为一谈。</p>
+          </div>
+        </div>
+        <div class="exq wide" id="qb-n7b">
+          <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 77–79 · 老师："distance = 子网数，包括目的子网"</span></div>
+          <div class="exq-q"><b>Q8.</b> Routers A, B and C are connected in a line: subnet w is attached to A; subnet x connects A and B; subnet y connects B and C; subnet z is attached to C. (a) Give A's RIP distances to w, x, y and z. (b) The link between B and C fails. How does A eventually learn this, and what distance does it then record for z? (c) State two differences between RIP and OSPF.</div>
+          <div class="exq-zh">A、B、C 三台路由器连成一排：子网 w 接 A；子网 x 连 A 和 B；子网 y 连 B 和 C；子网 z 接 C。(a) 写出 A 到 w、x、y、z 的 RIP 距离。(b) B 和 C 之间的链路断了，A 怎么知道，之后记到 z 的距离是多少？(c) 说出 RIP 和 OSPF 的两点区别。</div>
+          <p class="exq-k"><b>考点</b>：RIP 距离按<b>子网数（含目的子网）</b>数；30 s / 180 s / 16 = ∞；DV vs LS。</p>
+          <details class="exq-a"><summary>看标准答案</summary><div>
+            <p>(a) w: 1, x: 1, y: 2 (x, y), z: 3 (x, y, z).</p>
+            <p>(b) RIP advertisements are sent every 30 s. If B hears no advertisement from C for 180 s, it declares C (the link) dead, sets its route to z to 16 (= infinity) and advertises this; A then records z as <b>16 (unreachable)</b>.</p>
+            <p>(c) RIP is distance vector with a hop-count metric (max 15), periodic advertisements to neighbours; OSPF is link state (Dijkstra) with LSAs flooded to the whole AS, flexible link costs, equal-cost multipath, authentication and hierarchical areas.</p>
+          </div></details>
+          <p class="trap"><b>易错</b>：按路由器个数数（把 z 写成 2）；漏掉目的子网本身。</p>
+        </div>
+<!-- /QB:n7 -->
       </div>
 
       <div class="sub" id="n2-s8">
@@ -2868,6 +3150,39 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
+                        <!-- QB:n8 -->
+        <div class="pair" id="qb-n8">
+          <div class="lab qa-anim" id="qa-of">
+            <div class="lab-head"><div><div class="lab-cap">动画 · OpenFlow 流表匹配</div><div class="lab-title">分组进来，按优先级找第一条匹配的表项</div></div></div>
+            <div class="presets" id="qaOfPre"><button data-k="0" class="on">分组 1</button><button data-k="1">分组 2（看优先级）</button><button data-k="2">分组 3</button><button data-k="3">分组 4</button><button data-k="4">分组 5（都不匹配）</button></div>
+            <div class="btnrow"><button class="btn primary" id="qaOfPlay">▶ 播放</button><button class="btn" id="qaOfPrev">←</button><button class="btn" id="qaOfNext">下一步 →</button><button class="btn" id="qaOfReset">重来</button><span class="steplabel mono" id="qaOfStep"></span></div>
+            <div class="qa-pkthdr" id="qaOfPkt"></div>
+            <div class="tablewrap"><table id="qaOfTable" class="qa-of"></table></div>
+            <div class="narr" id="qaOfNarr"></div>
+          </div>
+          <div class="exq">
+            <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 103–119</span></div>
+            <div class="exq-q"><b>Q9.</b> An SDN switch has ports 1–4. Write OpenFlow flow-table entries (match, action, priority) so that: (i) all datagrams to TCP port 23 are blocked; (ii) datagrams from 10.3.*.* to 10.2.*.* are forwarded on port 4; (iii) datagrams to 10.2.0.3 are forwarded on port 3; (iv) anything else is sent to the controller. Then (b) explain why this cannot be done with destination-based forwarding plus LS/DV routing, and (c) give two challenges faced by SDN.</div>
+            <div class="exq-zh">SDN 交换机有端口 1–4。写 OpenFlow 流表项（匹配、动作、优先级），使：(i) 挡掉所有去 TCP 23 端口的数据报；(ii) 10.3.*.* 发往 10.2.*.* 的从端口 4 转发；(iii) 去 10.2.0.3 的从端口 3 转发；(iv) 其他交给控制器。(b) 解释为什么传统的按目的转发 + LS/DV 做不到；(c) 说出 SDN 面临的两个挑战。</div>
+            <p class="exq-k"><b>考点</b>：match + action + priority；通用转发 vs 按目的转发；SDN 挑战（往年期末原题）。</p>
+            <div class="exq-how"><b>怎么答</b><ol>
+              <li>流表画成表格：优先级 | 匹配字段（没写的就是 *）| 动作。<b>越具体、越要先执行的规则优先级越高</b>，最后一条全 * 的 table-miss。</li>
+              <li>(b) 关键词：按源地址 / 端口区分、分流做不到（slide 104–105）。</li>
+            </ol></div>
+            <details class="exq-a"><summary>看标准答案</summary><div>
+              <div class="tablewrap"><table class="fsmtab" style="min-width:0"><thead><tr><th>Priority</th><th>Match</th><th>Action</th></tr></thead><tbody>
+                <tr><td>400</td><td>IP proto = TCP, TCP dst port = 23</td><td>drop</td></tr>
+                <tr><td>300</td><td>IP dst = 10.2.0.3</td><td>forward(3)</td></tr>
+                <tr><td>200</td><td>IP src = 10.3.*.*, IP dst = 10.2.*.*</td><td>forward(4)</td></tr>
+                <tr><td>0</td><td>* (all fields wildcard)</td><td>send to controller</td></tr></tbody></table></div>
+              <p>Here (iii) is given a higher priority than (ii), so traffic to 10.2.0.3 always leaves on port 3; state the priority you choose, because the policy overlaps for 10.3.*.* → 10.2.0.3.</p>
+              <p>(b) Destination-based forwarding looks only at the destination address, and LS/DV compute one least-cost route per destination; they cannot treat flows differently by source, port or protocol, or split traffic to the same destination (slide 104–105).</p>
+              <p>(c) Hardening the control plane (a reliable, secure, performance-scalable distributed system; the controller is a single point of failure); meeting mission-specific requirements (real-time, ultra-reliable, ultra-secure); Internet scaling.</p>
+            </div></details>
+            <p class="trap"><b>易错</b>：不写优先级（规则重叠时结果不确定）；忘了最后一条 table-miss。</p>
+          </div>
+        </div>
+<!-- /QB:n8 -->
       </div>
 
       <div class="sub" id="n2-s9">
@@ -5515,6 +5830,403 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     $('gsAll').addEventListener('click', function(){ nStep = 300; render(); });
     $('gsReset').addEventListener('click', reset);
     chips(); render();
+  })();
+
+  /* =====================================================
+     Quiz 部分（P2A）动画：通用播放器
+     ===================================================== */
+  function qaPlayer(pfx, total, render, ms){
+    var k = 0, timer = null;
+    function upd(){
+      var T = total();
+      if (k > T) k = T;
+      render(k);
+      $(pfx + 'Step').textContent = '第 ' + k + ' / ' + T + ' 步';
+      $(pfx + 'Next').disabled = k >= T;
+      $(pfx + 'Prev').disabled = k <= 0;
+      $(pfx + 'Play').textContent = timer ? '⏸ 暂停' : (k >= T ? '↺ 再放一次' : '▶ 播放');
+    }
+    function stop(){ if (timer){ clearInterval(timer); timer = null; } }
+    $(pfx + 'Play').addEventListener('click', function(){
+      if (timer){ stop(); upd(); return; }
+      if (k >= total()) k = 0;
+      timer = setInterval(function(){ if (k >= total()){ stop(); upd(); return; } k++; upd(); }, ms || 1100);
+      upd();
+    });
+    $(pfx + 'Next').addEventListener('click', function(){ stop(); k++; upd(); });
+    $(pfx + 'Prev').addEventListener('click', function(){ stop(); if (k > 0) k--; upd(); });
+    $(pfx + 'Reset').addEventListener('click', function(){ stop(); k = 0; upd(); });
+    return { reset: function(){ stop(); k = 0; upd(); }, redraw: upd };
+  }
+  function qaChips(id, cb){
+    $(id).addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b) return;
+      $(id).querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+      cb(b.getAttribute('data-k'));
+    });
+  }
+
+  /* ---------- 动画 A：最长前缀匹配（slide 11–12） ---------- */
+  (function(){
+    if (!$('qaLpmSvg')) return;
+    var TABLE = [
+      { p: '110010000001011100010', ifc: 0 },
+      { p: '110010000001011100011000', ifc: 1 },
+      { p: '110010000001011100011', ifc: 2 },
+      { p: '', ifc: 3 }
+    ];
+    var ADDR = {
+      a: '11001000000101110001011010100001',
+      b: '11001000000101110001100010101010',
+      c: '11001000000101110001110000000101',
+      d: '11001000000101110100000000000001'
+    };
+    var addr = ADDR.a;
+    function bx(i){ return 150 + i * 14 + Math.floor(i / 8) * 8; }
+    function match(r){ var p = TABLE[r].p, n = 0; while (n < p.length && p[n] === addr[n]) n++; return { len: p.length, upto: n, ok: n === p.length }; }
+    function render(k){
+      var svg = $('qaLpmSvg'); svg.innerHTML = '';
+      svgEl('text', { x: 10, y: 34, 'class': 'qa-lbl' }, svg, '目的地址 DA');
+      for (var i = 0; i < 32; i++){
+        svgEl('rect', { x: bx(i) - 6, y: 20, width: 12, height: 20, rx: 2, 'class': 'qa-bit' }, svg);
+        svgEl('text', { x: bx(i), y: 35, 'text-anchor': 'middle', 'class': 'qa-bt' }, svg, addr[i]);
+      }
+      var best = -1, bestLen = -1;
+      TABLE.forEach(function(row, r){
+        var y = 70 + r * 40, done = k > r, m = match(r);
+        svgEl('text', { x: 10, y: y + 15, 'class': 'qa-lbl' }, svg, r === 3 ? 'otherwise' : '表项 ' + (r + 1));
+        if (r === 3){ svgEl('text', { x: bx(0) - 6, y: y + 15, 'class': 'qa-dim' }, svg, '（其他所有地址，前缀长度 0）'); }
+        for (var i = 0; i < row.p.length; i++){
+          var cls = 'qa-bit';
+          if (done){ cls += i < m.upto ? ' ok' : (i === m.upto ? ' bad' : ' off'); }
+          svgEl('rect', { x: bx(i) - 6, y: y, width: 12, height: 20, rx: 2, 'class': cls }, svg);
+          svgEl('text', { x: bx(i), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-bt' }, svg, row.p[i]);
+        }
+        for (var j = row.p.length; j < 32; j++) svgEl('text', { x: bx(j), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, '*');
+        var tag = '→ 接口 ' + row.ifc;
+        if (done) tag += m.ok ? '　✓ 匹配 ' + m.len + ' 位' : '　✕ 第 ' + (m.upto + 1) + ' 位不同';
+        svgEl('text', { x: 628, y: y + 15, 'class': 'qa-tag' + (done ? (m.ok ? ' ok' : ' bad') : '') }, svg, tag);
+        if (m.ok && m.len > bestLen){ bestLen = m.len; best = r; }
+      });
+      if (k >= 5){
+        var y = 70 + best * 40;
+        svgEl('rect', { x: 4, y: y - 5, width: 782, height: 30, rx: 4, 'class': 'qa-win' }, svg);
+      }
+      var msg;
+      if (k === 0) msg = '目的地址的前 24 位都是 11001000 00010111 000xxxxx。转发表按<b>前缀</b>写，不是一个地址一行。点"播放"，逐行比较前缀。';
+      else if (k <= 4){
+        var r = k - 1, m = match(r);
+        msg = r === 3 ? '最后一行 otherwise 前缀长度为 0，<b>任何地址都匹配</b>，是默认路由。'
+          : '表项 ' + (r + 1) + '（' + TABLE[r].p.length + ' 位前缀）：' + (m.ok ? '<b>全部相同 → 匹配</b>，记下长度 ' + m.len + '。' : '第 ' + (m.upto + 1) + ' 位不同 → 不匹配。');
+      } else {
+        var ms = TABLE.map(function(row, r){ return match(r).ok ? (r === 3 ? 'otherwise(0)' : '表项 ' + (r + 1) + '(' + row.p.length + ')') : null; }).filter(Boolean);
+        msg = '匹配的行：' + ms.join('、') + '。规则是<b>选最长（最具体）的前缀</b> → 送到 <b>接口 ' + TABLE[best].ifc + '</b>。' + (ms.length > 2 ? '这正是 slide 12 的情况：表项 2（24 位）"压住"了表项 3（21 位）。' : '');
+      }
+      $('qaLpmNarr').innerHTML = msg;
+    }
+    var pl = qaPlayer('qaLpm', function(){ return 5; }, render, 1000);
+    qaChips('qaLpmPre', function(v){ addr = ADDR[v]; pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 B：三种交换结构搬分组（slide 16–19） ---------- */
+  (function(){
+    if (!$('qaFabSvg')) return;
+    var SC = { diff: [3, 1, 2], same: [2, 2, 1] }, dst = SC.diff;
+    var COLORS = ['--s1', '--s2', '--s3'];
+    function plan(kind){
+      // returns per-slot list of {pkt, from, to} positions: 'in' | 'mem' | 'out'
+      var st = [0, 1, 2].map(function(){ return 'in'; }), slots = [], t = 0;
+      while (st.some(function(s){ return s !== 'out'; }) && t < 12){
+        var moves = [];
+        if (kind === 'mem'){
+          var i = st.indexOf('mem');
+          if (i >= 0){ st[i] = 'out'; moves.push({ p: i, a: 'mem', b: 'out' }); }
+          else { i = st.indexOf('in'); st[i] = 'mem'; moves.push({ p: i, a: 'in', b: 'mem' }); }
+        } else if (kind === 'bus'){
+          var j = st.indexOf('in'); st[j] = 'out'; moves.push({ p: j, a: 'in', b: 'out' });
+        } else {
+          var used = {};
+          for (var p = 0; p < 3; p++) if (st[p] === 'in' && !used[dst[p]]){ used[dst[p]] = 1; st[p] = 'out'; moves.push({ p: p, a: 'in', b: 'out' }); }
+        }
+        slots.push({ st: st.slice(), moves: moves }); t++;
+      }
+      return slots;
+    }
+    var P = {};
+    function build(){ P = { mem: plan('mem'), bus: plan('bus'), xbar: plan('xbar') }; }
+    function total(){ return Math.max(P.mem.length, P.bus.length, P.xbar.length); }
+    var PANELS = [['mem', '经内存', 0], ['bus', '经共享总线', 220], ['xbar', 'crossbar', 440]];
+    function render(k){
+      var svg = $('qaFabSvg'); svg.innerHTML = '';
+      PANELS.forEach(function(pn){
+        var kind = pn[0], ox = pn[2], sl = P[kind], n = sl.length;
+        var st = k === 0 ? ['in', 'in', 'in'] : sl[Math.min(k, n) - 1].st, mv = k >= 1 && k <= n ? sl[k - 1].moves : [];
+        svgEl('text', { x: ox + 105, y: 18, 'text-anchor': 'middle', 'class': 'qa-h' }, svg, pn[1]);
+        svgEl('rect', { x: ox + 4, y: 26, width: 202, height: 196, rx: 6, 'class': 'qa-panel' }, svg);
+        if (kind === 'mem'){ svgEl('rect', { x: ox + 80, y: 104, width: 50, height: 34, rx: 4, 'class': 'qa-mem' }, svg); svgEl('text', { x: ox + 105, y: 125, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, '内存'); svgEl('line', { x1: ox + 105, y1: 40, x2: ox + 105, y2: 104, 'class': 'qa-bus' }, svg); svgEl('line', { x1: ox + 105, y1: 138, x2: ox + 105, y2: 206, 'class': 'qa-bus' }, svg); }
+        if (kind === 'bus'){ svgEl('line', { x1: ox + 105, y1: 40, x2: ox + 105, y2: 206, 'class': 'qa-bus thick' }, svg); svgEl('text', { x: ox + 112, y: 214, 'class': 'qa-dim' }, svg, '一条总线'); }
+        if (kind === 'xbar'){ for (var a = 0; a < 3; a++){ svgEl('line', { x1: ox + 40, y1: 64 + a * 56, x2: ox + 170, y2: 64 + a * 56, 'class': 'qa-bus' }, svg); svgEl('line', { x1: ox + 70 + a * 35, y1: 44, x2: ox + 70 + a * 35, y2: 200, 'class': 'qa-bus' }, svg); } }
+        for (var i = 0; i < 3; i++){
+          svgEl('text', { x: ox + 12, y: 68 + i * 56, 'class': 'qa-dim' }, svg, '入' + (i + 1));
+          svgEl('text', { x: ox + 198, y: 68 + i * 56, 'text-anchor': 'end', 'class': 'qa-dim' }, svg, '出' + (i + 1));
+        }
+        for (var p = 0; p < 3; p++){
+          var s = st[p], x, y;
+          if (s === 'in'){ x = ox + 38; y = 52 + p * 56; }
+          else if (s === 'mem'){ x = ox + 92; y = 110; }
+          else { x = ox + 158; y = 52 + (dst[p] - 1) * 56 + (st.slice(0, p).filter(function(z, q){ return z === 'out' && dst[q] === dst[p]; }).length) * 8; }
+          var moving = mv.some(function(m){ return m.p === p; });
+          var g = svgEl('g', { 'class': 'qa-pkt' + (moving ? ' now' : '') }, svg);
+          svgEl('rect', { x: x - 12, y: y, width: 26, height: 22, rx: 3, style: 'fill:' + css(COLORS[dst[p] - 1]) }, g);
+          svgEl('text', { x: x + 1, y: y + 15, 'text-anchor': 'middle', 'class': 'qa-pt' }, g, '→' + dst[p]);
+        }
+        var fin = n <= k;
+        svgEl('text', { x: ox + 105, y: 240, 'text-anchor': 'middle', 'class': 'qa-tag' + (fin ? ' ok' : '') }, svg, fin ? '完成：用了 ' + n + ' 个时隙' : '已用 ' + Math.min(k, n) + ' 个时隙');
+      });
+      var txt = k === 0 ? '三个输入各有 1 个分组（颜色 = 目的输出）。点"播放"，每一步 = 一个时隙，看三种交换结构各要几个时隙才搬完。'
+        : PANELS.map(function(pn){ var sl = P[pn[0]]; if (k > sl.length) return '<b>' + pn[1] + '</b>：已完成'; return '<b>' + pn[1] + '</b>：' + sl[k - 1].moves.map(function(m){ return '分组' + (m.p + 1) + (m.a === 'in' && m.b === 'mem' ? ' 入口→内存（第 1 次过总线）' : m.a === 'mem' ? ' 内存→出口（第 2 次过总线）' : ' 入口→出口'); }).join('，'); }).join('<br>');
+      if (k === total()) txt += '<br>结论：经内存每个分组<b>过两次</b>总线、一次只能一个 → 最慢；经总线一次只能一个；crossbar 去<b>不同</b>输出的可以<b>同时</b>过' + (dst === SC.same ? '，但两个分组去同一个输出时只能一个先走（输出争用，不是交换结构内部阻塞）' : '') + '。';
+      $('qaFabNarr').innerHTML = txt;
+    }
+    build();
+    var pl = qaPlayer('qaFab', total, render, 1200);
+    qaChips('qaFabPre', function(v){ dst = SC[v]; build(); pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 C：输入排队 / HOL / 前瞻 / VOQ / 输出排队（slide 21–26） ---------- */
+  (function(){
+    if (!$('qaHolSvg')) return;
+    var Q0 = [[2, 1, 3], [2, 3, 1], [2, 3, 2]], mode = 'fifo';
+    var COLORS = ['--s1', '--s2', '--s3'];
+    function simulate(){
+      var q = Q0.map(function(a){ return a.slice(); }), oq = [[], [], []], deliv = [0, 0, 0], states = [], t = 0;
+      states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: [], blocked: [], could: [], note: '' });
+      while ((q.some(function(a){ return a.length; }) || oq.some(function(a){ return a.length; })) && t < 20){
+        t++;
+        var sent = [], blocked = [], could = [], note = '';
+        if (mode === 'out'){
+          for (var i = 0; i < 3; i++) if (q[i].length){ var d = q[i].shift(); oq[d - 1].push(d); sent.push({ i: i, pos: 0, d: d }); }
+          for (var o = 0; o < 3; o++) if (oq[o].length){ oq[o].shift(); deliv[o]++; }
+          note = '交换结构这一时隙把 ' + sent.length + ' 个队首都搬到输出（要比线速快 3 倍）；每个输出这一时隙只能发出 1 个，其余在<b>输出端排队</b>。';
+        } else if (mode === 'voq'){
+          var best = null;
+          var opts = q.map(function(a){ var r = [-1]; a.forEach(function(d, idx){ r.push(idx); }); return r; });
+          opts[0].forEach(function(a){ opts[1].forEach(function(b){ opts[2].forEach(function(c){
+            var pick = [a, b, c], used = {}, n = 0, age = 0, ok = true;
+            pick.forEach(function(idx, i){ if (idx < 0) return; var d = q[i][idx]; if (used[d]) ok = false; used[d] = 1; n++; age += idx; });
+            if (ok && (!best || n > best.n || (n === best.n && age < best.age))) best = { n: n, age: age, pick: pick };
+          }); }); });
+          best.pick.forEach(function(idx, i){ if (idx < 0) return; var d = q[i][idx]; q[i].splice(idx, 1); deliv[d - 1]++; sent.push({ i: i, pos: idx, d: d }); });
+          note = 'VOQ：每个输入按目的分成 3 个虚拟队列，调度器每时隙找一个<b>匹配</b>（每个输入发 1 个、每个输出收 1 个），这一时隙送出 <b>' + sent.length + '</b> 个，不会被队首挡住。';
+        } else {
+          var outBusy = {};
+          for (var i2 = 0; i2 < 3; i2++){
+            if (!q[i2].length) continue;
+            var d2 = q[i2][0];
+            if (!outBusy[d2]){ outBusy[d2] = 1; sent.push({ i: i2, pos: 0, d: d2 }); }
+            else blocked.push(i2);
+          }
+          if (mode === 'look'){
+            blocked.slice().forEach(function(i3){
+              if (q[i3].length > 1){ var d3 = q[i3][1]; if (!outBusy[d3]){ outBusy[d3] = 1; sent.push({ i: i3, pos: 1, d: d3 }); blocked.splice(blocked.indexOf(i3), 1); } }
+            });
+          }
+          blocked.forEach(function(i4){ for (var idx = 1; idx < q[i4].length; idx++){ var d4 = q[i4][idx]; if (!outBusy[d4]){ could.push({ i: i4, pos: idx }); break; } } });
+          sent.sort(function(a, b){ return b.pos - a.pos; }).forEach(function(s){ q[s.i].splice(s.pos, 1); deliv[s.d - 1]++; });
+          if (mode === 'fifo') note = '每个输入只能发<b>队首</b>；去同一输出的队首冲突，编号小的输入先走。' + (blocked.length ? ' 被挡的输入：' + blocked.map(function(i){ return '入' + (i + 1); }).join('、') + (could.length ? '，它们后面<b>本可以去空闲输出</b>的分组（虚线框）也只能等 —— 这就是<b>队头阻塞 HOL</b>。' : '。') : '');
+          else note = '前瞻（w = 2，slide 25）：先调度各队首；没送出的输入再看<b>第 2 个分组</b>，目的输出空闲就发。这一时隙送出 <b>' + sent.length + '</b> 个。';
+        }
+        states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: sent, blocked: blocked, could: could, note: note, prevQ: states[states.length - 1].q });
+      }
+      return states;
+    }
+    var S = simulate();
+    var NAMES = { fifo: 'FIFO 输入排队', look: '前瞻调度 w = 2', voq: 'VOQ 虚拟输出队列', out: '输出排队（交换结构 3 倍速）' };
+    function render(k){
+      var svg = $('qaHolSvg'); svg.innerHTML = '';
+      var s = S[k], show = k > 0 ? s.prevQ : s.q;
+      svgEl('rect', { x: 250, y: 22, width: 120, height: 190, rx: 6, 'class': 'qa-panel' }, svg);
+      svgEl('text', { x: 310, y: 16, 'text-anchor': 'middle', 'class': 'qa-h' }, svg, '交换结构');
+      for (var i = 0; i < 3; i++){
+        var y = 40 + i * 62;
+        svgEl('text', { x: 14, y: y + 18, 'class': 'qa-dim' }, svg, '入' + (i + 1));
+        show[i].forEach(function(d, idx){
+          var x = 196 - idx * 40, sentHere = k > 0 && s.sent.some(function(z){ return z.i === i && z.pos === idx; });
+          var cls = 'qa-pkt' + (sentHere ? ' now' : '') + (k > 0 && idx === 0 && s.blocked.indexOf(i) >= 0 ? ' blk' : '') + (k > 0 && s.could.some(function(z){ return z.i === i && z.pos === idx; }) ? ' could' : '');
+          var g = svgEl('g', { 'class': cls }, svg);
+          svgEl('rect', { x: x, y: y, width: 34, height: 26, rx: 3, style: 'fill:' + css(COLORS[d - 1]) }, g);
+          svgEl('text', { x: x + 17, y: y + 17, 'text-anchor': 'middle', 'class': 'qa-pt' }, g, '→' + d);
+        });
+        if (k > 0 && s.blocked.indexOf(i) >= 0) svgEl('text', { x: 230, y: y + 40, 'text-anchor': 'end', 'class': 'qa-tag bad' }, svg, '✕ 队首被挡');
+        svgEl('text', { x: 384, y: y + 18, 'class': 'qa-dim' }, svg, '出' + (i + 1));
+        svgEl('text', { x: 520, y: y + 18, 'class': 'qa-tag ok' }, svg, '已送出 ' + s.deliv[i]);
+        if (mode === 'out') s.oq[i].forEach(function(d, idx){ var g2 = svgEl('g', { 'class': 'qa-pkt' }, svg); svgEl('rect', { x: 412 + idx * 26, y: y + 2, width: 22, height: 22, rx: 3, style: 'fill:' + css(COLORS[d - 1]) }, g2); });
+      }
+      if (k > 0) s.sent.forEach(function(z){
+        var y1 = 53 + z.i * 62, y2 = 53 + (z.d - 1) * 62;
+        svgEl('path', { d: 'M232 ' + y1 + ' C 300 ' + y1 + ', 320 ' + y2 + ', 380 ' + y2, 'class': 'qa-flow' }, svg);
+      });
+      var tot = Q0.reduce(function(a, b){ return a + b.length; }, 0), done = s.deliv.reduce(function(a, b){ return a + b; }, 0);
+      svgEl('text', { x: 10, y: 236, 'class': 'qa-tag' + (k === S.length - 1 ? ' ok' : '') }, svg, NAMES[mode] + '：' + (k === S.length - 1 ? '9 个分组全部送完，用了 ' + (S.length - 1) + ' 个时隙' : '第 ' + k + ' 时隙，已送出 ' + done + ' / ' + tot));
+      $('qaHolNarr').innerHTML = k === 0 ? '三个输入队列里共 9 个分组（颜色 = 目的输出），<b>最右边是队首</b>。三个队首都要去输出 2。选一种排队方式，点"播放"。' : '<b>时隙 ' + k + '</b>：' + s.note + (k === S.length - 1 ? '<br>对比四种方式的总时隙数：FIFO 最慢；前瞻和 VOQ 减少了被挡；输出排队最快但交换结构要 3 倍速。' : '');
+    }
+    var pl = qaPlayer('qaHol', function(){ return S.length - 1; }, render, 1300);
+    qaChips('qaHolMode', function(v){ mode = v; S = simulate(); pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 D：4 节点毒性逆转仍会失败（slide 60–62） ---------- */
+  (function(){
+    if (!$('qaPrSvg')) return;
+    var poison = true;
+    var POS = { x: [80, 190], y: [230, 60], A: [470, 60], z: [470, 190] };
+    var EDGES = [['x', 'y', 4], ['y', 'A', 1], ['A', 'z', 1], ['y', 'z', 3], ['x', 'z', 50]];
+    function cost(a, b, changed){ for (var i = 0; i < EDGES.length; i++){ var e = EDGES[i]; if ((e[0] === a && e[1] === b) || (e[0] === b && e[1] === a)) return (changed && i === 0) ? 60 : e[2]; } return null; }
+    function nbrs(n){ var r = []; EDGES.forEach(function(e){ if (e[0] === n) r.push(e[1]); if (e[1] === n) r.push(e[0]); }); return r; }
+    function simulate(){
+      var D = { y: 4, A: 5, z: 6 }, H = { y: 'x', A: 'y', z: 'A' }, seq = [], i = 0, stable = 0, order = ['y', 'A', 'z'];
+      seq.push({ D: Object.assign({}, D), H: Object.assign({}, H), who: null, txt: '' });
+      while (i < 80 && stable < 3){
+        var n = order[i % 3]; i++;
+        var best = [Infinity, null], parts = [];
+        nbrs(n).forEach(function(m){
+          var d, adv;
+          if (m === 'x'){ d = cost(n, 'x', true); parts.push('直连 x ' + d); }
+          else { adv = (poison && H[m] === n) ? Infinity : D[m]; d = cost(n, m, true) + adv; parts.push(m + ' 说 ' + (adv === Infinity ? '∞' + (poison ? '（' + m + ' 经 ' + n + '，毒性逆转）' : '') : adv) + ' → ' + cost(n, m, true) + ' + ' + (adv === Infinity ? '∞' : adv) + ' = ' + (d === Infinity ? '∞' : d)); }
+          if (d < best[0]) best = [d, m];
+        });
+        var changed = best[0] !== D[n] || best[1] !== H[n];
+        D[n] = best[0]; H[n] = best[1];
+        stable = changed ? 0 : stable + 1;
+        seq.push({ D: Object.assign({}, D), H: Object.assign({}, H), who: n, txt: '<b>更新 ' + i + '：' + n + '</b>　' + parts.join('；') + ' → <b>D<sub>' + n + '</sub>(x) = ' + D[n] + '，经 ' + H[n] + '</b>' + (changed ? '' : '（没变）') });
+      }
+      while (seq.length > 2 && seq[seq.length - 1].txt.indexOf('没变') >= 0) seq.pop();
+      return seq;
+    }
+    var S = simulate();
+    function cycle(H){ var n = 'y', seen = []; for (var i = 0; i < 4; i++){ if (n === 'x') return null; if (seen.indexOf(n) >= 0) return seen.slice(seen.indexOf(n)); seen.push(n); n = H[n]; } return null; }
+    function render(k){
+      var svg = $('qaPrSvg'); svg.innerHTML = '';
+      var s = S[k], cyc = k > 0 ? cycle(s.H) : null, onCyc = function(a, b){ return cyc && cyc.indexOf(a) >= 0 && s.H[a] === b; };
+      EDGES.forEach(function(e, i){
+        var a = POS[e[0]], b = POS[e[1]];
+        svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' + ((onCyc(e[0], e[1]) || onCyc(e[1], e[0])) ? ' loop' : '') }, svg);
+        var lab = (i === 0 && k > 0) ? '4 → 60' : String(e[2]);
+        var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 - 8;
+        svgEl('text', { x: mx, y: my, 'text-anchor': 'middle', 'class': 'qa-w' + (i === 0 && k > 0 ? ' bad' : '') }, svg, lab);
+      });
+      ['y', 'A', 'z'].forEach(function(n){
+        var a = POS[n], b = POS[s.H[n]], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy);
+        svgEl('line', { x1: a[0] + dx / L * 26, y1: a[1] + dy / L * 26, x2: a[0] + dx / L * (L - 30), y2: a[1] + dy / L * (L - 30), 'class': 'qa-nh' + (cyc && cyc.indexOf(n) >= 0 ? ' loop' : ''), 'marker-end': 'url(#qaArrow)' }, svg);
+      });
+      var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrow', viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs);
+      svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
+      Object.keys(POS).forEach(function(n){
+        var p = POS[n];
+        svgEl('circle', { cx: p[0], cy: p[1], r: 22, 'class': 'qa-node' + (s.who === n ? ' now' : '') + (n === 'x' ? ' dst' : '') }, svg);
+        svgEl('text', { x: p[0], y: p[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, n);
+        if (n !== 'x') svgEl('text', { x: p[0] + (n === 'y' ? -30 : 30), y: p[1] + (p[1] < 100 ? -28 : 40), 'text-anchor': n === 'y' ? 'end' : 'start', 'class': 'qa-dv' + (s.who === n ? ' now' : '') }, svg, 'D(x) = ' + s.D[n] + '，经 ' + s.H[n]);
+      });
+      if (cyc) svgEl('text', { x: 320, y: 238, 'text-anchor': 'middle', 'class': 'qa-tag bad' }, svg, '下一跳形成环路：' + cyc.join(' → ') + ' → ' + cyc[0] + '（发往 x 的分组在里面打转）');
+      $('qaPrNarr').innerHTML = k === 0
+        ? '变化前（slide 62）：最短路 z → A → y → x，D<sub>y</sub> = 4，D<sub>A</sub> = 5，D<sub>z</sub> = 6。' + (poison ? '毒性逆转：z 经 A，所以 z 对 A 说 ∞；A 经 y，所以 A 对 y 说 ∞；但 z 的下一跳不是 y，<b>z 对 y 说真话 6</b>。' : '没有毒性逆转：每个节点都对所有邻居说真话。') + ' 点"播放"：链路 x–y 的代价从 4 变成 60，节点按 y → A → z 的顺序轮流更新。'
+        : s.txt + (k === S.length - 1 ? '<br><b>稳定了</b>：一共 ' + (S.length - 1) + ' 次更新。' + (poison ? '毒性逆转只防住了"两个邻居互相指"，这里是 <b>y → z → A → y 三个节点的环</b>，谎言传不到 y，所以照样无穷计数，每轮 +5，直到 z 发现直连 50 更便宜。' : '') : '');
+    }
+    var pl = qaPlayer('qaPr', function(){ return S.length - 1; }, render, 900);
+    qaChips('qaPrMode', function(v){ poison = v === 'on'; S = simulate(); pl.reset(); });
+    $('qaPrEnd').addEventListener('click', function(){ for (var i = 0; i < 200; i++) $('qaPrNext').click(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 E：BGP 通告 + 热土豆（slide 72–94） ---------- */
+  (function(){
+    if (!$('qaBgpSvg')) return;
+    var pref3 = false;
+    var R = { '1a': [210, 120], '1b': [290, 190], '1c': [130, 70], '1d': [180, 210], '2a': [410, 190], '2b': [480, 225], '2c': [520, 160], '3a': [60, 70], '3b': [40, 130], '3c': [100, 20] };
+    var X = [610, 60];
+    var INTRA = [['1a', '1b', 1], ['1a', '1c', 2], ['1b', '1d', 2], ['1c', '1d', 4]];
+    var EXT = [['3a', '1c'], ['2a', '1b'], ['3a', '3b'], ['3a', '3c'], ['3b', '3c'], ['2a', '2b'], ['2a', '2c'], ['2b', '2c']];
+    var STEPS = 6;
+    function render(k){
+      var svg = $('qaBgpSvg'); svg.innerHTML = '';
+      [['AS1', 110, 40, 210, 205], ['AS2', 390, 140, 160, 110], ['AS3', 14, 4, 120, 150]].forEach(function(a){ svgEl('rect', { x: a[1], y: a[2], width: a[3], height: a[4], rx: 14, 'class': 'qa-as' }, svg); svgEl('text', { x: a[1] + 8, y: a[2] + a[4] - 8, 'class': 'qa-h' }, svg, a[0]); });
+      svgEl('rect', { x: X[0] - 26, y: X[1] - 16, width: 52, height: 32, rx: 6, 'class': 'qa-xnet' }, svg);
+      svgEl('text', { x: X[0], y: X[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, '子网 X');
+      svgEl('line', { x1: R['3c'][0] + 14, y1: R['3c'][1], x2: X[0] - 26, y2: X[1] - 10, 'class': 'qa-edge thin' }, svg);
+      svgEl('line', { x1: R['2c'][0], y1: R['2c'][1] - 14, x2: X[0] - 10, y2: X[1] + 16, 'class': 'qa-edge thin' }, svg);
+      INTRA.forEach(function(e){ var a = R[e[0]], b = R[e[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' + (k >= 5 && ((e[0] === '1b' && e[1] === '1d')) && !pref3 ? ' best' : '') + (k >= 5 && pref3 && e[0] === '1c' && e[1] === '1d' ? ' best' : '') }, svg); svgEl('text', { x: (a[0] + b[0]) / 2 + 6, y: (a[1] + b[1]) / 2 - 4, 'class': 'qa-w' }, svg, e[2]); });
+      EXT.forEach(function(e){ var a = R[e[0]], b = R[e[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge thin' }, svg); });
+      function msg(from, to, text, cls){ var a = R[from], b = R[to]; svgEl('path', { d: 'M' + a[0] + ' ' + a[1] + ' L' + b[0] + ' ' + b[1], 'class': 'qa-adv ' + cls, 'marker-end': 'url(#qaArrB)' }, svg); if (text) svgEl('text', { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 10, 'text-anchor': 'middle', 'class': 'qa-advt ' + cls }, svg, text); }
+      var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrB', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs); svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
+      if (k >= 1) msg('3a', '1c', 'X, AS-PATH: AS3', 'e3');
+      if (k >= 2){ ['1a', '1d', '1b'].forEach(function(t){ msg('1c', t, '', 'i3'); }); }
+      if (k >= 3) msg('2a', '1b', 'X, AS-PATH: AS2', 'e2');
+      if (k >= 4){ ['1a', '1d', '1c'].forEach(function(t){ msg('1b', t, '', 'i2'); }); }
+      Object.keys(R).forEach(function(n){ var p = R[n]; svgEl('circle', { cx: p[0], cy: p[1], r: 14, 'class': 'qa-node' + (k >= 5 && n === '1d' ? ' now' : '') + ((k >= 5 && n === (pref3 ? '1c' : '1b')) ? ' dst' : '') }, svg); svgEl('text', { x: p[0], y: p[1] + 4, 'text-anchor': 'middle', 'class': 'qa-ntsm' }, svg, n); });
+      var T = [
+        '子网 X 同时挂在 AS2 和 AS3 上。AS1 内部链路代价标在边上。看 1d 怎么决定往哪个网关送去 X 的分组。',
+        '① <b>eBGP</b>：AS3 的网关 3a 告诉 AS1 的 1c："我能到 X"，属性 <b>AS-PATH = AS3</b>，<b>NEXT-HOP = 3a 连 1c 的接口地址</b>。通告 = 承诺替你转发（slide 90）。',
+        '② <b>iBGP</b>：1c 把这条路由传给 AS1 内部的所有路由器（1a、1d，以及 1b）。',
+        '③ 另一条：AS2 的 2a 也通过 eBGP 告诉 1b："X, AS-PATH = AS2"。',
+        '④ 1b 再用 iBGP 传给 AS1 内部。现在 1d 手里有<b>两条</b>去 X 的路由。',
+        pref3 ? '⑤ 1d 选路（slide 94）：① <b>本地偏好</b>：AS1 的策略给经 AS3 的路由设了更高的 local-pref → <b>直接选经 1c（AS3）</b>，后面的规则不用看了。'
+              : '⑤ 1d 选路（slide 94）：① 本地偏好相同；② AS-PATH 长度都是 1，相同；③ <b>热土豆</b>：用 AS 内部路由算到两个网关的代价：到 1b = 2，到 1c = min(4, 2+1+2) = 4 → <b>选离自己最近的网关 1b</b>。',
+        pref3 ? '⑥ 1d 的转发表写入 (X, I)，I = 通往 1c 的接口。策略压过了性能：哪怕经 1b 更近也不走。' : '⑥ 1d 的转发表写入 <b>(X, I)</b>，I = 通往 1b 的那个接口。热土豆 = 尽快把分组送出本 AS，不管外面的路长不长。'
+      ];
+      $('qaBgpNarr').innerHTML = T[k];
+    }
+    var pl = qaPlayer('qaBgp', function(){ return STEPS; }, render, 1700);
+    qaChips('qaBgpMode', function(v){ pref3 = v === 'pref'; pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 F：OpenFlow 流表匹配（slide 111–117） ---------- */
+  (function(){
+    if (!$('qaOfTable')) return;
+    var FIELDS = ['in', 'macs', 'ips', 'ipd', 'prot', 'dport'];
+    var FN = { in: '入端口', macs: 'MAC src', ips: 'IP src', ipd: 'IP dst', prot: 'IP 协议', dport: 'TCP/UDP dport' };
+    var RULES = [
+      { pri: 300, m: { prot: 'TCP', dport: '22' }, act: 'drop', why: '防火墙：挡掉去 TCP 22 的流量（slide 114）' },
+      { pri: 200, m: { ips: '128.119.1.1' }, act: 'drop', why: '挡掉主机 128.119.1.1 发出的所有数据报（slide 114）' },
+      { pri: 100, m: { ipd: '51.6.0.8' }, act: 'forward(6)', why: '按目的地址转发（slide 114）' },
+      { pri: 50, m: { macs: '22:A7:23:11:E1:02' }, act: 'forward(3)', why: '按源 MAC 的二层转发（slide 115）' },
+      { pri: 0, m: {}, act: 'send to controller', why: '表项都不匹配（table miss）→ 交给控制器' }
+    ];
+    var PK = [
+      { in: '1', macs: '0A:11:22:33:44:55', ips: '10.0.0.5', ipd: '51.6.0.8', prot: 'TCP', dport: '80' },
+      { in: '2', macs: '0A:11:22:33:44:66', ips: '10.0.0.7', ipd: '51.6.0.8', prot: 'TCP', dport: '22' },
+      { in: '1', macs: '0A:99:22:33:44:01', ips: '128.119.1.1', ipd: '8.8.8.8', prot: 'UDP', dport: '53' },
+      { in: '4', macs: '22:A7:23:11:E1:02', ips: '10.9.0.1', ipd: '10.9.9.9', prot: 'TCP', dport: '443' },
+      { in: '3', macs: '0A:11:22:33:44:77', ips: '10.1.1.1', ipd: '10.2.2.2', prot: 'TCP', dport: '443' }
+    ];
+    var cur = 0, counters = RULES.map(function(){ return 0; });
+    function hit(r){ var m = RULES[r].m; return FIELDS.every(function(f){ return !(f in m) || m[f] === PK[cur][f]; }); }
+    function firstHit(){ for (var r = 0; r < RULES.length; r++) if (hit(r)) return r; return RULES.length - 1; }
+    function total(){ return firstHit() + 2; }
+    function render(k){
+      var p = PK[cur], fh = firstHit(), checked = Math.min(k, fh + 1), done = k >= fh + 2;
+      $('qaOfPkt').innerHTML = FIELDS.map(function(f){ return '<span><small>' + FN[f] + '</small>' + esc(p[f]) + '</span>'; }).join('');
+      var h = '<thead><tr><th>优先级</th>' + FIELDS.map(function(f){ return '<th>' + FN[f] + '</th>'; }).join('') + '<th>动作</th><th class="num">计数</th></tr></thead><tbody>';
+      RULES.forEach(function(r, i){
+        var cls = i < checked ? (i === fh ? 'qa-of-hit' : 'qa-of-miss') : '';
+        h += '<tr class="' + cls + (i === checked - 1 && !done ? ' qa-of-now' : '') + '"><td class="num">' + r.pri + '</td>' + FIELDS.map(function(f){
+          var v = f in r.m ? r.m[f] : '*', mark = '';
+          if (i < checked && f in r.m) mark = r.m[f] === p[f] ? ' <b class="okc">✓</b>' : ' <b class="badc">✕</b>';
+          return '<td class="mono">' + esc(v) + mark + '</td>';
+        }).join('') + '<td class="mono">' + r.act + '</td><td class="num">' + (counters[i] + (done && i === fh ? 1 : 0)) + '</td></tr>';
+      });
+      $('qaOfTable').innerHTML = h + '</tbody>';
+      var msg;
+      if (k === 0) msg = '分组 ' + (cur + 1) + ' 到达。交换机<b>按优先级从高到低</b>逐条比较，表里 * 表示"不管这个字段"。点"播放"。';
+      else if (k <= fh + 1){ var i2 = k - 1; msg = '比较优先级 ' + RULES[i2].pri + ' 的表项：' + (i2 === fh ? '<b>所有写出的字段都相同 → 匹配</b>，不再往下看。' : '有字段不同（✕）→ 不匹配，看下一条。'); }
+      else msg = '执行动作 <b>' + RULES[fh].act + '</b>（' + RULES[fh].why + '），该表项的计数器 +1。' + (cur === 1 ? '<br>注意：这个分组也满足"IP dst = 51.6.0.8 → forward(6)"，但防火墙那条<b>优先级更高</b>，先匹配上，所以被丢弃 —— 这就是优先级的作用（slide 111）。' : '');
+      $('qaOfNarr').innerHTML = msg;
+    }
+    var pl = qaPlayer('qaOf', total, render, 900);
+    qaChips('qaOfPre', function(v){ cur = +v; pl.reset(); });
+    pl.reset();
   })();
 
   applyTheme(theme);
