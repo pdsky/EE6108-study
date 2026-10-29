@@ -722,6 +722,8 @@ table.mustlist td a{white-space:nowrap;}
         <li><a href="#n2-s6">层次路由与 AS</a></li>
         <li><a href="#n2-s7">RIP · OSPF · BGP</a></li>
         <li><a href="#n2-s8">SDN 与 OpenFlow</a></li>
+        <li><a href="#n2-said"><b>老师关于 Quiz 的原话</b></a></li>
+        <li><a href="#n2-s9"><b>Quiz 答题模板</b></a></li>
       </ul>
     </div>
     <div class="navmod"><a href="#tp"><span class="navcheck" data-mod="tp" title="标记已掌握"></span><span class="tag">P2B</span> 传输层（上） <span class="qz fin">期末</span></a>
@@ -766,7 +768,7 @@ table.mustlist td a{white-space:nowrap;}
         <div>
           <div class="k">CA2 · Quiz 20%</div>
           <div class="v">11 月 2 日（周一）6:40 pm</div>
-          <p>60 分钟闭卷、<b>没有选择题</b>，<b>只考 Part II 第一套 slides（网络层 II）</b>，见 <a href="#n2">本手册 Part II 章</a>，<b>不考传输层</b>。地点 <b>LKC-LT</b>，<b>6:30 前到</b>；无正当理由缺考不能补考。<a href="ee6108-practice.html#mock">做模拟卷 →</a></p>
+          <p>60 分钟闭卷、<b>没有选择题</b>，<b>只考 Part II 第一套 slides（网络层 II）</b>，见 <a href="#n2">本手册 Part II 章</a>，<b>不考传输层</b>。地点 <b>LKC-LT</b>，<b>6:30 前到</b>，带学生证；可用计算器，大概 3–4 道题。无正当理由缺考不能补考。<a href="ee6108-practice.html#mock">做模拟卷 →</a></p>
           <p class="countdown" data-date="2026-11-02T18:40:00+08:00"></p>
         </div>
         <div>
@@ -784,7 +786,7 @@ table.mustlist td a{white-space:nowrap;}
       <p class="modintro">这一节把 Part I 讲义里所有和评分、考试有关的信息放在一起，再把 5 份往年期末卷（2023/24 S1 到 2025/26 S2）的 Part I 题目按考点归类。结论先说：<strong>子网划分和 Checksum/CRC 每一年都考</strong>，ARQ 效率计算几乎每年都考，这三块要练到熟。</p>
 
       <div class="sub" id="m0-s1">
-        <h3><span class="num">0.1</span> 评分构成与时间线</h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音</div><ul><li><b>CA2 Quiz</b>（老师 10/29 邮件确认）：<b>11 月 2 日（周一）6:40 pm 开始，地点 LKC-LT，6:30 前到</b>；闭卷 1 小时，占 20%，<b>不设选择题</b>（少量计算 + 问答）。范围<b>只</b>考 Part 2A（网络层 II：路由器结构、路由算法与协议、SDN），<b>不考传输层</b>。</li><li>原来的 Part II 作业已取消（因为 AI），这是 Part II 唯一的平时考核。</li><li><b>期末</b> 12 月 1 日（周二）9–12，4 题，每部分 2 题。</li><li>不考：物理层、纠错码、CSMA/CD 效率推导、<b>IPv6</b>、HOL 阻塞的一般推导、D/E 类地址。</li><li>单位：k = 10³、M = 10⁶；m 和 M 别混；字节 ×8。</li><li>补考：只有<b>正当理由</b>（MC、批准的请假）缺考才能补考，补考题<b>略难</b>；<b>无正当理由缺考不能补考</b>（学院规定）。Quiz 后老师马上发答案；老师<b>不会私下给提示</b>，有提示只在课上公布。</li><li>Part II 老师会把往年卷 <b>Q3、Q4 的参考答案</b>放到图书馆网站（说是 Week 11 周末前），课上不讲往年卷。</li></ul></div>
+        <h3><span class="num">0.1</span> 评分构成与时间线</h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音</div><ul><li><b>CA2 Quiz</b>（老师 10/29 邮件确认）：<b>11 月 2 日（周一）6:40 pm 开始，地点 LKC-LT，6:30 前到</b>；严格闭卷 1 小时，占 20%，<b>不设选择题</b>（有计算 + 问答），Week 11 课上说<b>大概 3 到 4 道题</b>。<b>可以带计算器</b>（其他电子设备不行），<b>带学生证（matriculation card）</b>。范围<b>只</b>考 Part 2A（网络层 II：路由器结构、路由算法与协议、SDN），Part I 和传输层都<b>不考</b>。</li><li>原来的 Part II 作业已取消（因为 AI），这是 Part II 唯一的平时考核。</li><li><b>期末</b> 12 月 1 日（周二）9–12，4 题，每部分 2 题。</li><li>不考：物理层、纠错码、CSMA/CD 效率推导、<b>IPv6</b>、HOL 阻塞的一般推导、D/E 类地址。</li><li>单位：k = 10³、M = 10⁶；m 和 M 别混；字节 ×8。</li><li>补考：只有<b>正当理由</b>（MC、批准的请假）缺考才能补考，补考题<b>略难</b>；<b>无正当理由缺考不能补考</b>（学院规定）。Quiz 后老师马上发答案；老师<b>不会私下给提示</b>，有提示只在课上公布。</li><li>Part II 老师会把往年卷 <b>Q3、Q4 的参考答案</b>放到图书馆网站（说是 Week 11 周末前），课上不讲往年卷。</li></ul></div>
         <div class="tablewrap"><table>
           <caption>评分构成（Topic 1 slide 3 / Summary slide 4）</caption>
           <thead><tr><th>项目</th><th class="num">占比</th><th>时间</th><th>说明</th></tr></thead>
@@ -2225,7 +2227,7 @@ netE 28</textarea></label>
     <section class="module" id="n2">
       <div class="modhead"><span class="ref">PART II · TOPIC 1</span><h2>网络层 II：路由器、路由算法、路由协议与 SDN</h2><span class="scope">CA2 Quiz 范围</span></div>
       <p class="modintro">Part II 由 A/P Xiao Gaoxi 讲（Week 8–13）。第一套 slides（P2A，121 页）讲网络层的"控制"一面：<strong>路由器里面长什么样</strong>（交换结构、排队、队头阻塞），<strong>怎么算最短路</strong>（Dijkstra、Bellman-Ford/距离向量），<strong>Internet 实际用什么路由协议</strong>（RIP、OSPF、BGP、层次路由），最后简单介绍<strong>软件定义网络 SDN</strong>。讲义第 4 页写明：<strong>CA2 Quiz 只考这一套 slides</strong>。往年期末 Q3(a)/Q4(a) 也几乎每年有一道 5 分的网络层 II 题。</p>
-      <div class="callout warn"><div class="lbl">CA2 Quiz（20%）：讲义 P2A 第 4 页 + Week 10 课上再次确认</div><p><b>11 月 2 日（周一）6:40 pm 开始，地点 LKC-LT，6:30 前到</b>（老师 10/29 邮件），60 分钟，闭卷，<b>没有选择题</b>（计算题 + 解释题）。范围 = <b>本章全部，且只有本章</b>（Part 2A）：网络层 II、路由器结构、SDN；<b>不考传输层</b>（下一章）。无正当理由缺考不能补考；补考题略难。</p><div class="legend-scope"><span class="qz in">Quiz 考</span>本章每一节都在 Quiz 范围<span class="qz out">推导不考</span>老师说不考的推导<span class="mustc">必背</span>闭卷要背下来的公式和数字</div></div>
+      <div class="callout warn"><div class="lbl">CA2 Quiz（20%）：讲义 P2A 第 4 页 + Week 10 课上再次确认</div><p><b>11 月 2 日（周一）6:40 pm 开始，地点 LKC-LT，6:30 前到</b>（老师 10/29 邮件），60 分钟，严格闭卷，<b>没有选择题</b>（计算题 + 解释题），<b>大概 3–4 道题</b>；<b>可以用计算器</b>，<b>带学生证</b>（Week 11 课上）。范围 = <b>本章全部，且只有本章</b>（Part 2A）：网络层 II、路由器结构、SDN；<b>不考传输层</b>（下一章）。无正当理由缺考不能补考；补考题略难。</p><div class="legend-scope"><span class="qz in">Quiz 考</span>本章每一节都在 Quiz 范围<span class="qz out">推导不考</span>老师说不考的推导<span class="mustc">必背</span>闭卷要背下来的公式和数字</div></div>
       <div class="tablewrap" id="n2-must"><table class="mustlist">
         <caption>Quiz 必背清单 · 闭卷要背下来的公式、数字和顺序（点链接跳到讲解）</caption>
         <thead><tr><th>内容</th><th>公式 / 要点</th><th>出处</th></tr></thead>
@@ -2246,7 +2248,7 @@ netE 28</textarea></label>
       <div class="callout teal" id="n2-mocklink"><div class="lbl">模拟卷</div><p>真题页第一个分区「Quiz 模拟」有 <b>3 套 60 分钟模拟卷</b>（A 基础 / B 变式 / C 补考难度），题型按老师说的：计算 + 问答、没有选择题，只考本章。带 60 分钟计时、数值自动核对、中文参考答案和评分要点。<a href="ee6108-practice.html#mock">去做模拟卷 →</a></p></div>
 
       <div class="sub" id="n2-s1">
-        <h3><span class="num">N.1</span> 回顾：网络层做什么、转发与路由 <span class="qz in">Quiz 考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音</div><ul><li><b>CA2 Quiz 范围只有这一套 slides</b>：网络层（路由）、路由器结构、SDN；<b>不考传输层</b>。Week 10 课上又确认了一次。</li><li>闭卷 1 小时，<b>没有选择题</b>，有少量计算和问答。</li><li>转发表要尽量短（每秒查几十万次）→ 地址聚合 / 最长前缀匹配。</li></ul></div>
+        <h3><span class="num">N.1</span> 回顾：网络层做什么、转发与路由 <span class="qz in">Quiz 考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音</div><ul><li><b>CA2 Quiz 范围只有这一套 slides</b>：网络层（路由）、路由器结构、SDN；<b>不考传输层</b>。Week 10、Week 11 课上又确认了两次。</li><li>Week 11 课上：<b>大概 3 到 4 道题</b>，有计算、没有选择题；<b>可以用计算器</b>（算 log 之类），其他设备不行；带学生证；严格闭卷。</li><li>闭卷 1 小时，<b>没有选择题</b>，有少量计算和问答。</li><li>转发表要尽量短（每秒查几十万次）→ 地址聚合 / 最长前缀匹配。</li></ul></div>
         <h4>网络层在哪里工作（slide 9）</h4>
         <ul class="speclist">
           <li>把传输层的报文段（segment）从<b>发送主机</b>送到<b>接收主机</b>。</li>
@@ -2866,6 +2868,92 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
+      </div>
+
+      <div class="sub" id="n2-s9">
+        <h3><span class="num">N.9</span> Quiz 答题模板（考前速背） <span class="qz in">Quiz 考</span></h3>
+        <p>先看<a href="#n2-said">老师在课上说过的话</a>，再看模板。老师说 Quiz 大概 <b>3–4 道题</b>，<b>有计算、有问答、没有选择题</b>，可以用计算器。这一节把本章内容按"考试会怎么问 → 答卷上写什么"整理：计算题给出固定的书写步骤，问答题给出要点。问答题用英文作答，要点列成英文关键词，背下来直接写进答卷，中文是提示。每条后面标了 slide 页码，忘了就点回前面的小节。</p>
+
+        <h4 id="n2-said">零、老师在课上关于 Quiz 说过的话</h4>
+        <p>下面整理自 Part II 四节课的录音（Week 8–11，自动字幕，原话略作整理）和 10 月 29 日的邮件。老师说过<b>不会私下给任何人提示，要给就在课上公布</b>，到 Week 11 为止没有公布具体题目，所以这些就是能拿到的全部信号。</p>
+        <div class="tablewrap"><table>
+          <caption>老师的原话 → 意思 → 去哪里复习</caption>
+          <thead><tr><th>课次</th><th>老师说的（原话）</th><th>意思</th><th>复习</th></tr></thead>
+          <tbody>
+            <tr><td>W8</td><td>"Make sure you try this Dijkstra algorithm at least once. If you try it for the first time in the quiz or final exam, you may make a little mistake… <b>We may examine that.</b> I'm not saying that we will."</td><td><b>最明确的信号</b>：Dijkstra 完整表（N'、D(v)、p(v)）、最短路树、转发表要亲手做过</td><td><a href="#n2-s4">N.4</a> · <a href="#n2-lab2">实验 12</a></td></tr>
+            <tr><td>W8</td><td>（HOL 的一般推导）"Don't worry, we're not examining [that]… we look at some simpler case": two inputs, uniform destinations, "do a little bit of calculation"; three inputs — "I'll leave the rest part to you."</td><td>一般推导不考；会算 2×2 = 0.75，自己练 3×3 = 57/81 ≈ 0.704</td><td><a href="#n2-s2">N.2</a> · <a href="#n2-lab1">实验 11</a></td></tr>
+            <tr><td>W8</td><td>"It is <b>extremely important</b> to keep the forwarding table as short as possible", because it is checked for every arriving packet.</td><td>为什么用前缀、最长前缀匹配</td><td><a href="#n2-s1">N.1</a></td></tr>
+            <tr><td>W8</td><td>VOQ / 输出排队："a trade-off between performance and price… a very common thing."</td><td>答排队方案时要写代价</td><td><a href="#n2-s2">N.2</a></td></tr>
+            <tr><td>W8</td><td>Centralized vs distributed: "This is probably the <b>most important classification</b> of the routing algorithm."</td><td>问答题常考：集中/分布、静态/动态</td><td><a href="#n2-s3">N.3</a></td></tr>
+            <tr><td>W8</td><td>"How powerful this shortest path algorithm is. <b>By properly setting the link weight, it can solve a lot of different problems</b>" — weight 1 for min hops, delay for min delay, −log for max reliability.</td><td>链路权值建模，可靠性用 −log p</td><td><a href="#n2-rel">N.3 可靠性</a></td></tr>
+            <tr><td>W8</td><td>Poisoned reverse with three nodes solves the problem; "this time we have <b>four nodes</b>… here comes the important thing: it will tell A that my distance to x is infinity, but tell all the other nodes the truth."</td><td>毒性逆转只骗下一跳；4 节点仍会失败，要会推</td><td><a href="#n2-s5">N.5</a> · <a href="#n2-lab4">实验 14</a></td></tr>
+            <tr><td>W9</td><td>开场四问（答对有加分）："Do we need to recalculate the shortest paths when a link is removed? … when a new link is inserted? … a bandwidth constraint? … avoid a certain node?" — "The main idea here is very important: just remove those components, on paper."</td><td>slide 64 四个思考题：删链路只重算经过它的；加链路可能都要重算；约束 = 先在纸上删掉</td><td><a href="#n2-s5">N.5 末尾</a></td></tr>
+            <tr><td>W9</td><td>"For inter-AS routing, some policies may be <b>much more important</b> than achieving the best possible performance."</td><td>BGP 策略优先、Intra/Inter 的区别</td><td><a href="#n2-s7">N.7</a></td></tr>
+            <tr><td>W9</td><td>SDN: "you have a single point of failure… your control plane must be highly reliable"; "for 1 million routers… this won't easily happen."</td><td>SDN 的挑战：控制平面可靠性、规模</td><td><a href="#n2-s8">N.8</a></td></tr>
+            <tr><td>W9</td><td>"There will be <b>a little bit of calculation</b>. Maybe Q and A also, but <b>definitely no MCQ</b>. I haven't designed my quiz paper yet."</td><td>计算 + 问答，没有选择题</td><td>—</td></tr>
+            <tr><td>W10</td><td>"There could be calculation, there could be Q and A <b>asking you to explain some basic</b> [concepts]." "I will not give any student any hint about the quiz privately. If there's any hint, I will announce it in class." "Typically right after the quiz I post the quiz solution." 补考题 "more difficult".</td><td>问答考基本概念的解释；Quiz 后会发答案</td><td><a href="#n2-s9">本节问答模板</a></td></tr>
+            <tr><td>W11</td><td>"<b>Calculators can</b> [be used], other devices cannot… maybe [for] log." 题数："Constrained by the time we have… most likely <b>three or four</b>." "No MCQ. Calculation." "Please bring along your <b>matriculation card</b>." "This will be a <b>strictly closed book</b>." 只考 Part 2A："We will not examine transport." Part I 的 checksum 也不考。</td><td>带计算器（算 −log p 用得上）、学生证；3–4 道题</td><td>上面的 log 表</td></tr>
+            <tr><td>邮件 10/29</td><td>"The quiz shall start at <b>6:40 pm, Nov 2</b> (Monday) at <b>LKC-LT</b>. Please arrive no later than <b>6:30 pm</b>… closed-book… cover and only cover those topics we have discussed in Part 2A." 无正当理由缺考不能补考。</td><td>时间地点</td><td><a href="#m0-s1">考试信息</a></td></tr>
+          </tbody></table></div>
+
+        <h4>一、计算题：按步骤写，步骤本身就是分</h4>
+        <div class="tablewrap"><table>
+          <caption>五类计算题的书写模板</caption>
+          <thead><tr><th>题型</th><th>答卷上依次写</th><th>常见失分</th></tr></thead>
+          <tbody>
+            <tr><td><b>Dijkstra</b><br><span class="muted">slide 39–45 · <a href="#n2-s4">N.4</a></span></td>
+              <td>① Initialization：N' = {u}；与 u 相邻的 D(v) = c(u,v)、p(v) = u，其余 D(v) = ∞。<br>② 列表：Step | N' | 每个节点一列 D(v), p(v)。<br>③ 每一步：选不在 N' 里、D 最小的 w（写明平局规则）加入 N'；<b>只更新 w 的邻居</b>：D(v) = min(D(v), D(w) + c(w,v))，变小时 p(v) 改成 w。<br>④ 全部加入后，从 p(·) 回溯画最短路树。<br>⑤ 转发表：destination → <b>下一跳 / 出链路 (u, x)</b>。</td>
+              <td>漏写 p(v)；已在 N' 里的节点又被更新；平局不说明；转发表写成整条路径</td></tr>
+            <tr><td><b>Bellman-Ford / DV</b><br><span class="muted">slide 47–58 · <a href="#n2-s5">N.5</a></span></td>
+              <td>① 方程并说明符号：D<sub>x</sub>(y) = min<sub>v</sub>{ c(x,v) + D<sub>v</sub>(y) }，v 取 x 的所有邻居。<br>② 初值：D<sub>d</sub> = 0；其他 D<sub>j</sub> = ∞，n<sub>j</sub> = −1（slide 51–52）。<br>③ 迭代表：每行一轮，每格写 (n<sub>j</sub>, D<sub>j</sub>)；<b>本轮只用上一轮</b>邻居的值。<br>④ 某一轮没有任何变化 → 收敛，写出最终的下一跳和距离。</td>
+              <td>同一轮里用了本轮刚算出的新值；忘了写下一跳 n<sub>j</sub>；距离向量和转发表混为一谈</td></tr>
+            <tr><td><b>HOL 吞吐量</b><br><span class="muted">slide 21–22 · <a href="#n2-s2">N.2</a></span></td>
+              <td>① 写模型：每个队首目的均匀、独立；每个输出每时隙只能收 1 个 → 送出数 = 不同目的的个数。<br>② 枚举：2×2 共 4 种（同目的 2 种送 1 个，不同 2 种送 2 个）；3×3 共 27 种（3 种全同送 1、6 种全不同送 3、18 种送 2）。<br>③ 期望送出数 ÷ 端口数：2×2 → 1.5/2 = <b>0.75</b>；3×3 → (57/27)/3 = 57/81 ≈ <b>0.704</b>。<br>④ 结论句：端口很多时 FIFO 输入排队只有约 <b>58.6%</b>，原因是 HOL blocking。</td>
+              <td>分母除错（题目若按总输出容量定义要看清）；把 58.6% 当成 3×3 的结果</td></tr>
+            <tr><td><b>链路权值建模</b><br><span class="muted">slide 36 + 课堂 · <a href="#n2-rel">N.3</a></span></td>
+              <td>最少跳：w = 1；最小时延：w = 时延；<b>最大可靠性：w<sub>i</sub> = −log p<sub>i</sub></b>（用计算器），跑最短路，可靠性 = ∏p<sub>i</sub> = 10<sup>−Σw</sup>；带宽 ≥ B：<b>先删掉</b>容量 &lt; B 的链路，再跑最短路。避开某节点：删掉它和它的链路。</td>
+              <td>可靠性直接把 p 相加；log 的底前后不一致；带宽约束想成"权值 = 带宽"</td></tr>
+            <tr><td><b>交换速率 / 排队</b><br><span class="muted">slide 17–19、24 · <a href="#n2-s2">N.2</a></span></td>
+              <td>经内存：每个数据报<b>过两次</b>总线 → 速率 ≤ 总线速率 / 2；经总线：≤ 总线速率（同一时刻只能一个）；crossbar：去不同输出的可以并行。输出排队最坏 N 个输入同时去一个输出 → 交换结构要快 <b>N 倍</b>，吞吐 100%。</td>
+              <td>经内存忘了除以 2；把输出排队的 N 倍说成 N²</td></tr>
+            <tr><td><b>RIP 距离</b><br><span class="muted">slide 77–79 · <a href="#n2-s7">N.7</a></span></td>
+              <td>距离 = 经过的子网数，<b>包括目的子网</b>；最多 15，<b>16 = ∞</b>；每 30 s 通告，180 s 没收到 → 链路断，代价设 16。</td>
+              <td>按路由器数而不是子网数数；漏数目的子网</td></tr>
+          </tbody></table></div>
+        <div class="callout"><div class="lbl">可以带计算器了，常用的几个 log 值顺手记一下（log<sub>10</sub>）</div>
+          <p class="mono">−log 0.99 = 0.00436　−log 0.98 = 0.00877　−log 0.95 = 0.02228　−log 0.9 = 0.04576　−log 0.8 = 0.09691　−log 0.7 = 0.15490　−log 0.5 = 0.30103</p>
+          <p>比较两条路径时，<b>和越小越可靠</b>；最后把 Σw 换回可靠性：10<sup>−Σw</sup>。也可以直接把各段 p 连乘比较，两种方法结果一致，写一种并说明理由即可。</p></div>
+
+        <h4>二、问答题：要点清单（英文作答）</h4>
+        <div class="tablewrap"><table>
+          <caption>可能的问法 → 答卷要点</caption>
+          <thead><tr><th>可能的问法</th><th>答卷要点（英文关键词）</th><th>中文提示 · 出处</th></tr></thead>
+          <tbody>
+            <tr><td>Distinguish routing and forwarding.</td><td><b>Routing</b>: determine the route taken by packets from source to destination (network-wide; central controller or distributed routing algorithm based on link-state info). <b>Forwarding</b>: move packets from a router's input to the appropriate output (involves only a single router). Routing algorithms set the forwarding-table values; forwarding looks up the header value in that table. Analogy: planning a trip vs getting through one interchange.</td><td>一个是全网规划路线，一个是单台路由器按表转发 · slide 8–10</td></tr>
+            <tr><td>Why are forwarding tables written as address prefixes? What is longest prefix match?</td><td>Listing every address is impossible (2<sup>32</sup>); ranges are aggregated into prefixes → much shorter table, faster lookup. If an address matches several entries, use the <b>longest (most specific) prefix</b>.</td><td>每秒要查几十万次，表必须短 · slide 11–12</td></tr>
+            <tr><td>Compare switching via memory, bus and crossbar.</td><td><b>Memory</b>: packet copied into memory by CPU, crosses system bus twice → limited by memory bandwidth. <b>Bus</b>: input port to output port over a shared bus, one packet at a time → limited by bus bandwidth (bus contention). <b>Crossbar</b>: 2n buses connect n inputs and n outputs, packets to different outputs in parallel → overcomes bus limit; large high-speed crossbars are complex and expensive.</td><td>瓶颈分别是内存带宽、总线带宽、规模成本 · slide 16–19</td></tr>
+            <tr><td>Where can queuing occur in a router? Explain HOL blocking.</td><td>Input queuing when the fabric is slower than input ports combined; output queuing when arrivals via the fabric exceed the output line rate (buffer overflow → delay and loss). <b>HOL blocking</b>: a queued packet at the front of an input queue is blocked by output contention, so packets behind it cannot move even if their outputs are free; FIFO input queuing limited to about 58.6% for large N.</td><td>队头被挡，后面去空闲输出的也走不了 · slide 20–22</td></tr>
+            <tr><td>How can HOL blocking be reduced? Discuss trade-offs.</td><td><b>VOQ</b>: one queue per output at each input (N² queues) + matching scheduler → no HOL blocking, can reach 100% (max weight matching), but expensive. <b>Output queuing</b>: fabric N times faster → 100% throughput, but very high fabric/memory speed. <b>Lookahead</b>: if the HOL packet is blocked, consider the next packets in the queue → higher throughput, more complex scheduling.</td><td>三种办法各自的代价都要写 · slide 23–26</td></tr>
+            <tr><td>Centralized vs distributed; static vs dynamic routing.</td><td>Centralized: one controller decides all routes; hard to adapt to frequent topology changes, not scalable. Distributed: routers run a distributed algorithm and exchange state; adapts to changes, scalable. Static: routes change slowly, manual; fine for simple, predictable networks / default routes. Dynamic: computed automatically from network-state updates.</td><td>slide 34–35</td></tr>
+            <tr><td>Compare LS and DV algorithms.</td><td><b>Message complexity</b>: LS O(nE) messages (flooding); DV exchanges only between neighbours. <b>Speed of convergence</b>: LS O(n²) algorithm, may oscillate with congestion-sensitive costs; DV convergence time varies, routing loops, count-to-infinity. <b>Robustness</b>: LS node may advertise an incorrect link cost but each node computes its own table; DV node may advertise an incorrect path cost and its table is used by others → errors propagate through the network.</td><td>三个维度：消息数、收敛、健壮性 · slide 63</td></tr>
+            <tr><td>Explain count-to-infinity and poisoned reverse.</td><td>Good news (cost decrease) travels fast; bad news (cost increase / failure) travels slowly because nodes only exchange distances, not paths, so two nodes keep using each other's stale route and count up step by step (routing loop). <b>Poisoned reverse</b>: if Z routes to X via Y, Z tells Y its distance to X is ∞, so Y will not route back through Z. Solves loops between two neighbours, but <b>not loops of three or more nodes</b> (e.g. the 4-node example).</td><td>只对下一跳撒谎；3 个以上节点的环仍会失败 · slide 59–62</td></tr>
+            <tr><td>Why hierarchical routing / autonomous systems?</td><td><b>Scale</b>: with hundreds of millions of destinations, routers cannot store all destinations, and table exchange would swamp links. <b>Administrative autonomy</b>: the Internet is a network of networks; each admin wants to control routing in its own network. Routers are aggregated into ASes; same intra-AS protocol inside; gateway routers link to other ASes.</td><td>两个理由：规模 + 自治 · slide 66–68</td></tr>
+            <tr><td>Why are intra-AS and inter-AS routing different?</td><td><b>Policy</b>: inter-AS admins want control over how traffic is routed and who routes through their net; intra-AS has a single admin. <b>Scale</b>: hierarchical routing reduces table size and update traffic. <b>Performance</b>: intra-AS can focus on performance; inter-AS policy may overrule performance.</td><td>Policy / Scale / Performance · slide 97</td></tr>
+            <tr><td>What is hot-potato routing?</td><td>When subnet x is reachable via several gateways, use intra-AS routing to find the least-cost path to each gateway, choose the gateway with the smallest cost, and put (x, I) in the forwarding table (I = interface towards that gateway). Gets the packet out of the AS as cheaply as possible.</td><td>选离自己最近的出口 · slide 73</td></tr>
+            <tr><td>Compare RIP and OSPF.</td><td><b>RIP</b>: distance vector; metric = hop count (subnets incl. destination), max 15, 16 = ∞; advertisements every 30 s, neighbour dead after 180 s; runs over UDP port 520 (application-level process routed). <b>OSPF</b>: link state (Dijkstra) with LSAs flooded to the whole AS; flexible link costs; multiple equal-cost paths; per-type-of-service routes; supports CIDR; authentication; hierarchical areas with a backbone.</td><td>slide 77–87</td></tr>
+            <tr><td>How does hierarchical OSPF work?</td><td>Two-level hierarchy: local areas + backbone. LSAs flooded only within an area; each node has detailed area topology but only knows direction (shortest path) to networks in other areas. Area border routers summarise distances to their own area and advertise to other area border routers; backbone routers run OSPF limited to the backbone; boundary routers connect to other ASes.</td><td>slide 86–87（2025/26 S1 Q3(a) 原题）</td></tr>
+            <tr><td>Explain BGP and how a router chooses among routes.</td><td>Inter-AS (path-vector) protocol; eBGP obtains reachability from neighbouring ASes, iBGP propagates it inside the AS; destinations are CIDR prefixes; sessions over semi-permanent TCP; advertising a prefix = a <b>promise</b> to forward towards it. Attributes: <b>AS-PATH</b> (ASes the advertisement has passed through), <b>NEXT-HOP</b> (internal router interface towards the next-hop AS). Selection: ① local preference (policy) → ② shortest AS-PATH → ③ closest NEXT-HOP (hot potato) → ④ other criteria. Import policy can reject routes.</td><td>BGP 先看策略，不追求最优 · slide 88–96</td></tr>
+            <tr><td>Why should a provider not advertise a route through itself to another provider? (BGP policy)</td><td>A provider only wants to carry traffic to/from its <b>customers</b>; carrying traffic between two non-customers earns nothing. A multi-homed stub network does not advertise routes between its providers, so it never becomes a transit network.</td><td>slide 95–96</td></tr>
+            <tr><td>What is SDN? Why a logically centralized control plane?</td><td>Data plane: local per-router forwarding. Control plane: network-wide logic deciding routes. SDN separates them: a (remote) logically centralized controller computes and installs forwarding tables in switches via a southbound API (e.g. OpenFlow); network-control apps use the northbound API. Benefits: easier management, fewer misconfigurations, flexible traffic engineering (e.g. split traffic, route by source), centralized "programming" easier than distributed, open non-proprietary implementation.</td><td>slide 99–109；按目的转发 + LS/DV 做不到分流 · slide 104–105</td></tr>
+            <tr><td>Describe OpenFlow generalized forwarding / write a flow-table entry.</td><td>Flow defined by header fields. Each entry: <b>match</b> (ingress port, MAC src/dst, VLAN, IP src/dst, IP protocol, TCP/UDP src/dst port …) + <b>action</b> (forward to port, drop, modify fields, send to controller) + <b>priority</b> (overlapping patterns) + <b>counters</b> (#bytes, #packets). Examples: IP Dst = 51.6.0.8 → forward(6); TCP dport = 22 → drop (firewall).</td><td>一条项 = 匹配 + 动作 + 优先级 + 计数器 · slide 110–117</td></tr>
+            <tr><td>What challenges does SDN face?</td><td>Hardening the control plane: a dependable, reliable, performance-scalable, secure distributed system (robustness to failures; dependability and security "baked in" from day one). Networks/protocols meeting mission-specific requirements (real-time, ultra-reliable, ultra-secure). Internet scaling.</td><td>slide 119（2025/26 S2 Q4(a) 原题）</td></tr>
+          </tbody></table></div>
+        <div class="callout teal"><div class="lbl">怎么用这一节</div>
+          <ul class="speclist">
+            <li>考前一晚：把上面的问答要点每条自己用英文<b>默写一遍</b>，写不全的回到对应小节看。</li>
+            <li>计算题：在纸上从空白开始，把 Dijkstra 表和 Bellman-Ford 表各完整画一遍（含 p(v) / 下一跳），再做一次 3×3 HOL 枚举。</li>
+            <li>最后去真题页的 <a href="ee6108-practice.html#mock">Quiz 模拟卷</a>：卷 D 的长度和真 Quiz 一样，限时 60 分钟做一遍。</li>
+          </ul></div>
       </div>
 
       <div class="quizblock">
