@@ -621,6 +621,8 @@ table.mustlist td a{white-space:nowrap;}
 .pair{display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr); gap:16px; align-items:start; margin:26px 0 32px 0;}
 .pair > .lab{margin:0;}
 @media (max-width:1180px){ .pair{grid-template-columns:minmax(0,1fr);} }
+.pair.stack{grid-template-columns:minmax(0,1fr);}
+.pair.stack .qa-anim .chartbox svg.qa-svg{min-width:600px;}
 .qa-anim .chartbox svg.qa-svg{min-width:560px;}
 .qa-svg text{font-family:var(--font-mono);}
 .qa-lbl{font-size:12px; fill:var(--ink-soft); font-weight:600;}
@@ -700,6 +702,32 @@ details.exq-a > div{padding:4px 12px 8px 12px; font-size:14px; line-height:1.65;
 .qa-explain ol{margin:6px 0 0 0; padding-left:22px;}
 .qa-explain li{margin-bottom:8px;}
 .qa-explain .why{color:var(--accent-strong); font-weight:700;}
+/* BGP / 热土豆动画：流程条、候选路由表 */
+.qa-bgpflow{display:flex; flex-wrap:wrap; gap:4px 5px; align-items:center; font-size:12px; margin:6px 0 2px 0; color:var(--muted);}
+.qa-bgpflow .t{font-weight:700; margin-right:4px; min-width:9.5em;}
+.qa-bgpflow .st{padding:2px 8px; border:1px solid var(--line-strong); border-radius:999px; background:var(--surface-2); color:var(--ink-soft);}
+.qa-bgpflow .st.on{border-color:var(--accent); background:var(--accent-soft); color:var(--ink); font-weight:700; box-shadow:0 0 0 1px var(--accent);}
+.qa-bgpflow .st.done{opacity:.6;}
+.qa-bgpflow .st.skip{text-decoration:line-through; opacity:.45;}
+table.qa-bgpt{min-width:560px; margin-top:6px;}
+table.qa-bgpt td, table.qa-bgpt th{padding:5px 7px; font-size:12.5px;}
+table.qa-bgpt tr.ghost td{color:var(--muted); font-style:italic;}
+table.qa-bgpt tr.win td{background:var(--ok-soft); font-weight:700;}
+table.qa-bgpt tr.lose td{opacity:.55;}
+table.qa-bgpt tr.now td{outline:2px solid var(--accent); outline-offset:-2px;}
+table.qa-bgpt td.hl{outline:2px solid var(--accent); outline-offset:-2px; background:var(--accent-soft);}
+table.qa-bgpt .c2, .qa-exit.e2{color:var(--s1); fill:var(--s1);}
+table.qa-bgpt .c3, .qa-exit.e3{color:var(--s2); fill:var(--s2);}
+.qa-fwd{margin:6px 0 0 0; font-size:13px; padding:6px 10px; border-left:3px solid var(--ok); background:var(--ok-soft); border-radius:var(--radius);}
+.qa-route{fill:none; stroke-linecap:round; stroke-linejoin:round;}
+.qa-route.r2{stroke:var(--s1); stroke-width:5; opacity:.8;}
+.qa-route.r3{stroke:var(--s2); stroke-width:10; opacity:.55;}
+.qa-route.win{stroke:var(--ok); stroke-width:5; opacity:.9;}
+.qa-pktdot{fill:var(--accent); stroke:var(--surface); stroke-width:2;}
+.qa-ifc{font-size:14px; font-weight:800; fill:var(--accent-strong);}
+.qa-exit{font-size:11px; font-weight:700;}
+.qa-exit.e0{fill:var(--accent-strong);}
+table.qa-bgpt th{text-transform:none; letter-spacing:0;}
 
 </style>
 </head>
@@ -2431,6 +2459,9 @@ netE 28</textarea></label>
 
 
 
+
+
+
       </div>
 
       <div class="sub" id="n2-s2">
@@ -2803,7 +2834,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                            <!-- QB:n3 -->
+                                                                              <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -2884,7 +2915,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                            <!-- QB:n4 -->
+                                                                              <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3103,24 +3134,38 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                            <!-- QB:n7 -->
+                                                                              <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
+            <li><span class="why">"网关路由器"（出口）是什么？</span> AS 边上、直接连着别的 AS 的路由器。AS1 有两个：<b>1b</b> 连 AS2，<b>1c</b> 连 AS3。1a、1d 在里面，不直接连外面，想把分组送出 AS1，必须先送到 1b 或 1c。</li>
             <li><span class="why">"通告"是什么？</span> 一个 AS 告诉邻居 AS："我能到 X，你可以把去 X 的分组交给我。"通告里带着两个关键信息：<b>AS-PATH</b>（这条路会经过哪些 AS）和 <b>NEXT-HOP</b>（从哪台路由器进来）。老师说：<b>通告就是作出承诺</b>，答应替别人转发。</li>
             <li><span class="why">eBGP 和 iBGP 有什么区别？</span> AS 之间的边界路由器互相说 = <b>eBGP</b>（动画里的实线箭头）；边界路由器把听到的消息转告给本 AS <b>内部</b>的所有路由器 = <b>iBGP</b>（虚线箭头）。</li>
-            <li><span class="why">1d 为什么要"选"？</span> 1d 在 AS1 内部，不直接连外面。它听到了两条去 X 的路：经 1c 出去走 AS3，或经 1b 出去走 AS2，只能选一个出口写进自己的转发表。</li>
-            <li><span class="why">按什么顺序选？</span> <b>① 本地偏好</b>（公司政策，比如和哪家签的合同便宜）→ <b>② AS-PATH 短</b>（经过的 AS 少）→ <b>③ 最近的 NEXT-HOP</b>（热土豆）→ ④ 其他。前一条分出胜负就不看后面的。</li>
-            <li><span class="why">什么是热土豆？</span> 手里拿着烫手的土豆，赶紧扔出去：<b>选离自己最近的出口</b>，尽快把分组送出本 AS，少占用自己网络的资源，不管外面的路长不长。动画里 1d 到 1b 代价 2、到 1c 代价 4，所以选 1b。</li>
-            <li><span class="why">切到"本地偏好更高"会怎样？</span> 规则 ① 先比，政策直接决定选经 AS3（1c），哪怕 1b 更近也不走——这说明 BGP <b>策略优先于性能</b>，也是为什么域内和域间要用不同的路由协议。</li>
-            <li><span class="why">考试怎么考？</span> 给几条路由（本地偏好、AS-PATH、到 NEXT-HOP 的代价），让你按顺序选出一条并说明理由；或者解释热土豆、BGP 策略（提供商不帮非客户转发）。</li>
+            <li><span class="why">1d 为什么要"选"？</span> 1d 听到了两条去 X 的路：从出口 1c 出去走 AS3，或从出口 1b 出去走 AS2。可是转发表里一个目的地只能写<b>一个</b>出口接口，所以必须挑一个。</li>
+            <li><span class="why">按什么顺序选？</span> <b>① 本地偏好</b>（公司政策，比如和哪家签的合同便宜）→ <b>② AS-PATH 短</b>（经过的 AS 少）→ <b>③ 最近的 NEXT-HOP</b>（热土豆）→ ④ 其他。前一条分出胜负就不看后面的。<b>热土豆只是第 ③ 条</b>：只有前两条都打平时才用到。</li>
           </ol></div>
-        <div class="pair" id="qb-n7">
+        <div class="callout teal qa-explain" id="qb-n7-hot"><div class="lbl">热土豆一步一步讲（对着动画看）</div>
+          <ol>
+            <li><span class="why">先打个比方。</span> 你是新加坡一家快递公司（AS1），收到一个寄往国外 X 的包裹。有两家合作的国外快递都能送到 X：A 公司在你的东仓库（1b）收件，B 公司在你的西仓库（1c）收件。包裹现在在你的 1d 网点。<b>你自己的货车每跑一公里都是你出钱</b>；一旦交给合作公司，后面的运费就是人家的事。最省你自己钱的做法：<b>送到离 1d 最近的那个仓库交出去</b>，不管人家之后要跑多远。这就是热土豆：土豆烫手，赶紧扔出去。</li>
+            <li><span class="why">第 1 步：知道有哪些出口（slide 72 第 ① 格）。</span> 靠 BGP：eBGP 让 1b、1c 从邻居 AS 听到"能到 X"，iBGP 再让 1d 也知道。所以 1d 的候选是"出口 1b"和"出口 1c"。</li>
+            <li><span class="why">第 2 步：算到每个出口的代价（第 ② 格）。</span> 用的是 AS1 <b>内部</b>的路由信息，也就是 OSPF 用 Dijkstra 算出的最短路，<b>和前面学的 Dijkstra 完全一样</b>，只是终点换成了出口路由器。动画里：1d→1b 直连 = 2；1d→1c 直连 = 4，绕 1d→1b→1a→1c = 2+1+2 = 5，所以取 4。</li>
+            <li><span class="why">第 3 步：选代价最小的出口（第 ③ 格）。</span> 2 &lt; 4 → 选 1b。<b>只比 AS1 内部这一段</b>；AS2、AS3 内部还要走几跳，AS1 看不见（老师强调：我们不知道别的 AS 的内部结构），也不关心。</li>
+            <li><span class="why">第 4 步：写进转发表（第 ④ 格）。</span> 1d 本来就知道"去 1b 从哪个接口出去"（内部路由算好的），记这个接口为 I，然后加一条表项 <b>(X, I)</b>。以后去 X 的分组一来，查表就从 I 发出去。</li>
+            <li><span class="why">为什么说它"自私"？</span> 分组越早离开 AS1，占用 AS1 的链路和带宽就越少。至于整条路（包括别人的 AS）是不是最短，热土豆不管。老师原话："This is a quite selfish approach"，但整个互联网的协议本来就是按"大家都自私"来设计的。</li>
+            <li><span class="why">同一个 AS 里大家都选同一个出口吗？</span> <b>不一定。</b>每台路由器各自算、各自选：在动画里切到"每台路由器各选各的"，1a、1b、1d 选 1b（AS2），1c 选它自己（AS3）。老师上课就是这么讲的：离 1c 近的送 1c，离 1b 近的送 1b。</li>
+            <li><span class="why">内部代价一变，出口会变吗？</span> 会。切到"内部代价变了"：1b–1d 从 2 变成 9 以后，1d 到 1b 最少要 7（1d→1c→1a→1b），到 1c 只要 4，于是改走 1c。<b>目的地没变，只是自己内部的代价变了，出口就换了。</b></li>
+            <li><span class="why">切到"本地偏好更高"会怎样？</span> 规则 ① 先比，政策直接决定选经 AS3（1c），哪怕 1b 更近也不走，热土豆根本轮不到。这说明 BGP <b>策略优先于性能</b>，也是为什么域内和域间要用不同的路由协议（Policy / Scale / Performance，slide 97）。</li>
+            <li><span class="why">考试怎么写？</span> 一句话定义："Hot potato routing: among routes with the same local preference and the same AS-PATH length, a router chooses the gateway (NEXT-HOP) with the <b>least intra-AS cost</b>, so that the packet leaves its own AS as quickly as possible, ignoring the cost outside the AS." 再加上四步：learn gateways via BGP → intra-AS costs to each gateway → choose the least-cost gateway → find interface I, enter (X, I) in the forwarding table。</li>
+            <li><span class="why">会怎么考？</span> 给几条路由（本地偏好、AS-PATH、到 NEXT-HOP 的代价），让你按顺序选出一条并说明理由（右边 Q7）；或者给一张 AS 内部的图，问某台路由器按热土豆选哪个出口；或者解释热土豆和 BGP 策略（提供商不帮非客户转发）。</li>
+          </ol></div>
+        <div class="pair stack" id="qb-n7">
           <div class="lab qa-anim" id="qa-bgp">
-            <div class="lab-head"><div><div class="lab-cap">动画 · BGP 通告 + 热土豆</div><div class="lab-title">1d 去子网 X 该走哪个网关</div></div></div>
-            <div class="presets" id="qaBgpMode"><button data-k="hot" class="on">本地偏好相同（热土豆）</button><button data-k="pref">经 AS3 的本地偏好更高</button></div>
+            <div class="lab-head"><div><div class="lab-cap">动画 · BGP 通告 + 热土豆</div><div class="lab-title">1d 去子网 X 该走哪个出口</div></div></div>
+            <div class="presets" id="qaBgpMode"><button data-k="hot" class="on">① 热土豆（默认）</button><button data-k="cost">② 内部代价变了</button><button data-k="all">③ 每台路由器各选各的</button><button data-k="pref">④ 本地偏好更高（策略优先）</button></div>
             <div class="btnrow"><button class="btn primary" id="qaBgpPlay">▶ 播放</button><button class="btn" id="qaBgpPrev">←</button><button class="btn" id="qaBgpNext">下一步 →</button><button class="btn" id="qaBgpReset">重来</button><span class="steplabel mono" id="qaBgpStep"></span></div>
-            <div class="chartbox"><svg id="qaBgpSvg" class="qa-svg" viewBox="0 0 660 260" role="img" aria-label="BGP 通告与热土豆路由动画"></svg></div>
+            <div id="qaBgpFlow"></div>
+            <div class="chartbox"><svg id="qaBgpSvg" class="qa-svg" viewBox="0 0 730 330" role="img" aria-label="BGP 通告与热土豆路由动画"></svg></div>
+            <div class="tablewrap" id="qaBgpTbl"></div>
             <div class="narr" id="qaBgpNarr"></div>
           </div>
           <div class="exq">
@@ -3219,7 +3264,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                            <!-- QB:n8 -->
+                                                                              <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -6240,45 +6285,193 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     pl.reset();
   })();
 
-  /* ---------- 动画 E：BGP 通告 + 热土豆（slide 72–94） ---------- */
+  /* ---------- 动画 E：BGP 通告 + 热土豆（slide 72–94），四种模式 ---------- */
   (function(){
     if (!$('qaBgpSvg')) return;
-    var pref3 = false;
-    var R = { '1a': [210, 120], '1b': [290, 190], '1c': [130, 70], '1d': [180, 210], '2a': [410, 190], '2b': [480, 225], '2c': [520, 160], '3a': [60, 70], '3b': [40, 130], '3c': [100, 20] };
-    var X = [610, 60];
-    var INTRA = [['1a', '1b', 1], ['1a', '1c', 2], ['1b', '1d', 2], ['1c', '1d', 4]];
+    var mode = 'hot';
+    var R = { '3c': [85, 50], '3b': [45, 130], '3a': [150, 115], '1c': [245, 140], '1a': [385, 140], '1d': [245, 255], '1b': [385, 255], '2a': [480, 255], '2b': [545, 282], '2c': [600, 205] };
+    var X = [680, 70];
+    /* AS1 内部链路：端点、代价、代价标签位置 */
+    function intra(){ return [['1c', '1a', 2, 315, 131], ['1a', '1b', 1, 399, 202], ['1b', '1d', mode === 'cost' ? 9 : 2, 315, 274], ['1c', '1d', 4, 229, 202]]; }
     var EXT = [['3a', '1c'], ['2a', '1b'], ['3a', '3b'], ['3a', '3c'], ['3b', '3c'], ['2a', '2b'], ['2a', '2c'], ['2b', '2c']];
-    var STEPS = 6;
-    function render(k){
-      var svg = $('qaBgpSvg'); svg.innerHTML = '';
-      [['AS1', 110, 40, 210, 205], ['AS2', 390, 140, 160, 110], ['AS3', 14, 4, 120, 150]].forEach(function(a){ svgEl('rect', { x: a[1], y: a[2], width: a[3], height: a[4], rx: 14, 'class': 'qa-as' }, svg); svgEl('text', { x: a[1] + 8, y: a[2] + a[4] - 8, 'class': 'qa-h' }, svg, a[0]); });
-      svgEl('rect', { x: X[0] - 26, y: X[1] - 16, width: 52, height: 32, rx: 6, 'class': 'qa-xnet' }, svg);
-      svgEl('text', { x: X[0], y: X[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, '子网 X');
-      svgEl('line', { x1: R['3c'][0] + 14, y1: R['3c'][1], x2: X[0] - 26, y2: X[1] - 10, 'class': 'qa-edge thin' }, svg);
-      svgEl('line', { x1: R['2c'][0], y1: R['2c'][1] - 14, x2: X[0] - 10, y2: X[1] + 16, 'class': 'qa-edge thin' }, svg);
-      INTRA.forEach(function(e){ var a = R[e[0]], b = R[e[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' + (k >= 5 && ((e[0] === '1b' && e[1] === '1d')) && !pref3 ? ' best' : '') + (k >= 5 && pref3 && e[0] === '1c' && e[1] === '1d' ? ' best' : '') }, svg); svgEl('text', { x: (a[0] + b[0]) / 2 + 6, y: (a[1] + b[1]) / 2 - 4, 'class': 'qa-w' }, svg, e[2]); });
-      EXT.forEach(function(e){ var a = R[e[0]], b = R[e[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge thin' }, svg); });
-      function msg(from, to, text, cls){ var a = R[from], b = R[to]; svgEl('path', { d: 'M' + a[0] + ' ' + a[1] + ' L' + b[0] + ' ' + b[1], 'class': 'qa-adv ' + cls, 'marker-end': 'url(#qaArrB)' }, svg); if (text) svgEl('text', { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 10, 'text-anchor': 'middle', 'class': 'qa-advt ' + cls }, svg, text); }
-      var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrB', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs); svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
-      if (k >= 1) msg('3a', '1c', 'X, AS-PATH: AS3', 'e3');
-      if (k >= 2){ ['1a', '1d', '1b'].forEach(function(t){ msg('1c', t, '', 'i3'); }); }
-      if (k >= 3) msg('2a', '1b', 'X, AS-PATH: AS2', 'e2');
-      if (k >= 4){ ['1a', '1d', '1c'].forEach(function(t){ msg('1b', t, '', 'i2'); }); }
-      Object.keys(R).forEach(function(n){ var p = R[n]; svgEl('circle', { cx: p[0], cy: p[1], r: 14, 'class': 'qa-node' + (k >= 5 && n === '1d' ? ' now' : '') + ((k >= 5 && n === (pref3 ? '1c' : '1b')) ? ' dst' : '') }, svg); svgEl('text', { x: p[0], y: p[1] + 4, 'text-anchor': 'middle', 'class': 'qa-ntsm' }, svg, n); });
-      var T = [
-        '子网 X 同时挂在 AS2 和 AS3 上。AS1 内部链路代价标在边上。看 1d 怎么决定往哪个网关送去 X 的分组。',
-        '① <b>eBGP</b>：AS3 的网关 3a 告诉 AS1 的 1c："我能到 X"，属性 <b>AS-PATH = AS3</b>，<b>NEXT-HOP = 3a 连 1c 的接口地址</b>。通告 = 承诺替你转发（slide 90）。',
-        '② <b>iBGP</b>：1c 把这条路由传给 AS1 内部的所有路由器（1a、1d，以及 1b）。',
-        '③ 另一条：AS2 的 2a 也通过 eBGP 告诉 1b："X, AS-PATH = AS2"。',
-        '④ 1b 再用 iBGP 传给 AS1 内部。现在 1d 手里有<b>两条</b>去 X 的路由。',
-        pref3 ? '⑤ 1d 选路（slide 94）：① <b>本地偏好</b>：AS1 的策略给经 AS3 的路由设了更高的 local-pref → <b>直接选经 1c（AS3）</b>，后面的规则不用看了。'
-              : '⑤ 1d 选路（slide 94）：① 本地偏好相同；② AS-PATH 长度都是 1，相同；③ <b>热土豆</b>：用 AS 内部路由算到两个网关的代价：到 1b = 2，到 1c = min(4, 2+1+2) = 4 → <b>选离自己最近的网关 1b</b>。',
-        pref3 ? '⑥ 1d 的转发表写入 (X, I)，I = 通往 1c 的接口。策略压过了性能：哪怕经 1b 更近也不走。' : '⑥ 1d 的转发表写入 <b>(X, I)</b>，I = 通往 1b 的那个接口。热土豆 = 尽快把分组送出本 AS，不管外面的路长不长。'
-      ];
-      $('qaBgpNarr').innerHTML = T[k];
+    var OUT = { '1b': ['2a', '2c'], '1c': ['3a', '3c'] };   /* 出了网关之后去 X 的路（AS1 看不见里面） */
+    var GW = { '1b': 'AS2', '1c': 'AS3' };
+    function sp(src){   /* AS1 内部 Dijkstra：返回 {d, prev} */
+      var N = ['1a', '1b', '1c', '1d'], d = {}, prev = {}, done = {};
+      N.forEach(function(n){ d[n] = Infinity; }); d[src] = 0;
+      for (var it = 0; it < 4; it++){
+        var u = null; N.forEach(function(n){ if (!done[n] && (u === null || d[n] < d[u])) u = n; }); done[u] = true;
+        intra().forEach(function(e){ var v = e[0] === u ? e[1] : (e[1] === u ? e[0] : null); if (v && d[u] + e[2] < d[v]){ d[v] = d[u] + e[2]; prev[v] = u; } });
+      }
+      return { d: d, prev: prev };
     }
-    var pl = qaPlayer('qaBgp', function(){ return STEPS; }, render, 1700);
-    qaChips('qaBgpMode', function(v){ pref3 = v === 'pref'; pl.reset(); });
+    function pathTo(t, s){ var p = [t]; while (s.prev[p[0]]) p.unshift(s.prev[p[0]]); return p; }
+    function pathStr(p){ return p.join('→'); }
+    var CYC = ['1c', '1a', '1b', '1d'];   /* AS1 内部是一个环：到任一出口都只有两条不绕圈的路 */
+    function w(a, b){ var r = null; intra().forEach(function(e){ if ((e[0] === a && e[1] === b) || (e[1] === a && e[0] === b)) r = e[2]; }); return r; }
+    function walk(src, gw, dir){ var i = CYC.indexOf(src), p = [src]; while (p[p.length - 1] !== gw){ i = (i + dir + 4) % 4; p.push(CYC[i]); } return p; }
+    function costTxt(src, gw){   /* 两条路都写出来，再取小的 */
+      if (src === gw) return '0（自己就是出口）';
+      var best = sp(src).d[gw];
+      var parts = [walk(src, gw, 1), walk(src, gw, -1)].sort(function(a, b){ return a.length - b.length; }).map(function(p){
+        var ws = []; for (var i = 1; i < p.length; i++) ws.push(w(p[i - 1], p[i]));
+        var sum = ws.reduce(function(a, b){ return a + b; }, 0);
+        return pathStr(p) + ' = ' + (ws.length > 1 ? ws.join('+') + ' = ' : '') + sum;
+      });
+      return parts.join('；另一条 ') + ' → 取小的 <b>' + best + '</b>';
+    }
+    function seq(){
+      if (mode === 'all') return ['scene', 'adv', 'r1a', 'r1b', 'r1c', 'r1d', 'sum'];
+      if (mode === 'pref') return ['scene', 'e3', 'i3', 'e2', 'i2', 'pref', 'iface', 'go'];
+      return ['scene', 'e3', 'i3', 'e2', 'i2', 'pref', 'path', 'cost', 'pick', 'iface', 'go'];
+    }
+    function choice(){ if (mode === 'pref') return '1c'; var s = sp('1d'); return s.d['1b'] <= s.d['1c'] ? '1b' : '1c'; }
+    function line(svg, a, b, cls){ svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': cls }, svg); }
+    function poly(svg, nodes, cls){ svgEl('polyline', { points: nodes.map(function(n){ return (n === 'X' ? X : R[n]).join(','); }).join(' '), 'class': cls }, svg); }
+    function flow(id){
+      var S = seq(), at = S.indexOf(id);
+      function st(name, on, done, skip){ return '<span class="st' + (on ? ' on' : '') + (done ? ' done' : '') + (skip ? ' skip' : '') + '">' + name + '</span>'; }
+      function past(x){ var j = S.indexOf(x); return j >= 0 && j < at; }
+      var r1 = '<div class="qa-bgpflow"><span class="t">slide 94 选路顺序</span>', r2 = '<div class="qa-bgpflow"><span class="t">slide 72 热土豆四步</span>';
+      if (mode === 'all'){
+        var rt = id !== 'scene' && id !== 'adv';
+        r1 += st('① 本地偏好：平', false, id !== 'scene') + '→' + st('② AS-PATH：平', false, id !== 'scene') + '→' + st('③ 最近出口（热土豆）', id !== 'scene') + '</div>';
+        r2 += st('① BGP 得知两个出口', id === 'adv', rt) + '→' + st('② 每台各算到两个出口的代价', rt && id !== 'sum') + '→' + st('③ 各选最近的', rt) + '→' + st('④ 各写各的 (X, I)', id === 'sum') + '</div>';
+        return r1 + r2;
+      }
+      var pref = mode === 'pref';
+      r1 += st(pref ? '① 本地偏好：200 胜' : '① 本地偏好', id === 'pref', past('pref')) + '→' + st('② AS-PATH 最短', id === 'path', past('path'), pref && past('pref')) + '→' + st('③ 最近出口（热土豆）', id === 'cost' || id === 'pick', past('pick'), pref && past('pref')) + '</div>';
+      var b1 = ['e3', 'i3', 'e2', 'i2'].indexOf(id) >= 0;
+      r2 += st('① BGP 得知 X 有两个出口', b1, past('i2')) + '→' + st('② AS 内算到每个出口的代价', id === 'cost', past('cost'), pref && past('pref')) + '→' + st('③ 选代价最小的出口', id === 'pick', past('pick'), pref && past('pref')) + '→' + st('④ 查接口 I，写入 (X, I)', id === 'iface' || id === 'go', false) + '</div>';
+      return r1 + r2;
+    }
+    function table(id){
+      var S = seq(), at = S.indexOf(id);
+      function past(x){ var j = S.indexOf(x); return j >= 0 && j <= at; }
+      var s = sp('1d'), c = choice(), h;
+      if (mode === 'all'){
+        h = '<table class="qa-bgpt"><thead><tr><th>路由器</th><th>到 1b（AS2 出口）</th><th>到 1c（AS3 出口）</th><th>选哪个出口</th></tr></thead><tbody>';
+        ['1a', '1b', '1c', '1d'].forEach(function(r){
+          var on = past('r' + r), sr = sp(r), g = sr.d['1b'] <= sr.d['1c'] ? '1b' : '1c';
+          h += '<tr class="' + (id === 'r' + r ? 'now' : '') + '"><td class="mono">' + r + '</td>' +
+            (on ? '<td class="num">' + (sr.d['1b'] === 0 ? '0（自己就是）' : sr.d['1b']) + '</td><td class="num">' + (sr.d['1c'] === 0 ? '0（自己就是）' : sr.d['1c']) + '</td><td><b class="' + (g === '1b' ? 'c2' : 'c3') + '">' + g + ' → ' + GW[g] + '</b></td>' : '<td>?</td><td>?</td><td></td>') + '</tr>';
+        });
+        return h + '</tbody></table>';
+      }
+      h = '<table class="qa-bgpt"><thead><tr><th>1d 收到的路由</th><th>谁转告的</th><th>AS-PATH</th><th>本地偏好</th><th>1d → 出口的内部代价</th><th>结果</th></tr></thead><tbody>';
+      [['1c', 'i3'], ['1b', 'i2']].forEach(function(g){
+        if (!past(g[1])){ h += '<tr class="ghost"><td colspan="6">' + (g[0] === '1c' ? '（还没收到经 AS3 的路由）' : '（还没收到经 AS2 的路由）') + '</td></tr>'; return; }
+        var lp = mode === 'pref' && g[0] === '1c' ? 200 : 100;
+        var decided = mode === 'pref' ? past('pref') : past('pick');
+        var cls = decided ? (g[0] === c ? 'win' : 'lose') : '';
+        h += '<tr class="' + cls + '"><td>去 X，出口 <b class="' + (g[0] === '1b' ? 'c2' : 'c3') + '">' + g[0] + '</b>（→ ' + GW[g[0]] + '）</td><td>' + g[0] + '（iBGP）</td>' +
+          '<td class="mono' + (id === 'path' ? ' hl' : '') + '">' + GW[g[0]] + '（长度 1）</td>' +
+          '<td class="num' + (id === 'pref' ? ' hl' : '') + '">' + lp + '</td>' +
+          '<td class="' + (id === 'cost' ? 'hl' : '') + '">' + (past('cost') ? costTxt('1d', g[0]) : (mode === 'pref' && past('pref') ? '不用比' : '?')) + '</td>' +
+          '<td>' + (decided ? (g[0] === c ? '<b class="okc">✓ 选中</b>' : '<span class="badc">✕</span>') : '') + '</td></tr>';
+      });
+      h += '</tbody></table>';
+      if (past('iface')) h += '<p class="qa-fwd">1d 的转发表新增一行：<span class="mono">X → 接口 I</span>（I = 1d 连向 ' + pathTo(c, s)[1] + ' 的那个接口）</p>';
+      return h;
+    }
+    function narr(id){
+      var s = sp('1d'), c = choice(), cost = mode === 'cost';
+      var T = {
+        scene: mode === 'all'
+          ? '老师课上专门说过：热土豆是<b>每台路由器自己算、自己选</b>的，所以同一个 AS 里不同的路由器可能走不同的出口。点"播放"，看 AS1 的四台路由器各选哪个出口。'
+          : '场景：<b>1d</b> 手里有一个目的地是<b>子网 X</b> 的分组。1d 在 AS1 <b>内部</b>，不直接连外面；X 在 AS1 外面，同时连着 AS2 和 AS3。AS1 有两个"出口"（网关路由器）：<b>1b</b> 连 AS2，<b>1c</b> 连 AS3。边上的数字是 AS1 <b>内部</b>链路的代价（域内协议 OSPF 用的）。' +
+            (cost ? '<br>这次假设 1b–1d 这条内部链路很拥挤，代价从 2 改成 <b>9</b>（红色数字），其他都不变。' : '') +
+            (mode === 'pref' ? '<br>这次假设 AS1 和 AS3 签了更便宜的合同，管理员把经 AS3 的路由的<b>本地偏好</b>设成 200（另一条还是 100）。' : '') +
+            '<br>问题：1d 该把这个分组送到哪个出口？点"播放"。',
+        e3: '① <b>eBGP</b>（两个 AS 的边界路由器之间对话）：AS3 的网关 3a 告诉 AS1 的网关 1c："我能到 X"，并附上 <b>AS-PATH = AS3</b>（路上要经过的 AS 列表）。发通告就等于承诺："把去 X 的分组交给我，我负责送到"（slide 90）。',
+        i3: '② <b>iBGP</b>（AS 内部转告）：1c 把这条消息转告给 AS1 里的所有路由器。现在 1d 知道了："去 X 可以从出口 1c 出去"。下面表格多了一行。',
+        e2: '③ 另一边：AS2 的网关 2a 也用 eBGP 告诉 1b："我也能到 X，AS-PATH = AS2"。',
+        i2: '④ 1b 用 iBGP 转告全 AS。现在 1d 手里有<b>两条</b>去 X 的路由（看表格），可转发表里只能写<b>一个</b>出口，所以必须选。到这里完成了 slide 72 的第 ① 步。',
+        pref: mode === 'pref'
+          ? '⑤ 按 slide 94 的顺序先比规则 ①<b>本地偏好</b>：200 &gt; 100 → <b>直接选出口 1c（AS3）</b>。规则 ① 已经分出胜负，后面的 AS-PATH 和热土豆<b>都不用比了</b>，哪怕 1b 更近（2 &lt; 4）也不走：<b>策略（policy）压过性能</b>。'
+          : '⑤ 按 slide 94 的顺序比。规则 ①<b>本地偏好</b>（AS1 管理员按商业政策给路由打的分，越大越优先）：两条都是 100 → <b>平手</b>，看下一条规则。',
+        path: '⑥ 规则 ②<b>AS-PATH 长度</b>（数经过几个 AS，不是几台路由器）：两条都只经过 1 个 AS → <b>又平手</b>。老师说：两条路经过的 AS 个数一样、政策也没要求时，通常就用 hot potato。',
+        cost: '⑦ 规则 ③ 就是<b>热土豆</b>，对应 slide 72 第 ② 步：1d 用 AS1 <b>内部</b>的路由（OSPF 就是用 Dijkstra 算最短路）算出自己到两个出口各要多少代价。<br>到 1b（蓝线）：' + costTxt('1d', '1b') + '；<br>到 1c（橙线）：' + costTxt('1d', '1c') + '。',
+        pick: '⑧ slide 72 第 ③ 步：选<b>内部代价最小的出口</b>：' + Math.min(s.d['1b'], s.d['1c']) + ' &lt; ' + Math.max(s.d['1b'], s.d['1c']) + ' → 选 <b>' + c + '</b>（走 ' + GW[c] + '）。' +
+          (cost ? '<br><b>和默认情况比：目的地还是 X，只因为 AS1 内部的一条链路代价变了，出口就从 1b 换成了 1c。</b>热土豆只看自己内部的代价。' : '<br>注意 1d 只比了 AS1 <b>内部</b>这一段：出了 AS1 之后还要走多远，它根本不知道，也不管。'),
+        iface: '⑨ slide 72 第 ④ 步：1d 查自己已有的转发表，看去 ' + c + ' 是从哪个接口发出去的（去 ' + c + ' 的最短路是 ' + pathStr(pathTo(c, s)) + '，第一段就是 1d 连向 ' + pathTo(c, s)[1] + ' 的那条链路，它在 1d 上的接口记作 <b>I</b>），然后写入一条新表项 <b>(X, I)</b>。以后去 X 的分组都直接从 I 发出。这就是"转发表的表项是怎么来的"的一个实例（LPM 动画查的就是这种表）。',
+        go: '⑩ 分组上路：' + pathStr(pathTo(c, s).concat(OUT[c], ['X'])) + '。一出 ' + c + '，分组就进了 ' + GW[c] + '，<b>不再占用 AS1 的链路和带宽</b>，后面的路由 ' + GW[c] + ' 负责。' + (mode === 'pref' ? '' : '老师的原话是 "a quite selfish approach"：分组离开自己的地盘就不再消耗自己的资源。土豆烫手，赶紧扔出去，所以叫"热土豆"。'),
+        adv: '两条 BGP 路由（出口 1b 走 AS2、出口 1c 走 AS3）已经通过 eBGP + iBGP 传遍 AS1；本地偏好一样，AS-PATH 长度都是 1 → 每台路由器都按热土豆选。',
+        r1a: '1a：到 1b 代价 1，到 1c 代价 2 → 选 <b>1b</b>（AS2）。',
+        r1b: '1b：自己就是网关，到自己的代价是 0；到 1c 要 1b→1a→1c = 1+2 = 3 → 选<b>自己 1b</b>（AS2）。',
+        r1c: '1c：自己就是网关，代价 0；到 1b 要 1c→1a→1b = 2+1 = 3 → 选<b>自己 1c</b>（AS3）。',
+        r1d: '1d：到 1b 代价 2，到 1c 代价 4 → 选 <b>1b</b>（AS2）。',
+        sum: '结果：<b>1a、1b、1d 从 AS2 出去，1c 从 AS3 出去</b>。同一个 AS、同一个目的地 X，出口却不一样。老师就是这么讲的：离 1c 近的路由器送到 1c，离 1b 近的送到 1b，每台都把分组交给离<b>自己</b>最近的出口。'
+      };
+      var txt = T[id];
+      if (mode === 'pref') txt = txt.replace('⑨', '⑥').replace('⑩', '⑦');
+      return txt;
+    }
+    function render(k){
+      var id = seq()[k], svg = $('qaBgpSvg'); svg.innerHTML = '';
+      var S = seq(); function past(x){ var j = S.indexOf(x); return j >= 0 && j <= k; }
+      var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrB', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs); svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
+      [['AS1', 205, 105, 225, 212], ['AS2', 450, 180, 185, 127], ['AS3', 15, 20, 165, 150]].forEach(function(a){ svgEl('rect', { x: a[1], y: a[2], width: a[3], height: a[4], rx: 14, 'class': 'qa-as' }, svg); svgEl('text', { x: a[1] + 8, y: a[2] + a[4] - 8, 'class': 'qa-h' }, svg, a[0]); });
+      svgEl('rect', { x: X[0] - 30, y: X[1] - 16, width: 60, height: 32, rx: 6, 'class': 'qa-xnet' }, svg);
+      svgEl('text', { x: X[0], y: X[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, '子网 X');
+      line(svg, [R['3c'][0] + 14, R['3c'][1]], [X[0] - 30, X[1] - 8], 'qa-edge thin');
+      line(svg, [R['2c'][0] + 6, R['2c'][1] - 13], [X[0] - 8, X[1] + 16], 'qa-edge thin');
+      EXT.forEach(function(e){ line(svg, R[e[0]], R[e[1]], 'qa-edge thin'); });
+      intra().forEach(function(e){ line(svg, R[e[0]], R[e[1]], 'qa-edge'); svgEl('text', { x: e[3], y: e[4], 'text-anchor': 'middle', 'class': 'qa-w' + (mode === 'cost' && e[2] === 9 ? ' bad' : '') }, svg, e[2]); });
+      var s = sp('1d'), c = choice();
+      /* 内部路径高亮 */
+      if (mode !== 'all' && (id === 'cost')){ poly(svg, pathTo('1c', s), 'qa-route r3'); poly(svg, pathTo('1b', s), 'qa-route r2'); }
+      if (mode !== 'all' && past('pick') && id !== 'go') poly(svg, pathTo(c, s), 'qa-route win');
+      if (mode === 'pref' && past('iface') && id !== 'go') poly(svg, pathTo(c, s), 'qa-route win');
+      if (id === 'go'){
+        var full = pathTo(c, s).concat(OUT[c], ['X']);
+        poly(svg, full, 'qa-route win');
+        var pts = full.map(function(n){ return (n === 'X' ? X : R[n]).join(','); });
+        var dot = svgEl('circle', { r: 7, 'class': 'qa-pktdot' }, svg);
+        svgEl('animateMotion', { dur: (full.length * 0.7) + 's', repeatCount: 'indefinite', path: 'M' + pts.join(' L') }, dot);
+      }
+      if (mode === 'all' && id !== 'scene' && id !== 'adv'){
+        ['1a', '1b', '1c', '1d'].forEach(function(r){
+          if (!past('r' + r) || (id !== 'sum' && id !== 'r' + r)) return;
+          var sr = sp(r), g = sr.d['1b'] <= sr.d['1c'] ? '1b' : '1c', p = pathTo(g, sr);
+          if (p.length > 1) poly(svg, p, 'qa-route ' + (g === '1b' ? 'r2' : 'r3'));
+        });
+      }
+      /* BGP 通告箭头 */
+      function msg(from, to, text, cls){ var a = R[from], b = R[to], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy), ux = dx / L, uy = dy / L, o = cls.charAt(0) === 'i' ? 5 : 0, ox = -uy * o, oy = ux * o;
+        svgEl('path', { d: 'M' + (a[0] + ux * 16 + ox) + ' ' + (a[1] + uy * 16 + oy) + ' L' + (b[0] - ux * 16 + ox) + ' ' + (b[1] - uy * 16 + oy), 'class': 'qa-adv ' + cls, 'marker-end': 'url(#qaArrB)' }, svg);
+        if (text) svgEl('text', { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 12, 'text-anchor': 'middle', 'class': 'qa-advt ' + cls }, svg, text); }
+      var showAdv = mode === 'all' ? id === 'adv' : ['e3', 'i3', 'e2', 'i2'].indexOf(id) >= 0;
+      if (showAdv || (mode === 'all' && id === 'adv')){
+        if (mode === 'all' || past('e3')) msg('3a', '1c', 'X, AS3', 'e3');
+        if (mode === 'all' || past('i3')) ['1a', '1d', '1b'].forEach(function(t){ msg('1c', t, '', 'i3'); });
+        if (mode === 'all' || past('e2')) msg('2a', '1b', 'X, AS2', 'e2');
+        if (mode === 'all' || past('i2')) ['1a', '1d', '1c'].forEach(function(t){ msg('1b', t, '', 'i2'); });
+      }
+      if (mode !== 'all' && past('iface')){
+        var p1 = pathTo(c, s), a = R[p1[0]], b = R[p1[1]];
+        svgEl('text', { x: a[0] + (b[0] - a[0]) * 0.32 + (p1[1] === '1b' ? 0 : -14), y: a[1] + (b[1] - a[1]) * 0.32 + (p1[1] === '1b' ? -8 : 0), 'text-anchor': 'middle', 'class': 'qa-ifc' }, svg, 'I');
+      }
+      /* 节点 */
+      Object.keys(R).forEach(function(n){
+        var p = R[n], cls = 'qa-node';
+        if (mode !== 'all' && n === '1d') cls += ' now';
+        if (mode !== 'all' && past(mode === 'pref' ? 'pref' : 'pick') && n === c) cls += ' dst';
+        if (mode === 'all' && id === 'r' + n) cls += ' now';
+        svgEl('circle', { cx: p[0], cy: p[1], r: 14, 'class': cls }, svg);
+        svgEl('text', { x: p[0], y: p[1] + 4, 'text-anchor': 'middle', 'class': 'qa-ntsm' }, svg, n);
+        if (mode === 'all' && /^1/.test(n) && past('r' + n) && id !== 'scene'){
+          var sr = sp(n), g = sr.d['1b'] <= sr.d['1c'] ? '1b' : '1c';
+          svgEl('text', { x: p[0], y: p[1] + (p[1] < 200 ? -20 : 30), 'text-anchor': 'middle', 'class': 'qa-exit ' + (g === '1b' ? 'e2' : 'e3') }, svg, '→ ' + GW[g]);
+        }
+      });
+      if (mode !== 'all' && k === 0) svgEl('text', { x: R['1d'][0], y: R['1d'][1] + 32, 'text-anchor': 'middle', 'class': 'qa-exit e0' }, svg, '分组：去 X');
+      $('qaBgpFlow').innerHTML = flow(id);
+      $('qaBgpTbl').innerHTML = table(id);
+      $('qaBgpNarr').innerHTML = narr(id);
+    }
+    var pl = qaPlayer('qaBgp', function(){ return seq().length - 1; }, render, 2200);
+    qaChips('qaBgpMode', function(v){ mode = v; pl.reset(); });
     pl.reset();
   })();
 
