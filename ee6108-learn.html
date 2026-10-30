@@ -2385,7 +2385,9 @@ netE 28</textarea></label>
 <!-- QB:n1 -->
         <div class="callout teal qa-explain" id="qb-n1-why"><div class="lbl">小白版：最长前缀匹配到底在干什么，为什么要这样做</div>
           <ol>
-            <li><span class="why">路由器在干什么？</span> 分组到了路由器，路由器只看分组首部里的<b>目的地址</b>，然后决定从哪个<b>接口</b>（出口）把它送出去。这一步叫<b>转发</b>，依据是路由器里的一张<b>转发表</b>：表的左边是"什么样的地址"，右边是"走哪个接口"。转发表里的内容是路由算法（后面的 Dijkstra、距离向量）事先算好填进去的。</li>
+            <li><span class="why">路由器在干什么？</span> 分组到了路由器，路由器只看分组首部里的<b>目的地址</b>，然后决定从哪个<b>接口</b>（出口）把它送出去。这一步叫<b>转发</b>，依据是路由器里的一张<b>转发表</b>：表的左边是"什么样的地址"，右边是"走哪个接口"。</li>
+            <li><span class="why">DA（目的地址）是从哪来的？</span> 一台主机要给另一台主机发数据时，会把数据装进一个 <b>IP 数据报</b>，在数据报的<b>首部</b>写上两个地址：<b>源地址</b>（自己的 IP）和<b>目的地址 DA</b>（对方的 IP，比如你打开一个网站，电脑先查到那台服务器的 IP 地址）。数据报在路上要经过很多台路由器，<b>每一台都从首部读出 DA，查自己的转发表</b>，决定下一步往哪送；DA 一路上不变。动画里的 DA-1～DA-4 是课件 slide 11–12 用来举例的 4 个地址，换成十进制是 200.23.22.161、200.23.24.170、200.23.28.5、200.23.64.1。</li>
+            <li><span class="why">"表项"是什么？是怎么来的？</span> 转发表的一行就是一个<b>表项</b>：左边是"一段目的地址"（前缀），右边是"从哪个<b>接口</b>送出去"（接口 = 路由器上连着一条链路的端口，0、1、2、3 就是 4 个端口的编号）。表项不是路由器自己瞎写的：<b>路由选择算法 / 路由协议</b>（本章后面的 Dijkstra、距离向量、OSPF、RIP、BGP，或者 SDN 的控制器）算出"去哪一片地址该走哪个端口"，再把结果填进转发表；管理员也可以手工写（静态路由）。左边为什么是一片一片的？因为地址是<b>按块分配</b>的：某个机构 / ISP 拿到一整块地址，下面的子网都在这块里面。拿课件这张表来说，可以想象这台路由器有 4 个端口：200.23.16～23 这一块网络在端口 0 那个方向；200.23.24～31 这一块在端口 2 那个方向，但其中 200.23.24 这个子网实际接在端口 1 那边（例如它换了接入的 ISP），所以单独写一行"例外"；除此之外的所有地址都往端口 3 送（比如通往上级 ISP，这就是 otherwise 默认路由）。</li>
             <li><span class="why">为什么不一个地址写一行？</span> IPv4 地址有 2<sup>32</sup> ≈ 43 亿个，一个地址一行，表大得放不下；而且路由器每秒要查几十万次，表越长查得越慢。老师原话："It is extremely important to keep the forwarding table as short as possible."</li>
             <li><span class="why">那怎么写？——用"前缀"表示一整段地址。</span> 地址是成块分配的：同一个机构、同一片网络的地址，<b>前面若干位都一样</b>（就像同一个区的电话号码区号一样、同一片区的邮编前几位一样）。所以表里写"<b>前 N 位是这些，后面随便</b>"，就代表了一整段地址，写法是 <b>前缀/长度</b>。例如 <code>200.23.16.0/21</code> = 前 21 位固定、后 11 位随便 = 2<sup>11</sup> = 2048 个地址，也就是 200.23.16.0 ～ 200.23.23.255。</li>
             <li><span class="why">怎么判断一个地址属不属于某一行？</span> 只比较<b>前 N 位</b>：完全一样就属于（匹配），有一位不同就不属于。动画里一位一位地比，比的就是这个；后面打 * 的位不用看。换成十进制更直观：<b>看这个地址落不落在这一行管的范围里</b>。</li>
@@ -2419,6 +2421,9 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
+
 
 
 
@@ -2520,6 +2525,17 @@ netE 28</textarea></label>
         <div class="callout extra"><div class="lbl">课外补充：为什么"过两次总线"就慢一半</div><p>经内存交换时，一个分组要占用总线/内存两次（写入一次、读出一次）。如果内存每秒最多读写 B 个分组，转发速率最多只有 B/2 个分组每秒。经总线交换只占用一次，但所有端口共用这一条总线，总的交换速率不能超过总线速率。crossbar 让不同输入到不同输出的分组并行通过，总速率可以达到"端口数 × 线速"。</p></div>
 
 <!-- QB:n2a -->
+        <div class="callout teal qa-explain" id="qb-n2a-why"><div class="lbl">小白版：交换结构是什么，三种做法为什么快慢不同</div>
+          <ol>
+            <li><span class="why">路由器里面有什么？</span> 四大块（slide 14）：<b>输入端口</b>（把线路上的信号收进来、查转发表决定去哪个输出）、<b>交换结构</b>（把分组从输入端口<b>搬到</b>正确的输出端口）、<b>输出端口</b>（把分组发到下一条链路上）、<b>路由处理器</b>（跑路由协议、算出转发表）。可以把路由器想成一个火车站：输入端口是进站口，输出端口是各个站台，交换结构就是连接它们的通道。</li>
+            <li><span class="why">为什么要关心交换结构的速度？</span> 每一个分组都要从这里过。如果它搬得比分组进来的速度慢，分组就只能在输入端口排队，排满了就丢。理想情况是交换结构的速度 ≥ 所有输入线路速度之和。</li>
+            <li><span class="why">动画里的"时隙"是什么？</span> 把时间切成一小格一小格，每一格里一条总线只能搬<b>一个</b>分组。数时隙就是在比"搬完这 3 个分组要多久"。颜色和"→2"表示这个分组要去输出 2。</li>
+            <li><span class="why">① 经内存：为什么最慢？</span> 最早的路由器就是一台普通电脑：分组先通过系统总线拷进<b>内存</b>，CPU 查表，再通过同一条总线拷到输出端口。一个分组要<b>过两次总线</b>，而且一次只能搬一个，所以 3 个分组要 6 个时隙。算速率时要<b>除以 2</b>。</li>
+            <li><span class="why">② 经总线：好在哪、卡在哪？</span> 输入端口直接把分组放上一条共享<b>总线</b>送到输出端口，不经过内存和 CPU，只过一次总线；但所有端口共用这一条总线，<b>同一时刻只能一个</b>分组在上面，所以 3 个分组要 3 个时隙，总速度不能超过总线速度。</li>
+            <li><span class="why">③ crossbar（纵横交换）：为什么快？</span> 它有很多条总线排成网格（n 个输入、n 个输出），像十字路口的立交桥：去<b>不同</b>输出的分组走不同的线，可以<b>同时</b>过，所以 1 个时隙就搬完。缺点：规模大、速度高时又复杂又贵。</li>
+            <li><span class="why">"两个去同一输出"为什么 crossbar 也要 2 个时隙？</span> 一个输出端口一次只能接收一个分组，两个分组抢同一个出口，只能一个先走——这叫<b>输出争用</b>，不是交换结构不够快。</li>
+            <li><span class="why">考试怎么考？</span> 问答："比较三种交换结构，各自的瓶颈是什么"；计算："总线 X Gbps，经内存最多能转发多快"（记得除以 2）。</li>
+          </ol></div>
         <div class="pair" id="qb-n2a">
           <div class="lab qa-anim" id="qa-fab">
             <div class="lab-head"><div><div class="lab-cap">动画 · 三种交换结构</div><div class="lab-title">同样 3 个分组，各要几个时隙？</div></div></div>
@@ -2714,6 +2730,16 @@ netE 28</textarea></label>
           </tbody>
         </table></div>
 <!-- QB:n2b -->
+        <div class="callout teal qa-explain" id="qb-n2b-why"><div class="lbl">小白版：为什么要排队，"队头阻塞"是怎么回事</div>
+          <ol>
+            <li><span class="why">为什么会排队？</span> 分组到达得太快、来不及送走时，多出来的先存在<b>缓存</b>里等着，这就是排队。可以在输入端口排（输入排队），也可以在输出端口排（输出排队）。</li>
+            <li><span class="why">动画里每样东西是什么意思？</span> 左边三排是三个输入端口的队列，<b>最右边是队首</b>（最先进来、下一个要走的）；颜色 / "→2" 表示要去哪个输出；每一步是一个时隙；红框 = 队首被挡住；虚线框 = 本来可以走、却被挡在后面的分组。</li>
+            <li><span class="why">FIFO 输入排队有什么规矩？</span> 先进先出：每个输入端口每个时隙只能送<b>队首</b>那一个；每个输出端口每个时隙只能收一个。两个队首要去同一个输出，只能一个走（动画里编号小的先走），另一个等。</li>
+            <li><span class="why">什么是队头阻塞（HOL blocking）？</span> 被挡住的队首后面，可能排着要去<b>空闲</b>输出的分组，可它们也走不了，只能干等——就像单车道上一辆要左转的车在等，后面要直行的车也全被堵住。结果是输出端口明明空着却没东西送，浪费了能力。端口很多时，FIFO 输入排队只能用到大约 <b>58.6%</b>。</li>
+            <li><span class="why">"吞吐量"是什么？</span> 平均每个时隙送出去的分组数 ÷ 端口数，也就是输出端口被用上的比例。2×2、目的均匀时，一半的时间两个队首撞车只送出 1 个，平均 1.5 个 / 2 个端口 = <b>0.75</b>。</li>
+            <li><span class="why">三种改进分别怎么做、代价是什么？</span> <b>前瞻</b>：队首被挡时，看看第 2 个分组能不能走（调度更复杂）。<b>VOQ</b>：每个输入端口按"去哪个输出"分成几条队，像银行按业务分窗口排队，谁也挡不住谁，但要 N×N 条队列和复杂的调度，很贵。<b>输出排队</b>：交换结构做得比线路快 N 倍，所有分组先搬到输出端口那边排队，没有 HOL，吞吐可以到 100%，但交换结构和内存要非常快。老师说这是"性能和价格的折中"。</li>
+            <li><span class="why">考试怎么考？</span> 解释 HOL（定义 + 小例子）；列举 2×2 或 3×3 的情况算吞吐量；比较 VOQ / 输出排队 / 前瞻的好处和代价。</li>
+          </ol></div>
         <div class="pair" id="qb-n2b">
           <div class="lab qa-anim" id="qa-hol">
             <div class="lab-head"><div><div class="lab-cap">动画 · 队头阻塞与三种改进</div><div class="lab-title">9 个分组，四种排队方式各要几个时隙</div></div></div>
@@ -2777,7 +2803,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                          <!-- QB:n3 -->
+                                                            <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -2858,7 +2884,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                          <!-- QB:n4 -->
+                                                            <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -2969,6 +2995,16 @@ netE 28</textarea></label>
           </tbody>
         </table></div>
 <!-- QB:n5 -->
+        <div class="callout teal qa-explain" id="qb-n5-why"><div class="lbl">小白版：距离向量怎么算，"毒性逆转"为什么会失败</div>
+          <ol>
+            <li><span class="why">路由器怎么知道去 x 有多远？</span> 距离向量算法里，每台路由器只知道<b>自己到邻居</b>的链路代价，不知道整张图。它问每个邻居："你到 x 有多远？" 然后算：<b>到这个邻居的代价 + 邻居说的距离</b>，取最小的那个，就是自己到 x 的距离，那个邻居就是<b>下一跳</b>。这就是 Bellman-Ford 方程 D<sub>y</sub>(x) = min<sub>v</sub>{c(y,v) + D<sub>v</sub>(x)}。像问路：你不认识路，就问隔壁的人"你去火车站要多久"，再加上走到他那里的时间。</li>
+            <li><span class="why">动画里的数字是什么？</span> 线上的数字是<b>链路代价</b>（可以理解成这段路要走多久）；节点旁边的 "D(x) = 9，经 z" 表示它现在认为自己到 x 的最短距离是 9，下一跳是 z；彩色箭头指向下一跳。每一步只有一个节点更新，动画下面的说明写着它听到了什么、怎么算的。</li>
+            <li><span class="why">出了什么事？</span> 链路 x–y 的代价突然从 4 变成 60（这条路变得很差）。y 想换一条路，可它只知道邻居报的<b>数字</b>，不知道邻居的路是不是<b>经过自己</b>。z 说"我到 x 只要 6"，y 就信了，改成经 z（9）——可 z 那条 6 其实是经过 y 的，已经是过时的消息了。</li>
+            <li><span class="why">什么是无穷计数？</span> 大家都用别人过时的数字，互相以为对方能到 x，每轮只涨一点点，要更新很多很多次才慢慢涨到真实值。这就是"<b>好消息传得快，坏消息传得慢</b>"。在这期间，发往 x 的分组会在这几个路由器之间<b>绕圈</b>（环路）。</li>
+            <li><span class="why">毒性逆转是什么？</span> 一个"说谎"的规则：如果我去 x 是<b>经过你</b>的，我就告诉你"我到不了 x"（∞），免得你又绕回来经过我。对其他邻居照样说真话。两个节点互相指的情况，它能解决。</li>
+            <li><span class="why">为什么这里还会失败？</span> 这里的环有<b>三个</b>节点：y → z → A → y。每个节点只对<b>自己的下一跳</b>说谎：z 对 A 说 ∞、A 对 y 说 ∞，但 z 的下一跳不是 y，所以 <b>z 对 y 说真话 6</b>，y 照样上当。谎言没有传到需要它的人那里，于是照样无穷计数，每转一圈涨 5，直到 z 发现直连 x 的 50 更便宜才停下来。</li>
+            <li><span class="why">考试怎么考？</span> 给一个小网络和一次代价变化，让你按 Bellman-Ford 方程逐次写出更新；问为什么会无穷计数；描述毒性逆转并说明它在三个以上节点的环里会失败。</li>
+          </ol></div>
         <div class="pair" id="qb-n5">
           <div class="lab qa-anim" id="qa-pr">
             <div class="lab-head"><div><div class="lab-cap">动画 · slide 62 的 4 节点例子</div><div class="lab-title">毒性逆转为什么还会无穷计数</div></div></div>
@@ -3067,7 +3103,18 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                          <!-- QB:n7 -->
+                                                            <!-- QB:n7 -->
+        <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
+          <ol>
+            <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
+            <li><span class="why">"通告"是什么？</span> 一个 AS 告诉邻居 AS："我能到 X，你可以把去 X 的分组交给我。"通告里带着两个关键信息：<b>AS-PATH</b>（这条路会经过哪些 AS）和 <b>NEXT-HOP</b>（从哪台路由器进来）。老师说：<b>通告就是作出承诺</b>，答应替别人转发。</li>
+            <li><span class="why">eBGP 和 iBGP 有什么区别？</span> AS 之间的边界路由器互相说 = <b>eBGP</b>（动画里的实线箭头）；边界路由器把听到的消息转告给本 AS <b>内部</b>的所有路由器 = <b>iBGP</b>（虚线箭头）。</li>
+            <li><span class="why">1d 为什么要"选"？</span> 1d 在 AS1 内部，不直接连外面。它听到了两条去 X 的路：经 1c 出去走 AS3，或经 1b 出去走 AS2，只能选一个出口写进自己的转发表。</li>
+            <li><span class="why">按什么顺序选？</span> <b>① 本地偏好</b>（公司政策，比如和哪家签的合同便宜）→ <b>② AS-PATH 短</b>（经过的 AS 少）→ <b>③ 最近的 NEXT-HOP</b>（热土豆）→ ④ 其他。前一条分出胜负就不看后面的。</li>
+            <li><span class="why">什么是热土豆？</span> 手里拿着烫手的土豆，赶紧扔出去：<b>选离自己最近的出口</b>，尽快把分组送出本 AS，少占用自己网络的资源，不管外面的路长不长。动画里 1d 到 1b 代价 2、到 1c 代价 4，所以选 1b。</li>
+            <li><span class="why">切到"本地偏好更高"会怎样？</span> 规则 ① 先比，政策直接决定选经 AS3（1c），哪怕 1b 更近也不走——这说明 BGP <b>策略优先于性能</b>，也是为什么域内和域间要用不同的路由协议。</li>
+            <li><span class="why">考试怎么考？</span> 给几条路由（本地偏好、AS-PATH、到 NEXT-HOP 的代价），让你按顺序选出一条并说明理由；或者解释热土豆、BGP 策略（提供商不帮非客户转发）。</li>
+          </ol></div>
         <div class="pair" id="qb-n7">
           <div class="lab qa-anim" id="qa-bgp">
             <div class="lab-head"><div><div class="lab-cap">动画 · BGP 通告 + 热土豆</div><div class="lab-title">1d 去子网 X 该走哪个网关</div></div></div>
@@ -3172,7 +3219,18 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                          <!-- QB:n8 -->
+                                                            <!-- QB:n8 -->
+        <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
+          <ol>
+            <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
+            <li><span class="why">流表的一行（表项）是什么？</span> <b>匹配条件</b>（看分组首部的哪些字段：从哪个端口进来、源/目的 MAC、源/目的 IP、协议、端口号）+ <b>动作</b>（从某端口转发、丢弃、改写、交给控制器）+ <b>优先级</b> + <b>计数器</b>（命中了多少分组和字节）。表里写 * 表示"这个字段不管"。</li>
+            <li><span class="why">分组首部里的这些字段是哪来的？</span> 发送方在发包时就写好了：IP 首部里有源 / 目的 IP 地址和协议类型，TCP/UDP 首部里有端口号（端口号表示是哪种应用，例如 22 是远程登录 SSH、80 是网页）。交换机看的就是这些。</li>
+            <li><span class="why">怎么匹配？</span> 按<b>优先级从高到低</b>一条一条比，找到<b>第一条</b>所有写出来的字段都一样的，就执行它的动作，后面的不再看。</li>
+            <li><span class="why">为什么要优先级？</span> 规则会重叠。比如分组 2 去 51.6.0.8，又是 TCP 22：它同时符合"去 51.6.0.8 → 端口 6"和"TCP 22 → 丢弃"。优先级决定听谁的：防火墙那条更高，所以被丢弃。</li>
+            <li><span class="why">都不匹配怎么办？</span> 最后一条全是 * 的 <b>table-miss</b>，把分组交给控制器，控制器决定怎么处理，还可以下发一条新规则。</li>
+            <li><span class="why">这样有什么好处？</span> 能按<b>源地址、端口、协议</b>区分流量，做到传统"只看目的地址"的转发做不到的事：防火墙、按来源分流、负载均衡、NAT，都用同一套 match + action。代价是控制器很关键，它坏了影响全网（老师说的 single point of failure）。</li>
+            <li><span class="why">考试怎么考？</span> 给一个策略让你写流表（每行写匹配、动作、<b>优先级</b>，最后加 table-miss）；解释为什么按目的转发 + LS/DV 做不到；说出 SDN 的挑战。</li>
+          </ol></div>
         <div class="pair" id="qb-n8">
           <div class="lab qa-anim" id="qa-of">
             <div class="lab-head"><div><div class="lab-cap">动画 · OpenFlow 流表匹配</div><div class="lab-title">分组进来，按优先级找第一条匹配的表项</div></div></div>
