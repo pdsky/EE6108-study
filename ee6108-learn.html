@@ -692,6 +692,14 @@ details.exq-a > summary::-webkit-details-marker{display:none;}
 details.exq-a > div{padding:4px 12px 8px 12px; font-size:14px; line-height:1.65; border-top:1px dashed var(--line);}
 .exq .trap{max-width:none;}
 .exq .tablewrap{margin:8px 0;}
+.qa-bit.dim{opacity:.45;} .qa-bt.dim{opacity:.5;}
+.qa-cut{stroke:var(--accent); stroke-width:1.6; stroke-dasharray:3 2;}
+.qa-damark{stroke:var(--warn); stroke-width:2.5;}
+.qa-barwin{stroke:var(--accent); stroke-width:2;}
+.qa-explain{max-width:none;}
+.qa-explain ol{margin:6px 0 0 0; padding-left:22px;}
+.qa-explain li{margin-bottom:8px;}
+.qa-explain .why{color:var(--accent-strong); font-weight:700;}
 
 </style>
 </head>
@@ -2375,12 +2383,23 @@ netE 28</textarea></label>
         </div>
         <p>结论（slide 12）：列前缀而不是逐个 IP 地址，大大简化了转发表。这和 Part I Topic 3 的 <a href="#t3-s2">3.2</a> 是同一个例子。</p>
 <!-- QB:n1 -->
+        <div class="callout teal qa-explain" id="qb-n1-why"><div class="lbl">小白版：最长前缀匹配到底在干什么，为什么要这样做</div>
+          <ol>
+            <li><span class="why">路由器在干什么？</span> 分组到了路由器，路由器只看分组首部里的<b>目的地址</b>，然后决定从哪个<b>接口</b>（出口）把它送出去。这一步叫<b>转发</b>，依据是路由器里的一张<b>转发表</b>：表的左边是"什么样的地址"，右边是"走哪个接口"。转发表里的内容是路由算法（后面的 Dijkstra、距离向量）事先算好填进去的。</li>
+            <li><span class="why">为什么不一个地址写一行？</span> IPv4 地址有 2<sup>32</sup> ≈ 43 亿个，一个地址一行，表大得放不下；而且路由器每秒要查几十万次，表越长查得越慢。老师原话："It is extremely important to keep the forwarding table as short as possible."</li>
+            <li><span class="why">那怎么写？——用"前缀"表示一整段地址。</span> 地址是成块分配的：同一个机构、同一片网络的地址，<b>前面若干位都一样</b>（就像同一个区的电话号码区号一样、同一片区的邮编前几位一样）。所以表里写"<b>前 N 位是这些，后面随便</b>"，就代表了一整段地址，写法是 <b>前缀/长度</b>。例如 <code>200.23.16.0/21</code> = 前 21 位固定、后 11 位随便 = 2<sup>11</sup> = 2048 个地址，也就是 200.23.16.0 ～ 200.23.23.255。</li>
+            <li><span class="why">怎么判断一个地址属不属于某一行？</span> 只比较<b>前 N 位</b>：完全一样就属于（匹配），有一位不同就不属于。动画里一位一位地比，比的就是这个；后面打 * 的位不用看。换成十进制更直观：<b>看这个地址落不落在这一行管的范围里</b>。</li>
+            <li><span class="why">为什么会有好几行同时匹配？</span> 因为表里允许"<b>大范围里挖一个小例外</b>"。比如 200.23.24～31 这一大段都从接口 2 出去，但其中 200.23.24 这一小段要从接口 1 出去（它连在别的方向）。写法是：一行管大段（/21），再加一行管小段（/24）；而不是把剩下的 25、26、…、31 各写一行。另外最后还有一行 <code>otherwise</code>（前缀长度 0），它<b>匹配所有地址</b>，是兜底的默认路由。所以一个地址常常同时匹配好几行。</li>
+            <li><span class="why">为什么选"最长"的那一行？</span> 前缀越长 = 规定死的位越多 = 管的范围越小 = <b>越具体</b>。小例外本来就是为特殊情况写的，必须比大范围优先，不然例外永远不起作用。生活里的例子：信封上同时符合"新加坡"和"新加坡南洋理工大学 EEE 系"，当然按更具体的那个投递；公司规定"所有人周五可以在家办公，但值班的人除外"，值班的人要按"例外"那条执行。</li>
+            <li><span class="why">这样做有什么好处？</span> ① 表很短（很多地址合成一行，叫<b>地址聚合</b>），查得快；② 网络有变化时，只需要加一行更具体的例外，不用改一大片；③ 默认路由保证任何地址都有路可走。</li>
+            <li><span class="why">考试怎么写？</span> 计算题：把目的地址和每一行的前缀逐位比较，<b>写出哪几行匹配、各是多少位</b>，再写"by longest prefix matching, the most specific entry is chosen"，给出接口。问答题"为什么用前缀"：表短、查得快、地址按块分配可以聚合。</li>
+          </ol></div>
         <div class="pair" id="qb-n1">
           <div class="lab qa-anim" id="qa-lpm">
             <div class="lab-head"><div><div class="lab-cap">动画 · 最长前缀匹配</div><div class="lab-title">一个目的地址怎么查转发表</div></div></div>
             <div class="presets" id="qaLpmPre"><button data-k="a" class="on">DA-1</button><button data-k="b">DA-2（两行都匹配）</button><button data-k="c">DA-3</button><button data-k="d">DA-4（都不匹配）</button></div>
             <div class="btnrow"><button class="btn primary" id="qaLpmPlay">▶ 播放</button><button class="btn" id="qaLpmPrev">←</button><button class="btn" id="qaLpmNext">下一步 →</button><button class="btn" id="qaLpmReset">重来</button><span class="steplabel mono" id="qaLpmStep"></span></div>
-            <div class="chartbox"><svg id="qaLpmSvg" class="qa-svg" viewBox="0 0 790 230" role="img" aria-label="最长前缀匹配动画"></svg></div>
+            <div class="chartbox"><svg id="qaLpmSvg" class="qa-svg" viewBox="0 0 790 336" role="img" aria-label="最长前缀匹配动画"></svg></div>
             <div class="narr" id="qaLpmNarr"></div>
           </div>
           <div class="exq">
@@ -2400,6 +2419,9 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
+
 
 
 
@@ -2755,7 +2777,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                        <!-- QB:n3 -->
+                                          <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -2836,7 +2858,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                        <!-- QB:n4 -->
+                                          <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3045,7 +3067,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                        <!-- QB:n7 -->
+                                          <!-- QB:n7 -->
         <div class="pair" id="qb-n7">
           <div class="lab qa-anim" id="qa-bgp">
             <div class="lab-head"><div><div class="lab-cap">动画 · BGP 通告 + 热土豆</div><div class="lab-title">1d 去子网 X 该走哪个网关</div></div></div>
@@ -3150,7 +3172,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                        <!-- QB:n8 -->
+                                          <!-- QB:n8 -->
         <div class="pair" id="qb-n8">
           <div class="lab qa-anim" id="qa-of">
             <div class="lab-head"><div><div class="lab-cap">动画 · OpenFlow 流表匹配</div><div class="lab-title">分组进来，按优先级找第一条匹配的表项</div></div></div>
@@ -5866,14 +5888,14 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     });
   }
 
-  /* ---------- 动画 A：最长前缀匹配（slide 11–12） ---------- */
+  /* ---------- 动画 A：最长前缀匹配（slide 11–12），带十进制与地址范围数轴 ---------- */
   (function(){
     if (!$('qaLpmSvg')) return;
     var TABLE = [
-      { p: '110010000001011100010', ifc: 0 },
-      { p: '110010000001011100011000', ifc: 1 },
-      { p: '110010000001011100011', ifc: 2 },
-      { p: '', ifc: 3 }
+      { p: '110010000001011100010', ifc: 0, dec: '200.23.16.0/21', lo: 16, hi: 23 },
+      { p: '110010000001011100011000', ifc: 1, dec: '200.23.24.0/24', lo: 24, hi: 24 },
+      { p: '110010000001011100011', ifc: 2, dec: '200.23.24.0/21', lo: 24, hi: 31 },
+      { p: '', ifc: 3, dec: '0.0.0.0/0（默认）', lo: 0, hi: 255 }
     ];
     var ADDR = {
       a: '11001000000101110001011010100001',
@@ -5882,49 +5904,69 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
       d: '11001000000101110100000000000001'
     };
     var addr = ADDR.a;
+    var BARC = ['--s1', '--s2', '--s3', '--line-strong'];
     function bx(i){ return 150 + i * 14 + Math.floor(i / 8) * 8; }
+    function oct(i){ return parseInt(addr.substr(i * 8, 8), 2); }
+    function dec(){ return [0, 1, 2, 3].map(oct).join('.'); }
     function match(r){ var p = TABLE[r].p, n = 0; while (n < p.length && p[n] === addr[n]) n++; return { len: p.length, upto: n, ok: n === p.length }; }
+    function nx(v){ return 150 + v * 7.75; }
     function render(k){
       var svg = $('qaLpmSvg'); svg.innerHTML = '';
+      svgEl('text', { x: (bx(0) + bx(15)) / 2, y: 11, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, '前 16 位 = 200.23（都一样）');
+      svgEl('text', { x: (bx(16) + bx(23)) / 2, y: 11, 'text-anchor': 'middle', 'class': 'qa-lbl' }, svg, '第 3 个字节：区别在这里');
       svgEl('text', { x: 10, y: 34, 'class': 'qa-lbl' }, svg, '目的地址 DA');
       for (var i = 0; i < 32; i++){
-        svgEl('rect', { x: bx(i) - 6, y: 20, width: 12, height: 20, rx: 2, 'class': 'qa-bit' }, svg);
-        svgEl('text', { x: bx(i), y: 35, 'text-anchor': 'middle', 'class': 'qa-bt' }, svg, addr[i]);
+        svgEl('rect', { x: bx(i) - 6, y: 20, width: 12, height: 20, rx: 2, 'class': 'qa-bit' + (i < 16 ? ' dim' : '') }, svg);
+        svgEl('text', { x: bx(i), y: 35, 'text-anchor': 'middle', 'class': 'qa-bt' + (i < 16 ? ' dim' : '') }, svg, addr[i]);
       }
+      svgEl('text', { x: 628, y: 35, 'class': 'qa-h' }, svg, '= ' + dec());
       var best = -1, bestLen = -1;
       TABLE.forEach(function(row, r){
-        var y = 70 + r * 40, done = k > r, m = match(r);
+        var y = 62 + r * 42, done = k > r, m = match(r);
         svgEl('text', { x: 10, y: y + 15, 'class': 'qa-lbl' }, svg, r === 3 ? 'otherwise' : '表项 ' + (r + 1));
-        if (r === 3){ svgEl('text', { x: bx(0) - 6, y: y + 15, 'class': 'qa-dim' }, svg, '（其他所有地址，前缀长度 0）'); }
+        if (r === 3) svgEl('text', { x: bx(0) - 6, y: y + 15, 'class': 'qa-dim' }, svg, '前缀长度 0：一位都不用比，任何地址都匹配');
         for (var i = 0; i < row.p.length; i++){
-          var cls = 'qa-bit';
+          var cls = 'qa-bit' + (i < 16 ? ' dim' : '');
           if (done){ cls += i < m.upto ? ' ok' : (i === m.upto ? ' bad' : ' off'); }
           svgEl('rect', { x: bx(i) - 6, y: y, width: 12, height: 20, rx: 2, 'class': cls }, svg);
-          svgEl('text', { x: bx(i), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-bt' }, svg, row.p[i]);
+          svgEl('text', { x: bx(i), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-bt' + (i < 16 ? ' dim' : '') }, svg, row.p[i]);
         }
-        for (var j = row.p.length; j < 32; j++) svgEl('text', { x: bx(j), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, '*');
-        var tag = '→ 接口 ' + row.ifc;
-        if (done) tag += m.ok ? '　✓ 匹配 ' + m.len + ' 位' : '　✕ 第 ' + (m.upto + 1) + ' 位不同';
-        svgEl('text', { x: 628, y: y + 15, 'class': 'qa-tag' + (done ? (m.ok ? ' ok' : ' bad') : '') }, svg, tag);
+        if (r !== 3) for (var j = row.p.length; j < 32; j++) svgEl('text', { x: bx(j), y: y + 15, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, '*');
+        if (row.p.length){ var lx = bx(row.p.length - 1) + 8; svgEl('line', { x1: lx, y1: y - 4, x2: lx, y2: y + 24, 'class': 'qa-cut' }, svg); }
+        svgEl('text', { x: 628, y: y + 10, 'class': 'qa-tag' }, svg, row.dec + ' → 接口 ' + row.ifc);
+        if (done) svgEl('text', { x: 628, y: y + 25, 'class': 'qa-tag ' + (m.ok ? 'ok' : 'bad') }, svg, m.ok ? '✓ 前 ' + m.len + ' 位全相同：匹配' : '✕ 第 ' + (m.upto + 1) + ' 位不同：不匹配');
         if (m.ok && m.len > bestLen){ bestLen = m.len; best = r; }
       });
-      if (k >= 5){
-        var y = 70 + best * 40;
-        svgEl('rect', { x: 4, y: y - 5, width: 782, height: 30, rx: 4, 'class': 'qa-win' }, svg);
-      }
+      if (k >= 5){ var yw = 62 + best * 42; svgEl('rect', { x: 4, y: yw - 6, width: 782, height: 36, rx: 4, 'class': 'qa-win' }, svg); }
+      /* 地址范围数轴：第 3 个字节 0–79 */
+      var y0 = 238;
+      svgEl('text', { x: 10, y: y0 - 4, 'class': 'qa-lbl' }, svg, '每一行管的地址范围（看第 3 个字节）');
+      TABLE.forEach(function(row, r){
+        var yb = y0 + 8 + r * 16, x1 = nx(row.lo), x2 = nx(Math.min(row.hi, 79) + 1), on = k > r && match(r).ok, win = k >= 5 && r === best;
+        svgEl('rect', { x: x1, y: yb, width: x2 - x1, height: 10, rx: 2, style: 'fill:' + css(BARC[r]) + ';opacity:' + (on || win ? 1 : 0.35), 'class': win ? 'qa-barwin' : '' }, svg);
+        svgEl('text', { x: 10, y: yb + 9, 'class': 'qa-dim' }, svg, (r === 3 ? 'otherwise' : '表项 ' + (r + 1)) + '：' + (r === 3 ? '全部' : row.lo === row.hi ? row.lo : row.lo + '～' + row.hi));
+      });
+      var axy = y0 + 74;
+      svgEl('line', { x1: nx(0), y1: axy, x2: nx(80), y2: axy, 'class': 'qa-bus' }, svg);
+      for (var t = 0; t <= 80; t += 8){ svgEl('line', { x1: nx(t), y1: axy, x2: nx(t), y2: axy + 4, 'class': 'qa-bus' }, svg); svgEl('text', { x: nx(t), y: axy + 15, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, t === 80 ? '…255' : t); }
+      var v = oct(2) + oct(3) / 256, mx = nx(Math.min(v, 79.9));
+      svgEl('line', { x1: mx, y1: y0 + 2, x2: mx, y2: axy, 'class': 'qa-damark' }, svg);
+      svgEl('text', { x: mx + 4, y: y0 + 2, 'class': 'qa-tag bad' }, svg, 'DA：第 3 个字节 = ' + oct(2) + (oct(2) > 79 ? '（在右边很远）' : ''));
       var msg;
-      if (k === 0) msg = '目的地址的前 24 位都是 11001000 00010111 000xxxxx。转发表按<b>前缀</b>写，不是一个地址一行。点"播放"，逐行比较前缀。';
-      else if (k <= 4){
-        var r = k - 1, m = match(r);
-        msg = r === 3 ? '最后一行 otherwise 前缀长度为 0，<b>任何地址都匹配</b>，是默认路由。'
-          : '表项 ' + (r + 1) + '（' + TABLE[r].p.length + ' 位前缀）：' + (m.ok ? '<b>全部相同 → 匹配</b>，记下长度 ' + m.len + '。' : '第 ' + (m.upto + 1) + ' 位不同 → 不匹配。');
-      } else {
-        var ms = TABLE.map(function(row, r){ return match(r).ok ? (r === 3 ? 'otherwise(0)' : '表项 ' + (r + 1) + '(' + row.p.length + ')') : null; }).filter(Boolean);
-        msg = '匹配的行：' + ms.join('、') + '。规则是<b>选最长（最具体）的前缀</b> → 送到 <b>接口 ' + TABLE[best].ifc + '</b>。' + (ms.length > 2 ? '这正是 slide 12 的情况：表项 2（24 位）"压住"了表项 3（21 位）。' : '');
+      if (k === 0) msg = '路由器拿到一个分组，只看它的目的地址 <b>DA = ' + dec() + '</b>，然后查转发表决定从哪个接口送出去。表里每一行不是一个地址，而是<b>一整段地址</b>，写成"前缀/长度"：<b>前 N 位必须一样，后面打 * 的位随便</b>。下面的数轴把每一行管的范围画成色条，红竖线是 DA。点"播放"，一行一行比。';
+      else if (k <= 3){
+        var r = k - 1, m = match(r), row = TABLE[r];
+        msg = '<b>表项 ' + (r + 1) + ' = ' + row.dec + '</b>：只比<b>前 ' + row.p.length + ' 位</b>（竖虚线左边）。' + (m.ok ? 'DA 的前 ' + row.p.length + ' 位和它<b>全部相同 → 匹配</b>。换成十进制就是：DA 落在 200.23.' + (row.lo === row.hi ? row.lo : row.lo + '～' + row.hi) + '.x 这个范围里（数轴上红线在这条色条里）。' : '第 ' + (m.upto + 1) + ' 位就不一样了 → <b>不匹配</b>：DA 不在 200.23.' + (row.lo === row.hi ? row.lo : row.lo + '～' + row.hi) + '.x 这个范围里。');
+      } else if (k === 4) msg = '<b>otherwise（0.0.0.0/0）</b>：前缀长度是 0，一位都不用比，<b>所有地址都匹配</b>。它是兜底的"默认路由"：哪一行都不匹配时，就从这里走，保证每个分组都有出口。';
+      else {
+        var hits = TABLE.map(function(row, r){ return match(r).ok ? (r === 3 ? 'otherwise（0 位）' : '表项 ' + (r + 1) + '（' + row.p.length + ' 位）') : null; }).filter(Boolean);
+        msg = 'DA 一共匹配了：' + hits.join('、') + '。规则：<b>选前缀最长的那一行</b>。前缀越长 → 管的范围越小 → 规则越具体，所以 → <b>接口 ' + TABLE[best].ifc + '</b>。';
+        if (addr === ADDR.b) msg += '<br>这就是 slide 12 的关键：表项 2（只管 24 这一段）是从表项 3（管 24～31）里<b>挖出来的例外</b>，意思是"24 这一段单独走接口 1，其余照常走接口 2"。如果选短的那行，这条例外就永远用不上了。';
+        if (addr === ADDR.d) msg += '<br>前面三行都不匹配，只剩默认路由，从接口 3 送出去。';
       }
       $('qaLpmNarr').innerHTML = msg;
     }
-    var pl = qaPlayer('qaLpm', function(){ return 5; }, render, 1000);
+    var pl = qaPlayer('qaLpm', function(){ return 5; }, render, 1600);
     qaChips('qaLpmPre', function(v){ addr = ADDR[v]; pl.reset(); });
     pl.reset();
   })();
