@@ -728,6 +728,13 @@ table.qa-bgpt .c3, .qa-exit.e3{color:var(--s2); fill:var(--s2);}
 .qa-exit{font-size:11px; font-weight:700;}
 .qa-exit.e0{fill:var(--accent-strong);}
 table.qa-bgpt th{text-transform:none; letter-spacing:0;}
+/* 中文术语后的英文（gl_terms.js） */
+.gl{display:inline; font-family:var(--font-body); font-size:.8em; font-weight:500; color:var(--teal); background:var(--teal-soft); border-radius:4px; padding:0 .3em; margin:0 .2em; line-height:1.5; white-space:normal; font-style:normal; letter-spacing:0; text-transform:none; vertical-align:baseline;}
+body.gl-off .gl{display:none;}
+@media print{ .gl{background:none; padding:0;} .gl::before{content:"(";} .gl::after{content:")";} }
+@media (max-width:640px){ .topbar{gap:8px;} .glb-long{display:none;} }
+@media (max-width:480px){ .topbar .progresspill{display:none;} }
+@media (max-width:480px){ .navtoggle + .brand{display:none;} }
 /* ============ 习题页专用 ============ */
 .pwrap{max-width:980px; margin:0 auto; padding:0 20px 120px 20px;}
 .phero{padding:48px 0 26px 0;}
@@ -860,6 +867,7 @@ details.mva > div{padding:6px 12px 10px 12px; line-height:1.7; border-top:1px da
   <div class="spacer"></div>
   <a class="iconbtn" href="ee6108-learn.html">← 学习手册</a>
   <div class="progresspill"><span id="progressLabel">已掌握 0</span><span class="bar"><i id="progressBar"></i></span></div>
+  <button class="iconbtn" id="glToggleBtn" title="中文术语后面附英文，点一下开/关" aria-pressed="true">EN 术语：开</button>
   <button class="iconbtn" id="themeToggleBtn">主题</button>
 </div>
 
@@ -2271,6 +2279,178 @@ until all nodes in N'</pre>
     $('mtClose').addEventListener('click', function(){ openAll(false); });
     draw();
   })();
+})();
+
+/* =====================================================
+   中文术语后自动附英文（用户要求：每个专有名词旁附英文）
+   每个段落 / 列表项 / 表格格子里，同一个术语只在第一次出现时标一次；
+   段落里已经写了这个英文就不再标。动画旁白等动态内容也会自动标。
+   ===================================================== */
+(function(){
+  var GL = [
+    /* ---- 通用 / Topic 1 ---- */
+    ['计算机网络', 'computer network'], ['互联网', 'Internet'], ['因特网', 'Internet'], ['网络边缘', 'network edge'], ['网络核心', 'network core'],
+    ['接入网络', 'access network'], ['接入网', 'access network'], ['端系统', 'end system'], ['主机', 'host'], ['服务器', 'server'], ['客户端', 'client'],
+    ['路由器', 'router'], ['交换机', 'switch'], ['集线器', 'hub'], ['网桥', 'bridge'], ['链路', 'link'], ['节点', 'node'], ['结点', 'node'],
+    ['协议栈', 'protocol stack'], ['协议', 'protocol'], ['分层', 'layering'], ['封装', 'encapsulation'], ['解封装', 'decapsulation'],
+    ['首部', 'header'], ['报头', 'header'], ['头部', 'header'], ['尾部', 'trailer'], ['有效载荷', 'payload'], ['载荷', 'payload'],
+    ['应用层', 'application layer'], ['传输层', 'transport layer'], ['运输层', 'transport layer'], ['网络层', 'network layer'], ['数据链路层', 'data link layer'], ['链路层', 'link layer'], ['物理层', 'physical layer'],
+    ['报文段', 'segment'], ['报文', 'message'], ['数据报', 'datagram'], ['数据包', 'packet'], ['分组', 'packet'], ['帧', 'frame'], ['比特', 'bit'], ['字节', 'byte'],
+    ['电路交换', 'circuit switching'], ['分组交换', 'packet switching'], ['报文交换', 'message switching'], ['统计复用', 'statistical multiplexing'],
+    ['频分复用', 'frequency-division multiplexing (FDM)'], ['时分复用', 'time-division multiplexing (TDM)'], ['多路复用', 'multiplexing'], ['复用', 'multiplexing'],
+    ['多路分解', 'demultiplexing'], ['分用', 'demultiplexing'], ['存储转发', 'store-and-forward'],
+    ['传输时延', 'transmission delay'], ['传播时延', 'propagation delay'], ['排队时延', 'queuing delay'], ['处理时延', 'processing delay'], ['节点时延', 'nodal delay'], ['结点时延', 'nodal delay'],
+    ['端到端时延', 'end-to-end delay'], ['往返时间', 'round-trip time (RTT)'], ['往返时延', 'round-trip time (RTT)'], ['时延带宽积', 'delay-bandwidth product'], ['时延', 'delay'],
+    ['带宽', 'bandwidth'], ['吞吐量', 'throughput'], ['吞吐率', 'throughput'], ['传输速率', 'transmission rate'], ['数据率', 'data rate'], ['速率', 'rate'], ['传播速度', 'propagation speed'],
+    ['利用率', 'utilisation'], ['效率', 'efficiency'], ['丢包率', 'packet loss rate'], ['丢包', 'packet loss'], ['流量强度', 'traffic intensity'], ['瓶颈链路', 'bottleneck link'], ['瓶颈', 'bottleneck'],
+    ['面向连接', 'connection-oriented'], ['无连接', 'connectionless'], ['尽力而为', 'best effort'], ['虚电路', 'virtual circuit'],
+    ['局域网', 'local area network (LAN)'], ['广域网', 'wide area network (WAN)'], ['城域网', 'metropolitan area network (MAN)'], ['拓扑', 'topology'],
+    ['实时', 'real-time'], ['抖动', 'jitter'], ['时延抖动', 'delay jitter'],
+    /* ---- Topic 2.1 数据链路控制 ---- */
+    ['数据链路控制', 'data link control'], ['差错控制', 'error control'], ['差错检测', 'error detection'], ['检错', 'error detection'], ['纠错', 'error correction'],
+    ['比特差错率', 'bit error rate (BER)'], ['误码率', 'bit error rate (BER)'], ['帧差错率', 'frame error rate'], ['帧错误率', 'frame error rate'], ['差错', 'error'],
+    ['二维奇偶校验', 'two-dimensional parity check'], ['奇偶校验', 'parity check'], ['校验位', 'check bit'], ['首部校验和', 'header checksum'], ['校验和', 'checksum'],
+    ['循环冗余校验', 'cyclic redundancy check (CRC)'], ['生成多项式', 'generator polynomial'], ['模 2 除法', 'modulo-2 division'], ['模2除法', 'modulo-2 division'], ['余数', 'remainder'],
+    ['否定确认', 'negative acknowledgement (NAK)'], ['确认帧', 'ACK frame'], ['确认号', 'acknowledgement number'], ['累积确认', 'cumulative ACK'], ['累计确认', 'cumulative ACK'], ['捎带确认', 'piggybacked ACK'], ['捎带', 'piggybacking'],
+    ['超时重传', 'retransmission on timeout'], ['超时', 'timeout'], ['重传', 'retransmission'], ['计时器', 'timer'], ['定时器', 'timer'], ['序号', 'sequence number'], ['序列号', 'sequence number'],
+    ['自动重传请求', 'automatic repeat request (ARQ)'], ['停止等待', 'stop-and-wait'], ['停等', 'stop-and-wait'], ['滑动窗口', 'sliding window'], ['发送窗口', 'send window'],
+    ['接收窗口', 'receive window'], ['窗口大小', 'window size'], ['窗口', 'window'], ['回退 N 步', 'Go-Back-N (GBN)'], ['回退N步', 'Go-Back-N (GBN)'], ['选择重传', 'Selective Repeat (SR)'], ['选择性重传', 'Selective Repeat (SR)'],
+    ['流水线', 'pipelining'], ['发送方', 'sender'], ['接收方', 'receiver'], ['发送端', 'sender'], ['接收端', 'receiver'], ['重复帧', 'duplicate frame'], ['冗余', 'redundancy'],
+    ['缓冲区', 'buffer'], ['缓冲', 'buffer'], ['流量控制', 'flow control'], ['链路效率', 'link efficiency'],
+    /* ---- Topic 2.2 介质访问控制 ---- */
+    ['介质访问控制', 'medium access control (MAC)'], ['媒体访问控制', 'medium access control (MAC)'], ['媒体接入控制', 'medium access control (MAC)'], ['多路访问', 'multiple access'], ['多址接入', 'multiple access'],
+    ['随机接入', 'random access'], ['随机访问', 'random access'], ['信道划分', 'channel partitioning'], ['轮流', 'taking turns'], ['轮询', 'polling'], ['令牌传递', 'token passing'], ['令牌', 'token'],
+    ['广播信道', 'broadcast channel'], ['信道', 'channel'], ['广播域', 'broadcast domain'], ['广播地址', 'broadcast address'], ['广播', 'broadcast'], ['单播', 'unicast'], ['组播', 'multicast'], ['多播', 'multicast'],
+    ['碰撞域', 'collision domain'], ['冲突域', 'collision domain'], ['碰撞检测', 'collision detection'], ['冲突检测', 'collision detection'], ['碰撞避免', 'collision avoidance'], ['碰撞', 'collision'], ['冲突', 'collision'],
+    ['载波侦听', 'carrier sense'], ['载波监听', 'carrier sense'], ['二进制指数退避', 'binary exponential backoff'], ['指数退避', 'exponential backoff'], ['退避', 'backoff'],
+    ['时隙 ALOHA', 'slotted ALOHA'], ['时隙ALOHA', 'slotted ALOHA'], ['纯 ALOHA', 'pure ALOHA'], ['纯ALOHA', 'pure ALOHA'], ['时隙', 'slot'], ['争用期', 'contention period'],
+    ['以太网', 'Ethernet'], ['无线局域网', 'wireless LAN (WLAN)'], ['最短帧长', 'minimum frame size'], ['最小帧长', 'minimum frame size'], ['帧长', 'frame length'], ['前导码', 'preamble'],
+    ['物理地址', 'physical address'], ['硬件地址', 'hardware address'], ['地址解析协议', 'Address Resolution Protocol (ARP)'], ['自学习', 'self-learning'], ['交换表', 'switch table'],
+    ['过滤', 'filtering'], ['泛洪', 'flooding'], ['洪泛', 'flooding'], ['隐藏终端', 'hidden terminal'], ['暴露终端', 'exposed terminal'],
+    /* ---- Topic 3 网络层 / IP ---- */
+    ['网际协议', 'Internet Protocol (IP)'], ['网络前缀', 'network prefix'], ['网络号', 'network ID'], ['主机号', 'host ID'], ['网络地址', 'network address'],
+    ['子网掩码', 'subnet mask'], ['掩码', 'mask'], ['子网划分', 'subnetting'], ['划分子网', 'subnetting'], ['子网', 'subnet'], ['超网', 'supernetting'],
+    ['无类别域间路由', 'Classless Inter-Domain Routing (CIDR)'], ['无类域间路由', 'Classless Inter-Domain Routing (CIDR)'], ['可变长子网掩码', 'variable-length subnet mask (VLSM)'], ['变长子网掩码', 'variable-length subnet mask (VLSM)'],
+    ['地址块', 'address block'], ['分类编址', 'classful addressing'], ['分类地址', 'classful addressing'], ['私有地址', 'private address'], ['公有地址', 'public address'],
+    ['网络地址转换', 'Network Address Translation (NAT)'], ['动态主机配置协议', 'Dynamic Host Configuration Protocol (DHCP)'], ['网际控制报文协议', 'Internet Control Message Protocol (ICMP)'],
+    ['片偏移', 'fragment offset'], ['分片', 'fragmentation'], ['最大传输单元', 'maximum transmission unit (MTU)'], ['生存时间', 'time to live (TTL)'], ['服务类型', 'type of service (ToS)'],
+    ['点分十进制', 'dotted-decimal'], ['前缀长度', 'prefix length'], ['前缀', 'prefix'], ['路由聚合', 'route aggregation'], ['地址聚合', 'address aggregation'], ['聚合', 'aggregation'],
+    ['默认网关', 'default gateway'], ['默认路由', 'default route'], ['下一跳', 'next hop'], ['跳数', 'hop count'], ['一跳', 'one hop'], ['网关路由器', 'gateway router'], ['网关', 'gateway'],
+    ['目的地址', 'destination address'], ['源地址', 'source address'], ['目的端口', 'destination port'], ['源端口', 'source port'], ['目的网络', 'destination network'],
+    /* ---- Part II A：网络层 II、路由器、路由、SDN ---- */
+    ['转发表', 'forwarding table'], ['路由表', 'routing table'], ['表项', 'table entry'], ['最长前缀匹配', 'longest prefix matching'], ['转发', 'forwarding'],
+    ['路由选择', 'routing'], ['路由算法', 'routing algorithm'], ['路由协议', 'routing protocol'], ['数据平面', 'data plane'], ['控制平面', 'control plane'], ['管理平面', 'management plane'],
+    ['输入端口', 'input port'], ['输出端口', 'output port'], ['交换结构', 'switching fabric'], ['路由处理器', 'routing processor'], ['线路卡', 'line card'],
+    ['经内存交换', 'switching via memory'], ['经总线交换', 'switching via a bus'], ['经互联网络交换', 'switching via an interconnection network'], ['互联网络', 'interconnection network'],
+    ['交叉开关', 'crossbar'], ['纵横交换', 'crossbar'], ['总线', 'bus'], ['内存', 'memory'], ['线速', 'line rate'], ['查找', 'lookup'],
+    ['输入排队', 'input queuing'], ['输出排队', 'output queuing'], ['排队', 'queuing'], ['队头阻塞', 'head-of-the-line (HOL) blocking'], ['队头', 'head of the line (HOL)'],
+    ['虚拟输出队列', 'virtual output queue (VOQ)'], ['前瞻', 'lookahead'], ['饱和吞吐量', 'saturation throughput'], ['调度', 'scheduling'], ['先来先服务', 'first-come-first-served (FCFS)'],
+    ['丢弃', 'drop'], ['加速比', 'speedup'],
+    ['链路状态通告', 'link-state advertisement (LSA)'], ['链路状态', 'link state (LS)'], ['距离向量', 'distance vector (DV)'], ['距离矢量', 'distance vector (DV)'],
+    ['集中式', 'centralized'], ['分布式', 'decentralized'], ['静态路由', 'static routing'], ['动态路由', 'dynamic routing'],
+    ['最小代价路径', 'least-cost path'], ['最低代价路径', 'least-cost path'], ['最短路径', 'shortest path'], ['最短路', 'shortest path'], ['链路代价', 'link cost'], ['代价', 'cost'], ['权重', 'weight'],
+    ['迪杰斯特拉', 'Dijkstra'], ['贝尔曼-福特方程', 'Bellman-Ford equation'], ['贝尔曼-福特', 'Bellman-Ford'], ['贝尔曼方程', 'Bellman-Ford equation'],
+    ['计数到无穷', 'count-to-infinity'], ['无穷计数', 'count-to-infinity'], ['毒性逆转', 'poisoned reverse'], ['毒性反转', 'poisoned reverse'], ['水平分割', 'split horizon'],
+    ['路由环路', 'routing loop'], ['环路', 'loop'], ['振荡', 'oscillation'], ['收敛', 'convergence'],
+    ['层次路由', 'hierarchical routing'], ['分层路由', 'hierarchical routing'], ['自治系统', 'autonomous system (AS)'], ['域内路由', 'intra-AS routing'], ['域间路由', 'inter-AS routing'],
+    ['域内', 'intra-AS'], ['域间', 'inter-AS'], ['边界路由器', 'border router'], ['热土豆路由', 'hot potato routing'], ['热土豆', 'hot potato routing'],
+    ['路由信息协议', 'Routing Information Protocol (RIP)'], ['开放最短路径优先', 'Open Shortest Path First (OSPF)'], ['边界网关协议', 'Border Gateway Protocol (BGP)'],
+    ['通告', 'advertisement'], ['本地偏好', 'local preference (LOCAL_PREF)'], ['路由策略', 'routing policy'], ['策略', 'policy'],
+    ['提供商网络', 'provider network'], ['提供商', 'provider'], ['客户网络', 'customer network'], ['桩网络', 'stub network'], ['多宿', 'multi-homed'], ['多归属', 'multi-homed'],
+    ['对等层', 'peer layer'], ['对等体', 'peer'], ['对等', 'peer'], ['等价多路径', 'equal-cost multipath (ECMP)'], ['主干区域', 'backbone area'], ['主干', 'backbone'], ['骨干', 'backbone'], ['区域边界路由器', 'area border router'], ['认证', 'authentication'],
+    ['软件定义网络', 'software-defined networking (SDN)'], ['控制器', 'controller'], ['流表', 'flow table'], ['匹配', 'match'], ['动作', 'action'], ['优先级', 'priority'], ['计数器', 'counter'],
+    ['南向接口', 'southbound interface'], ['北向接口', 'northbound interface'], ['通用转发', 'generalized forwarding'], ['防火墙', 'firewall'], ['负载均衡', 'load balancing'], ['可靠性', 'reliability'],
+    /* ---- 传输层 ---- */
+    ['端口号', 'port number'], ['端口', 'port'], ['接口', 'interface'], ['套接字', 'socket'], ['用户数据报协议', 'User Datagram Protocol (UDP)'], ['传输控制协议', 'Transmission Control Protocol (TCP)'],
+    ['伪首部', 'pseudo header'], ['反码', "one's complement"], ['回卷', 'wraparound'], ['可靠数据传输', 'reliable data transfer (rdt)'], ['可靠传输', 'reliable data transfer'],
+    ['有限状态机', 'finite state machine (FSM)'], ['状态机', 'state machine'], ['三次握手', 'three-way handshake'], ['握手', 'handshake'],
+    ['慢启动', 'slow start'], ['拥塞避免', 'congestion avoidance'], ['快速重传', 'fast retransmit'], ['快速恢复', 'fast recovery'], ['拥塞窗口', 'congestion window (cwnd)'], ['拥塞控制', 'congestion control'], ['拥塞', 'congestion'],
+    /* ---- 扫描页面后补充的常用术语 ---- */
+    ['路径', 'path'], ['邻居', 'neighbour'], ['距离', 'distance'], ['直连', 'directly connected'], ['队首阻塞', 'head-of-the-line (HOL) blocking'], ['队首', 'head of the line (HOL)'],
+    ['阻塞', 'blocking'], ['权值', 'weight'], ['概率', 'probability'], ['成功概率', 'success probability'], ['更新', 'update'], ['算法', 'algorithm'], ['消息', 'message'], ['检测', 'detection'],
+    ['流量', 'traffic'], ['输入队列', 'input queue'], ['输出队列', 'output queue'], ['队列', 'queue'], ['重发', 'retransmit'], ['空闲', 'idle'], ['可靠', 'reliable'], ['状态', 'state'],
+    ['客户端', 'client'], ['客户连接', 'client connection'], ['客户', 'customer'], ['区域', 'area'], ['缓存', 'buffer'], ['ARP 缓存', 'ARP cache'], ['ARP缓存', 'ARP cache'], ['失效', 'failure'], ['字段', 'field'],
+    ['前驱', 'predecessor'], ['码字', 'codeword'], ['容量', 'capacity'], ['交付', 'deliver'], ['共享', 'shared'], ['性能', 'performance'], ['选路', 'route selection'], ['度量', 'metric'],
+    ['可达', 'reachable'], ['平局', 'tie'], ['迭代', 'iteration'], ['方程', 'equation'], ['上层', 'upper layer'], ['下层', 'lower layer'], ['信号', 'signal'], ['丢失', 'loss'], ['服务', 'service'],
+    ['无线', 'wireless'], ['传播', 'propagation'], ['随机', 'random'], ['活跃', 'active'], ['出口', 'exit'], ['汇总', 'summarize'], ['地址', 'address'], ['路由信息', 'routing information'], ['内部路由', 'intra-AS routing'], ['路由', 'route'],
+    ['侦听', 'sense (listen)'], ['光纤', 'optical fibre'], ['卫星', 'satellite'], ['中继器', 'repeater'], ['中继', 'relay'], ['仲裁', 'arbitration'], ['预留', 'reservation'], ['宣告', 'advertise'],
+    ['链路状态数据库', 'link-state database'], ['数据库', 'database'], ['十进制', 'decimal'], ['二进制', 'binary'], ['初始化', 'initialization'], ['健壮性', 'robustness'], ['撤销', 'withdraw'],
+    ['双归属', 'dual-homed'], ['运营者', 'operator'], ['同轴电缆', 'coaxial cable'], ['同轴', 'coaxial'], ['噪声', 'noise'], ['溢出', 'overflow'], ['衰落', 'fading'], ['基站', 'base station'],
+    ['编址', 'addressing'], ['会话', 'session'], ['贪心', 'greedy'], ['并行', 'parallel'], ['机制', 'mechanism'], ['长除法', 'long division'], ['信元', 'cell'], ['定长', 'fixed-length'],
+    ['请求', 'request'], ['响应', 'response'], ['应答', 'reply'], ['延迟', 'delay'], ['上行', 'uplink'], ['下行', 'downlink'], ['进程', 'process'], ['线程', 'thread'], ['连接', 'connection'],
+    ['肯定确认', 'positive acknowledgement (ACK)'], ['未确认', 'unacknowledged'], ['已确认', 'acknowledged'], ['确认', 'acknowledgement (ACK)'],
+    ['帧中继', 'Frame Relay'], ['组帧', 'framing'], ['成帧', 'framing'], ['客户/服务器', 'client/server'], ['客户进程', 'client process'], ['会话层', 'session layer'], ['表示层', 'presentation layer'],
+    ['输出口', 'output port'], ['输入口', 'input port'], ['非坚持', 'non-persistent'], ['坚持', 'persistent'], ['多径传播', 'multipath propagation'], ['多径', 'multipath'],
+    /* 不标的固定搭配（日常意思，不是术语） */
+    ['邮件确认', ''], ['时间节点', ''], ['再次确认', ''], ['确认无变化', ''], ['网络状态', 'network state'],
+    ['门限', 'threshold'], ['阈值', 'threshold'], ['加性增', 'additive increase'], ['乘性减', 'multiplicative decrease'], ['显式拥塞通知', 'explicit congestion notification (ECN)']
+  ];
+  var MAP = {}, keys = [];
+  GL.forEach(function(e){ if (!(e[0] in MAP)){ MAP[e[0]] = e[1]; keys.push(e[0]); } });
+  keys.sort(function(a, b){ return b.length - a.length; });
+  var RE = new RegExp(keys.map(function(k){ return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, ' ?'); }).join('|'), 'g');
+  var SKIP = 'script,style,svg,code,pre,textarea,input,select,option,button,nav,.topbar,.gl,.nogl,.exq-q,.mono,.chips,.presets';
+  var BLOCK = 'p,li,td,th,h1,h2,h3,h4,h5,h6,summary,dt,dd,figcaption,caption,label,blockquote,.narr,.lbl';
+  function mainEn(en){ return en.replace(/\s*\(.*\)\s*/g, '').toLowerCase(); }
+  /* 每次标注时现算：这个段落里已经标过哪些英文、段落原文（去掉已加的英文）里有没有这个英文 */
+  function blockInfo(blk){
+    var done = {}, low = (blk.textContent || '').toLowerCase();
+    blk.querySelectorAll('.gl').forEach(function(g){ var en = g.textContent; done[en] = 1; low = low.replace(en.toLowerCase(), ''); });
+    return { done: done, low: low };
+  }
+  function annotate(root){
+    var el = root.nodeType === 3 ? root.parentElement : root;
+    if (!el || el.nodeType !== 1 || el.closest(SKIP)) return;
+    var tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), list = [], n, cache = new Map(), disp = new Map();
+    while ((n = tw.nextNode())){ RE.lastIndex = 0; if (RE.test(n.data)) list.push(n); }
+    list.forEach(function(t){
+      var par = t.parentElement; if (!par || par.closest(SKIP)) return;
+      /* 父元素是 flex / grid 时，插入的英文会变成单独的格子把排版拆散，跳过 */
+      var d = disp.get(par); if (d === undefined){ d = getComputedStyle(par).display; disp.set(par, d); }
+      if (/flex|grid/.test(d)) return;
+      var blk = par.closest(BLOCK) || par, info = cache.get(blk);
+      if (!info){ info = blockInfo(blk); cache.set(blk, info); }
+      var data = t.data, out = null, last = 0, m;
+      RE.lastIndex = 0;
+      while ((m = RE.exec(data))){
+        var en = m[0] in MAP ? MAP[m[0]] : MAP[m[0].replace(/ /g, '')];
+        if (en === undefined){ var z = m[0].replace(/ /g, ''); for (var k in MAP) if (k.replace(/ /g, '') === z){ en = MAP[k]; break; } }
+        if (!en || info.done[en]) continue;
+        info.done[en] = 1;
+        if (info.low.indexOf(mainEn(en)) >= 0) continue;
+        if (!out) out = document.createDocumentFragment();
+        var end = m.index + m[0].length;
+        out.appendChild(document.createTextNode(data.slice(last, end)));
+        var s = document.createElement('span'); s.className = 'gl'; s.textContent = en; out.appendChild(s);
+        last = end;
+      }
+      if (out){ out.appendChild(document.createTextNode(data.slice(last))); t.parentNode.replaceChild(out, t); }
+    });
+  }
+  var obs = null, pending = [], timer = 0;
+  function flush(){
+    timer = 0; obs.disconnect();
+    var todo = pending; pending = [];
+    todo.forEach(function(nd){ if (nd.isConnected) annotate(nd); });
+    obs.takeRecords(); start();
+  }
+  function start(){ obs.observe(document.body, { childList: true, subtree: true }); }
+  function init(){
+    annotate(document.body);
+    if (window.MutationObserver){
+      obs = new MutationObserver(function(ms){
+        ms.forEach(function(m){ m.addedNodes.forEach(function(nd){ if (nd.nodeType === 1 && nd.classList.contains('gl')) return; if (nd.nodeType === 1 || nd.nodeType === 3) pending.push(nd); }); });
+        if (pending.length && !timer) timer = setTimeout(flush, 0);
+      });
+      start();
+    }
+    var btn = document.getElementById('glToggleBtn'), off = false;
+    try { off = localStorage.getItem('ee6108-gl') === 'off'; } catch (e) {}
+    function show(){ document.body.classList.toggle('gl-off', off); if (btn){ btn.innerHTML = 'EN<span class="glb-long"> 术语</span>' + (off ? '：关' : '：开'); btn.setAttribute('aria-pressed', off ? 'false' : 'true'); } }
+    if (btn) btn.addEventListener('click', function(){ off = !off; try { localStorage.setItem('ee6108-gl', off ? 'off' : 'on'); } catch (e) {} show(); });
+    show();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
 </body>
