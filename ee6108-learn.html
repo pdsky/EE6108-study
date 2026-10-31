@@ -2479,6 +2479,8 @@ netE 28</textarea></label>
 
 
 
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2545,6 +2547,8 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
 
 
 
@@ -2884,6 +2888,36 @@ netE 28</textarea></label>
             <li><span class="why">VOQ 为什么最后两步不是每次发 3 个？</span> 9 个分组里<b>去出2 的有 4 个</b>，而一个输出每时隙只能收 1 个，所以无论怎么排都<b>至少要 4 个时隙</b>。到第 3 时隙，剩下的分组里有两个都要去出2，只能走一个（送出 2 个）；第 4 时隙只剩最后一个 →2（送出 1 个）。这叫<b>输出争用（output contention）</b>：几个分组抢同一个输出。它和 HOL 阻塞不同：HOL 阻塞是"要去<b>空闲</b>输出的分组被同一条队里前面的分组挡住"，VOQ 已经消除了；输出争用哪种排队方式都免不了。所以 VOQ 用 4 个时隙已经是最少值，前瞻和输出排队这里也是 4 个，FIFO 要 6 个。</li>
             <li><span class="why">考试怎么考？</span> 解释 HOL（定义 + 小例子）；列举 2×2 或 3×3 的情况算吞吐量；比较 VOQ / 输出排队 / 前瞻的好处和代价。</li>
           </ol></div>
+        <div class="callout teal qa-explain" id="qb-n2b-faq"><div class="lbl">HOL 动画追问：出口能不能换？前瞻和 VOQ 到底差在哪？</div>
+          <div class="qa-faq">
+            <p class="qa-q">问 1：前瞻的时隙 1，出1 空着，入3 为什么不去出1？</p>
+            <p>因为<b>入3 里没有要去出1 的分组</b>，而分组只能去它自己的目的输出。</p>
+            <ul>
+              <li><b>输出口由目的地址决定</b>："→3" 表示这个分组的目的地址查转发表的结果是"从出3 发出"，出3 后面的链路才通往它的目的地。塞进出1 就送错地方了。不像超市排队哪个收银台空就去哪个，更像去北京的火车，去上海的轨道空着也不能开上去。</li>
+              <li><b>入3 的三个分组是 →2、→3、→2</b>：队首 →2（出2 被入1 占了），第 2 个 →3（出3 被入2 占了），第 3 个 →2（w = 2 只看前 2 个，看不到；而且也是去出2）。</li>
+              <li><b>全交换机只有入1 的第 2 个分组要去出1</b>，但入1 这个时隙已经发了队首，<b>每个输入每时隙最多发 1 个</b>，所以它也走不了。</li>
+            </ul>
+            <p>结果：时隙 1 出1 空闲，浪费了一个时隙的容量。这说明前瞻只能<b>减少</b> HOL 阻塞，不能保证每个空闲输出都用上。到时隙 2，入1 的 →1 成了队首，就去出1 了。</p>
+
+            <p class="qa-q">问 2：动画里前瞻和 VOQ 都用 4 个时隙，它们有什么区别？</p>
+            <p>做法和能力都不同，只是这个例子太小，总数看不出来。</p>
+            <div class="tablewrap"><table style="min-width:560px">
+              <thead><tr><th></th><th>前瞻 w = 2（slide 25–26）</th><th>VOQ（slide 23）</th></tr></thead>
+              <tbody>
+                <tr><td>每个输入几条队</td><td>还是 <b>1 条 FIFO 队</b></td><td><b>N 条</b>，每个输出一条（共 N² 条）</td></tr>
+                <tr><td>调度器看得到</td><td>只看每条队的<b>前 w 个</b>分组</td><td>每条小队的队首，即要去<b>每个输出</b>的分组都看得到</td></tr>
+                <tr><td>调度规则</td><td>两步贪心：<b>先调度各队首</b>，没发出的输入再看第 2 个，队首总是优先</td><td>所有输入、输出<b>一起</b>找一个最好的<b>匹配</b>，可以选择不发队首，把输出让给别人</td></tr>
+                <tr><td>HOL 阻塞</td><td><b>减少</b>，但不能消除</td><td><b>完全消除</b></td></tr>
+                <tr><td>代价</td><td>便宜，调度复杂一点</td><td>贵（老师："highly expensive"）</td></tr>
+              </tbody>
+            </table></div>
+            <p><b>例子里时隙 1 就不一样</b>：前瞻必须先让入1 发队首 →2，入2 插队发 →3，入3 两个都被挡，只送出 <b>2 个</b>，出1 空着；VOQ 让入1 改发 →1、把出2 让给入2、入3 发 →3，送出 <b>3 个</b>，三个输出全用上。每一步送出的个数：前瞻 <b>2, 3, 3, 1</b>，VOQ <b>3, 3, 2, 1</b>。</p>
+            <p><b>总数都是 4，是因为出2 有 4 个分组</b>，一个输出每时隙只能收 1 个，4 个时隙是下限，两种方法都碰到了这个下限。</p>
+            <p><b>换个队列就能看出前瞻不行</b>：某个输入的队是 [→2, →2, →1]（最左边是队首），出2 被别人占了、出1 空闲。前瞻 w = 2 只看前两个，都是 →2，都发不了，那个 →1 排在第 3 位看不到，出1 白白空着；VOQ 里 →1 在"去出1"的小队里，直接发。</p>
+            <p><b>考试可以这样写</b>：<i>VOQ keeps a separate queue for each output at every input, which eliminates HOL blocking completely; with a good matching scheduler it can achieve 100% throughput, but it needs N² queues and is expensive. Lookahead keeps one FIFO queue per input and only examines the first w packets (head-of-line packets are scheduled first), so it reduces but does not eliminate HOL blocking.</i></p>
+            <p class="muted" style="font-size:13px">"能达到 100% 吞吐量"出自 slide 27 列的参考文献（McKeown et al., <i>Achieving 100% Throughput in Input Queued Switch</i>, INFOCOM 95）；课上要求知道的是 VOQ 消除 HOL 阻塞、但很贵。</p>
+          </div>
+        </div>
         <div class="pair" id="qb-n2b">
           <div class="lab qa-anim" id="qa-hol">
             <div class="lab-head"><div><div class="lab-cap">动画 · 队头阻塞与三种改进</div><div class="lab-title">9 个分组，四种排队方式各要几个时隙</div></div></div>
@@ -2952,7 +2986,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                    <!-- QB:n3 -->
+                                                                                                                                                <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3038,7 +3072,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                    <!-- QB:n4 -->
+                                                                                                                                                <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3275,7 +3309,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                    <!-- QB:n7 -->
+                                                                                                                                                <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3415,7 +3449,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                    <!-- QB:n8 -->
+                                                                                                                                                <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
