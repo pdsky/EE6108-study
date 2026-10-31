@@ -735,6 +735,11 @@ body.gl-off .gl{display:none;}
 @media (max-width:640px){ .topbar{gap:8px;} .glb-long{display:none;} }
 @media (max-width:480px){ .topbar .progresspill{display:none;} }
 @media (max-width:480px){ .navtoggle + .brand{display:none;} }
+/* slide 10 下的小白问答（qb-n0-why） */
+.qa-faq .qa-q{font-weight:700; color:var(--accent-strong); margin:16px 0 6px 0;}
+.qa-faq p{margin:0 0 8px 0;}
+.qa-faq td{vertical-align:top;}
+svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px auto 6px auto;}
 
 </style>
 </head>
@@ -831,6 +836,7 @@ body.gl-off .gl{display:none;}
     <div class="navmod"><a href="#n2"><span class="navcheck" data-mod="n2" title="标记已掌握"></span><span class="tag">P2</span> 网络层 II <span class="qz in">Quiz 考</span></a>
       <ul class="navsub">
         <li><a href="#n2-s1">转发与路由回顾</a></li>
+        <li><a href="#qb-n0-why">小白问答：转发表怎么算、首部变不变</a></li>
         <li><a href="#n2-s2">路由器内部：端口、交换结构、排队</a></li>
         <li><a class="lablink" href="#n2-lab1">实验：队头阻塞</a></li>
         <li><a href="#n2-s3">路由的基本问题</a></li>
@@ -2395,6 +2401,69 @@ netE 28</textarea></label>
           <tbody><tr><td class="mono">0100</td><td class="num">3</td></tr><tr><td class="mono">0101</td><td class="num">2</td></tr><tr class="hlrow"><td class="mono">0111</td><td class="num">2</td></tr><tr><td class="mono">1001</td><td class="num">1</td></tr></tbody>
         </table></div>
         <p>图中到达的分组首部值是 <code>0111</code>，查表得到输出链路 <b>2</b>，于是分组从 2 号链路出去。</p>
+<!-- QB:n0 -->
+        <div class="callout teal qa-explain" id="qb-n0-why"><div class="lbl">小白问答：转发表是怎么算出来的？分组的首部会变吗？</div>
+          <div class="qa-faq">
+            <svg class="qa-svg qa-mini" viewBox="0 0 300 150" role="img" aria-label="三台路由器 A、B、C：A–B 代价 1，B–C 代价 2，A–C 代价 5">
+              <line x1="50" y1="110" x2="150" y2="30" class="qa-edge"/><line x1="150" y1="30" x2="250" y2="110" class="qa-edge"/><line x1="50" y1="110" x2="250" y2="110" class="qa-edge"/>
+              <text x="90" y="62" class="qa-w" text-anchor="middle">1</text><text x="210" y="62" class="qa-w" text-anchor="middle">2</text><text x="150" y="128" class="qa-w" text-anchor="middle">5</text>
+              <circle cx="50" cy="110" r="16" class="qa-node"/><text x="50" y="115" class="qa-nt" text-anchor="middle">A</text>
+              <circle cx="150" cy="30" r="16" class="qa-node"/><text x="150" y="35" class="qa-nt" text-anchor="middle">B</text>
+              <circle cx="250" cy="110" r="16" class="qa-node"/><text x="250" y="115" class="qa-nt" text-anchor="middle">C</text>
+              <text x="150" y="146" class="qa-dim" text-anchor="middle">下面四个问题都用这张小图：A–B 代价 1，B–C 代价 2，A–C 代价 5</text>
+            </svg>
+
+            <p class="qa-q">问 1：路由算法是怎么算出转发表的？一台路由器又不知道其他路由器的情况。</p>
+            <p>一开始确实不知道。所以要<b>先用路由协议收集信息，再用路由算法计算</b>（slide 32：协议负责收集、交换链路信息，算法负责用这些信息算出最佳路径）。</p>
+            <p><b>第 0 步</b>：每台路由器一开始只知道自己身边：自己有几条链路、各连着哪个邻居、每条链路的代价（管理员设置或测量出来的）。更远的情况一概不知道。</p>
+            <p>接下来有三种办法知道更多：</p>
+            <div class="tablewrap"><table style="min-width:640px">
+              <thead><tr><th></th><th>路由器知道什么</th><th>怎么算</th><th>例子：A 算"去 C 走哪"</th></tr></thead>
+              <tbody>
+                <tr><td><b>① 链路状态 LS</b><br>（OSPF，slide 38、80）</td><td>每台路由器把"我有哪些链路、代价多少"<b>泛洪给全网</b> → 每台都拿到<b>同一张完整地图</b></td><td>各自在本机跑 <b>Dijkstra</b></td><td>A 有全图：直连 5，经 B = 1 + 2 = 3 → 走 B</td></tr>
+                <tr><td><b>② 距离向量 DV</b><br>（RIP，slide 47–52）</td><td><b>永远不看全图</b>，只知道自己的链路 + 邻居报来的"我到各目的地的距离"</td><td><b>Bellman-Ford</b>，和邻居一轮轮交换，直到收敛</td><td>B 告诉 A"我到 C 是 2"：D<sub>A</sub>(C) = min(1 + 2, 5 + 0) = 3 → 下一跳 B</td></tr>
+                <tr><td><b>③ SDN</b><br>（slide 103–105）</td><td>路由器不用知道</td><td>远程<b>控制器</b>掌握全网，算好表下发给每台</td><td>控制器替 A 算好，直接装进 A 的表</td></tr>
+              </tbody>
+            </table></div>
+            <p>LS 像先拿到整张地图再自己规划路线；讲义原话是 LS 让每台路由器 "equivalent to having a central controller"。DV 像在陌生城市问路：没有地图，只问身边的人"你离火车站多远"，加上走到他那里的距离，挑最小的跟着走。代价是要相信邻居报的数，邻居的消息过时了就会出现<b>计数到无穷</b>（N.5 的毒性逆转动画）。</p>
+
+            <p class="qa-q">问 2：查转发表时，一个分组只能对应一个出口吗？</p>
+            <p><b>对一个分组来说是的</b>：读一次首部，查一次表，得到<b>一个</b>输出链路。上面 slide 10 的表里，首部 0111 → 链路 2，这个分组只从 2 号链路出去。</p>
+            <p>但<b>整台路由器不是只用一个口</b>：表里有很多行，不同首部值对应不同出口（1001 → 链路 1，0100 → 链路 3），几个值也可以共用一个出口（0101 和 0111 都走链路 2）。不同分组可以同时从不同的口出去，crossbar 就能并行传（N.2 交换结构动画）。</p>
+            <p>真实 IP 里，"首部值"就是首部里 32 位的<b>目的地址</b>。表不可能每个地址写一行，所以写成<b>前缀</b>、用<b>最长前缀匹配</b>（下面 slide 11–12），可能好几行都匹配，选最长的那一行，结果还是一个出口。</p>
+
+            <p class="qa-q">问 3：分组到了下一台路由器，会换一个新的首部吗？</p>
+            <p><b>IP 首部不换，链路层的帧首部每一跳都换。</b>一个分组外面其实包着两层首部：</p>
+            <div class="tablewrap"><table style="min-width:0">
+              <thead><tr><th></th><th>IP 首部（网络层）</th><th>帧首部（链路层）</th></tr></thead>
+              <tbody>
+                <tr><td>最重要的内容</td><td>源 / 目的 <b>IP 地址</b></td><td>源 / 目的 <b>MAC 地址</b></td></tr>
+                <tr><td>管的范围</td><td>源主机到目的主机，<b>整条路</b></td><td><b>只管一条链路</b>（这一跳）</td></tr>
+                <tr><td>每到一台路由器</td><td><b>目的 IP 不变</b>；只是 TTL 减 1、首部校验和重算</td><td><b>拆掉旧的，套上新的</b></td></tr>
+              </tbody>
+            </table></div>
+            <p>例：主机 H1 → 路由器 R1 → 路由器 R2 → 主机 H2。三段路上 IP 首部的目的地址一直是 H2 的 IP；帧首部的目的 MAC 依次是 R1 的、R2 的、H2 的。每台路由器：① 拆掉收到的帧首部，取出 IP 数据报；② 拿<b>目的 IP</b> 查转发表，得到输出链路；③ 用 ARP 查出下一跳的 MAC，套上新的帧首部发出去（Part I Topic 1 封装、Topic 3 的 IP 首部和 ARP）。</p>
+            <p>TTL（time to live）每过一台路由器减 1，减到 0 就丢弃（Topic 3）：万一路由出现环路，分组也不会永远绕下去。</p>
+
+            <p class="qa-q">问 4：所以目的 IP 一路都一样，只是每台路由器的表不一样，才有不同的出口？</p>
+            <p><b>对。</b>每台路由器的表只回答一个问题："从<b>我这里</b>出发，去这个目的地，下一步交给哪个邻居？"位置不同，答案就不同。目的地是 C 后面的网络时：</p>
+            <div class="tablewrap"><table style="min-width:0">
+              <thead><tr><th>路由器</th><th>它表里"去 C"那一行</th><th>理由</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">A</td><td>→ 连着 B 的那个口</td><td>经 B 总代价 3，比直连 5 小</td></tr>
+                <tr><td class="mono">B</td><td>→ 连着 C 的那个口</td><td>直连，代价 2</td></tr>
+                <tr><td class="mono">C</td><td>→ 交给本地网络</td><td>已经到了</td></tr>
+              </tbody>
+            </table></div>
+            <p>没有哪台路由器给分组写好整条路线：<b>每台只决定下一跳，一台接一台连起来就是 A → B → C</b>。路由算法的作用，就是让大家算出的下一跳能串成一条通向目的地的路。如果表对不上（A 以为该走 B，B 又以为该走 A），就成了<b>路由环路</b>，这时就靠 TTL 把分组丢掉。</p>
+            <p><b>考试可以这样写</b>：<i>Each router forwards a packet based on the destination IP address and its own forwarding table, which only gives the next hop (output link). The end-to-end path is the concatenation of the next-hop decisions of all routers along the way. The tables are computed by routing algorithms: with link state (e.g. OSPF) every router learns the complete topology by flooding and runs Dijkstra; with distance vector (e.g. RIP) a router only exchanges distance vectors with its neighbours and applies the Bellman-Ford equation iteratively.</i></p>
+          </div>
+          <div class="callout extra" style="margin:12px 0 0 0"><div class="lbl">课外补充（Quiz 不考）</div><p>也有一个分组发往多个出口、或首部被改写的情况：广播、组播会复制分组；OSPF 的等价多路径会把流量分到几条一样短的路上；分片会把一个数据报切成几片、每片有自己的 IP 首部（Part I Topic 3，期末可能考）；NAT 会改写 IP 地址；SDN 流表的动作可以"修改首部字段"。</p></div>
+        </div>
+<!-- /QB:n0 -->
+
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2457,6 +2526,9 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
+
 
 
 
@@ -2844,7 +2916,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                          <!-- QB:n3 -->
+                                                                                                            <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -2925,7 +2997,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                          <!-- QB:n4 -->
+                                                                                                            <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3144,7 +3216,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                          <!-- QB:n7 -->
+                                                                                                            <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3274,7 +3346,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                          <!-- QB:n8 -->
+                                                                                                            <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
