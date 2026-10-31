@@ -751,6 +751,41 @@ svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px 
 /* HOL 动画 VOQ 模式：每个输入分成 3 条小队 */
 .qa-lane{fill:none; stroke:var(--line-strong); stroke-width:1; stroke-dasharray:3 3;}
 .qa-lanet{font-size:9.5px; fill:var(--muted); font-weight:600;}
+/* ===== 重点（star.js） ===== */
+.star-btn{border:0; background:none; cursor:pointer; font-size:17px; line-height:1; color:var(--muted); padding:2px 5px; margin-left:6px; vertical-align:middle; border-radius:4px; font-family:var(--font-body);}
+.star-btn:hover{color:var(--s4); background:var(--surface-2);}
+.star-btn.on{color:var(--s4);}
+.star-btn.fl{float:right; margin:0 0 4px 8px;}
+.star-btn.abs{position:absolute; top:6px; right:6px; margin:0; z-index:2;}
+.star-host{position:relative;}
+.callout.star-host, .formula.star-host{padding-right:40px;}
+.is-star{box-shadow:inset 4px 0 0 var(--s4); background-color:color-mix(in srgb, var(--s4) 7%, transparent);}
+h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8px;}
+@keyframes starflash{0%{outline:3px solid var(--s4); outline-offset:3px;} 100%{outline:3px solid transparent; outline-offset:8px;}}
+.star-flash{animation:starflash 1.6s ease-out 2;}
+.iconbtn.starbtn{color:var(--s4); font-weight:700;}
+.iconbtn.starbtn #starCount{color:var(--ink);}
+.nav-star{display:block; margin:0 0 12px 0; padding:8px 10px; border-radius:var(--radius); background:color-mix(in srgb, var(--s4) 12%, transparent); color:var(--ink); font-weight:700; text-decoration:none;}
+.nav-star:hover{background:color-mix(in srgb, var(--s4) 22%, transparent);}
+.sp-back{position:fixed; inset:0; background:rgba(6,14,22,.45); z-index:70;}
+.starpanel{position:fixed; top:0; right:0; bottom:0; width:min(560px, 100vw); background:var(--bg); z-index:71; overflow-y:auto; box-shadow:var(--shadow); padding:0 16px 40px 16px; border-left:1px solid var(--line);}
+.sp-top{position:sticky; top:0; background:var(--bg); display:flex; justify-content:space-between; align-items:center; padding:14px 0 10px 0; z-index:2; font-size:17px;}
+.sp-tools, .sp-bar{display:flex; flex-wrap:wrap; gap:6px;}
+.sp-tools{margin-bottom:8px;}
+.sp-note{font-size:12.5px; color:var(--muted); margin:6px 0 10px 0;}
+.sp-io{margin:8px 0; padding:10px; background:var(--surface-2); border-radius:var(--radius);}
+.sp-io textarea{width:100%; font-family:var(--font-mono); font-size:12px; margin:6px 0; box-sizing:border-box;}
+.sp-io-h{margin:0; font-size:13px;}
+.sp-mod{margin:18px 0 6px 0; font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.03em;}
+.sp-item{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--s4); border-radius:var(--radius); padding:10px 12px; margin:0 0 10px 0;}
+.sp-head{display:flex; gap:8px; align-items:baseline; margin-bottom:8px;}
+.sp-kind{flex:none; font-size:11.5px; font-weight:700; color:var(--s4); border:1px solid var(--s4); border-radius:999px; padding:0 7px;}
+.sp-t{font-size:14px; line-height:1.55;}
+.sp-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); font-size:14px;}
+.sp-body .callout, .sp-body .exq, .sp-body .formula, .sp-body details, .sp-body article{margin:0; max-width:none;}
+.sp-rm{margin-left:auto;}
+.sp-empty{color:var(--muted); line-height:1.7;}
+@media (max-width:480px){ .topbar{gap:6px;} .topbar .iconbtn{padding-left:8px; padding-right:8px;} }
 /* ============ 习题页专用 ============ */
 .pwrap{max-width:980px; margin:0 auto; padding:0 20px 120px 20px;}
 .phero{padding:48px 0 26px 0;}
@@ -890,6 +925,7 @@ ul.mpts-en{border-left:3px solid var(--s1); padding-left:28px;}
   <div class="spacer"></div>
   <a class="iconbtn" href="ee6108-learn.html">← 学习手册</a>
   <div class="progresspill"><span id="progressLabel">已掌握 0</span><span class="bar"><i id="progressBar"></i></span></div>
+  <button class="iconbtn starbtn" id="starBtn" title="我的重点" aria-label="打开我的重点">★<span class="glb-long"> 重点</span> <span id="starCount">0</span></button>
   <button class="iconbtn" id="glToggleBtn" title="中文术语后面附英文，点一下开/关" aria-pressed="true">EN 术语：开</button>
   <button class="iconbtn" id="themeToggleBtn">主题</button>
 </div>
@@ -3024,6 +3060,222 @@ until all nodes in N'</pre>
     $('mtClose').addEventListener('click', function(){ openAll(false); });
     draw();
   })();
+})();
+
+/* =====================================================
+   重点（用户要求：可以点击设为重点，有一个"重点"环节）
+   每个小节标题、讲解框、公式、例题、小测、动画、题目旁边有 ☆，点一下设为重点（★）。
+   顶栏「★ 重点」打开"我的重点"面板：按章节列出，能跳回原文、直接展开复习、导出/导入。
+   保存在本浏览器（localStorage），学习页和刷题页各自一份。
+   ===================================================== */
+(function(){
+  var PAGE = document.getElementById('pane-mock') ? 'prac' : 'learn';
+  var KEY = 'ee6108-stars-' + PAGE;
+  var CAND = PAGE === 'learn'
+    ? [['section.module h3', '小节'], ['section.module h4', '小节'], ['.qa-explain > ol > li', '问答'], ['.qa-faq > p.qa-q', '问答'],
+       ['.callout', '讲解'], ['.formula', '公式'], ['.exq', '例题'], ['details.qcard', '小测'], ['.lab', '动画/实验']]
+    : [['article.q', '题目'], ['.mpart', '小问']];
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+  function txt(el){   /* 元素文字，不含自动加的英文和星标按钮 */
+    var out = '', tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
+    while ((n = tw.nextNode())){ var p = n.parentElement; if (p && p.closest('.gl, .star-btn')) continue; out += n.data; }
+    return out.replace(/\s+/g, ' ').trim();
+  }
+  function hash(s){ var h = 5381; for (var i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+  function cut(s, n){ return s.length > n ? s.slice(0, n) + '…' : s; }
+  function kindOf(el, k){
+    if (k !== '讲解') return k;
+    if (el.classList.contains('teach')) return '老师强调';
+    if (el.classList.contains('extra')) return '课外';
+    if (el.classList.contains('warn')) return '注意';
+    return '讲解';
+  }
+  function snippet(el, k){
+    var q = function(s){ var x = el.querySelector(s); return x ? txt(x) : ''; };
+    if (/^H[34]$/.test(el.tagName)) return txt(el);
+    if (el.matches('details.qcard')) return q('summary');
+    if (el.matches('.exq')) return (q('.exq-q') || txt(el));
+    if (el.matches('.lab')) return q('.lab-title') || q('.lab-cap') || txt(el);
+    if (el.matches('article.q')) return q('.qid') + '  ' + q('.qtopic');
+    if (el.matches('.mpart')) { var a = el.closest('article.q'); return (a ? a.querySelector('.qid').textContent + ' ' : '') + q('.mask'); }
+    if (el.matches('.callout')) { var l = q('.lbl'); return l ? l + '：' + txt(el).slice(l.length) : txt(el); }
+    return txt(el);
+  }
+  function moduleOf(el){
+    if (PAGE === 'learn'){ var s = el.closest('section.module'); var h = s && s.querySelector('.modhead h2'); return h ? txt(h) : ''; }
+    var pane = el.closest('[id^=pane-]'), names = { 'pane-mock': 'Quiz 模拟卷', 'pane-past': '往年真题', 'pane-ex': '课件例题' };
+    var mp = el.closest('.mockpaper');
+    return (names[pane && pane.id] || '') + (mp ? ' · 卷 ' + mp.getAttribute('data-p') : '');
+  }
+  /* ---- 给候选元素编号、加星标按钮 ---- */
+  var items = [], byId = {}, used = {};
+  CAND.forEach(function(c){
+    document.querySelectorAll(c[0]).forEach(function(el){
+      if (el.closest('#starPanel') || el.id === 'dCard' || el.closest('#dCard')) return;
+      if (c[0] === '.callout' && el.classList.contains('qa-explain')) return;   /* 问答框按每一条打星 */
+      if (el.__star) return;
+      var k = kindOf(el, c[1]);
+      var basis = el.matches('.lab') ? (el.querySelector('.lab-cap') ? txt(el.querySelector('.lab-cap')) : '') + (el.querySelector('.lab-title') ? txt(el.querySelector('.lab-title')) : '') : txt(el).slice(0, 120);
+      var id = el.id && !used[el.id] ? el.id : null;
+      if (!id && el.matches('.mpart')){ var art = el.closest('article.q'), lb = el.querySelector('.mask b'); if (art && art.id && lb) id = art.id + '-' + txt(lb).replace(/[^\w-]+/g, ''); }
+      if (!id) id = 'st-' + hash(c[1] + '|' + basis);
+      while (used[id]) id += 'x';
+      used[id] = 1;
+      if (!el.id) el.id = id;
+      el.__star = { id: id, kind: k };
+      items.push(el); byId[id] = el;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'star-btn'; b.setAttribute('data-star', id);
+      place(el, b);
+    });
+  });
+  function place(el, b){
+    if (/^H[34]$/.test(el.tagName) || el.matches('p.qa-q')){ el.appendChild(b); return; }
+    if (el.tagName === 'LI'){ b.classList.add('fl'); el.insertBefore(b, el.firstChild); return; }
+    if (el.matches('details.qcard')){ var s = el.querySelector('summary'); s.appendChild(b); return; }
+    if (el.matches('.exq') && el.querySelector('.exq-h')){ el.querySelector('.exq-h').appendChild(b); return; }
+    if (el.matches('.lab') && el.querySelector('.lab-head')){ el.querySelector('.lab-head').appendChild(b); return; }
+    if (el.matches('article.q') && el.querySelector('.qhead')){ var h = el.querySelector('.qhead'), mk = h.querySelector('label.mk'); h.insertBefore(b, mk); return; }
+    if (el.matches('.mpart') && el.querySelector('.mask')){ el.querySelector('.mask').appendChild(b); return; }
+    el.classList.add('star-host'); b.classList.add('abs'); el.insertBefore(b, el.firstChild);
+  }
+  function paint(){
+    document.querySelectorAll('.star-btn').forEach(function(b){
+      var on = !!store[b.getAttribute('data-star')];
+      b.classList.toggle('on', on); b.textContent = on ? '★' : '☆';
+      b.title = on ? '已设为重点，点一下取消' : '设为重点'; b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.setAttribute('aria-label', on ? '取消重点' : '设为重点');
+      var el = byId[b.getAttribute('data-star')]; if (el) el.classList.toggle('is-star', on);
+    });
+    var n = Object.keys(store).length;
+    var c = document.getElementById('starCount'); if (c) c.textContent = n;
+    if (panel && !panel.hidden) renderPanel();
+  }
+  function toggle(id){
+    var el = byId[id]; if (!el) return;
+    if (store[id]) delete store[id];
+    else store[id] = { t: cut(snippet(el, el.__star.kind), 140), k: el.__star.kind, m: moduleOf(el), ts: Date.now() };
+    save(); paint();
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.star-btn'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();   /* 星标在 summary 里时不要顺带展开/收起 */
+    toggle(b.getAttribute('data-star'));
+  }, true);
+
+  /* ---- 跳回原文：先切到正确的分页 / 试卷，取消筛选，展开折叠 ---- */
+  function reveal(el){
+    var pane = el.closest('[id^=pane-]');
+    if (pane && pane.hidden){ var tb = document.querySelector('#tabs button[data-tab="' + pane.id.slice(5) + '"]'); if (tb) tb.click(); }
+    var mp = el.closest('.mockpaper');
+    if (mp && mp.hidden){ var fc = document.querySelector('#pane-mock .fchip[data-p="' + mp.getAttribute('data-p') + '"]'); if (fc) fc.click(); }
+    var art = el.closest('article.q');
+    if (art && art.hidden){
+      ['pastFilters', 'topicFilters', 'exFilters'].forEach(function(id){ var box = document.getElementById(id); var all = box && box.querySelector('.fchip[data-l="all"], .fchip[data-t="all"]'); if (all) all.click(); });
+      var td = document.getElementById('onlyTodo'); if (td && td.checked) td.click();
+    }
+    for (var d = el.parentElement; d; d = d.parentElement) if (d.tagName === 'DETAILS') d.open = true;
+    var nav = document.getElementById('sideNav'); if (nav) nav.classList.remove('open');
+    var bd = document.getElementById('navBackdrop'); if (bd) bd.classList.remove('open');
+    try { el.scrollIntoView({ block: 'center', behavior: 'instant' }); } catch (e) { el.scrollIntoView(true); }   /* 页面设了 scroll-behavior:smooth，有的浏览器里平滑滚动会被打断，直接跳 */
+    el.classList.remove('star-flash'); void el.offsetWidth; el.classList.add('star-flash');
+  }
+  /* ---- "我的重点"面板 ---- */
+  var panel = null, back = null, expandAll = false;
+  function contentClone(el){
+    var box = document.createElement('div'), nodes = [el];
+    if (el.matches('p.qa-q')) for (var n = el.nextElementSibling; n && !n.matches('p.qa-q'); n = n.nextElementSibling) nodes.push(n);
+    nodes.forEach(function(x){
+      var c = x.cloneNode(true);
+      if (c.tagName === 'DETAILS') c.open = true;
+      c.querySelectorAll('.star-btn, .checks, label.mk, input, button, script, .chartbox, svg').forEach(function(z){ z.remove(); });
+      c.classList.remove('is-star', 'star-flash');
+      [c].concat(Array.prototype.slice.call(c.querySelectorAll('[id]'))).forEach(function(z){ z.removeAttribute('id'); });
+      box.appendChild(c);
+    });
+    return box;
+  }
+  function linkOnly(el){ return /^H[34]$/.test(el.tagName) || el.matches('.lab'); }
+  function renderPanel(){
+    var list = panel.querySelector('.sp-list'), ids = Object.keys(store);
+    panel.querySelector('.sp-n').textContent = ids.length;
+    list.innerHTML = '';
+    if (!ids.length){ list.innerHTML = '<p class="sp-empty">还没有重点。在页面里看到重要的内容，点它旁边的 <b>☆</b> 就会收进这里；再点一次 <b>★</b> 取消。</p>'; return; }
+    var have = ids.filter(function(id){ return byId[id]; }).sort(function(a, b){ var p = byId[a].compareDocumentPosition(byId[b]); return p & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
+    var gone = ids.filter(function(id){ return !byId[id]; });
+    var lastM = null;
+    have.concat(gone).forEach(function(id){
+      var r = store[id], el = byId[id];
+      if (r.m !== lastM){ var h = document.createElement('div'); h.className = 'sp-mod'; h.textContent = r.m || '其他'; list.appendChild(h); lastM = r.m; }
+      var card = document.createElement('div'); card.className = 'sp-item';
+      var head = document.createElement('div'); head.className = 'sp-head';
+      head.innerHTML = '<span class="sp-kind">' + r.k + '</span><span class="sp-t"></span>';
+      head.querySelector('.sp-t').textContent = el ? cut(snippet(el, r.k), 140) : r.t + '（原文已改动，找不到了）';
+      card.appendChild(head);
+      var bar = document.createElement('div'); bar.className = 'sp-bar';
+      if (el){
+        var go = document.createElement('button'); go.className = 'btn'; go.textContent = '跳到原文';
+        go.onclick = function(){ closePanel(); reveal(el); }; bar.appendChild(go);
+        if (!linkOnly(el)){
+          var ex = document.createElement('button'); ex.className = 'btn'; bar.appendChild(ex);
+          var body = document.createElement('div'); body.className = 'sp-body';
+          var set = function(open){ body.hidden = !open; ex.textContent = open ? '收起' : '展开复习'; if (open && !body.firstChild) body.appendChild(contentClone(el)); };
+          ex.onclick = function(){ set(body.hidden); };
+          set(expandAll);
+          card.appendChild(bar); card.appendChild(body);
+        } else card.appendChild(bar);
+      } else card.appendChild(bar);
+      var rm = document.createElement('button'); rm.className = 'btn sp-rm'; rm.textContent = '取消重点';
+      rm.onclick = function(){ delete store[id]; save(); paint(); }; bar.appendChild(rm);
+      list.appendChild(card);
+    });
+  }
+  function buildPanel(){
+    back = document.createElement('div'); back.className = 'sp-back'; back.hidden = true; back.onclick = closePanel;
+    panel = document.createElement('aside'); panel.id = 'starPanel'; panel.className = 'starpanel'; panel.hidden = true;
+    panel.setAttribute('aria-label', '我的重点');
+    panel.innerHTML = '<div class="sp-top"><b>★ 我的重点（<span class="sp-n">0</span>）</b><button class="btn sp-x" aria-label="关闭">✕</button></div>' +
+      '<div class="sp-tools"><button class="btn sp-all">全部展开</button><button class="btn sp-exp">导出</button><button class="btn sp-imp">导入</button><button class="btn sp-clr">清空</button></div>' +
+      '<div class="sp-io" hidden><p class="sp-io-h"></p><textarea rows="3" spellcheck="false"></textarea><div class="sp-bar"><button class="btn primary sp-io-ok">导入</button><button class="btn sp-io-close">关闭</button></div></div>' +
+      '<p class="sp-note">' + (PAGE === 'learn' ? '这是<b>学习手册</b>的重点；刷题页的重点在刷题页顶栏里。' : '这是<b>刷题页</b>的重点；学习手册的重点在学习手册顶栏里。') + ' 只保存在这个浏览器里，换电脑或换浏览器用「导出 / 导入」搬过去。</p>' +
+      '<div class="sp-list"></div>';
+    document.body.appendChild(back); document.body.appendChild(panel);
+    panel.querySelector('.sp-x').onclick = closePanel;
+    panel.querySelector('.sp-all').onclick = function(){ expandAll = !expandAll; this.textContent = expandAll ? '全部收起' : '全部展开'; renderPanel(); };
+    var io = panel.querySelector('.sp-io'), ta = io.querySelector('textarea'), ioh = io.querySelector('.sp-io-h'), ok = io.querySelector('.sp-io-ok');
+    panel.querySelector('.sp-exp').onclick = function(){
+      var code = 'EE6108-' + PAGE + ':' + btoa(unescape(encodeURIComponent(JSON.stringify(store))));
+      io.hidden = false; ok.hidden = true; ta.value = code; ioh.textContent = '把下面这段码复制下来，到另一个浏览器的同一个页面点「导入」粘贴：';
+      ta.focus(); ta.select();
+      try { if (navigator.clipboard) navigator.clipboard.writeText(code).then(function(){ ioh.textContent = '已复制到剪贴板（也可以手动复制下面这段）：'; }, function(){}); } catch (e) {}
+    };
+    panel.querySelector('.sp-imp').onclick = function(){ io.hidden = false; ok.hidden = false; ta.value = ''; ioh.textContent = '把导出的码粘贴到下面，点「导入」（会和现有重点合并）：'; ta.focus(); };
+    ok.onclick = function(){
+      var v = ta.value.trim(), m = v.match(/^EE6108-(learn|prac):(.+)$/);
+      if (!m){ ioh.textContent = '格式不对：应该以 EE6108-learn: 或 EE6108-prac: 开头。'; return; }
+      if (m[1] !== PAGE){ ioh.textContent = '这是' + (m[1] === 'learn' ? '学习手册' : '刷题页') + '的重点码，请到那个页面导入。'; return; }
+      try { var o = JSON.parse(decodeURIComponent(escape(atob(m[2])))); Object.keys(o).forEach(function(k){ store[k] = o[k]; }); save(); paint(); ioh.textContent = '导入成功，共 ' + Object.keys(o).length + ' 条。'; }
+      catch (e) { ioh.textContent = '这段码解析失败，请检查是否复制完整。'; }
+    };
+    io.querySelector('.sp-io-close').onclick = function(){ io.hidden = true; };
+    panel.querySelector('.sp-clr').onclick = function(){
+      var b = this;
+      if (b.getAttribute('data-sure')){ store = {}; save(); paint(); b.removeAttribute('data-sure'); b.textContent = '清空'; return; }
+      b.setAttribute('data-sure', '1'); b.textContent = '再点一次确认清空';
+      setTimeout(function(){ b.removeAttribute('data-sure'); b.textContent = '清空'; }, 4000);
+    };
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !panel.hidden) closePanel(); });
+  }
+  function openPanel(){ if (!panel) buildPanel(); panel.hidden = false; back.hidden = false; renderPanel(); panel.querySelector('.sp-x').focus(); }
+  function closePanel(){ if (!panel) return; panel.hidden = true; back.hidden = true; }
+  var sb = document.getElementById('starBtn'); if (sb) sb.addEventListener('click', function(){ panel && !panel.hidden ? closePanel() : openPanel(); });
+  /* 学习手册目录顶上也放一个入口 */
+  var nav = document.getElementById('sideNav');
+  if (nav){ var a = document.createElement('a'); a.href = '#'; a.className = 'nav-star'; a.innerHTML = '★ 我的重点（<span id="starCountNav">0</span>）'; a.onclick = function(e){ e.preventDefault(); openPanel(); }; nav.insertBefore(a, nav.firstChild); }
+  var _paint = paint; paint = function(){ _paint(); var c2 = document.getElementById('starCountNav'); if (c2) c2.textContent = Object.keys(store).length; };
+  paint();
 })();
 
 /* =====================================================
