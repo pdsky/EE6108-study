@@ -748,6 +748,9 @@ svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px 
 .ans-en .ans-h{color:var(--s1);} .ans-zh .ans-h{color:var(--teal);}
 .ans-en p, .ans-zh p{margin:0 0 6px 0;} .ans-en p:last-child, .ans-zh p:last-child{margin-bottom:0;}
 .ans-en table, .ans-zh table{margin:6px 0;}
+/* HOL 动画 VOQ 模式：每个输入分成 3 条小队 */
+.qa-lane{fill:none; stroke:var(--line-strong); stroke-width:1; stroke-dasharray:3 3;}
+.qa-lanet{font-size:9.5px; fill:var(--muted); font-weight:600;}
 
 </style>
 </head>
@@ -2474,6 +2477,8 @@ netE 28</textarea></label>
 
 
 
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2540,6 +2545,8 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
 
 
 
@@ -2873,6 +2880,8 @@ netE 28</textarea></label>
             <li><span class="why">什么是队头阻塞（HOL blocking）？</span> 被挡住的队首后面，可能排着要去<b>空闲</b>输出的分组，可它们也走不了，只能干等——就像单车道上一辆要左转的车在等，后面要直行的车也全被堵住。结果是输出端口明明空着却没东西送，浪费了能力。端口很多时，FIFO 输入排队只能用到大约 <b>58.6%</b>。</li>
             <li><span class="why">"吞吐量"是什么？</span> 平均每个时隙送出去的分组数 ÷ 端口数，也就是输出端口被用上的比例。2×2、目的均匀时，一半的时间两个队首撞车只送出 1 个，平均 1.5 个 / 2 个端口 = <b>0.75</b>。</li>
             <li><span class="why">三种改进分别怎么做、代价是什么？</span> <b>前瞻</b>：队首被挡时，看看第 2 个分组能不能走（调度更复杂）。<b>VOQ</b>：每个输入端口按"去哪个输出"分成几条队，像银行按业务分窗口排队，谁也挡不住谁，但要 N×N 条队列和复杂的调度，很贵。<b>输出排队</b>：交换结构做得比线路快 N 倍，所有分组先搬到输出端口那边排队，没有 HOL，吞吐可以到 100%，但交换结构和内存要非常快。老师说这是"性能和价格的折中"。</li>
+            <li><span class="why">前瞻和 VOQ 里，排在后面的分组为什么能先走？</span> 先分清：<b>"→2" 是这个分组要去输出 2</b>，它所在的那一排才是它的输入端口。<b>前瞻（w = 2）</b>：调度器允许看每条队的前 2 个分组，队首要去的输出被别人占了，就看第 2 个，它要去的输出空闲就让它<b>插队</b>先走（例：入2 队首 →2 被挡，第 2 个 →3 去空闲的出3）。<b>VOQ</b>：每个输入端口里其实是按目的输出分开的 3 条小队（动画切到 VOQ 时每排画成「去出1 / 去出2 / 去出3」），去出1 的分组根本不排在去出2 的后面，所以它可以在 →2 还在等的时候先去出1。</li>
+            <li><span class="why">VOQ 为什么最后两步不是每次发 3 个？</span> 9 个分组里<b>去出2 的有 4 个</b>，而一个输出每时隙只能收 1 个，所以无论怎么排都<b>至少要 4 个时隙</b>。到第 3 时隙，剩下的分组里有两个都要去出2，只能走一个（送出 2 个）；第 4 时隙只剩最后一个 →2（送出 1 个）。这叫<b>输出争用（output contention）</b>：几个分组抢同一个输出。它和 HOL 阻塞不同：HOL 阻塞是"要去<b>空闲</b>输出的分组被同一条队里前面的分组挡住"，VOQ 已经消除了；输出争用哪种排队方式都免不了。所以 VOQ 用 4 个时隙已经是最少值，前瞻和输出排队这里也是 4 个，FIFO 要 6 个。</li>
             <li><span class="why">考试怎么考？</span> 解释 HOL（定义 + 小例子）；列举 2×2 或 3×3 的情况算吞吐量；比较 VOQ / 输出排队 / 前瞻的好处和代价。</li>
           </ol></div>
         <div class="pair" id="qb-n2b">
@@ -2943,7 +2952,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                        <!-- QB:n3 -->
+                                                                                                                                    <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3029,7 +3038,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                        <!-- QB:n4 -->
+                                                                                                                                    <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3266,7 +3275,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                        <!-- QB:n7 -->
+                                                                                                                                    <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3406,7 +3415,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                        <!-- QB:n8 -->
+                                                                                                                                    <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -6298,17 +6307,20 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     if (!$('qaHolSvg')) return;
     var Q0 = [[2, 1, 3], [2, 3, 1], [2, 3, 2]], mode = 'fifo';
     var COLORS = ['--s1', '--s2', '--s3'];
-    function simulate(){
+    var PER = [0, 0, 0]; Q0.forEach(function(a){ a.forEach(function(d){ PER[d - 1]++; }); });
+    var LB = Math.max.apply(null, PER);   /* 输出 2 有 4 个分组 → 至少 4 个时隙 */
+    function simulate(m){
       var q = Q0.map(function(a){ return a.slice(); }), oq = [[], [], []], deliv = [0, 0, 0], states = [], t = 0;
-      states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: [], blocked: [], could: [], note: '' });
+      states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: [], blocked: [], could: [], det: [], cont: false });
       while ((q.some(function(a){ return a.length; }) || oq.some(function(a){ return a.length; })) && t < 20){
         t++;
-        var sent = [], blocked = [], could = [], note = '';
-        if (mode === 'out'){
-          for (var i = 0; i < 3; i++) if (q[i].length){ var d = q[i].shift(); oq[d - 1].push(d); sent.push({ i: i, pos: 0, d: d }); }
-          for (var o = 0; o < 3; o++) if (oq[o].length){ oq[o].shift(); deliv[o]++; }
-          note = '交换结构这一时隙把 ' + sent.length + ' 个队首都搬到输出（要比线速快 3 倍）；每个输出这一时隙只能发出 1 个，其余在<b>输出端排队</b>。';
-        } else if (mode === 'voq'){
+        var sent = [], blocked = [], could = [], det = [], cont = false, who = {};
+        if (m === 'out'){
+          for (var i = 0; i < 3; i++) if (q[i].length){ var d = q[i].shift(); oq[d - 1].push(d); sent.push({ i: i, pos: 0, d: d }); det.push('入' + (i + 1) + ' 的队首 →' + d + ' 搬到出' + d + ' 那边排队'); }
+          var outs = [];
+          for (var o = 0; o < 3; o++) if (oq[o].length){ oq[o].shift(); deliv[o]++; outs.push('出' + (o + 1)); }
+          det.push('各输出这一时隙各发出 1 个：' + (outs.join('、') || '无'));
+        } else if (m === 'voq'){
           var best = null;
           var opts = q.map(function(a){ var r = [-1]; a.forEach(function(d, idx){ r.push(idx); }); return r; });
           opts[0].forEach(function(a){ opts[1].forEach(function(b){ opts[2].forEach(function(c){
@@ -6316,62 +6328,91 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
             pick.forEach(function(idx, i){ if (idx < 0) return; var d = q[i][idx]; if (used[d]) ok = false; used[d] = 1; n++; age += idx; });
             if (ok && (!best || n > best.n || (n === best.n && age < best.age))) best = { n: n, age: age, pick: pick };
           }); }); });
-          best.pick.forEach(function(idx, i){ if (idx < 0) return; var d = q[i][idx]; q[i].splice(idx, 1); deliv[d - 1]++; sent.push({ i: i, pos: idx, d: d }); });
-          note = 'VOQ：每个输入按目的分成 3 个虚拟队列，调度器每时隙找一个<b>匹配</b>（每个输入发 1 个、每个输出收 1 个），这一时隙送出 <b>' + sent.length + '</b> 个，不会被队首挡住。';
+          best.pick.forEach(function(idx, i){ if (idx < 0) return; var d = q[i][idx]; who[d] = i; sent.push({ i: i, pos: idx, d: d }); det.push('入' + (i + 1) + ' 的「去出' + d + '」小队 → 出' + d); });
+          for (var i5 = 0; i5 < 3; i5++){
+            if (!q[i5].length || best.pick[i5] >= 0) continue;
+            var want = q[i5].filter(function(d, k, arr){ return arr.indexOf(d) === k; });
+            det.push('入' + (i5 + 1) + ' 剩下的分组要去' + want.map(function(d){ return '出' + d; }).join('/') + '，' + want.map(function(d){ return '出' + d + ' 已被入' + (who[d] + 1) + ' 用了'; }).join('，') + ' → 等');
+            cont = true;
+          }
+          best.pick.map(function(idx, i){ return { i: i, idx: idx }; }).filter(function(z){ return z.idx >= 0; }).sort(function(a, b){ return b.idx - a.idx; }).forEach(function(z){ var d = q[z.i][z.idx]; q[z.i].splice(z.idx, 1); deliv[d - 1]++; });
         } else {
-          var outBusy = {};
           for (var i2 = 0; i2 < 3; i2++){
             if (!q[i2].length) continue;
             var d2 = q[i2][0];
-            if (!outBusy[d2]){ outBusy[d2] = 1; sent.push({ i: i2, pos: 0, d: d2 }); }
-            else blocked.push(i2);
+            if (who[d2] === undefined){ who[d2] = i2; sent.push({ i: i2, pos: 0, d: d2 }); det.push('入' + (i2 + 1) + ' 队首 →' + d2 + ' 发往出' + d2); }
+            else { blocked.push(i2); det.push('入' + (i2 + 1) + ' 队首 →' + d2 + '：出' + d2 + ' 已被入' + (who[d2] + 1) + ' 占了'); }
           }
-          if (mode === 'look'){
+          if (m === 'look'){
             blocked.slice().forEach(function(i3){
-              if (q[i3].length > 1){ var d3 = q[i3][1]; if (!outBusy[d3]){ outBusy[d3] = 1; sent.push({ i: i3, pos: 1, d: d3 }); blocked.splice(blocked.indexOf(i3), 1); } }
+              var k3 = det.findIndex(function(s){ return s.indexOf('入' + (i3 + 1) + ' 队首') === 0; });
+              if (q[i3].length > 1){
+                var d3 = q[i3][1];
+                if (who[d3] === undefined){ who[d3] = i3; sent.push({ i: i3, pos: 1, d: d3 }); blocked.splice(blocked.indexOf(i3), 1); det[k3] += ' → 看第 2 个 →' + d3 + '：出' + d3 + ' 空闲 → <b>插队发出</b>'; }
+                else det[k3] += ' → 看第 2 个 →' + d3 + '：出' + d3 + ' 也被入' + (who[d3] + 1) + ' 占了 → 本时隙不发';
+              } else det[k3] += ' → 后面没有分组了，等';
             });
           }
-          blocked.forEach(function(i4){ for (var idx = 1; idx < q[i4].length; idx++){ var d4 = q[i4][idx]; if (!outBusy[d4]){ could.push({ i: i4, pos: idx }); break; } } });
-          sent.sort(function(a, b){ return b.pos - a.pos; }).forEach(function(s){ q[s.i].splice(s.pos, 1); deliv[s.d - 1]++; });
-          if (mode === 'fifo') note = '每个输入只能发<b>队首</b>；去同一输出的队首冲突，编号小的输入先走。' + (blocked.length ? ' 被挡的输入：' + blocked.map(function(i){ return '入' + (i + 1); }).join('、') + (could.length ? '，它们后面<b>本可以去空闲输出</b>的分组（虚线框）也只能等 —— 这就是<b>队头阻塞 HOL</b>。' : '。') : '');
-          else note = '前瞻（w = 2，slide 25）：先调度各队首；没送出的输入再看<b>第 2 个分组</b>，目的输出空闲就发。这一时隙送出 <b>' + sent.length + '</b> 个。';
+          blocked.forEach(function(i4){
+            for (var idx = 1; idx < q[i4].length; idx++){ var d4 = q[i4][idx]; if (who[d4] === undefined){ could.push({ i: i4, pos: idx }); if (m === 'fifo'){ var k4 = det.findIndex(function(s){ return s.indexOf('入' + (i4 + 1) + ' 队首') === 0; }); det[k4] += ' → 等；后面的 →' + d4 + ' 本可以去空闲的出' + d4 + '，也被挡住（<b>HOL 阻塞</b>）'; } break; } }
+          });
+          det = det.map(function(s){ return /占了$/.test(s) ? s + ' → 等' : s; });
+          sent.slice().sort(function(a, b){ return b.pos - a.pos; }).forEach(function(s){ q[s.i].splice(s.pos, 1); deliv[s.d - 1]++; });
         }
-        states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: sent, blocked: blocked, could: could, note: note, prevQ: states[states.length - 1].q });
+        states.push({ q: q.map(function(a){ return a.slice(); }), oq: oq.map(function(a){ return a.slice(); }), deliv: deliv.slice(), sent: sent, blocked: blocked, could: could, det: det, cont: cont, prevQ: states[states.length - 1].q });
       }
       return states;
     }
-    var S = simulate();
-    var NAMES = { fifo: 'FIFO 输入排队', look: '前瞻调度 w = 2', voq: 'VOQ 虚拟输出队列', out: '输出排队（交换结构 3 倍速）' };
+    var NAMES = { fifo: 'FIFO 输入排队', look: '前瞻 w = 2', voq: 'VOQ 虚拟输出队列', out: '输出排队（交换结构 3 倍速）' };
+    var SLOTS = {}; ['fifo', 'look', 'voq', 'out'].forEach(function(m){ SLOTS[m] = simulate(m).length - 1; });
+    var S = simulate(mode);
+    var INTRO = {
+      fifo: '<b>FIFO</b>：每个输入每时隙只能发<b>队首</b>；两个队首要去同一个输出，编号小的输入先走，另一个连同它后面的分组一起等。',
+      look: '<b>前瞻 w = 2</b>（slide 25）：调度器可以看每条队的<b>前 2 个</b>分组。队首被挡时，如果<b>第 2 个分组</b>要去的输出空闲，就让它先走（插队）。所以一个排在第 2 位、标着 →3 的分组，可以在它前面的 →2 还在等的时候先去出 3。',
+      voq: '<b>VOQ</b>（slide 23–24）：每个输入端口里<b>不是一条队，而是按目的输出分成 3 条小队</b>（图里每排分成「去出1 / 去出2 / 去出3」三条）。去出 1 的分组根本不排在去出 2 的分组后面，所以谁也挡不住谁。调度器每时隙找一个<b>匹配</b>：每个输入最多发 1 个，每个输出最多收 1 个。',
+      out: '<b>输出排队</b>（slide 26）：交换结构比线路快 3 倍，每时隙把所有队首都搬到输出端，分组在<b>输出端</b>排队，输入端不会被挡。'
+    };
+    function laneOf(arr, idx){ var d = arr[idx], n = 0; for (var j = 0; j < idx; j++) if (arr[j] === d) n++; return { lane: d - 1, ord: n }; }
     function render(k){
       var svg = $('qaHolSvg'); svg.innerHTML = '';
-      var s = S[k], show = k > 0 ? s.prevQ : s.q;
+      var s = S[k], show = k > 0 ? s.prevQ : s.q, voq = mode === 'voq';
       svgEl('rect', { x: 250, y: 22, width: 120, height: 190, rx: 6, 'class': 'qa-panel' }, svg);
       svgEl('text', { x: 310, y: 16, 'text-anchor': 'middle', 'class': 'qa-h' }, svg, '交换结构');
+      function ypos(i, idx){ var y = 40 + i * 62; if (!voq) return { x: 196 - idx * 40, y: y, h: 26, cy: y + 13 }; var L = laneOf(show[i], idx); return { x: 196 - L.ord * 40, y: y - 8 + L.lane * 19, h: 16, cy: y + L.lane * 19 }; }
       for (var i = 0; i < 3; i++){
         var y = 40 + i * 62;
         svgEl('text', { x: 14, y: y + 18, 'class': 'qa-dim' }, svg, '入' + (i + 1));
+        if (voq) for (var ln = 0; ln < 3; ln++){ var ly = y - 8 + ln * 19; svgEl('rect', { x: 70, y: ly - 1, width: 164, height: 18, rx: 3, 'class': 'qa-lane' }, svg); svgEl('text', { x: 74, y: ly + 12, 'class': 'qa-lanet' }, svg, '去出' + (ln + 1)); }
         show[i].forEach(function(d, idx){
-          var x = 196 - idx * 40, sentHere = k > 0 && s.sent.some(function(z){ return z.i === i && z.pos === idx; });
+          var P = ypos(i, idx), sentHere = k > 0 && s.sent.some(function(z){ return z.i === i && z.pos === idx; });
           var cls = 'qa-pkt' + (sentHere ? ' now' : '') + (k > 0 && idx === 0 && s.blocked.indexOf(i) >= 0 ? ' blk' : '') + (k > 0 && s.could.some(function(z){ return z.i === i && z.pos === idx; }) ? ' could' : '');
           var g = svgEl('g', { 'class': cls }, svg);
-          svgEl('rect', { x: x, y: y, width: 34, height: 26, rx: 3, style: 'fill:' + css(COLORS[d - 1]) }, g);
-          svgEl('text', { x: x + 17, y: y + 17, 'text-anchor': 'middle', 'class': 'qa-pt' }, g, '→' + d);
+          svgEl('rect', { x: P.x, y: P.y, width: 34, height: P.h, rx: 3, style: 'fill:' + css(COLORS[d - 1]) }, g);
+          svgEl('text', { x: P.x + 17, y: P.y + (voq ? 12 : 17), 'text-anchor': 'middle', 'class': 'qa-pt' }, g, '→' + d);
         });
         if (k > 0 && s.blocked.indexOf(i) >= 0) svgEl('text', { x: 230, y: y + 40, 'text-anchor': 'end', 'class': 'qa-tag bad' }, svg, '✕ 队首被挡');
         svgEl('text', { x: 384, y: y + 18, 'class': 'qa-dim' }, svg, '出' + (i + 1));
-        svgEl('text', { x: 520, y: y + 18, 'class': 'qa-tag ok' }, svg, '已送出 ' + s.deliv[i]);
+        svgEl('text', { x: 520, y: y + 18, 'class': 'qa-tag ok' }, svg, '已送出 ' + s.deliv[i] + ' / ' + PER[i]);
         if (mode === 'out') s.oq[i].forEach(function(d, idx){ var g2 = svgEl('g', { 'class': 'qa-pkt' }, svg); svgEl('rect', { x: 412 + idx * 26, y: y + 2, width: 22, height: 22, rx: 3, style: 'fill:' + css(COLORS[d - 1]) }, g2); });
       }
       if (k > 0) s.sent.forEach(function(z){
-        var y1 = 53 + z.i * 62, y2 = 53 + (z.d - 1) * 62;
+        var y1 = ypos(z.i, z.pos).cy, y2 = 53 + (z.d - 1) * 62;
         svgEl('path', { d: 'M232 ' + y1 + ' C 300 ' + y1 + ', 320 ' + y2 + ', 380 ' + y2, 'class': 'qa-flow' }, svg);
       });
-      var tot = Q0.reduce(function(a, b){ return a + b.length; }, 0), done = s.deliv.reduce(function(a, b){ return a + b; }, 0);
-      svgEl('text', { x: 10, y: 236, 'class': 'qa-tag' + (k === S.length - 1 ? ' ok' : '') }, svg, NAMES[mode] + '：' + (k === S.length - 1 ? '9 个分组全部送完，用了 ' + (S.length - 1) + ' 个时隙' : '第 ' + k + ' 时隙，已送出 ' + done + ' / ' + tot));
-      $('qaHolNarr').innerHTML = k === 0 ? '三个输入队列里共 9 个分组（颜色 = 目的输出），<b>最右边是队首</b>。三个队首都要去输出 2。选一种排队方式，点"播放"。' : '<b>时隙 ' + k + '</b>：' + s.note + (k === S.length - 1 ? '<br>对比四种方式的总时隙数：FIFO 最慢；前瞻和 VOQ 减少了被挡；输出排队最快但交换结构要 3 倍速。' : '');
+      var tot = Q0.reduce(function(a, b){ return a + b.length; }, 0), done = s.deliv.reduce(function(a, b){ return a + b; }, 0), last = k === S.length - 1;
+      svgEl('text', { x: 10, y: 236, 'class': 'qa-tag' + (last ? ' ok' : '') }, svg, NAMES[mode] + '：' + (last ? '9 个分组全部送完，用了 ' + (S.length - 1) + ' 个时隙（最少要 ' + LB + ' 个）' : '第 ' + k + ' 时隙，已送出 ' + done + ' / ' + tot));
+      var html;
+      if (k === 0) html = '三排是三个<b>输入端口</b>的队列（入1、入2、入3），<b>最右边是队首</b>。方块上的 <b>→d 表示这个分组要去输出 d</b>（颜色也对应），不是说它在 d 号口。一共 9 个分组：去出1 有 ' + PER[0] + ' 个、去出2 有 ' + PER[1] + ' 个、去出3 有 ' + PER[2] + ' 个；三个队首都要去出 2。<br>' + INTRO[mode] + ' 点"播放"或"下一步"。';
+      else {
+        var n = mode === 'out' ? s.sent.length : s.sent.length;
+        html = '<b>时隙 ' + k + '</b>：' + s.det.join('；') + '。' + (mode === 'out' ? '' : '本时隙送出 <b>' + n + '</b> 个。');
+        if (s.cont) html += '<br><b>为什么不是 3 个？</b>剩下的分组里有两个都要去同一个输出，而<b>一个输出每时隙只能收 1 个</b>，这叫<b>输出争用</b>（output contention）。它和 HOL 阻塞不一样：HOL 阻塞是"要去<b>空闲</b>输出的分组被同一条队里前面的分组挡住"，VOQ 已经消除了；输出争用是几个分组抢同一个输出，换哪种排队方式都免不了。';
+        if (last) html += '<br><b>总结</b>：FIFO 用了 ' + SLOTS.fifo + ' 个时隙，前瞻 ' + SLOTS.look + ' 个，VOQ ' + SLOTS.voq + ' 个，输出排队 ' + SLOTS.out + ' 个。出 2 一共要收 ' + LB + ' 个分组、每时隙只能收 1 个，所以<b>无论怎么排都至少要 ' + LB + ' 个时隙</b>。前瞻、VOQ、输出排队都做到了最少值；FIFO 因为 HOL 阻塞多用了 ' + (SLOTS.fifo - LB) + ' 个时隙。代价：前瞻调度更复杂；VOQ 要 N² 条队列和匹配调度；输出排队要交换结构快 N 倍。';
+      }
+      $('qaHolNarr').innerHTML = html;
     }
-    var pl = qaPlayer('qaHol', function(){ return S.length - 1; }, render, 1300);
-    qaChips('qaHolMode', function(v){ mode = v; S = simulate(); pl.reset(); });
+    var pl = qaPlayer('qaHol', function(){ return S.length - 1; }, render, 1600);
+    qaChips('qaHolMode', function(v){ mode = v; S = simulate(mode); pl.reset(); });
     pl.reset();
   })();
 
