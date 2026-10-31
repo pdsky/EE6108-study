@@ -740,6 +740,14 @@ body.gl-off .gl{display:none;}
 .qa-faq p{margin:0 0 8px 0;}
 .qa-faq td{vertical-align:top;}
 svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px auto 6px auto;}
+/* 答案的另一种语言（.ans-en 中文答案后的英文版；.ans-zh 英文答案后的中文版） */
+.ans-en, .ans-zh{margin:12px 0 4px 0; padding:10px 14px; border-radius:0 var(--radius) var(--radius) 0; background:var(--surface-2);}
+.ans-en{border-left:3px solid var(--s1);}
+.ans-zh{border-left:3px solid var(--teal);}
+.ans-en .ans-h, .ans-zh .ans-h{margin:0 0 6px 0; font-size:12.5px; font-weight:700; letter-spacing:.02em;}
+.ans-en .ans-h{color:var(--s1);} .ans-zh .ans-h{color:var(--teal);}
+.ans-en p, .ans-zh p{margin:0 0 6px 0;} .ans-en p:last-child, .ans-zh p:last-child{margin-bottom:0;}
+.ans-en table, .ans-zh table{margin:6px 0;}
 
 </style>
 </head>
@@ -1323,12 +1331,12 @@ svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px 
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>DSL 和 Cable modem 都是住宅接入，它们最大的区别是什么？</summary><div class="a">DSL 用电话线，每户到电话局是<b>专用</b>线路，上下行按频段分开；Cable 用混合光纤同轴网，许多家庭<b>共享</b>到 ISP 路由器的接入。两者都不对称（下行快、上行慢）。</div></details>
-        <details class="qcard"><summary>2 Mbps 链路，每人活跃时要 200 kbps，电路交换最多几人？分组交换能多放人的前提是什么？</summary><div class="a">2 Mbps ÷ 200 kbps = <b>10 人</b>。前提是流量有<b>突发性</b>：每个人只有一小部分时间在发，同时活跃超过 10 人的概率很小。如果每个人一直在发，分组交换就没有优势。</div></details>
-        <details class="qcard"><summary>1500 字节分组，10 Mbps 链路，长 2 km（s = 2×10⁸ m/s）。传输时延和传播时延分别多少？</summary><div class="a">传输 = 1500×8 / 10⁷ = <b>1.2 ms</b>；传播 = 2000 / (2×10⁸) = <b>10 µs</b>。传输时延大 120 倍。</div></details>
-        <details class="qcard"><summary>报文切成 N 个分组过 L 跳，为什么总时间是 (L+N−1)T，而不是 L·N·T？</summary><div class="a">第一个分组要一跳一跳走完 L 条链路，用 L·T。在它往前走的同时，后面的分组紧跟着在前面几段链路上传，所以第 2 到第 N 个分组只是每隔 T 到达一个，再加 (N−1)·T。各段链路同时工作，所以不是串行的 L·N·T。</div></details>
-        <details class="qcard"><summary>交换机和路由器在封装上分别处理到哪一层？哪一个分隔广播域？</summary><div class="a">交换机处理到<b>链路层</b>（看 MAC 地址），路由器处理到<b>网络层</b>（看 IP 地址）。<b>路由器</b>分隔广播域，广播帧不会被路由器转发。</div></details>
-        <details class="qcard"><summary>流量强度 La/R = 0.95 说明什么？</summary><div class="a">链路几乎被占满：平均到达比特速率是链路容量的 95%。按 slide 61 的曲线，这时平均排队时延非常大；一旦超过 1，队列无限增长，最终丢包。</div></details>
+        <details class="qcard"><summary>DSL 和 Cable modem 都是住宅接入，它们最大的区别是什么？</summary><div class="a">DSL 用电话线，每户到电话局是<b>专用</b>线路，上下行按频段分开；Cable 用混合光纤同轴网，许多家庭<b>共享</b>到 ISP 路由器的接入。两者都不对称（下行快、上行慢）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> DSL and cable modem are both residential access technologies. What is the biggest difference between them?</p><p><b>A:</b> DSL uses the telephone line: each household has a <b>dedicated</b> line to the telephone office, with downstream and upstream separated by frequency band. Cable uses a hybrid fiber-coax (HFC) network, where many households <b>share</b> the access link to the ISP's router. Both are asymmetric (downstream faster than upstream).</p></div></div></details>
+        <details class="qcard"><summary>2 Mbps 链路，每人活跃时要 200 kbps，电路交换最多几人？分组交换能多放人的前提是什么？</summary><div class="a">2 Mbps ÷ 200 kbps = <b>10 人</b>。前提是流量有<b>突发性</b>：每个人只有一小部分时间在发，同时活跃超过 10 人的概率很小。如果每个人一直在发，分组交换就没有优势。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A 2 Mbps link requires 200 kbps per active user. At most how many users can circuit switching support? Under what condition can packet switching support more users than that?</p><p><b>A:</b> 2 Mbps ÷ 200 kbps = <b>10 users</b>. The condition is that traffic is <b>bursty</b>: each user transmits only a small fraction of the time, so the probability of more than 10 users being active at once is small (statistical multiplexing). If every user transmitted continuously, packet switching would have no advantage.</p></div></div></details>
+        <details class="qcard"><summary>1500 字节分组，10 Mbps 链路，长 2 km（s = 2×10⁸ m/s）。传输时延和传播时延分别多少？</summary><div class="a">传输 = 1500×8 / 10⁷ = <b>1.2 ms</b>；传播 = 2000 / (2×10⁸) = <b>10 µs</b>。传输时延大 120 倍。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A 1500-byte packet is sent over a 10 Mbps link that is 2 km long (propagation speed s = 2×10⁸ m/s). What are the transmission delay and the propagation delay?</p><p><b>A:</b> Transmission delay = 1500×8 / 10⁷ = <b>1.2 ms</b>; propagation delay = 2000 / (2×10⁸) = <b>10 µs</b>. The transmission delay is 120 times larger.</p></div></div></details>
+        <details class="qcard"><summary>报文切成 N 个分组过 L 跳，为什么总时间是 (L+N−1)T，而不是 L·N·T？</summary><div class="a">第一个分组要一跳一跳走完 L 条链路，用 L·T。在它往前走的同时，后面的分组紧跟着在前面几段链路上传，所以第 2 到第 N 个分组只是每隔 T 到达一个，再加 (N−1)·T。各段链路同时工作，所以不是串行的 L·N·T。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A message is split into N packets and sent over L hops. Why is the total time (L+N−1)T rather than L·N·T?</p><p><b>A:</b> The first packet must travel hop by hop across all L links, taking L·T. While it moves forward, the following packets are pipelined and transmitted over the earlier links at the same time, so packets 2 through N each simply arrive one T later than the previous one, adding (N−1)·T. Because the links operate simultaneously (store-and-forward pipelining), the total is not the serial L·N·T.</p></div></div></details>
+        <details class="qcard"><summary>交换机和路由器在封装上分别处理到哪一层？哪一个分隔广播域？</summary><div class="a">交换机处理到<b>链路层</b>（看 MAC 地址），路由器处理到<b>网络层</b>（看 IP 地址）。<b>路由器</b>分隔广播域，广播帧不会被路由器转发。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Up to which layer does a switch process a frame, and up to which layer does a router process it? Which of the two separates broadcast domains?</p><p><b>A:</b> A switch processes up to the <b>link layer</b> (it looks at the MAC address); a router processes up to the <b>network layer</b> (it looks at the IP address). The <b>router</b> separates broadcast domains — a broadcast frame is not forwarded by a router.</p></div></div></details>
+        <details class="qcard"><summary>流量强度 La/R = 0.95 说明什么？</summary><div class="a">链路几乎被占满：平均到达比特速率是链路容量的 95%。按 slide 61 的曲线，这时平均排队时延非常大；一旦超过 1，队列无限增长，最终丢包。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What does a traffic intensity La/R = 0.95 indicate?</p><p><b>A:</b> The link is almost fully loaded: the average bit arrival rate is 95% of the link's capacity. According to the curve on slide 61, the average queuing delay is then very large; once the traffic intensity exceeds 1, the queue grows without bound and packets are eventually lost.</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#m0">← 考试信息</a><a href="#t21">下一章：数据链路控制 →</a></div>
     </section>
@@ -1699,12 +1707,12 @@ svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px 
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>a = 0.5 时停等效率是多少？a = 10 时呢？</summary><div class="a">U = 1/(1+2a)。a = 0.5 → <b>0.5</b>；a = 10 → 1/21 ≈ <b>0.048</b>。</div></details>
-        <details class="qcard"><summary>a = 10，用 3 位序号的滑动窗口，最大效率是多少？要达到 100% 需要几位序号？</summary><div class="a">3 位序号 → W = 7，2a+1 = 21，U = 7/21 = <b>0.333</b>。要 W ≥ 21，2<sup>k</sup> − 1 ≥ 21 → k = <b>5</b>（W = 31）。</div></details>
-        <details class="qcard"><summary>为什么 Go-back-N 比选择重传更常用，尽管它重发得更多？</summary><div class="a">选择重传要求接收方缓存乱序到达的帧并重新排序，发送方要能乱序发送，收发两端都更复杂。Go-back-N 的接收方只要按序收、丢掉乱序帧，实现简单。讲义原话：SR "less widely used"，适合传播时延很长的卫星链路。</div></details>
-        <details class="qcard"><summary>帧长 1000 bit，BER = 10⁻⁴，帧错误率约多少？</summary><div class="a">p = 1 − (1 − 10⁻⁴)<sup>1000</sup> ≈ 1 − e<sup>−0.1</sup> ≈ <b>0.095</b>（近似 n·BER = 0.1，稍微偏大）。</div></details>
-        <details class="qcard"><summary>4 位块长，数据 0110 1101，checksum 是多少？</summary><div class="a">6 + 13 = 19，19 mod 15 = 4，checksum = 15 − 4 = 11 = <b>1011</b>。验算：6 + 13 + 11 = 30，30 mod 15 = 0 ✓。</div></details>
-        <details class="qcard"><summary>C(x) = x³ + 1 能检测所有奇数个错误吗？所有长度 ≤ 3 的突发呢？</summary><div class="a">x³ + 1 有 2 项（偶数）→ C(1) = 0，含 (x+1) 因子（x³+1 = (x+1)(x²+x+1)）→ <b>能</b>检测所有奇数个错误。3 次 → <b>能</b>检测所有长度 ≤ 3 的突发。但它本身就是 x³ + 1，间隔为 3 的双比特错误（如 x⁵ + x²）检测不到。</div></details>
+        <details class="qcard"><summary>a = 0.5 时停等效率是多少？a = 10 时呢？</summary><div class="a">U = 1/(1+2a)。a = 0.5 → <b>0.5</b>；a = 10 → 1/21 ≈ <b>0.048</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the stop-and-wait efficiency when a = 0.5? What about when a = 10?</p><p><b>A:</b> U = 1/(1+2a). For a = 0.5 → U = <b>0.5</b>; for a = 10 → U = 1/21 ≈ <b>0.048</b>.</p></div></div></details>
+        <details class="qcard"><summary>a = 10，用 3 位序号的滑动窗口，最大效率是多少？要达到 100% 需要几位序号？</summary><div class="a">3 位序号 → W = 7，2a+1 = 21，U = 7/21 = <b>0.333</b>。要 W ≥ 21，2<sup>k</sup> − 1 ≥ 21 → k = <b>5</b>（W = 31）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> With a = 10, using a sliding window with 3-bit sequence numbers, what is the maximum efficiency? How many bits of sequence number are needed to reach 100%?</p><p><b>A:</b> 3-bit sequence numbers → window size W = 7, and 2a+1 = 21, so U = 7/21 = <b>0.333</b>. To reach W ≥ 21 we need 2<sup>k</sup> − 1 ≥ 21 → k = <b>5</b> (giving W = 31).</p></div></div></details>
+        <details class="qcard"><summary>为什么 Go-back-N 比选择重传更常用，尽管它重发得更多？</summary><div class="a">选择重传要求接收方缓存乱序到达的帧并重新排序，发送方要能乱序发送，收发两端都更复杂。Go-back-N 的接收方只要按序收、丢掉乱序帧，实现简单。讲义原话：SR "less widely used"，适合传播时延很长的卫星链路。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why is Go-Back-N more widely used than Selective Repeat, even though it retransmits more?</p><p><b>A:</b> Selective Repeat requires the receiver to buffer out-of-order frames and resequence them, and the sender must be able to send out of order — both ends are more complex. Go-Back-N's receiver simply accepts frames in order and discards out-of-order frames, which is simple to implement. The lecture notes state that SR is "less widely used", and is suited to links with very long propagation delay, such as satellite links.</p></div></div></details>
+        <details class="qcard"><summary>帧长 1000 bit，BER = 10⁻⁴，帧错误率约多少？</summary><div class="a">p = 1 − (1 − 10⁻⁴)<sup>1000</sup> ≈ 1 − e<sup>−0.1</sup> ≈ <b>0.095</b>（近似 n·BER = 0.1，稍微偏大）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A frame is 1000 bits long and the bit error rate (BER) is 10⁻⁴. What is the approximate frame error rate?</p><p><b>A:</b> p = 1 − (1 − 10⁻⁴)<sup>1000</sup> ≈ 1 − e<sup>−0.1</sup> ≈ <b>0.095</b> (the quick approximation n·BER = 0.1 is slightly too large).</p></div></div></details>
+        <details class="qcard"><summary>4 位块长，数据 0110 1101，checksum 是多少？</summary><div class="a">6 + 13 = 19，19 mod 15 = 4，checksum = 15 − 4 = 11 = <b>1011</b>。验算：6 + 13 + 11 = 30，30 mod 15 = 0 ✓。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Using a 4-bit block length, for the data 0110 1101, what is the checksum?</p><p><b>A:</b> 6 + 13 = 19, 19 mod 15 = 4, checksum = 15 − 4 = 11 = <b>1011</b>. Check: 6 + 13 + 11 = 30, 30 mod 15 = 0, confirming the result.</p></div></div></details>
+        <details class="qcard"><summary>C(x) = x³ + 1 能检测所有奇数个错误吗？所有长度 ≤ 3 的突发呢？</summary><div class="a">x³ + 1 有 2 项（偶数）→ C(1) = 0，含 (x+1) 因子（x³+1 = (x+1)(x²+x+1)）→ <b>能</b>检测所有奇数个错误。3 次 → <b>能</b>检测所有长度 ≤ 3 的突发。但它本身就是 x³ + 1，间隔为 3 的双比特错误（如 x⁵ + x²）检测不到。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Can the generator polynomial C(x) = x³ + 1 detect all odd numbers of errors? Can it detect all burst errors of length ≤ 3?</p><p><b>A:</b> x³ + 1 has 2 terms (an even number), so C(1) = 0, meaning it contains the factor (x+1), since x³+1 = (x+1)(x²+x+1) — so it <b>can</b> detect all odd numbers of errors. Its degree is 3, so it <b>can</b> detect all burst errors of length ≤ 3. However, since it is exactly x³ + 1, a double-bit error with the two error bits 3 apart (e.g. x⁵ + x²) cannot be detected.</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#t1">← Topic 1</a><a href="#t22">下一章：介质访问控制与局域网 →</a></div>
     </section>
@@ -1976,12 +1984,12 @@ svg.qa-mini{display:block; width:100%; max-width:340px; height:auto; margin:4px 
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>纯 ALOHA 的脆弱期为什么是 2F，而时隙 ALOHA 是 F？</summary><div class="a">纯 ALOHA 中帧可以在任意时刻开始，在本帧开始前 F 内开始的帧会和本帧的开头重叠，在本帧发送期间 F 内开始的帧会和本帧的结尾重叠，共 2F。时隙 ALOHA 只能在时隙边界发送，只有恰好同一个时隙开始的帧才会碰撞，所以是 F。</div></details>
-        <details class="qcard"><summary>1 km 电缆，100 Mbps，帧 1000 字节，V = 2×10⁸。CSMA/CD 最大效率？</summary><div class="a">t<sub>prop</sub> = 5 µs，t<sub>frame</sub> = 80 µs，a = 0.0625，ρ = 1/(1 + 6.44 × 0.0625) = 1/1.4025 ≈ <b>0.713</b>。</div></details>
-        <details class="qcard"><summary>以太网第 3 次碰撞后，退避的 K 从哪个集合选？10 Mbps 时最长等多久？</summary><div class="a">K ∈ {0, 1, …, 2³ − 1} = {0..7}。最长 7 × 512 比特时间 = 7 × 51.2 µs = <b>358.4 µs</b>。</div></details>
-        <details class="qcard"><summary>交换机收到一帧，目的 MAC 在表里，且对应端口正好是帧进来的端口。怎么处理？</summary><div class="a"><b>丢弃（过滤）</b>。目的主机和源主机在同一个网段（比如都挂在同一个集线器上），它已经通过那个网段收到了这一帧，交换机不需要再转发。</div></details>
-        <details class="qcard"><summary>STP 选指定网桥时两个网桥到根代价相同，怎么选？</summary><div class="a">选<b>网桥 ID 较小</b>的那个。讲义例子里 LAN3 上 B3 和 B4 代价都是 1，选 B3。</div></details>
-        <details class="qcard"><summary>为什么 802.11 不能像以太网一样用碰撞检测？</summary><div class="a">发送时自己的信号远强于收到的信号，很难边发边听；而且即使能听，隐藏终端和衰落也会让发送方察觉不到接收方处的碰撞。所以改用碰撞避免（CSMA/CA + RTS/CTS）。</div></details>
+        <details class="qcard"><summary>纯 ALOHA 的脆弱期为什么是 2F，而时隙 ALOHA 是 F？</summary><div class="a">纯 ALOHA 中帧可以在任意时刻开始，在本帧开始前 F 内开始的帧会和本帧的开头重叠，在本帧发送期间 F 内开始的帧会和本帧的结尾重叠，共 2F。时隙 ALOHA 只能在时隙边界发送，只有恰好同一个时隙开始的帧才会碰撞，所以是 F。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why is the vulnerable period 2F for pure ALOHA, but only F for slotted ALOHA?</p><p><b>A:</b> In pure ALOHA a frame can start at any instant: a frame starting within F before this frame begins will overlap its start, and a frame starting within F after this frame begins (i.e. during its transmission) will overlap its end, giving a vulnerable period of 2F in total. In slotted ALOHA, transmission can only begin at a slot boundary, so only a frame starting in exactly the same slot can collide, giving a vulnerable period of F.</p></div></div></details>
+        <details class="qcard"><summary>1 km 电缆，100 Mbps，帧 1000 字节，V = 2×10⁸。CSMA/CD 最大效率？</summary><div class="a">t<sub>prop</sub> = 5 µs，t<sub>frame</sub> = 80 µs，a = 0.0625，ρ = 1/(1 + 6.44 × 0.0625) = 1/1.4025 ≈ <b>0.713</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A 1 km cable runs at 100 Mbps, with a frame size of 1000 bytes and propagation speed V = 2×10⁸ m/s. What is the maximum efficiency of CSMA/CD?</p><p><b>A:</b> t<sub>prop</sub> = 5 µs, t<sub>frame</sub> = 80 µs, a = 0.0625, ρ = 1/(1 + 6.44 × 0.0625) = 1/1.4025 ≈ <b>0.713</b>.</p></div></div></details>
+        <details class="qcard"><summary>以太网第 3 次碰撞后，退避的 K 从哪个集合选？10 Mbps 时最长等多久？</summary><div class="a">K ∈ {0, 1, …, 2³ − 1} = {0..7}。最长 7 × 512 比特时间 = 7 × 51.2 µs = <b>358.4 µs</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> After the 3rd collision in Ethernet, from which set is the backoff value K chosen? At 10 Mbps, what is the longest possible wait?</p><p><b>A:</b> K ∈ {0, 1, …, 2³ − 1} = {0..7}. The longest wait is 7 × 512 bit times = 7 × 51.2 µs = <b>358.4 µs</b>.</p></div></div></details>
+        <details class="qcard"><summary>交换机收到一帧，目的 MAC 在表里，且对应端口正好是帧进来的端口。怎么处理？</summary><div class="a"><b>丢弃（过滤）</b>。目的主机和源主机在同一个网段（比如都挂在同一个集线器上），它已经通过那个网段收到了这一帧，交换机不需要再转发。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A switch receives a frame whose destination MAC address is in its table, and the corresponding port is exactly the port the frame arrived on. What does the switch do?</p><p><b>A:</b> It <b>discards (filters)</b> the frame. The destination host and the source host are on the same segment (for example, both connected to the same hub), so the destination has already received the frame over that segment, and the switch does not need to forward it.</p></div></div></details>
+        <details class="qcard"><summary>STP 选指定网桥时两个网桥到根代价相同，怎么选？</summary><div class="a">选<b>网桥 ID 较小</b>的那个。讲义例子里 LAN3 上 B3 和 B4 代价都是 1，选 B3。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> When choosing the designated bridge in STP, if two bridges have the same cost to the root, how is the choice made?</p><p><b>A:</b> The bridge with the <b>smaller bridge ID</b> is chosen. In the lecture example, on LAN3 both B3 and B4 have a cost of 1, so B3 is chosen.</p></div></div></details>
+        <details class="qcard"><summary>为什么 802.11 不能像以太网一样用碰撞检测？</summary><div class="a">发送时自己的信号远强于收到的信号，很难边发边听；而且即使能听，隐藏终端和衰落也会让发送方察觉不到接收方处的碰撞。所以改用碰撞避免（CSMA/CA + RTS/CTS）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why can't 802.11 use collision detection the way Ethernet does?</p><p><b>A:</b> While transmitting, a station's own signal is far stronger than any received signal, making it hard to listen while sending; and even if it could listen, hidden terminals and fading mean the sender may still not detect a collision occurring at the receiver. For this reason, 802.11 uses collision avoidance instead (CSMA/CA with RTS/CTS).</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#t21">← 数据链路控制</a><a href="#t3">下一章：网络层与 IP →</a></div>
     </section>
@@ -2339,12 +2347,12 @@ netE 28</textarea></label>
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>HLEN = 6，Total length = 300，这个数据报有多少数据？</summary><div class="a">首部 6 × 4 = 24 字节，数据 300 − 24 = <b>276 字节</b>。</div></details>
-        <details class="qcard"><summary>2000 字节数据（不含 20 字节首部）通过 MTU 620 的链路，分几片？每片 offset？</summary><div class="a">每片最多 600 → 取 8 的倍数 600（正好）。2000 = 600 + 600 + 600 + 200 → 4 片，offset = 0、75、150、225，Total length = 620、620、620、220，MF = 1、1、1、0。</div></details>
-        <details class="qcard"><summary>一个部门要 30 个地址，用什么前缀？要 31 个呢？</summary><div class="a">30 个：/27 正好 2⁵ − 2 = 30。31 个：/27 不够，要 <b>/26</b>（62 个）。</div></details>
-        <details class="qcard"><summary>192.168.10.77/27 的网络地址、广播地址和可用范围？</summary><div class="a">块大小 32，77 落在 64–95 块里。网络 <b>192.168.10.64</b>，广播 <b>192.168.10.95</b>，可用 .65–.94。</div></details>
-        <details class="qcard"><summary>10.1.4.0/24、10.1.5.0/24、10.1.6.0/24、10.1.7.0/24 的汇总路由？</summary><div class="a">4 = 000001<b>00</b>，7 = 000001<b>11</b>，公共前缀 16 + 6 = 22 位 → <b>10.1.4.0/22</b>，正好覆盖这 4 个，没有多余。</div></details>
-        <details class="qcard"><summary>DHCP 的 discover 和 request 为什么都用 0.0.0.0 作源地址、广播作目的地址？</summary><div class="a">这时主机还没有 IP 地址（0.0.0.0 正是"启动时还不知道自己地址"的特殊地址），也不知道 DHCP 服务器在哪，只能在本地网内广播（255.255.255.255 受限广播，不会被路由器转发）。request 也广播，是为了让所有发过 offer 的服务器都知道主机选了哪一个。</div></details>
+        <details class="qcard"><summary>HLEN = 6，Total length = 300，这个数据报有多少数据？</summary><div class="a">首部 6 × 4 = 24 字节，数据 300 − 24 = <b>276 字节</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> If HLEN = 6 and Total length = 300, how much data does this datagram carry?</p><p><b>A:</b> Header length = 6 × 4 = 24 bytes, so data = 300 − 24 = <b>276 bytes</b>.</p></div></div></details>
+        <details class="qcard"><summary>2000 字节数据（不含 20 字节首部）通过 MTU 620 的链路，分几片？每片 offset？</summary><div class="a">每片最多 600 → 取 8 的倍数 600（正好）。2000 = 600 + 600 + 600 + 200 → 4 片，offset = 0、75、150、225，Total length = 620、620、620、220，MF = 1、1、1、0。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> 2000 bytes of data (excluding the 20-byte header) must pass over a link with MTU 620. Into how many fragments is it split, and what is each fragment's offset?</p><p><b>A:</b> Each fragment can carry at most 600 bytes of data (620 − 20 header, rounded down to a multiple of 8 — here exactly 600). 2000 = 600 + 600 + 600 + 200 → 4 fragments, with offsets 0, 75, 150, 225 (in 8-byte units), Total length = 620, 620, 620, 220, and MF (more fragments) = 1, 1, 1, 0.</p></div></div></details>
+        <details class="qcard"><summary>一个部门要 30 个地址，用什么前缀？要 31 个呢？</summary><div class="a">30 个：/27 正好 2⁵ − 2 = 30。31 个：/27 不够，要 <b>/26</b>（62 个）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A department needs 30 addresses: what prefix should be used? What about if it needs 31 addresses?</p><p><b>A:</b> For 30 addresses: /27 gives exactly 2⁵ − 2 = 30 usable addresses. For 31 addresses: /27 is not enough, so <b>/26</b> (62 usable addresses) is needed.</p></div></div></details>
+        <details class="qcard"><summary>192.168.10.77/27 的网络地址、广播地址和可用范围？</summary><div class="a">块大小 32，77 落在 64–95 块里。网络 <b>192.168.10.64</b>，广播 <b>192.168.10.95</b>，可用 .65–.94。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> For 192.168.10.77/27, what are the network address, the broadcast address, and the usable address range?</p><p><b>A:</b> The block size is 32, and 77 falls within the block 64–95. Network address = <b>192.168.10.64</b>, broadcast address = <b>192.168.10.95</b>, usable range = .65–.94.</p></div></div></details>
+        <details class="qcard"><summary>10.1.4.0/24、10.1.5.0/24、10.1.6.0/24、10.1.7.0/24 的汇总路由？</summary><div class="a">4 = 000001<b>00</b>，7 = 000001<b>11</b>，公共前缀 16 + 6 = 22 位 → <b>10.1.4.0/22</b>，正好覆盖这 4 个，没有多余。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the route aggregation (summary route) for 10.1.4.0/24, 10.1.5.0/24, 10.1.6.0/24, and 10.1.7.0/24?</p><p><b>A:</b> 4 = 000001<b>00</b>, 7 = 000001<b>11</b>, so the common prefix is 16 + 6 = 22 bits → <b>10.1.4.0/22</b>, which covers exactly these 4 networks with no extra addresses.</p></div></div></details>
+        <details class="qcard"><summary>DHCP 的 discover 和 request 为什么都用 0.0.0.0 作源地址、广播作目的地址？</summary><div class="a">这时主机还没有 IP 地址（0.0.0.0 正是"启动时还不知道自己地址"的特殊地址），也不知道 DHCP 服务器在哪，只能在本地网内广播（255.255.255.255 受限广播，不会被路由器转发）。request 也广播，是为了让所有发过 offer 的服务器都知道主机选了哪一个。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why do both the DHCP discover and request messages use 0.0.0.0 as the source address and a broadcast address as the destination?</p><p><b>A:</b> At this point the host has no IP address yet (0.0.0.0 is exactly the special address used "at start-up, before the host knows its own address"), and it does not know where the DHCP server is, so it can only broadcast within the local network (255.255.255.255, the limited broadcast address, which is not forwarded by routers). The request is also broadcast so that every server that sent an offer learns which one the host has chosen.</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#t22">← 介质访问控制</a><a href="#n2">下一章：Part II 网络层 II →</a></div>
     </section>
@@ -2464,6 +2472,8 @@ netE 28</textarea></label>
 
 
 
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2521,11 +2531,17 @@ netE 28</textarea></label>
             <details class="exq-a"><summary>看标准答案</summary><div>
               <p>(a) <b>Routing</b> determines the route taken by packets from source to destination; it is network-wide and done by a routing algorithm (centrally or distributed). <b>Forwarding</b> moves a packet from a router's input to the appropriate output; it involves only a single router and is a lookup of the header value in the forwarding table. Routing algorithms determine the values in the forwarding tables. (Analogy: planning a trip vs getting through one interchange.)</p>
               <p>(b) The DA matches entry 2 (prefix 11001000 00010111 00011000, 24 bits) and entry 3 (11001000 00010111 00011, 21 bits); entry 1 fails at bit 21. By <b>longest prefix matching</b> the most specific entry wins → <b>interface 1</b>.</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>(a) <b>路由（routing）</b>决定分组从源到目的地所走的路径；它是<b>全网范围</b>的，由路由算法完成（可以是集中式，也可以是分布式）。<b>转发（forwarding）</b>把分组从路由器的输入端口移到合适的输出端口；它<b>只涉及一台路由器</b>，做法是拿分组首部里的值去查转发表（forwarding table）。路由算法决定转发表里填的值。（比喻：路由像规划一整趟旅行，转发像通过路上的一个立交路口。）</p>
+                <p>(b) 这个目的地址（DA）同时匹配表项 2（前缀 11001000 00010111 00011000，24 位）和表项 3（11001000 00010111 00011，21 位）；表项 1 在第 21 位不一致，不匹配。按<b>最长前缀匹配（longest prefix matching）</b>，最具体（前缀最长）的表项胜出 → <b>接口 1</b>。</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：只写"匹配表项 3"就停（漏看更长的那一行）；把"转发"写成"决定整条路径"。</p>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
 
 
 
@@ -2673,6 +2689,12 @@ netE 28</textarea></label>
               <p>(a) Via memory, each datagram crosses the bus twice (input → memory, memory → output), so the maximum forwarding rate is 10/2 = <b>5 Gbps &lt; 8 Gbps → No</b>.</p>
               <p>(b) Via a shared bus, each datagram crosses the bus once: 10 Gbps ≥ 8 Gbps → <b>Yes</b> (only one packet on the bus at a time).</p>
               <p>(c) A crossbar uses 2n buses connecting n inputs to n outputs; packets to <b>different outputs</b> cross simultaneously, so it is not limited by a single bus. Drawback: large, high-speed crossbars are complex and expensive (and packets to the same output still contend).</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>总需求 = 8 × 1 Gbps = 8 Gbps。</p>
+                <p>(a) 经内存交换（switching via memory）时，每个数据报要过<b>两次</b>总线（输入端口 → 内存，内存 → 输出端口），所以最大转发速率 = 10/2 = <b>5 Gbps &lt; 8 Gbps → 不能</b>满速转发。</p>
+                <p>(b) 经共享总线交换（switching via a bus）时，每个数据报只过<b>一次</b>总线：10 Gbps ≥ 8 Gbps → <b>能</b>（总线上同一时刻只能有一个分组）。</p>
+                <p>(c) crossbar（纵横交换）用 2n 条总线把 n 个输入端口和 n 个输出端口连起来；去往<b>不同输出端口</b>的分组可以同时通过，所以不受单条总线速度的限制。缺点：规模大、速度高的 crossbar 既复杂又昂贵（而且去往同一个输出端口的分组仍然要争用）。</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：经内存不除以 2；以为 crossbar 下两个分组去同一输出也能同时过（那是输出争用）。</p>
           </div>
@@ -2875,6 +2897,11 @@ netE 28</textarea></label>
               <p>(a) In FIFO input queuing, the packet at the head of a queue may be blocked because another input's packet wins the same output; the packets behind it must wait even if their own outputs are idle. This wastes output capacity (about 58.6% throughput for large N).</p>
               <p>(b) HOL destinations (in1, in2): (1,1), (1,2), (2,1), (2,2), each with probability 1/4. Same output (2 cases): 1 packet sent; different outputs (2 cases): 2 sent. E[sent] = ½·1 + ½·2 = 1.5 per slot → throughput = 1.5 / 2 = <b>0.75</b>.</p>
               <p>(c) <b>VOQ</b>: one queue per output at each input + a matching scheduler → no HOL blocking, but N² queues and complex scheduling (expensive). <b>Output queuing</b>: switch fabric N times faster than the line rate → 100% throughput, but very high fabric/memory speed. (Also: lookahead scheduling — look beyond the HOL packet; more complex.)</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>(a) 在 FIFO 输入排队中，队列<b>队首</b>的分组可能被挡住，因为另一个输入端口的分组抢到了同一个输出端口；排在它后面的分组即使自己要去的输出端口是空闲的，也只能等。这就是队头阻塞（HOL blocking），它浪费了输出端口的能力（N 很大时吞吐量只有约 58.6%）。</p>
+                <p>(b) 两个队首分组的目的输出（in1, in2）有 (1,1)、(1,2)、(2,1)、(2,2) 四种，每种概率 1/4。去同一个输出（2 种情况）：只送出 1 个分组；去不同输出（2 种情况）：送出 2 个。每个时隙平均送出 E[送出数] = ½·1 + ½·2 = 1.5 个 → 吞吐量 = 1.5 / 2 = <b>0.75</b>。</p>
+                <p>(c) <b>虚拟输出队列（VOQ）</b>：每个输入端口为每个输出端口各设一条队列，再加一个匹配调度器 → 没有队头阻塞，但需要 N² 条队列和复杂的调度（很贵）。<b>输出排队（output queuing）</b>：交换结构比线路速率快 N 倍 → 吞吐量可达 100%，但对交换结构和内存的速度要求非常高。（另外还有：前瞻调度（lookahead），越过队首分组去看后面的分组能不能发；调度更复杂。）</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：吞吐量写成 1.5（忘了除以端口数）；把 58.6% 当成 2×2 的答案。</p>
           </div>
@@ -2916,7 +2943,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                            <!-- QB:n3 -->
+                                                                                                                        <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -2931,6 +2958,11 @@ netE 28</textarea></label>
             <p>(a) Reliability of a path = ∏p<sub>i</sub>. Maximising ∏p<sub>i</sub> is equivalent to minimising Σ(−log p<sub>i</sub>), so set <b>w<sub>i</sub> = −log<sub>10</sub> p<sub>i</sub></b> and run Dijkstra.</p>
             <p>(b) P: 0.0458 + 0.0223 = <b>0.0680</b>, reliability 0.9 × 0.95 = <b>0.855</b>. Q: 0.0044 + 0.0132 + 0.0177 = <b>0.0353</b>, reliability 0.99 × 0.97 × 0.96 = <b>0.922</b>. Q has the smaller total weight → <b>Q is chosen</b>, although it has more hops.</p>
             <p>(c) Min hops: every link weight = 1. Bandwidth constraint: remove (on paper) all links with capacity &lt; 100 Mbps, then run the shortest-path algorithm on the remaining graph.</p>
+            <div class="ans-zh"><p class="ans-h">中文答案</p>
+              <p>(a) 一条路径的可靠性 = ∏p<sub>i</sub>（各段成功概率相乘）。让 ∏p<sub>i</sub> 最大，等价于让 Σ(−log p<sub>i</sub>) 最小，所以把链路权值设为 <b>w<sub>i</sub> = −log<sub>10</sub> p<sub>i</sub></b>，再运行 Dijkstra 算法。</p>
+              <p>(b) P：总权值 0.0458 + 0.0223 = <b>0.0680</b>，可靠性 0.9 × 0.95 = <b>0.855</b>。Q：总权值 0.0044 + 0.0132 + 0.0177 = <b>0.0353</b>，可靠性 0.99 × 0.97 × 0.96 = <b>0.922</b>。Q 的总权值更小 → <b>选 Q</b>，尽管它的跳数更多。</p>
+              <p>(c) 最少跳数：每条链路的权值都设为 1。带宽约束：先（在纸上）删掉所有容量 &lt; 100 Mbps 的链路，再在剩下的图上运行最短路算法。</p>
+            </div>
           </div></details>
           <p class="trap"><b>易错</b>：直接把 p 加起来；−log 前后用了不同的底；以为"跳数少就更可靠"。</p>
         </div>
@@ -2997,7 +3029,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                            <!-- QB:n4 -->
+                                                                                                                        <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3019,6 +3051,19 @@ netE 28</textarea></label>
                 <tr><td>4</td><td>ABCDE</td><td></td><td></td><td></td><td></td></tr>
               </tbody></table></div>
             <p>Shortest-path tree: A–B, B–C, C–D, D–E (distances B 2, C 3, D 4, E 5). Forwarding table of A: every destination B, C, D, E → next hop <b>B</b> (link (A,B)).</p>
+            <div class="ans-zh"><p class="ans-h">中文答案</p>
+              <p>Dijkstra 每一步的表如下（D(v)：A 到 v 当前的最短距离，p(v)：这条路上 v 的前一个节点（前驱）；空格表示该节点已经加入 N'，不再更新）：</p>
+              <table class="fsmtab" style="min-width:0">
+                <thead><tr><th>步骤</th><th>N'</th><th>D(B), p(B)</th><th>D(C), p(C)</th><th>D(D), p(D)</th><th>D(E), p(E)</th></tr></thead>
+                <tbody>
+                  <tr><td>0</td><td>A</td><td>2, A</td><td>5, A</td><td>∞</td><td>∞</td></tr>
+                  <tr><td>1</td><td>AB</td><td></td><td><b>3, B</b></td><td><b>6, B</b></td><td>∞</td></tr>
+                  <tr><td>2</td><td>ABC</td><td></td><td></td><td><b>4, C</b></td><td><b>6, C</b></td></tr>
+                  <tr><td>3</td><td>ABCD</td><td></td><td></td><td></td><td><b>5, D</b></td></tr>
+                  <tr><td>4</td><td>ABCDE</td><td></td><td></td><td></td><td></td></tr>
+                </tbody></table>
+              <p>最短路树：A–B、B–C、C–D、D–E（距离：B 为 2，C 为 3，D 为 4，E 为 5）。A 的转发表：目的地 B、C、D、E 的<b>下一跳全部是 B</b>（链路 (A,B)）。</p>
+            </div>
           </div></details>
           <p class="trap"><b>易错</b>：Step 1 忘了 C 从 5 变 3；已加入 N' 的节点还在更新；转发表写成整条路径 A-B-C-D-E。</p>
         </div>
@@ -3140,6 +3185,11 @@ netE 28</textarea></label>
               <p>(a) Nodes exchange only distances, not paths. When a cost decreases, the better value spreads in one or two exchanges. When it increases, a node may switch to a neighbour's old route that actually goes through itself, so two nodes keep increasing their estimates step by step (count-to-infinity, 44 iterations in slide 60).</p>
               <p>(b) If Z routes to X via Y, Z tells Y that its distance to X is ∞, so Y will not route to X via Z; Z tells all other neighbours the truth.</p>
               <p>(c) Before: D<sub>y</sub> = 4, D<sub>A</sub> = 5 (via y), D<sub>z</sub> = 6 (via A). A tells y ∞ and z tells A ∞, but z tells y the truth, 6. After x–y = 60: y: min(60, 1+∞, 3+6) = <b>9 via z</b>; A: min(1+9, 1+∞) = <b>10 via y</b>; z: min(50, 1+10, 3+∞) = <b>11 via A</b>; then y = 14, … The loop y → z → A → y has three nodes; each node only lies to its own next hop, so the false information still circulates and the values grow by 5 per round until z prefers its direct link (50). Poisoned reverse only fixes two-node loops.</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>(a) 节点之间只交换<b>距离</b>，不交换路径。链路代价<b>下降</b>时，更好的值经过一两次交换就传开了。代价<b>上升</b>时，一个节点可能改用邻居那条过时的路由，而那条路其实<b>经过它自己</b>，于是两个节点一步一步地不断抬高各自的估计值（无穷计数（count-to-infinity），slide 60 的例子要 44 次迭代）。</p>
+                <p>(b) <b>毒性逆转（poisoned reverse）</b>：如果 Z 经 Y 到达 X，Z 就告诉 Y 自己到 X 的距离是 ∞，这样 Y 就不会经 Z 去 X；Z 对其他所有邻居都报真实距离。</p>
+                <p>(c) 变化前：D<sub>y</sub> = 4，D<sub>A</sub> = 5（经 y），D<sub>z</sub> = 6（经 A）。A 对 y 报 ∞，z 对 A 报 ∞，但 z 对 y 报的是真实值 6。x–y 变成 60 之后：y：min(60, 1+∞, 3+6) = <b>9，经 z</b>；A：min(1+9, 1+∞) = <b>10，经 y</b>；z：min(50, 1+10, 3+∞) = <b>11，经 A</b>；接着 y = 14，…… 环路 y → z → A → y 有<b>三个</b>节点；每个节点只对<b>自己的下一跳</b>说谎，所以错误信息照样在环里传，距离值每转一圈涨 5，直到 z 觉得自己的直连链路（50）更便宜为止。毒性逆转只能解决两个节点之间的环路。</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：以为毒性逆转对所有邻居都报 ∞；更新时用了别人"这一轮"还没发出的新值。</p>
           </div>
@@ -3216,7 +3266,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                            <!-- QB:n7 -->
+                                                                                                                        <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3269,6 +3319,11 @@ netE 28</textarea></label>
               <p>(a) ① Highest LOCAL-PREF = 100 → R1, R2, R3 (R4 out, although it is closest). ② Shortest AS-PATH among them: R2 and R3 (length 1; R1 has 2). ③ Hot potato: closest NEXT-HOP → R3 (cost 2 &lt; 6). <b>r selects R3.</b></p>
               <p>(b) Without R3: R1, R2 have LOCAL-PREF 100; shortest AS-PATH → <b>R2</b> (even though R1's next hop is closer).</p>
               <p>(c) <b>Policy</b>: inter-AS admins want control over how traffic is routed and who routes through their network; intra-AS has one admin. <b>Scale</b>: hierarchical routing reduces table sizes and update traffic. <b>Performance</b>: intra-AS can focus on performance; inter-AS policy may overrule performance.</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>(a) ① 本地偏好（LOCAL-PREF）最高 = 100 → 剩下 R1、R2、R3（R4 被淘汰，尽管它的 NEXT-HOP 最近）。② 这三条里 AS-PATH 最短的：R2 和 R3（长度为 1；R1 长度为 2）。③ 热土豆路由（hot potato routing）：选 NEXT-HOP 最近的 → R3（代价 2 &lt; 6）。<b>r 选择 R3。</b></p>
+                <p>(b) 没有 R3 时：R1、R2 的本地偏好都是 100；再比 AS-PATH，最短的是 → <b>R2</b>（尽管 R1 的 NEXT-HOP 更近）。</p>
+                <p>(c) <b>策略（Policy）</b>：在 AS 之间，各个管理者希望控制自己的流量怎么走、谁的流量可以经过自己的网络；AS 内部只有一个管理者。<b>规模（Scale）</b>：分层路由减小了路由表的大小和更新流量。<b>性能（Performance）</b>：AS 内部可以专注于性能；AS 之间，策略可能压倒性能。</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：一上来就比 NEXT-HOP 距离（选了 R4）；把 AS-PATH 长度和链路代价混为一谈。</p>
           </div>
@@ -3282,6 +3337,11 @@ netE 28</textarea></label>
             <p>(a) w: 1, x: 1, y: 2 (x, y), z: 3 (x, y, z).</p>
             <p>(b) RIP advertisements are sent every 30 s. If B hears no advertisement from C for 180 s, it declares C (the link) dead, sets its route to z to 16 (= infinity) and advertises this; A then records z as <b>16 (unreachable)</b>.</p>
             <p>(c) RIP is distance vector with a hop-count metric (max 15), periodic advertisements to neighbours; OSPF is link state (Dijkstra) with LSAs flooded to the whole AS, flexible link costs, equal-cost multipath, authentication and hierarchical areas.</p>
+            <div class="ans-zh"><p class="ans-h">中文答案</p>
+              <p>(a) w：1，x：1，y：2（经过 x、y），z：3（经过 x、y、z）。（RIP 距离按经过的子网个数数，包括目的子网本身。）</p>
+              <p>(b) RIP 每 30 s 发送一次通告（advertisement）。如果 B 连续 180 s 没有收到 C 的通告，就宣布 C（这条链路）失效，把自己到 z 的路由距离设为 16（= 无穷大），并把它通告出去；A 收到后把到 z 的距离记为 <b>16（不可达）</b>。</p>
+              <p>(c) RIP 是距离向量（distance vector）协议，度量是跳数（最大 15），定期向邻居发送通告；OSPF 是链路状态（link state）协议（用 Dijkstra 算法），链路状态通告（LSA）泛洪到整个 AS，链路代价可以灵活设置，支持等价多路径（equal-cost multipath）、认证（authentication）和分层区域（hierarchical areas）。</p>
+            </div>
           </div></details>
           <p class="trap"><b>易错</b>：按路由器个数数（把 z 写成 2）；漏掉目的子网本身。</p>
         </div>
@@ -3346,7 +3406,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                            <!-- QB:n8 -->
+                                                                                                                        <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -3385,6 +3445,17 @@ netE 28</textarea></label>
               <p>Here (iii) is given a higher priority than (ii), so traffic to 10.2.0.3 always leaves on port 3; state the priority you choose, because the policy overlaps for 10.3.*.* → 10.2.0.3.</p>
               <p>(b) Destination-based forwarding looks only at the destination address, and LS/DV compute one least-cost route per destination; they cannot treat flows differently by source, port or protocol, or split traffic to the same destination (slide 104–105).</p>
               <p>(c) Hardening the control plane (a reliable, secure, performance-scalable distributed system; the controller is a single point of failure); meeting mission-specific requirements (real-time, ultra-reliable, ultra-secure); Internet scaling.</p>
+              <div class="ans-zh"><p class="ans-h">中文答案</p>
+                <p>流表（flow table）如下：</p>
+                <table class="fsmtab" style="min-width:0"><thead><tr><th>优先级</th><th>匹配（match）</th><th>动作（action）</th></tr></thead><tbody>
+                  <tr><td>400</td><td>IP 协议 = TCP，TCP 目的端口 = 23</td><td>丢弃（drop）</td></tr>
+                  <tr><td>300</td><td>目的 IP = 10.2.0.3</td><td>从端口 3 转发（forward(3)）</td></tr>
+                  <tr><td>200</td><td>源 IP = 10.3.*.*，目的 IP = 10.2.*.*</td><td>从端口 4 转发（forward(4)）</td></tr>
+                  <tr><td>0</td><td>*（所有字段都是通配）</td><td>交给控制器（send to controller）</td></tr></tbody></table>
+                <p>这里给 (iii) 设了比 (ii) 更高的优先级，所以去往 10.2.0.3 的流量总是从端口 3 出去；答题时要写明你选的优先级，因为对 10.3.*.* → 10.2.0.3 的流量，两条策略是重叠的。</p>
+                <p>(b) 基于目的地址的转发只看目的地址，而 LS/DV 对每个目的地只算出一条最小代价路由；它们无法按源地址、端口或协议区别对待不同的流，也无法把去往同一目的地的流量分到不同路径上（slide 104–105）。</p>
+                <p>(c) ① 加固控制平面（hardening the control plane）：要做成一个可靠、安全、性能可扩展的分布式系统；控制器是单点故障（single point of failure）。② 满足特定任务的需求（mission-specific requirements）：实时、超高可靠、超高安全。③ 扩展到互联网规模（Internet scaling）。</p>
+              </div>
             </div></details>
             <p class="trap"><b>易错</b>：不写优先级（规则重叠时结果不确定）；忘了最后一条 table-miss。</p>
           </div>
@@ -3480,12 +3551,12 @@ netE 28</textarea></label>
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>经内存交换为什么每个数据报要过两次总线？</summary><div class="a">数据报先从输入端口经系统总线拷进内存，CPU 查表后再从内存经总线拷到输出端口，一进一出共两次。所以速度受内存带宽限制。</div></details>
-        <details class="qcard"><summary>4 个端口、队首目的随机时，单个时隙的平均吞吐量是多少？</summary><div class="a">1 − (3/4)⁴ = 1 − 81/256 = 175/256 ≈ <b>0.684</b>。</div></details>
-        <details class="qcard"><summary>Dijkstra 为什么要求链路代价为正？</summary><div class="a">正确性证明依赖"后选中的节点距离不会比先选中的更小"。有负代价时，一个已经着色的节点可能通过后面某条负边得到更短的路，但算法不会再更新它。</div></details>
-        <details class="qcard"><summary>RIP 为什么把 16 当作无穷大？</summary><div class="a">RIP 的度量是跳数，最多 15 跳，适合小网络。把 16 定义为无穷大，无穷计数时距离只需要涨到 16 就停下，限制了无穷计数问题持续的时间。</div></details>
-        <details class="qcard"><summary>BGP 有两条到同一前缀的路由，本地偏好相同，AS-PATH 一条 3 个 AS、一条 2 个 AS。选哪条？</summary><div class="a">选 <b>AS-PATH 较短</b>（2 个 AS）的那条。只有本地偏好和 AS-PATH 长度都相同时，才用热土豆（最近的 NEXT-HOP）决定。</div></details>
-        <details class="qcard"><summary>OpenFlow 能实现、而传统基于目的地址的转发做不到的一个例子？</summary><div class="a">按源地址区分流量（来自 10.3.*.* 的走一条路、其他走另一条），把同一源目的对的流量分到两条路径上做负载均衡，或者在路由器上直接按 TCP 端口丢弃（防火墙）。这些都需要匹配目的地址以外的字段。</div></details>
+        <details class="qcard"><summary>经内存交换为什么每个数据报要过两次总线？</summary><div class="a">数据报先从输入端口经系统总线拷进内存，CPU 查表后再从内存经总线拷到输出端口，一进一出共两次。所以速度受内存带宽限制。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> When switching via memory, why does each datagram cross the system bus twice?</p><p><b>A:</b> The datagram is first copied from the input port into memory over the system bus; after the CPU looks up the forwarding table, it is copied from memory over the bus again to the output port. One crossing in and one crossing out makes two crossings, so the switching speed is limited by the memory bandwidth.</p></div></div></details>
+        <details class="qcard"><summary>4 个端口、队首目的随机时，单个时隙的平均吞吐量是多少？</summary><div class="a">1 − (3/4)⁴ = 1 − 81/256 = 175/256 ≈ <b>0.684</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> With 4 ports and random HOL destinations, what is the average throughput in a single time slot?</p><p><b>A:</b> An output is idle only if none of the 4 HOL packets chooses it, which has probability (3/4)<sup>4</sup>. So the throughput = 1 − (3/4)<sup>4</sup> = 1 − 81/256 = 175/256 ≈ <b>0.684</b>.</p></div></div></details>
+        <details class="qcard"><summary>Dijkstra 为什么要求链路代价为正？</summary><div class="a">正确性证明依赖"后选中的节点距离不会比先选中的更小"。有负代价时，一个已经着色的节点可能通过后面某条负边得到更短的路，但算法不会再更新它。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does Dijkstra's algorithm require positive link costs?</p><p><b>A:</b> Its correctness proof relies on the fact that a node selected later never has a smaller distance than a node selected earlier. With negative costs, a node that has already been added to N' (finalized) could get a shorter path through a negative link found later, but the algorithm never updates it again.</p></div></div></details>
+        <details class="qcard"><summary>RIP 为什么把 16 当作无穷大？</summary><div class="a">RIP 的度量是跳数，最多 15 跳，适合小网络。把 16 定义为无穷大，无穷计数时距离只需要涨到 16 就停下，限制了无穷计数问题持续的时间。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does RIP treat 16 as infinity?</p><p><b>A:</b> RIP uses hop count as its metric, with a maximum of 15 hops, which suits small networks. Defining 16 as infinity means that during count-to-infinity the distance only has to grow to 16 before it stops, which limits how long the count-to-infinity problem lasts.</p></div></div></details>
+        <details class="qcard"><summary>BGP 有两条到同一前缀的路由，本地偏好相同，AS-PATH 一条 3 个 AS、一条 2 个 AS。选哪条？</summary><div class="a">选 <b>AS-PATH 较短</b>（2 个 AS）的那条。只有本地偏好和 AS-PATH 长度都相同时，才用热土豆（最近的 NEXT-HOP）决定。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> BGP has two routes to the same prefix with the same local preference. One AS-PATH contains 3 ASes and the other contains 2 ASes. Which route is selected?</p><p><b>A:</b> The route with the <b>shorter AS-PATH</b> (2 ASes). Hot potato routing (choosing the closest NEXT-HOP) is used only when both LOCAL_PREF and the AS-PATH length are equal.</p></div></div></details>
+        <details class="qcard"><summary>OpenFlow 能实现、而传统基于目的地址的转发做不到的一个例子？</summary><div class="a">按源地址区分流量（来自 10.3.*.* 的走一条路、其他走另一条），把同一源目的对的流量分到两条路径上做负载均衡，或者在路由器上直接按 TCP 端口丢弃（防火墙）。这些都需要匹配目的地址以外的字段。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Give an example of something OpenFlow can do that traditional destination-based forwarding cannot.</p><p><b>A:</b> Treating traffic differently by source address (traffic from 10.3.*.* takes one path, all other traffic takes another); splitting the traffic of the same source-destination pair over two paths for load balancing; or dropping packets directly at the router based on the TCP port (firewall). All of these require matching on header fields other than the destination address (match + action in the flow table).</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#t3">← Part I：网络层与 IP</a><a href="#tp">传输层（上）→</a></div>
     </section>
@@ -4087,13 +4158,13 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
 
       <div class="quizblock">
         <p class="qtitle">自测 · Self-Check</p>
-        <details class="qcard"><summary>UDP 套接字和 TCP 套接字分别由几个量识别？两个不同客户同时发到服务器 80 端口，各进几个套接字？</summary><div class="a">UDP：<b>目的 IP + 目的端口</b>（2 个），两个客户进<b>同一个</b>套接字。TCP：<b>源 IP、源端口、目的 IP、目的端口</b>（4 个），两个客户进<b>两个不同</b>的套接字。</div></details>
-        <details class="qcard"><summary>UDP 报文段带 100 字节数据，首部"长度"字段填多少？</summary><div class="a">长度包括 8 字节首部：100 + 8 = <b>108</b>（字节）。</div></details>
-        <details class="qcard"><summary>为什么 rdt2.1 只需要 0 和 1 两个序号？</summary><div class="a">停等协议同一时间只有一个分组在途，接收方只需要分清"这是我期待的新分组"还是"上一个分组的重传"。两个序号交替使用就足够区分。</div></details>
-        <details class="qcard"><summary>rdt2.2 的接收方在等序号 0 时收到一个出错的分组，它回什么？发送方收到后做什么？</summary><div class="a">回 <b>ACK1</b>（"我最后正确收到的是 1"）。发送方在等 ACK0，收到 ACK1 = 重复 ACK，等同于 NAK → <b>重传 pkt0</b>。</div></details>
-        <details class="qcard"><summary>rdt3.0 发送方在"等 ACK0"时收到 ACK1，为什么不立刻重传？</summary><div class="a">ACK1 可能是过早超时造成的多余 ACK。立刻重传会让之后每个分组都被发两遍；什么都不做（Λ），等 pkt0 的 ACK0 或超时即可。</div></details>
-        <details class="qcard"><summary>R = 100 Mbps，L = 1000 字节，RTT = 10 ms。停等利用率？满载要多大窗口？</summary><div class="a">L/R = 8000 / 10<sup>8</sup> = 0.08 ms。U = 0.08 / 10.08 = <b>0.0079</b>（0.79%）。N ≥ 10.08 / 0.08 = 126 → <b>N = 126</b>。</div></details>
-        <details class="qcard"><summary>GBN，N = 4，发 pkt0–3，只有 pkt1 丢失。超时后重发哪些？SR 呢？</summary><div class="a">GBN：接收方丢弃 2、3，一直回 ack0；pkt1 超时后重发 <b>1、2、3</b>（以及这期间已发的其他未确认分组）。SR：2、3 被缓存并单独确认，只重发 <b>pkt1</b>。</div></details>
+        <details class="qcard"><summary>UDP 套接字和 TCP 套接字分别由几个量识别？两个不同客户同时发到服务器 80 端口，各进几个套接字？</summary><div class="a">UDP：<b>目的 IP + 目的端口</b>（2 个），两个客户进<b>同一个</b>套接字。TCP：<b>源 IP、源端口、目的 IP、目的端口</b>（4 个），两个客户进<b>两个不同</b>的套接字。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> How many values identify a UDP socket versus a TCP socket? If two different clients send to the same server port 80 at the same time, how many sockets does each protocol use?</p><p><b>A:</b> UDP: <b>destination IP + destination port</b> (2 values) — both clients are handled by the <b>same</b> socket. TCP: <b>source IP, source port, destination IP, destination port</b> (4 values) — the two clients are handled by <b>two different</b> sockets.</p></div></div></details>
+        <details class="qcard"><summary>UDP 报文段带 100 字节数据，首部"长度"字段填多少？</summary><div class="a">长度包括 8 字节首部：100 + 8 = <b>108</b>（字节）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A UDP segment carries 100 bytes of data. What value goes in the header's "length" field?</p><p><b>A:</b> The length field includes the 8-byte header: 100 + 8 = <b>108</b> (bytes).</p></div></div></details>
+        <details class="qcard"><summary>为什么 rdt2.1 只需要 0 和 1 两个序号？</summary><div class="a">停等协议同一时间只有一个分组在途，接收方只需要分清"这是我期待的新分组"还是"上一个分组的重传"。两个序号交替使用就足够区分。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does rdt2.1 need only two sequence numbers, 0 and 1?</p><p><b>A:</b> In a stop-and-wait protocol, only one packet is in flight at a time, so the receiver only needs to distinguish "this is the new packet I am expecting" from "this is a retransmission of the previous packet". Alternating between two sequence numbers is enough to make that distinction.</p></div></div></details>
+        <details class="qcard"><summary>rdt2.2 的接收方在等序号 0 时收到一个出错的分组，它回什么？发送方收到后做什么？</summary><div class="a">回 <b>ACK1</b>（"我最后正确收到的是 1"）。发送方在等 ACK0，收到 ACK1 = 重复 ACK，等同于 NAK → <b>重传 pkt0</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In rdt2.2, if the receiver is expecting sequence number 0 and receives a corrupted packet, what does it reply with? What does the sender do on receiving that reply?</p><p><b>A:</b> It replies with <b>ACK1</b> ("the last packet I correctly received was 1"). The sender is waiting for ACK0; receiving ACK1 is a duplicate ACK, treated the same as a NAK → the sender <b>retransmits pkt0</b>.</p></div></div></details>
+        <details class="qcard"><summary>rdt3.0 发送方在"等 ACK0"时收到 ACK1，为什么不立刻重传？</summary><div class="a">ACK1 可能是过早超时造成的多余 ACK。立刻重传会让之后每个分组都被发两遍；什么都不做（Λ），等 pkt0 的 ACK0 或超时即可。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In rdt3.0, if the sender is in the "wait for ACK0" state and receives ACK1, why does it not retransmit immediately?</p><p><b>A:</b> ACK1 may simply be a duplicate ACK caused by a premature timeout. Retransmitting immediately would cause every subsequent packet to be sent twice; instead, the sender does nothing (Λ) and just waits for pkt0's ACK0, or for a timeout.</p></div></div></details>
+        <details class="qcard"><summary>R = 100 Mbps，L = 1000 字节，RTT = 10 ms。停等利用率？满载要多大窗口？</summary><div class="a">L/R = 8000 / 10<sup>8</sup> = 0.08 ms。U = 0.08 / 10.08 = <b>0.0079</b>（0.79%）。N ≥ 10.08 / 0.08 = 126 → <b>N = 126</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> R = 100 Mbps, L = 1000 bytes, RTT = 10 ms. What is the stop-and-wait utilisation? How large a window is needed to fully utilise the link?</p><p><b>A:</b> L/R = 8000 / 10⁸ = 0.08 ms. U = 0.08 / 10.08 = <b>0.0079</b> (0.79%). N ≥ 10.08 / 0.08 = 126 → <b>N = 126</b>.</p></div></div></details>
+        <details class="qcard"><summary>GBN，N = 4，发 pkt0–3，只有 pkt1 丢失。超时后重发哪些？SR 呢？</summary><div class="a">GBN：接收方丢弃 2、3，一直回 ack0；pkt1 超时后重发 <b>1、2、3</b>（以及这期间已发的其他未确认分组）。SR：2、3 被缓存并单独确认，只重发 <b>pkt1</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> With GBN and N = 4, packets pkt0–3 are sent and only pkt1 is lost. Which packets are retransmitted after the timeout? What about with SR?</p><p><b>A:</b> GBN: the receiver discards pkt2 and pkt3, continuing to send ack0; after pkt1 times out, the sender retransmits <b>1, 2, 3</b> (plus any other unacknowledged packets sent in the meantime). SR: pkt2 and pkt3 are buffered and acknowledged individually, so only <b>pkt1</b> is retransmitted.</p></div></div></details>
       </div>
       <div class="nextmod"><a href="#n2">← 网络层 II（Quiz 范围）</a><a href="ee6108-practice.html">去做真题 →</a></div>
     </section>
