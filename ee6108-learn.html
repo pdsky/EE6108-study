@@ -914,9 +914,11 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
         <li><a href="#n2-s1">转发与路由回顾</a></li>
         <li><a href="#qb-n0-why">小白问答：转发表怎么算、首部变不变</a></li>
         <li><a href="#n2-s2">路由器内部：端口、交换结构、排队</a></li>
+        <li><a href="#qb-n2b-prob">问答：HOL 吞吐量概率怎么算</a></li>
         <li><a class="lablink" href="#n2-lab1">实验：队头阻塞</a></li>
         <li><a href="#n2-s3">路由的基本问题</a></li>
         <li><a href="#n2-s4">Dijkstra 算法</a></li>
+        <li><a href="#qb-n4-why">问答：Dijkstra 逐步讲解、平局</a></li>
         <li><a class="lablink" href="#n2-lab2">实验：Dijkstra 步进器</a></li>
         <li><a href="#n2-s5">距离向量与 Bellman-Ford</a></li>
         <li><a class="lablink" href="#n2-lab3">实验：Bellman-Ford 迭代表</a></li>
@@ -2556,6 +2558,8 @@ netE 28</textarea></label>
 
 
 
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2622,6 +2626,8 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
 
 
 
@@ -3033,6 +3039,52 @@ netE 28</textarea></label>
             <p class="trap"><b>易错</b>：吞吐量写成 1.5（忘了除以端口数）；把 58.6% 当成 2×2 的答案。</p>
           </div>
         </div>
+        <div class="callout teal qa-explain" id="qb-n2b-prob"><div class="lbl">问答：HOL 吞吐量的概率到底怎么算</div>
+          <div class="qa-faq">
+            <p class="qa-q">问 1：3×3 时，"输出 1 收不到分组"的概率为什么是 (2/3)³？2×2 呢？</p>
+            <p>一个队首分组去输出 1 的概率是 1/3，<b>不去输出 1 的概率是 2/3</b>（3 个输出里有 2 个不是输出 1）。三个分组的目的相互独立，三个都不去才会空着，所以 P(输出 1 空闲) = (2/3)³ = <b>8/27 ≈ 0.296</b>。数情况验证：27 种去法里，每个分组只能选输出 2 或 3，共 2 × 2 × 2 = 8 种。</p>
+            <p>2×2：不去的概率是 1/2，两个都不去 = (1/2)² = <b>1/4</b>（4 种去法里只有"都去输出 2"这一种）。一般地，N 个端口：P(某输出空闲) = ((N − 1)/N)<sup>N</sup>。</p>
+
+            <p class="qa-q">问 2：平均送出数为什么要乘 3？吞吐量为什么又除以 3？</p>
+            <p>每个输出每时隙最多收 1 个，所以<b>送出几个分组 = 有几个输出在忙</b>。每个输出忙的概率都是 1 − 8/27 = 19/27，3 个输出加起来：平均送出数 = 3 × 19/27 = <b>57/27 ≈ 2.11 个/时隙</b>（像 3 盏灯各有 0.7 的概率亮着，平均亮 2.1 盏）。</p>
+            <p><b>吞吐量 = 平均送出数 ÷ 最多能送出的个数</b>（3 个输出，每时隙最多 3 个）= 57/81 = <b>19/27 ≈ 0.704</b>，意思是交换机的能力只用上了 70.4%。乘 3 又除以 3 正好抵消，所以吞吐量也就等于"某一个输出在忙的概率"。</p>
+            <div class="tablewrap"><table style="min-width:0">
+              <caption>讲义 slide 22 的数情况算法（3×3，共 27 种去法）</caption>
+              <thead><tr><th>三个队首去了几个不同的输出</th><th>怎么数</th><th>情况数</th><th>送出几个</th></tr></thead>
+              <tbody>
+                <tr><td>1 个（三个撞车）</td><td>选哪个输出：3</td><td>3</td><td>1</td></tr>
+                <tr><td>2 个（两个撞车）</td><td>27 − 3 − 6</td><td>18</td><td>2</td></tr>
+                <tr><td>3 个（互不相同）</td><td>3! = 6</td><td>6</td><td>3</td></tr>
+              </tbody>
+            </table></div>
+            <p>平均送出数 = (3 × 1 + 18 × 2 + 6 × 3) / 27 = 57/27，和上面一样。</p>
+
+            <p class="qa-q">问 3：成功不是"某个输入送到它指定的那个输出"吗？为什么看输出忙不忙？</p>
+            <p>分组只会去它自己的目的输出。每送走一个分组，就同时有 <b>1 个输入成功 + 1 个输出收到</b>，所以成功的输入个数 = 忙的输出个数 = 送出数，从哪边数都一样。从输入这边直接算（3×3，几个分组抢同一个输出时随机选一个）：</p>
+            <div class="tablewrap"><table style="min-width:0">
+              <thead><tr><th>另外两个分组</th><th>概率</th><th>输入 1 成功的概率</th></tr></thead>
+              <tbody>
+                <tr><td>都不去 d（输入 1 要去的输出）</td><td>(2/3)² = 4/9</td><td>1</td></tr>
+                <tr><td>正好一个去 d</td><td>2 × (1/3)(2/3) = 4/9</td><td>1/2</td></tr>
+                <tr><td>两个都去 d</td><td>(1/3)² = 1/9</td><td>1/3</td></tr>
+              </tbody>
+            </table></div>
+            <p>P(成功) = 4/9 + 4/9 × 1/2 + 1/9 × 1/3 = 12/27 + 6/27 + 1/27 = <b>19/27</b>，和从输出算的一样。2×2：1/2 + 1/2 × 1/2 = 3/4。从输出算更简单（空闲只有"都不选它"一种情况），所以讲义和答案都这么算。</p>
+
+            <p class="qa-q">问 4：三个分组全部送出，为什么是 6/27，不是 1/27？</p>
+            <p>1/27 只是<b>某一种指定去法</b>的概率，比如"输入 1→输出 1、输入 2→输出 2、输入 3→输出 3"。"三个目的互不相同"不规定谁去哪个，符合的去法有 3! = <b>6 种</b>（1-2-3、1-3-2、2-1-3、2-3-1、3-1-2、3-2-1），所以是 6 × 1/27 = <b>6/27 = 2/9 ≈ 0.222</b>。也可以一个一个看：第 1 个随便去（1），第 2 个要避开（2/3），第 3 个要避开前两个（1/3）：1 × 2/3 × 1/3 = 2/9。同理"三个都去同一个输出"有 3 种去法，是 3/27。</p>
+
+            <p class="qa-q">问 5：换成 5 个端口怎么算？</p>
+            <p>一共 5<sup>5</sup> = 3125 种去法。按"去了几个不同的输出"分：1 个 5 种；2 个 300 种（分组方式 15 种 × 选输出 5×4）；3 个 1500 种（25 × 5×4×3）；4 个 1200 种（选哪两个撞车 10 × 5×4×3×2）；5 个 120 种（5!）。平均送出数 = (1×5 + 2×300 + 3×1500 + 4×1200 + 5×120) / 3125 = <b>3.3616</b>，吞吐量 = 3.3616 / 5 ≈ <b>0.672</b>。快速验算：1 − (4/5)<sup>5</sup> = 0.672。</p>
+
+            <p class="qa-q">问 6：58.6% 是怎么来的？要背吗？</p>
+            <p>上面的算法假设每个时隙队首的目的<b>重新随机抽一次</b>。真实的 FIFO 里，输掉竞争的队首分组<b>留在队首、目的不变</b>，下个时隙接着抢，热门输出前越积越多，所以吞吐量更低。端口很多时，吞吐量 = 2 − √2 ≈ <b>58.6%</b>（slide 21 引用的 Hluchyj &amp; Karol 结果；推导思路：每个输出前的"虚拟队列"近似 M/D/1，满载时平均长度必须等于 1，解 ρ² − 4ρ + 2 = 0）。<b>推导不考。</b></p>
+            <p><b>要背</b>：58.6%，连同条件和原因（FIFO 输入排队、端口很多、HOL 阻塞）。<b>会算就行</b>：2×2 = 0.75、3×3 = 19/27 ≈ 0.704、5 口 ≈ 0.672。<b>不用管</b>：2 − √2 的推导、1 − 1/e = 63.2%、论文里有限端口数的表。</p>
+
+            <p class="qa-q">问 7：VOQ 为什么 4×4 要 16 条队，不是每个端口一条、共 8 条？</p>
+            <p>VOQ 的规则是：<b>同一个输入里，去不同输出的分组不能排在同一条队</b>。一个输入可能收到去 4 个输出的分组，所以每个输入要开 4 条（去出1 … 去出4），4 个输入 × 4 = <b>16 = N²</b> 条。只开 8 条，等于每个输入 1 条（就是普通 FIFO，HOL 阻塞还在）加每个输出 1 条（那是输出排队，要交换结构快 N 倍）。例：输入 1 的队是 [→2, →1]，出2 被占、出1 空着：一条队时 →1 被 →2 挡住；VOQ 里 →1 在"去出1"那条队，直接发。这 16 条是输入端缓存里逻辑上分开的队列（所以叫"虚拟"），代价是 N² 条队 + 每时隙找匹配的调度。</p>
+          </div>
+        </div>
 <!-- /QB:n2b -->
         <div class="callout teal"><div class="lbl">这一节 Quiz 可能怎么考</div>
           <ul class="speclist">
@@ -3070,7 +3122,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                                                                      <!-- QB:n3 -->
+                                                                                                                                                                                                                  <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3092,6 +3144,38 @@ netE 28</textarea></label>
             </div>
           </div></details>
           <p class="trap"><b>易错</b>：直接把 p 加起来；−log 前后用了不同的底；以为"跳数少就更可靠"。</p>
+        </div>
+        <div class="callout teal qa-explain" id="qb-n3-eg"><div class="lbl">问答：(c) 小问是什么意思——最少跳、带宽限制怎么用最短路算法</div>
+          <div class="qa-faq">
+            <p>最短路算法只会做一件事：<b>找总权值最小的路径</b>。想按别的标准选路，就改权值或改图（slide 31、64）：</p>
+            <ul>
+              <li><b>跳数最少</b>：每条链路权值设成 1，总权值 = 经过的链路条数 = 跳数（RIP 就是这么数的）。</li>
+              <li><b>每段带宽 ≥ 100 Mbps</b>：先在图上<b>删掉</b>带宽 &lt; 100 Mbps 的链路，再在剩下的图上跑最短路。不能靠调权值：算法把权值<b>加起来</b>比较，而"每段都够"看的是路径上<b>最窄</b>的那段（瓶颈），加法表示不了"最小值"。</li>
+            </ul>
+            <div class="tablewrap"><table style="min-width:0">
+              <caption>例子：S 到 D</caption>
+              <thead><tr><th>链路</th><th>时延（ms）</th><th>带宽</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">S–D</td><td>20</td><td><b>50 Mbps</b></td></tr>
+                <tr><td class="mono">S–A</td><td>2</td><td>1000 Mbps</td></tr>
+                <tr><td class="mono">A–D</td><td>3</td><td><b>40 Mbps</b></td></tr>
+                <tr><td class="mono">A–B</td><td>1</td><td>1000 Mbps</td></tr>
+                <tr><td class="mono">S–B</td><td>4</td><td>200 Mbps</td></tr>
+                <tr><td class="mono">B–C</td><td>4</td><td>200 Mbps</td></tr>
+                <tr><td class="mono">C–D</td><td>4</td><td>200 Mbps</td></tr>
+              </tbody>
+            </table></div>
+            <div class="tablewrap"><table style="min-width:0">
+              <thead><tr><th>要求</th><th>怎么做</th><th>结果</th></tr></thead>
+              <tbody>
+                <tr><td>时延最小</td><td>权值 = 时延</td><td>S–A–D，2 + 3 = 5 ms</td></tr>
+                <tr><td>跳数最少</td><td>每条链路权值 = 1</td><td>S–D，1 跳（但只有 50 Mbps）</td></tr>
+                <tr><td>每段 ≥ 100 Mbps，时延尽量小</td><td>先删 S–D（50）、A–D（40），权值 = 时延</td><td><b>S–A–B–C–D，11 ms</b></td></tr>
+              </tbody>
+            </table></div>
+            <p>第三种的 Dijkstra：从 S 出发 A = 2、B = 4 → 加入 A，经 A 到 B = 2 + 1 = 3 &lt; 4，更新 B = 3 → 加入 B，C = 7 → 加入 C，D = 11 → 加入 D。删掉之后如果 S 和 D 不连通，就说明没有满足要求的路径。</p>
+            <p><b>考试写法</b>：<i>For the minimum-hop path, set every link weight to 1. For the bandwidth constraint, first remove all links with capacity below 100 Mbps, then run the shortest-path algorithm on the remaining graph; this cannot be done with weights alone because a path's bandwidth is set by its bottleneck link (a minimum, not a sum).</i></p>
+          </div>
         </div>
 <!-- /QB:n3 -->
       </div>
@@ -3156,7 +3240,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                                                                      <!-- QB:n4 -->
+                                                                                                                                                                                                                  <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3193,6 +3277,30 @@ netE 28</textarea></label>
             </div>
           </div></details>
           <p class="trap"><b>易错</b>：Step 1 忘了 C 从 5 变 3；已加入 N' 的节点还在更新；转发表写成整条路径 A-B-C-D-E。</p>
+        </div>
+        <div class="callout teal qa-explain" id="qb-n4-why"><div class="lbl">问答：Dijkstra 每一步在干什么；平局能不能先加另一个</div>
+          <div class="qa-faq">
+            <p class="qa-q">问 1：表里的 N'、D(v)、p(v) 是什么？算法分几步？</p>
+            <p><b>N'</b>：已经<b>确定</b>最短距离的节点（进去就不再变）。<b>D(v)</b>：目前知道的从源点到 v 的最短距离（暂定，可能变小）。<b>p(v)</b>：这条路上 v 的前一个节点（前驱），最后用它倒推路径。</p>
+            <p><b>初始化</b>：N' = {源点}，源点的邻居填直连代价、前驱写源点，其余 ∞。<b>循环</b>：① 在 N' 外找 D 最小的节点 w；② 把 w 加入 N'；③ 只看 w 的邻居 v（不在 N' 里的）：D(w) + c(w,v) 更小就改 D(v)，并把 p(v) 改成 w。所有节点进 N' 就结束。</p>
+            <p><b>为什么选出的 w 可以直接确定</b>：链路代价都是正的，别的路到 w 都要先经过某个还没确定的节点，它的距离已经 ≥ D(w)，再加正的代价只会更大。</p>
+
+            <p class="qa-q">问 2：上面 Q5 每一步为什么这么写？</p>
+            <p>Step 0：A 的邻居 B 2、C 5，D、E 是 ∞。Step 1：最小是 B（2），加入；经 B 到 C = 2 + 1 = <b>3 &lt; 5</b>，C 改成 3、前驱 B（直连不一定最短，最容易漏）；到 D = 2 + 4 = 6。Step 2：最小是 C（3），加入；D = min(6, 3 + 1) = 4，E = 3 + 3 = 6。Step 3：加入 D（4），E = min(6, 4 + 1) = 5。Step 4：加入 E（5），结束。倒推：E ← D ← C ← B ← A，所以 A 的转发表里去 B、C、D、E 的<b>下一跳都是 B</b>（只写下一跳，不写整条路）。</p>
+
+            <p class="qa-q">问 3：两个节点 D 一样大时，能不能先加另一个？（D 卷 Q2：w 和 x 都是 6）</p>
+            <p>按算法本身<b>可以</b>，最终距离不会变。但 D 卷题干写了平局规则（"add the one that comes first in alphabetical order"），<b>考试必须照规则先加 w</b>，否则表格每一行都对不上标准答案。先加 x 的对照：</p>
+            <div class="tablewrap"><table style="min-width:0">
+              <thead><tr><th></th><th>先加 w（题目规则）</th><th>先加 x</th></tr></thead>
+              <tbody>
+                <tr><td>加入顺序</td><td>u-v-<b>w-x</b>-y-z</td><td>u-v-<b>x-w</b>-y-z</td></tr>
+                <tr><td>z 的中间值</td><td>12 → 11 → 10</td><td>11 → 10</td></tr>
+                <tr><td>最终距离</td><td>v 3、w 6、x 6、y 8、z 10</td><td>完全一样</td></tr>
+                <tr><td>前驱 / 最短路树 / 转发表</td><td>p(w)=u，p(x)=v，p(y)=x，p(z)=y</td><td>完全一样</td></tr>
+              </tbody>
+            </table></div>
+            <p><b>平局规则什么时候有影响</b>：最终距离永远不变；表格的行会变；只有某个节点有<b>两条一样长的最短路</b>时，才可能改变它的前驱和下一跳（例如 E 卷 Q3：u 到 w 直连 6 = 经 v 的 2 + 4），所以题目还会规定"严格更小才替换"。<b>题目给了规则就照做；没给，就在答案开头写一句你用的规则</b>（"Ties are broken in alphabetical order."），然后照做到底。</p>
+          </div>
         </div>
 <!-- /QB:n4 -->
       </div>
@@ -3393,7 +3501,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                                                                      <!-- QB:n7 -->
+                                                                                                                                                                                                                  <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3588,7 +3696,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                                                                      <!-- QB:n8 -->
+                                                                                                                                                                                                                  <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
