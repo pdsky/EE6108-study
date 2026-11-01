@@ -786,6 +786,16 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
 .sp-rm{margin-left:auto;}
 .sp-empty{color:var(--muted); line-height:1.7;}
 @media (max-width:480px){ .topbar{gap:6px;} .topbar .iconbtn{padding-left:8px; padding-right:8px;} }
+/* SDN 动画（qaCp / qaTe / qaPin） */
+.qa-solo{margin:22px 0 28px 0;}
+.qa-ctrl{fill:color-mix(in srgb, var(--s5) 14%, var(--surface)); stroke:var(--s5); stroke-width:1.6;}
+.qa-ctrl.off{fill:none; stroke:var(--line-strong); stroke-dasharray:4 4;}
+.qa-ctrl.busy{stroke-width:3.5;}
+.qa-tbl{fill:var(--surface-2); stroke:var(--line-strong); stroke-width:1;}
+.qa-tbl.on{fill:var(--ok-soft); stroke:var(--ok);}
+.qa-route.rb{stroke:var(--s1); stroke-width:5; opacity:.85;}
+.qa-route.rr{stroke:var(--warn); stroke-width:5; opacity:.7;}
+.qa-dim.miss{fill:var(--warn); font-weight:700;}
 
 </style>
 </head>
@@ -927,7 +937,7 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
       <p class="lede">这是根据 EE6108 Part I 全部讲义（Topic 1、2.1、2.2、3）、Session 2–6 补充 slides、Week 6 子网练习、Part II 第一套 slides（网络层 II：路由器、路由算法、路由协议、SDN）、第二套 slides 前半（传输层：UDP、可靠数据传输、GBN/SR）、课堂录音和 5 份往年期末卷整理的自学手册。每一章都从最基本的概念讲起，公式都说明每个符号的含义，讲义例题都给出完整步骤。19 个交互实验可以直接拿来验算作业和真题；Quiz 范围（网络层 II）每个重点旁边还有动画和"例题 · 怎么考 · 怎么答"。橙色 <span class="qz in">Quiz 考</span> 标出 CA2 Quiz 范围，<span class="mustc">必背</span> 标出闭卷要背的公式。讲义里没有、但理解需要的内容放在紫色的"课外补充"框里，考试以讲义为准。TCP（P2B 后半）、应用层、网络安全等讲完后继续补充。</p>
       <div class="meta">
         <span class="chip">Part I 4 个 Topic + Part II 网络层、传输层</span>
-        <span class="chip">19 个交互实验 + 6 个 Quiz 动画</span>
+        <span class="chip">19 个交互实验 + 9 个 Quiz 动画</span>
         <span class="chip">往年 5 卷 Part I 全解</span>
         <span class="chip">Part I <b>Dr. Shao Xuguang</b> · Part II <b>A/P Xiao Gaoxi</b></span>
       </div>
@@ -2518,6 +2528,8 @@ netE 28</textarea></label>
 
 
 
+
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2584,6 +2596,8 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
+
 
 
 
@@ -3024,7 +3038,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                      <!-- QB:n3 -->
+                                                                                                                                                                  <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3110,7 +3124,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                      <!-- QB:n4 -->
+                                                                                                                                                                  <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3347,7 +3361,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                      <!-- QB:n7 -->
+                                                                                                                                                                  <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3439,6 +3453,24 @@ netE 28</textarea></label>
             <td>全网的逻辑：决定数据报在源到目的的端到端路径上怎么在路由器之间路由。两种做法：传统路由算法在<b>每台路由器</b>里实现（每路由器控制平面，各路由器的路由算法组件相互交互）；<b>SDN</b> 在（远程）服务器里实现（<b>逻辑集中的控制平面</b>，一个独立的远程控制器和各路由器里的本地控制代理 CA 交互）</td>
           </tr></tbody>
         </table></div>
+<!-- QB:n8a -->
+        <div class="callout teal qa-explain" id="qb-n8a-why"><div class="lbl">小白版：SDN 到底改了什么</div>
+          <ol>
+            <li><span class="why">控制平面和数据平面是什么？</span> 可以想成"大脑"和"手脚"。<b>数据平面</b>（手脚）：分组来了查表、从某个口发出去，每台设备本地、纳秒级完成。<b>控制平面</b>（大脑）：决定表里写什么，也就是全网的路怎么走。</li>
+            <li><span class="why">传统路由器怎么做？</span> 每台路由器里大脑和手脚都有：自己跑 OSPF/RIP/BGP，和邻居交换信息，自己算自己的表（下面动画的「传统」）。大脑是<b>分散</b>的。</li>
+            <li><span class="why">SDN 改了什么？</span> 把大脑<b>搬出去</b>，集中到一个远程<b>控制器</b>（服务器上的软件）。交换机只剩手脚：按控制器装好的<b>流表</b>转发（动画的「SDN」）。这叫"控制平面和数据平面分离"、"逻辑集中的控制平面"。</li>
+            <li><span class="why">OpenFlow 在哪里？</span> 它是控制器和交换机之间的"传话规矩"（南向接口）：控制器用它给交换机<b>装流表</b>（flow-mod），交换机遇到不认识的分组用它<b>问控制器</b>（packet-in）。最下面"新流的第一个分组"动画演示的就是这个过程。</li>
+            <li><span class="why">为什么要这么做？</span> slide 103–105：① 管理更容易，不用一台台改配置，也少出错；② 流量走向更灵活（中间的"流量工程"动画：传统做不到的分流，SDN 能做）；③ 控制平面开放，可以由第三方写控制程序。</li>
+            <li><span class="why">考试怎么考？</span> 解释 SDN 的三层结构（应用 / 控制器 / 交换机，北向 / 南向 API）；为什么要逻辑集中的控制平面；SDN 和传统路由的区别；OpenFlow 流表（match + action + priority + counters）；往年还考过 SDN 面临的挑战（slide 119）。</li>
+          </ol></div>
+        <div class="lab qa-anim qa-solo" id="qa-cp">
+          <div class="lab-head"><div><div class="lab-cap">动画 · 控制平面放在哪</div><div class="lab-title">传统：每台路由器自己算　vs　SDN：控制器统一算</div></div></div>
+          <div class="presets" id="qaCpMode"><button data-k="trad" class="on">传统：每台路由器自己算</button><button data-k="sdn">SDN：控制器统一算</button></div>
+          <div class="btnrow"><button class="btn primary" id="qaCpPlay">▶ 播放</button><button class="btn" id="qaCpPrev">←</button><button class="btn" id="qaCpNext">下一步 →</button><button class="btn" id="qaCpReset">重来</button><span class="steplabel mono" id="qaCpStep"></span></div>
+          <div class="chartbox"><svg id="qaCpSvg" class="qa-svg" viewBox="0 0 660 320" role="img" aria-label="传统路由与 SDN 控制平面对比动画"></svg></div>
+          <div class="narr" id="qaCpNarr"></div>
+        </div>
+<!-- /QB:n8a -->
         <h4>为什么要逻辑集中的控制平面（slide 103–105）</h4>
         <ul class="speclist">
           <li>网络管理更容易：避免路由器配置错误，流量走向更灵活。</li>
@@ -3446,6 +3478,15 @@ netE 28</textarea></label>
           <li>控制平面的开放（非专有）实现。</li>
           <li><b>传统方法做流量工程很难</b>：在 u-v-w-x-y-z 的例子里，如果 w 想让蓝色和红色流量走不同的路，用基于目的地址的转发 + LS/DV 路由做不到；网络运营者想把 u 到 z 的流量分在 uvwz 和 uxyz 两条路上做负载均衡，也做不到（或者需要新的路由算法）。</li>
         </ul>
+<!-- QB:n8b -->
+        <div class="lab qa-anim qa-solo" id="qa-te">
+          <div class="lab-head"><div><div class="lab-cap">动画 · 流量工程（slide 104–105）</div><div class="lab-title">传统路由做不到的分流，SDN 怎么做到</div></div></div>
+          <div class="presets" id="qaTeMode"><button data-k="split" class="on">u→z 两股流量分两条路</button><button data-k="color">w 对蓝、红流量区别对待</button></div>
+          <div class="btnrow"><button class="btn primary" id="qaTePlay">▶ 播放</button><button class="btn" id="qaTePrev">←</button><button class="btn" id="qaTeNext">下一步 →</button><button class="btn" id="qaTeReset">重来</button><span class="steplabel mono" id="qaTeStep"></span></div>
+          <div class="chartbox"><svg id="qaTeSvg" class="qa-svg" viewBox="0 0 660 320" role="img" aria-label="流量工程：传统路由与 SDN 对比动画"></svg></div>
+          <div class="narr" id="qaTeNarr"></div>
+        </div>
+<!-- /QB:n8b -->
         <h4>SDN 的三层结构（slide 106–108）</h4>
         <div class="tablewrap"><table>
           <tbody>
@@ -3457,6 +3498,15 @@ netE 28</textarea></label>
           </tbody>
         </table></div>
         <p>类比（slide 109）：从大型机到 PC 的演变。大型机时代是垂直集成、封闭专有、创新慢、产业小；PC 时代是微处理器 + 开放接口 + 多种操作系统 + 大量应用，水平分层、接口开放、创新快、产业大。</p>
+<!-- QB:n8c -->
+        <div class="lab qa-anim qa-solo" id="qa-pin">
+          <div class="lab-head"><div><div class="lab-cap">动画 · SDN 和 OpenFlow 怎么配合</div><div class="lab-title">新流的第一个分组：table-miss → 问控制器 → 装流表 → 后续分组直达</div></div></div>
+          
+          <div class="btnrow"><button class="btn primary" id="qaPinPlay">▶ 播放</button><button class="btn" id="qaPinPrev">←</button><button class="btn" id="qaPinNext">下一步 →</button><button class="btn" id="qaPinReset">重来</button><span class="steplabel mono" id="qaPinStep"></span></div>
+          <div class="chartbox"><svg id="qaPinSvg" class="qa-svg" viewBox="0 0 660 240" role="img" aria-label="新流的第一个分组在 SDN 中的处理过程动画"></svg></div>
+          <div class="narr" id="qaPinNarr"></div>
+        </div>
+<!-- /QB:n8c -->
         <h4>通用转发与 OpenFlow（slide 110–117）</h4>
         <ul class="speclist">
           <li>每台路由器有一张<b>流表</b>，由逻辑集中的路由控制器计算和下发。</li>
@@ -3487,7 +3537,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                      <!-- QB:n8 -->
+                                                                                                                                                                  <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -6738,6 +6788,161 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     }
     var pl = qaPlayer('qaBgp', function(){ return seq().length - 1; }, render, 2200);
     qaChips('qaBgpMode', function(v){ mode = v; pl.reset(); });
+    pl.reset();
+  })();
+
+
+  /* ---------- SDN 动画共用：画节点、链路、箭头 ---------- */
+  function sdnDefs(svg, id){ var d = svgEl('defs', {}, svg), m = svgEl('marker', { id: id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, d); svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, m); }
+  function sdnArrow(svg, a, b, cls, mk, off, label){
+    var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy), ux = dx / L, uy = dy / L, o = off || 0, ox = -uy * o, oy = ux * o;
+    svgEl('path', { d: 'M' + (a[0] + ux * 20 + ox) + ' ' + (a[1] + uy * 20 + oy) + ' L' + (b[0] - ux * 20 + ox) + ' ' + (b[1] - uy * 20 + oy), 'class': 'qa-adv ' + cls, 'marker-end': 'url(#' + mk + ')' }, svg);
+    if (label) svgEl('text', { x: (a[0] + b[0]) / 2 + ox * 2.2, y: (a[1] + b[1]) / 2 + oy * 2.2 - 4, 'text-anchor': 'middle', 'class': 'qa-advt ' + cls }, svg, label);
+  }
+  function sdnCtrl(svg, x, y, w, on, busy){
+    svgEl('rect', { x: x, y: y, width: w, height: 40, rx: 8, 'class': 'qa-ctrl' + (on ? '' : ' off') + (busy ? ' busy' : '') }, svg);
+    svgEl('text', { x: x + w / 2, y: y + 17, 'text-anchor': 'middle', 'class': 'qa-ntsm' }, svg, on ? 'SDN 控制器' : '（没有控制器）');
+    svgEl('text', { x: x + w / 2, y: y + 32, 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, on ? (busy ? '⚙ 正在计算' : '服务器上的软件') : '');
+  }
+
+  /* ---------- 动画 G：控制平面——传统（每台自己算） vs SDN（控制器统一算）（slide 99–101、106） ---------- */
+  (function(){
+    if (!$('qaCpSvg')) return;
+    var mode = 'trad';
+    var R = { R1: [110, 180], R2: [320, 130], R3: [520, 180], R4: [320, 250] }, D = [610, 180];
+    var LK = [['R1', 'R2', 2], ['R2', 'R3', 2], ['R1', 'R4', 1], ['R4', 'R3', 1]];
+    var NH = { R1: 'R4', R2: 'R3', R4: 'R3', R3: '直连' };
+    function render(k){
+      var svg = $('qaCpSvg'); svg.innerHTML = ''; sdnDefs(svg, 'qaArrCp');
+      var sdn = mode === 'sdn';
+      sdnCtrl(svg, 250, 8, 140, sdn, sdn && k === 2);
+      svgEl('rect', { x: D[0] - 22, y: D[1] - 15, width: 44, height: 30, rx: 6, 'class': 'qa-xnet' }, svg);
+      svgEl('text', { x: D[0], y: D[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, '网络D');
+      svgEl('line', { x1: R.R3[0] + 16, y1: R.R3[1], x2: D[0] - 22, y2: D[1], 'class': 'qa-edge thin' }, svg);
+      LK.forEach(function(l){ var a = R[l[0]], b = R[l[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' }, svg); svgEl('text', { x: (a[0] + b[0]) / 2 + 8, y: (a[1] + b[1]) / 2 - 6, 'class': 'qa-w' }, svg, l[2]); });
+      if (!sdn && k === 1) LK.forEach(function(l){ sdnArrow(svg, R[l[0]], R[l[1]], 'i2', 'qaArrCp', 5); sdnArrow(svg, R[l[1]], R[l[0]], 'i2', 'qaArrCp', 5); });
+      if (sdn && k === 1) Object.keys(R).forEach(function(n){ sdnArrow(svg, R[n], [320, 48], 'e2', 'qaArrCp', 0); });
+      if (sdn && k === 3) Object.keys(R).forEach(function(n){ sdnArrow(svg, [320, 48], R[n], 'e3', 'qaArrCp', 0); });
+      if (k >= 3) Object.keys(NH).forEach(function(n){ if (NH[n] !== '直连') { var a = R[n], b = R[NH[n]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge best' }, svg); } });
+      Object.keys(R).forEach(function(n){
+        var p = R[n];
+        svgEl('circle', { cx: p[0], cy: p[1], r: 17, 'class': 'qa-node' + ((!sdn && k === 2) ? ' now' : '') }, svg);
+        svgEl('text', { x: p[0], y: p[1] + 4, 'text-anchor': 'middle', 'class': 'qa-ntsm' }, svg, n);
+        svgEl('text', { x: p[0] + 20, y: p[1] - 14, 'class': 'qa-dim' }, svg, sdn ? 'CA' : '⚙');
+      });
+      var filled = k >= 3;
+      svgEl('rect', { x: 10, y: 8, width: 200, height: 100, rx: 6, 'class': 'qa-tbl' + (filled ? ' on' : '') }, svg);
+      svgEl('text', { x: 18, y: 26, 'class': 'qa-ntsm' }, svg, (sdn ? '各交换机的流表' : '各路由器的转发表') + '（去 D）');
+      ['R1', 'R2', 'R3', 'R4'].forEach(function(n, i){ svgEl('text', { x: 18, y: 46 + i * 17, 'class': 'qa-dim' }, svg, n + '：去D → ' + (filled ? NH[n] : '?') + (filled && !sdn && k === 3 ? '（自己算的）' : '') + (filled && sdn && k === 3 ? '（控制器装的）' : '')); });
+      var T = mode === 'trad' ? [
+        '<b>传统做法</b>（slide 100，"每路由器控制平面"）：每台路由器里都有自己的路由算法（图里的 ⚙）。目标：每台路由器都要知道"去网络 D，下一跳是谁"。点"播放"。',
+        '① 路由器之间<b>互相交换路由信息</b>：链路状态（OSPF 泛洪 LSA）或距离向量（RIP 把距离告诉邻居）。箭头沿着链路在路由器之间来回传，没有谁统一指挥。',
+        '② 每台路由器用收到的信息，<b>各自在本机</b>跑路由算法（Dijkstra 或 Bellman-Ford），图里四台同时在算。',
+        '③ 各自得到自己的转发表：R1 去 D → R4（1 + 1 = 2，比经 R2 的 4 小）；R2 → R3；R4 → R3；R3 直连。绿色的线就是去 D 的路。',
+        '<b>特点</b>：算路由的"大脑"分散在每台路由器里，靠分布式协议配合。想改变某些流量的走法，要去每台路由器上改配置或调链路权值；路由器的软硬件通常由一个厂商打包（封闭）。切到「SDN」对比。'
+      ] : [
+        '<b>SDN 做法</b>（slide 101、106）：交换机里<b>没有路由算法</b>，只有一张流表和一个本地控制代理 CA。上面多了一个<b>远程控制器</b>，它是跑在服务器上的软件（"逻辑集中的控制平面"）。点"播放"。',
+        '① 每台交换机通过<b>南向接口</b>（如 OpenFlow）把自己的链路状态<b>报告给控制器</b>（箭头向上）。交换机之间不再互相交换路由信息。',
+        '② 控制器掌握了全网拓扑，在<b>一个地方集中</b>算出所有交换机的表。',
+        '③ 控制器把算好的流表<b>装到每台交换机</b>（箭头向下）。结果和传统做法一样：R1 → R4，R2 → R3，R4 → R3。',
+        '<b>特点</b>：大脑集中在控制器，交换机只按表转发。要改流量走法，只改控制器上的程序再下发；控制器和上面的应用可以由第三方提供（开放）。一句话：<b>传统 = 每台自己算；SDN = 控制器统一算，交换机照做</b>。'
+      ];
+      $('qaCpNarr').innerHTML = T[k];
+    }
+    var pl = qaPlayer('qaCp', function(){ return 4; }, render, 2000);
+    qaChips('qaCpMode', function(v){ mode = v; pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 I：流量工程——传统做不到、SDN 能做（slide 104–105） ---------- */
+  (function(){
+    if (!$('qaTeSvg')) return;
+    var mode = 'split';
+    var P = { u: [60, 150], v: [200, 66], w: [400, 66], x: [200, 234], y: [400, 234], z: [560, 150] };
+    var LK = [['u', 'v', 2], ['u', 'x', 1], ['u', 'w', 5], ['v', 'w', 3], ['v', 'x', 2], ['x', 'w', 3], ['x', 'y', 1], ['w', 'y', 1], ['w', 'z', 5], ['y', 'z', 2]];
+    function render(k){
+      var svg = $('qaTeSvg'); svg.innerHTML = '';
+      LK.forEach(function(l){ var a = P[l[0]], b = P[l[1]]; svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' }, svg); svgEl('text', { x: (a[0] + b[0]) / 2 + 6, y: (a[1] + b[1]) / 2 - 5, 'class': 'qa-w' }, svg, l[2]); });
+      var split = mode === 'split', A, B, tbl;
+      if (split){
+        A = k >= 4 ? ['u', 'v', 'w', 'z'] : ['u', 'x', 'y', 'z']; B = ['u', 'x', 'y', 'z'];
+        tbl = k >= 3 ? ['u 的流表：', '流A（源端口 = a），目的 z → 发往 v', '其他去 z 的 → 发往 x'] : ['u 的转发表（按目的地址）：', '目的 z → 发往 x', '（只有这一行）'];
+      } else {
+        A = k >= 4 ? ['v', 'w', 'z'] : ['v', 'w', 'y', 'z']; B = ['x', 'w', 'y', 'z'];
+        tbl = k >= 3 ? ['w 的流表：', '入端口 = 连 v（蓝）→ 发往 z', '入端口 = 连 x（红）→ 发往 y'] : ['w 的转发表（按目的地址）：', '目的 z → 发往 y', '（蓝、红只能查到同一行）'];
+      }
+      if (k >= 1){
+        svgEl('polyline', { points: B.map(function(n){ return P[n].join(','); }).join(' '), 'class': 'qa-route rr' }, svg);
+        svgEl('polyline', { points: A.map(function(n){ return (P[n][0] + 0) + ',' + (P[n][1] - 5); }).join(' '), 'class': 'qa-route rb' }, svg);
+      }
+      Object.keys(P).forEach(function(n){ var p = P[n]; svgEl('circle', { cx: p[0], cy: p[1], r: 15, 'class': 'qa-node' + ((split && n === 'u' || !split && n === 'w') && k >= 1 ? ' now' : '') }, svg); svgEl('text', { x: p[0], y: p[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, n); });
+      svgEl('text', { x: 60, y: 286, 'class': 'qa-lbl' }, svg, split ? '蓝 = 流A，红 = 流B（都从 u 去 z）' : '蓝 = 从 v 进 w 的流量，红 = 从 x 进 w 的流量（都去 z）');
+      svgEl('rect', { x: 420, y: 258, width: 214, height: 52, rx: 5, 'class': 'qa-tbl' + (k >= 3 ? ' on' : '') }, svg);
+      tbl.forEach(function(s, i){ svgEl('text', { x: 426, y: 274 + i * 15, 'class': i ? 'qa-dim' : 'qa-ntsm' }, svg, s); });
+      var T = split ? [
+        'slide 105：u 有两股去 z 的流量（<b>流A、流B</b>）。运营者想做<b>负载均衡</b>：A 走 u-v-w-z，B 走 u-x-y-z，两条路都用上。点"播放"。',
+        '① <b>传统做法</b>：链路状态路由按代价算最短路，u 到 z 最短是 <b>u-x-y-z</b>（1 + 1 + 2 = 4）。A、B 都走这条路（蓝红重叠）。',
+        '② 想让 A 改走 u-v-w-z？u 的转发表<b>只按目的地址查</b>，A 和 B 的目的地都是 z，查出来必然是同一行"z → x"。所以<b>做不到</b>（讲义："can\'t do it, or need a new routing algorithm"）。结果 u-x-y-z 挤满，u-v-w-z 空着。',
+        '③ <b>SDN 做法</b>：控制器给 u 装两条流表规则，匹配的不只是目的地址，还能看源端口等字段：「流A → 发往 v」「其他去 z 的 → 发往 x」；v、w 上也装好对应规则。',
+        '④ 结果：<b>A 走 u-v-w-z，B 走 u-x-y-z</b>，两条路都用上了。能做到的原因：OpenFlow 流表可以按多个首部字段分流（通用转发），控制器又能集中规划全网路径。'
+      ] : [
+        'slide 104：w 收到两股去 z 的流量：<b>蓝色</b>（从 v 进来）和<b>红色</b>（从 x 进来）。运营者希望 w 把蓝色直接送 z，把红色送 y 再到 z。点"播放"。',
+        '① <b>传统做法</b>：w 的转发表只按目的地址查。蓝、红的目的地都是 z，按最短路是 w-y-z（1 + 2 = 3，比直连的 5 小），所以两股都走 <b>w-y-z</b>。',
+        '② 想让 w 区别对待？<b>做不到</b>：基于目的地址的转发 + LS/DV 路由，一个目的地只有一个下一跳（讲义："can\'t do it with destination based forwarding, and LS, DV routing"）。',
+        '③ <b>SDN 做法</b>：控制器给 w 装两条规则：「入端口 = 连 v 的口（蓝）→ 发往 z」「入端口 = 连 x 的口（红）→ 发往 y」。',
+        '④ 结果：<b>蓝走 w-z，红走 w-y-z</b>。OpenFlow 能按入端口、源地址等字段匹配，所以能区别对待同一个目的地的流量。'
+      ];
+      $('qaTeNarr').innerHTML = T[k];
+    }
+    var pl = qaPlayer('qaTe', function(){ return 4; }, render, 2200);
+    qaChips('qaTeMode', function(v){ mode = v; pl.reset(); });
+    pl.reset();
+  })();
+
+  /* ---------- 动画 H：新流的第一个分组——table-miss → 控制器 → 装流表 → 后续分组直达（slide 110–117） ---------- */
+  (function(){
+    if (!$('qaPinSvg')) return;
+    var N = { h1: [40, 150], s1: [170, 150], s2: [320, 150], s3: [470, 150], h2: [600, 150] }, C = [320, 46];
+    var STEPS = 7;
+    function render(k){
+      var svg = $('qaPinSvg'); svg.innerHTML = ''; sdnDefs(svg, 'qaArrPin');
+      sdnCtrl(svg, 250, 8, 140, true, k === 3);
+      ['h1', 's1', 's2', 's3', 'h2'].reduce(function(a, b){ svgEl('line', { x1: N[a][0], y1: N[a][1], x2: N[b][0], y2: N[b][1], 'class': 'qa-edge' + (k >= 3 ? ' best' : '') }, svg); return b; });
+      if (k === 2) sdnArrow(svg, N.s1, [300, 48], 'e2', 'qaArrPin', 0, 'packet-in：这个怎么处理？');
+      if (k === 4) ['s1', 's2', 's3'].forEach(function(s){ sdnArrow(svg, [320, 48], N[s], 'e3', 'qaArrPin', 0, s === 's2' ? '装规则（flow-mod）' : ''); });
+      ['h1', 's1', 's2', 's3', 'h2'].forEach(function(n){
+        var p = N[n], sw = n.charAt(0) === 's';
+        if (sw) svgEl('rect', { x: p[0] - 20, y: p[1] - 16, width: 40, height: 32, rx: 5, 'class': 'qa-node' + ((k === 1 && n === 's1') ? ' now' : '') }, svg);
+        else svgEl('circle', { cx: p[0], cy: p[1], r: 16, 'class': 'qa-node' }, svg);
+        svgEl('text', { x: p[0], y: p[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, n);
+        if (sw){
+          var tx = p[0] - 62, ty = 182, inst = k >= 4, cnt = k >= 6 ? 2 : (k >= 5 ? 1 : 0);
+          svgEl('rect', { x: tx, y: ty, width: 124, height: inst ? 46 : 26, rx: 4, 'class': 'qa-tbl' + (inst ? ' on' : '') }, svg);
+          if (inst) svgEl('text', { x: tx + 5, y: ty + 16, 'class': 'qa-ntsm' }, svg, '目的=h2 → 端口2  ×' + cnt);
+          svgEl('text', { x: tx + 5, y: ty + (inst ? 36 : 17), 'class': 'qa-dim' + ((k === 1 && n === 's1') ? ' miss' : '') }, svg, '* → 交给控制器（兜底）');
+        }
+      });
+      if (k === 1){ svgEl('text', { x: N.s1[0], y: N.s1[1] - 26, 'text-anchor': 'middle', 'class': 'qa-tag bad' }, svg, '没有匹配：table-miss'); }
+      if (k === 0 || k === 1 || k === 2){ var pp = k === 0 ? N.h1 : N.s1; svgEl('circle', { cx: pp[0] + (k === 0 ? 24 : 0), cy: pp[1] - (k === 0 ? 0 : 26 + (k === 2 ? 0 : 0)), r: 7, 'class': 'qa-pktdot' }, svg); svgEl('text', { x: pp[0] + (k === 0 ? 24 : -26), y: pp[1] - (k === 0 ? 14 : 30), 'text-anchor': 'middle', 'class': 'qa-dim' }, svg, 'P1'); }
+      if (k === 5 || k === 6){
+        var path = 'M' + [N.h1, N.s1, N.s2, N.s3, N.h2].map(function(p){ return p.join(' '); }).join(' L');
+        var dot = svgEl('circle', { r: 7, 'class': 'qa-pktdot' }, svg); svgEl('animateMotion', { dur: '2.4s', repeatCount: 'indefinite', path: path }, dot);
+        if (k === 6){ var dot2 = svgEl('circle', { r: 7, 'class': 'qa-pktdot' }, svg); svgEl('animateMotion', { dur: '2.4s', begin: '0.8s', repeatCount: 'indefinite', path: path }, dot2); }
+        svgEl('text', { x: 320, y: 120, 'text-anchor': 'middle', 'class': 'qa-tag ok' }, svg, k === 5 ? 'P1 按新规则走' : 'P2、P3……直接匹配，不再问控制器');
+      }
+      var T = [
+        '场景：主机 h1 要给 h2 发数据，中间是三台 SDN 交换机。它们的流表里一开始只有一条<b>兜底规则</b>："什么都匹配不上 → 交给控制器"（table-miss 规则，优先级最低）。点"播放"。',
+        '① 第一个分组 P1 到达 s1。s1 查流表：没有任何规则写着怎么处理去 h2 的分组，只匹配到兜底规则 → <b>table-miss</b>。',
+        '② s1 用 <b>OpenFlow</b> 把 P1（或它的首部）发给控制器，等于问"这种分组怎么处理？"。这条消息叫 <b>packet-in</b>。',
+        '③ 控制器知道全网拓扑，按自己的策略（最短路、负载均衡、防火墙规则……）算出 h1 到 h2 的路径：<b>s1 → s2 → s3</b>。',
+        '④ 控制器用 <b>OpenFlow</b> 给 s1、s2、s3 各装一条规则："目的 = h2 → 从端口 2 转发"。这条消息叫 <b>flow-mod</b>。每条规则带一个计数器（×0）。',
+        '⑤ P1 按新规则走：h1 → s1 → s2 → s3 → h2。每台交换机上这条规则的计数器 +1。',
+        '⑥ 同一条流的后续分组 P2、P3……到 s1 时<b>直接匹配</b>新规则，一路转发，<b>不再问控制器</b>，计数器继续累加。',
+        '<b>总结</b>：控制器只负责"定规矩"（算路径、装流表），分组的转发由交换机按表完成；只有交换机遇到不认识的分组时才去问控制器。<b>SDN</b> 是"控制和转发分开"这个架构，<b>OpenFlow</b> 就是控制器和交换机之间传这些指令（packet-in、flow-mod）的协议。'
+      ];
+      $('qaPinNarr').innerHTML = T[k];
+    }
+    var pl = qaPlayer('qaPin', function(){ return STEPS; }, render, 2200);
     pl.reset();
   })();
 

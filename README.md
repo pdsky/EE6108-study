@@ -8,7 +8,7 @@ NTU EE6108 Computer Networks 的中文自学网页：一份**学习手册**，�
 
 | 直接打开 | 内容 |
 |---|---|
-| [学习手册](https://pdsky.github.io/EE6108-study/ee6108-learn.html) | Part I 全部 + Part II 网络层 II（CA2 Quiz 范围，标了「Quiz 考」「必背」）+ 传输层（上）；19 个交互实验 + 6 个 Quiz 动画（每个都配小白版说明和例题） |
+| [学习手册](https://pdsky.github.io/EE6108-study/ee6108-learn.html) | Part I 全部 + Part II 网络层 II（CA2 Quiz 范围，标了「Quiz 考」「必背」）+ 传输层（上）；19 个交互实验 + 9 个 Quiz 动画（每个都配小白版说明和例题） |
 | [题库](https://pdsky.github.io/EE6108-study/ee6108-practice.html) | CA2 Quiz 模拟卷 4 套、往年期末 5 卷全解、课件例题、随机刷题 |
 | [Quiz 模拟卷](https://pdsky.github.io/EE6108-study/ee6108-practice.html#mock) | 4 套模拟卷（D 卷和真 Quiz 一样长），带翻译、讲解、评分要点、举一反三 |
 | [网络层 II（Quiz 范围）](https://pdsky.github.io/EE6108-study/ee6108-learn.html#n2) | 转发与路由、路由器结构、Dijkstra、DV、RIP/OSPF/BGP、SDN |

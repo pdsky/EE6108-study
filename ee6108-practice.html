@@ -786,6 +786,16 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
 .sp-rm{margin-left:auto;}
 .sp-empty{color:var(--muted); line-height:1.7;}
 @media (max-width:480px){ .topbar{gap:6px;} .topbar .iconbtn{padding-left:8px; padding-right:8px;} }
+/* SDN 动画（qaCp / qaTe / qaPin） */
+.qa-solo{margin:22px 0 28px 0;}
+.qa-ctrl{fill:color-mix(in srgb, var(--s5) 14%, var(--surface)); stroke:var(--s5); stroke-width:1.6;}
+.qa-ctrl.off{fill:none; stroke:var(--line-strong); stroke-dasharray:4 4;}
+.qa-ctrl.busy{stroke-width:3.5;}
+.qa-tbl{fill:var(--surface-2); stroke:var(--line-strong); stroke-width:1;}
+.qa-tbl.on{fill:var(--ok-soft); stroke:var(--ok);}
+.qa-route.rb{stroke:var(--s1); stroke-width:5; opacity:.85;}
+.qa-route.rr{stroke:var(--warn); stroke-width:5; opacity:.7;}
+.qa-dim.miss{fill:var(--warn); font-weight:700;}
 /* ============ 习题页专用 ============ */
 .pwrap{max-width:980px; margin:0 auto; padding:0 20px 120px 20px;}
 .phero{padding:48px 0 26px 0;}
