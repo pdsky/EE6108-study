@@ -2531,6 +2531,7 @@ netE 28</textarea></label>
 
 
 
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2597,6 +2598,7 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
 
 
 
@@ -3040,7 +3042,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                                        <!-- QB:n3 -->
+                                                                                                                                                                              <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3126,7 +3128,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                                        <!-- QB:n4 -->
+                                                                                                                                                                              <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3363,7 +3365,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                                        <!-- QB:n7 -->
+                                                                                                                                                                              <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3515,17 +3517,36 @@ netE 28</textarea></label>
           <li><b>流</b>由首部字段定义。通用转发是简单的分组处理规则：<b>模式</b>（匹配首部字段的值）、<b>动作</b>（对匹配的分组：丢弃、转发、修改，或者送给控制器）、<b>优先级</b>（消除重叠模式的歧义）、<b>计数器</b>（字节数和分组数）。</li>
           <li>流表项 = 规则（可匹配：交换机端口、VLAN ID、MAC 源/目的、以太类型、IP 源/目的、IP 协议、TCP 源/目的端口，横跨链路层、网络层、传输层）+ 动作（转发到端口、封装后转给控制器、丢弃、送正常处理流水线、修改字段）+ 统计。</li>
         </ul>
+        <div class="callout teal qa-explain" id="flowtbl-how"><div class="lbl">这张表怎么看</div>
+          <ol>
+            <li><span class="why">一行 = 一条规则：</span>左边"匹配"是条件，右边"动作"是满足条件时怎么处理。分组到达时，交换机拿分组首部里的字段去和每一行比。</li>
+            <li><span class="why"><code>*</code> 是通配符，表示"什么值都行"：</span><code>3.4.*.*</code> 就是"以 3.4 开头的任何地址"。<b>没写出来的字段也等于 *</b>：比如"TCP dport = 22"这一行，源地址、目的地址、入端口都不管，只看目的端口是不是 22（slide 114 的原表里其他列全是 *）。</li>
+            <li><span class="why">写出来的条件要<b>全部</b>满足才算匹配：</span>第 1 行要求源地址以 1.2 开头<b>并且</b>目的地址以 3.4.5 开头，只满足一个不算。</li>
+            <li><span class="why">前 3 行是同一张表（slide 112），会重叠：</span>一个分组可能同时匹配好几行，这时按<b>优先级</b>选一行（slide 111："priority: disambiguate overlapping patterns"），通常更具体的规则优先级更高。都不匹配就是 table-miss，一般交给控制器。</li>
+            <li><span class="why">后 4 行是 slide 114–115 的 4 个独立小例子：</span>各自说明"只匹配某一个字段"能做出什么功能：按目的 IP 转发 = 路由器，按目的 TCP 端口 / 源 IP 丢弃 = 防火墙，按 MAC 转发 = 二层交换机。这就是 slide 116 说的"match + action 统一了不同设备"。</li>
+          </ol></div>
         <div class="tablewrap"><table>
           <caption>流表例子（slide 112–115）</caption>
           <thead><tr><th>匹配</th><th>动作</th><th>效果</th></tr></thead>
           <tbody>
-            <tr><td class="mono">src = 1.2.*.*, dest = 3.4.5.*</td><td>drop</td><td></td></tr>
-            <tr><td class="mono">src = *.*.*.*, dest = 3.4.*.*</td><td>forward(2)</td><td></td></tr>
-            <tr><td class="mono">src = 10.1.2.3, dest = *.*.*.*</td><td>send to controller</td><td></td></tr>
+            <tr><td class="mono">src = 1.2.*.*, dest = 3.4.5.*</td><td>drop</td><td>源地址以 1.2 开头、目的地址以 3.4.5 开头的数据报：丢弃</td></tr>
+            <tr><td class="mono">src = *.*.*.*, dest = 3.4.*.*</td><td>forward(2)</td><td>不管源地址，只要目的地址以 3.4 开头：从端口 2 转发</td></tr>
+            <tr><td class="mono">src = 10.1.2.3, dest = *.*.*.*</td><td>send to controller</td><td>主机 10.1.2.3 发出的数据报，不管发往哪里：交给控制器处理</td></tr>
             <tr><td class="mono">IP Dst = 51.6.0.8</td><td>port6</td><td>基于目的地址的转发</td></tr>
             <tr><td class="mono">TCP dport = 22</td><td>drop</td><td>防火墙：阻止所有发往 TCP 22 端口的数据报</td></tr>
             <tr><td class="mono">IP Src = 128.119.1.1</td><td>drop</td><td>防火墙：阻止主机 128.119.1.1 发出的所有数据报</td></tr>
             <tr><td class="mono">MAC src = 22:A7:23:11:E1:02</td><td>port3</td><td>基于 MAC 的二层转发</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tablewrap"><table>
+          <caption>用前 3 行（slide 112 那张表）查几个分组</caption>
+          <thead><tr><th>到达的分组（源 → 目的）</th><th>匹配到哪几行</th><th>结果</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">9.9.9.9 → 3.4.7.1</td><td>只有第 2 行（目的以 3.4 开头）</td><td>从端口 2 转发</td></tr>
+            <tr><td class="mono">1.2.0.1 → 3.4.5.6</td><td>第 1 行和第 2 行都匹配</td><td>看优先级：一般给更具体的第 1 行更高优先级 → <b>丢弃</b></td></tr>
+            <tr><td class="mono">10.1.2.3 → 8.8.8.8</td><td>只有第 3 行（源是 10.1.2.3）</td><td>交给控制器</td></tr>
+            <tr><td class="mono">10.1.2.3 → 3.4.0.5</td><td>第 2 行和第 3 行都匹配</td><td>由优先级决定：哪一行优先级高就执行哪一行</td></tr>
+            <tr><td class="mono">5.6.7.8 → 9.9.9.9</td><td>一行都不匹配</td><td>table-miss，通常交给控制器</td></tr>
           </tbody>
         </table></div>
         <p><b>match + action 统一了不同设备</b>（slide 116）：路由器（匹配最长目的 IP 前缀，动作：从某条链路转发出去）；交换机（匹配目的 MAC，动作：转发或泛洪）；防火墙（匹配 IP 地址和 TCP/UDP 端口，动作：允许或拒绝）；NAT（匹配 IP 地址和端口，动作：改写地址和端口）。</p>
@@ -3539,7 +3560,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                                        <!-- QB:n8 -->
+                                                                                                                                                                              <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
