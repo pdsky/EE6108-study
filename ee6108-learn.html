@@ -815,6 +815,10 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
 .rc-wrap.testing .rc{cursor:pointer;}
 .rc-wrap.testing .rc:not(.show) .rc-a{filter:blur(6px); user-select:none;}
 .rc-wrap.testing .rc:not(.show)::after{content:"点一下看答案"; display:block; font-size:11.5px; color:var(--muted); margin-top:4px;}
+/* 距离向量动画：链路旁"谁告诉谁什么数" */
+.qa-ad{font-size:10.5px; font-weight:600; fill:var(--ink-soft); paint-order:stroke; stroke:var(--surface); stroke-width:3px; stroke-linejoin:round;}
+.qa-ad.bad{fill:var(--warn); font-weight:800;}
+.qa-hist{font-size:12px; color:var(--muted); margin-top:6px; white-space:pre-wrap;}
 
 </style>
 </head>
@@ -922,7 +926,7 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
         <li><a class="lablink" href="#n2-lab2">实验：Dijkstra 步进器</a></li>
         <li><a href="#n2-s5">距离向量与 Bellman-Ford</a></li>
         <li><a class="lablink" href="#n2-lab3">实验：Bellman-Ford 迭代表</a></li>
-        <li><a class="lablink" href="#n2-lab4">实验：无穷计数</a></li>
+        <li><a class="lablink" href="#n2-lab4">动画：无穷计数与毒性逆转</a></li>
         <li><a href="#n2-s6">层次路由与 AS</a></li>
         <li><a href="#n2-s7">RIP · OSPF · BGP</a></li>
         <li><a href="#n2-s8">SDN 与 OpenFlow</a></li>
@@ -959,7 +963,7 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
       <p class="lede">这是根据 EE6108 Part I 全部讲义（Topic 1、2.1、2.2、3）、Session 2–6 补充 slides、Week 6 子网练习、Part II 第一套 slides（网络层 II：路由器、路由算法、路由协议、SDN）、第二套 slides 前半（传输层：UDP、可靠数据传输、GBN/SR）、课堂录音和 5 份往年期末卷整理的自学手册。每一章都从最基本的概念讲起，公式都说明每个符号的含义，讲义例题都给出完整步骤。19 个交互实验可以直接拿来验算作业和真题；Quiz 范围（网络层 II）每个重点旁边还有动画和"例题 · 怎么考 · 怎么答"。橙色 <span class="qz in">Quiz 考</span> 标出 CA2 Quiz 范围，<span class="mustc">必背</span> 标出闭卷要背的公式。讲义里没有、但理解需要的内容放在紫色的"课外补充"框里，考试以讲义为准。TCP（P2B 后半）、应用层、网络安全等讲完后继续补充。</p>
       <div class="meta">
         <span class="chip">Part I 4 个 Topic + Part II 网络层、传输层</span>
-        <span class="chip">19 个交互实验 + 9 个 Quiz 动画</span>
+        <span class="chip">18 个交互实验 + 10 个动画</span>
         <span class="chip">往年 5 卷 Part I 全解</span>
         <span class="chip">Part I <b>Dr. Shao Xuguang</b> · Part II <b>A/P Xiao Gaoxi</b></span>
       </div>
@@ -2560,6 +2564,7 @@ netE 28</textarea></label>
 
 
 
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2626,6 +2631,7 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
 
 
 
@@ -3122,7 +3128,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                                                                                  <!-- QB:n3 -->
+                                                                                                                                                                                                                        <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3240,7 +3246,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                                                                                  <!-- QB:n4 -->
+                                                                                                                                                                                                                        <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3360,22 +3366,14 @@ netE 28</textarea></label>
           <div class="workings" id="bfWork" style="margin-top:10px"></div>
         </div>
 
-        <div class="lab" id="n2-lab4">
-          <div class="lab-head"><div><div class="lab-cap">交互实验 14</div><div class="lab-title">无穷计数与毒性逆转</div></div></div>
-          <p class="lab-desc">三角形 x–y–z：x-y 原代价 4，y-z 1，x-z 50。改变 x-y 的新代价，看 y 和 z 交替更新到 x 的距离要多少次才稳定。</p>
-          <div class="ctlgrid">
-            <label class="ctl"><span>x-y 新代价</span><input type="number" id="ctNew" min="1" max="200" value="60"></label>
-            <label class="ctl"><span>毒性逆转</span><select id="ctPoison"><option value="0">关闭</option><option value="1">开启</option></select></label>
-          </div>
-          <div class="kpis">
-            <div class="kpi em"><div class="k">稳定前的更新次数</div><div class="v" id="ctN">–</div></div>
-            <div class="kpi"><div class="k">最终 D<sub>y</sub>(x)</div><div class="v" id="ctY">–</div></div>
-            <div class="kpi"><div class="k">最终 D<sub>z</sub>(x)</div><div class="v" id="ctZ">–</div></div>
-          </div>
-          <div class="chartbox"><svg id="ctChart" viewBox="0 0 640 200" role="img" aria-label="D_y(x) 与 D_z(x) 随更新次数变化"></svg></div>
-          <div class="legend"><span><i style="background:var(--s1)"></i>D<sub>y</sub>(x)</span><span><i style="background:var(--s2)"></i>D<sub>z</sub>(x)</span></div>
-          <div class="workings" id="ctWork" style="margin-top:10px"></div>
-          <p class="labnote">这里 y、z 轮流各更新一次算一步。讲义说 44 次迭代，不同的计数方式（是否算最后几步）会差一两次，关键是"每次只涨 1，一直涨到 50 附近"。</p>
+        <div class="lab qa-anim" id="n2-lab4">
+          <div class="lab-head"><div><div class="lab-cap">动画 · slide 59–61 的三个路由器</div><div class="lab-title">无穷计数与毒性逆转：路由器一个一个地更新</div></div></div>
+          <p class="lab-desc">三角形 x–y–z：x–y 原代价 4，y–z 1，x–z 50，只看到目的地 x 的距离。每点一次"下一步"，就有一台路由器重新算一次（y 先，然后 z、y 轮流）。<b>橙色圈</b>是正在算的路由器；链路旁的小字是<b>谁告诉谁什么数</b>（红色 ∞ = 毒性逆转故意说的"谎"）；<b>箭头</b>是下一跳，变红说明绕成了环。</p>
+          <div class="presets" id="qaCtiMode"><button data-k="off" class="on">没有毒性逆转（4 → 60）</button><button data-k="on">有毒性逆转（4 → 60）</button><button data-k="good">好消息（4 → 1）</button></div>
+          <div class="btnrow"><button class="btn primary" id="qaCtiPlay">▶ 播放</button><button class="btn" id="qaCtiPrev">←</button><button class="btn" id="qaCtiNext">下一步 →</button><button class="btn" id="qaCtiReset">重来</button><button class="btn" id="qaCtiEnd">跳到最后</button><span class="steplabel mono" id="qaCtiStep"></span></div>
+          <div class="chartbox"><svg id="qaCtiSvg" class="qa-svg" viewBox="0 0 640 250" role="img" aria-label="三个路由器的距离向量更新动画"></svg></div>
+          <div class="narr" id="qaCtiNarr"></div>
+          <div class="qa-hist mono" id="qaCtiHist"></div>
         </div>
 
         <div class="tablewrap"><table>
@@ -3501,7 +3499,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                                                                                  <!-- QB:n7 -->
+                                                                                                                                                                                                                        <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3696,7 +3694,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                                                                                  <!-- QB:n8 -->
+                                                                                                                                                                                                                        <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -5398,49 +5396,6 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     $('bfEdges').value = GRAPHS.bf.e; build(); $('bfDst').value = '6'; run();
   })();
 
-  /* =====================================================
-     Part II 实验 14：无穷计数
-     ===================================================== */
-  (function(){
-    function calc(){
-      var c = Math.max(1, Math.round(num('ctNew'))), poison = $('ctPoison').value === '1';
-      var Dy = 4, Dz = 5, ny = 'x', nz = 'y', hist = [[0, Dy, Dz]], log = [], n = 0, turn = 'y', stable = 0;
-      log.push('变化前：D_y(x) = 4（直连），D_z(x) = 5（经 y）。x-y 代价变为 ' + c);
-      while (n < 200 && stable < 2){
-        n++;
-        var old;
-        if (turn === 'y'){
-          var zr = (poison && nz === 'y') ? Infinity : Dz;
-          old = [Dy, ny];
-          if (c <= 1 + zr){ Dy = c; ny = 'x'; } else { Dy = 1 + zr; ny = 'z'; }
-          if (n <= 8 || Dy !== old[0]) log.length < 60 && log.push(n + '. y：min(c(y,x) = ' + c + ', 1 + D_z(x) = 1 + ' + dv(zr) + ') = ' + dv(Dy) + '（经 ' + ny + '）');
-          stable = (Dy === old[0] && ny === old[1]) ? stable + 1 : 0;
-          turn = 'z';
-        } else {
-          var yr = (poison && ny === 'z') ? Infinity : Dy;
-          old = [Dz, nz];
-          if (50 <= 1 + yr){ Dz = 50; nz = 'x'; } else { Dz = 1 + yr; nz = 'y'; }
-          if (n <= 8 || Dz !== old[0]) log.length < 60 && log.push(n + '. z：min(c(z,x) = 50, 1 + D_y(x) = 1 + ' + dv(yr) + ') = ' + dv(Dz) + '（经 ' + nz + '）');
-          stable = (Dz === old[0] && nz === old[1]) ? stable + 1 : 0;
-          turn = 'y';
-        }
-        hist.push([n, Dy, Dz]);
-      }
-      var steps = n - 2;
-      $('ctN').textContent = steps; $('ctY').textContent = dv(Dy) + '（经 ' + ny + '）'; $('ctZ').textContent = dv(Dz) + '（经 ' + nz + '）';
-      var svg = $('ctChart'); svg.innerHTML = '';
-      var W = 640, H = 200, L = 40, R = 12, T = 12, B = 26, mx = Math.max(10, hist.length - 1), my = Math.max.apply(null, hist.map(function(h){ return Math.max(h[1], h[2]); })) * 1.08;
-      var sx = function(i){ return L + (W - L - R) * i / mx; }, sy = function(v){ return H - B - (H - T - B) * v / my; };
-      [0, Math.round(my / 2), Math.round(my)].forEach(function(v){ svgEl('line', { x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: css('--line'), 'stroke-dasharray': v ? '2 4' : '' }, svg); svgEl('text', { x: L - 6, y: sy(v) + 4, 'text-anchor': 'end' }, svg, v); });
-      svgEl('text', { x: W - R, y: H - 4, 'text-anchor': 'end' }, svg, '更新次数');
-      svgEl('text', { x: L, y: H - 4 }, svg, '0');
-      [[1, css('--s1')], [2, css('--s2')]].forEach(function(s){ var d = ''; hist.forEach(function(h, i){ d += (i ? 'L' : 'M') + sx(h[0]).toFixed(1) + ' ' + sy(h[s[0]]).toFixed(1); }); svgEl('path', { d: d, fill: 'none', stroke: s[1], 'stroke-width': 2.2 }, svg); });
-      $('ctWork').innerHTML = log.join('\n') + (log.length >= 60 ? '\n……' : '') + '\n共 ' + steps + ' 次有效更新后稳定（再更新也不变）。' +
-        (c < 4 ? '\n代价降低：好消息一两步就传开了。' : poison ? '\n毒性逆转：z 经 y 到 x，所以它告诉 y 自己到 x 是 ∞，y 立刻改用直连，避免了来回加。' : '\n没有毒性逆转：y 和 z 互相以为可以经对方到 x，每次只涨 1。');
-    }
-    ['ctNew', 'ctPoison'].forEach(function(id){ $(id).addEventListener('input', calc); $(id).addEventListener('change', calc); });
-    redraw.push(calc); calc();
-  })();
 
   /* =====================================================
      Topic 2.1 动画：数据报旅程 / 停等 / 滑动窗口 / ARQ
@@ -6822,6 +6777,97 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     pl.reset();
   })();
 
+  /* ---------- 共用：链路旁"谁告诉谁什么数"的小标签 ---------- */
+  function qaAdTag(svg, a, b, text, bad){
+    var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy), ux = dx / L, uy = dy / L;
+    var px = a[0] + dx * 0.3 - uy * 13, py = a[1] + dy * 0.3 + ux * 13 + 4;
+    svgEl('text', { x: px, y: py, 'text-anchor': 'middle', 'class': 'qa-ad' + (bad ? ' bad' : '') }, svg, text);
+  }
+
+  /* ---------- 动画 C2：三个路由器的无穷计数与毒性逆转（slide 59–61），替换原来的实验 14 ---------- */
+  (function(){
+    if (!$('qaCtiSvg')) return;
+    var mode = 'off';
+    var P = { x: [90, 180], y: [320, 55], z: [550, 180] };
+    function sim(){
+      var newc = mode === 'good' ? 1 : 60, poison = mode === 'on';
+      var D = { y: 4, z: 5 }, H = { y: 'x', z: 'y' }, seq = [{ D: { y: 4, z: 5 }, H: { y: 'x', z: 'y' }, who: null, k: 0, html: '', changed: true }];
+      var turn = 'y', stable = 0, k = 0, wasLoop = false;
+      function adv(from, to){ return (poison && H[from] === to) ? Infinity : D[from]; }
+      while (k < 200 && stable < 2){
+        k++;
+        var n = turn, o = n === 'y' ? 'z' : 'y', direct = n === 'y' ? newc : 50;
+        var a = adv(o, n), via = a === Infinity ? Infinity : 1 + a, fooled = !poison && H[o] === n;
+        var nd = direct <= via ? direct : via, nh = direct <= via ? 'x' : o;
+        var changed = nd !== D[n] || nh !== H[n];
+        D[n] = nd; H[n] = nh;
+        var loop = H.y === 'z' && H.z === 'y', A = a === Infinity ? '∞' : a;
+        var html = '<b>更新 ' + k + '：' + n + ' 重新算</b>　直连 x：' + direct + '；经 ' + o + '：' + o + ' 告诉 ' + n + '「' + A + '」' +
+          (a === Infinity ? '（' + o + ' 的下一跳是 ' + n + '，所以对 ' + n + ' 说 ∞：毒性逆转）' : '') +
+          ' → 1 + ' + A + ' = ' + (via === Infinity ? '∞' : via) + '　→ 取小的：<b>D<sub>' + n + '</sub>(x) = ' + nd + '，经 ' + nh + '</b>' + (changed ? '' : '（没变）') +
+          (nh === o && fooled && k <= 2 ? '<br>上当了：' + o + ' 的「' + A + '」本来就是经过 ' + n + ' 走的，这条路已经不存在，但 ' + n + ' 不知道（DV 只交换距离，不交换路径）。' : '') +
+          (loop && !wasLoop ? '<br><b class="badc">y 指向 z、z 指向 y：路由环路</b>，发往 x 的分组在 y、z 之间来回转。' : '') +
+          (!loop && wasLoop ? '<br><b class="okc">环路打破</b>：' + n + ' 发现直连更便宜。' : '');
+        wasLoop = loop;
+        seq.push({ D: { y: D.y, z: D.z }, H: { y: H.y, z: H.z }, who: n, k: k, html: html, changed: changed });
+        stable = changed ? 0 : stable + 1;
+        turn = o;
+      }
+      while (seq.length > 2 && !seq[seq.length - 1].changed) seq.pop();
+      return { seq: seq, newc: newc, poison: poison };
+    }
+    var R = sim();
+    function hist(k, n){
+      var v = [], last = null;
+      for (var i = 0; i <= k; i++){ var d = R.seq[i].D[n]; if (d !== last){ v.push(d); last = d; } }
+      return (v.length > 9 ? v.slice(0, 3).join(' → ') + ' → … → ' + v.slice(-4).join(' → ') : v.join(' → '));
+    }
+    function render(k){
+      var svg = $('qaCtiSvg'); svg.innerHTML = '';
+      var s = R.seq[k], after = k > 0, poison = R.poison, loop = s.H.y === 'z' && s.H.z === 'y';
+      var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrCti', viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs);
+      svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
+      [['x', 'y', after ? '4 → ' + R.newc : '4', after], ['y', 'z', '1', false], ['x', 'z', '50', false]].forEach(function(e){
+        var a = P[e[0]], b = P[e[1]];
+        svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'qa-edge' }, svg);
+        svgEl('text', { x: (a[0] + b[0]) / 2 + (e[0] === 'x' && e[1] === 'z' ? 0 : 0), y: (a[1] + b[1]) / 2 + (e[1] === 'z' && e[0] === 'x' ? 22 : -6), 'text-anchor': 'middle', 'class': 'qa-w' + (e[3] && R.newc > 4 ? ' bad' : '') }, svg, e[2]);
+      });
+      ['y', 'z'].forEach(function(n){
+        var a = P[n], b = P[s.H[n]], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy), o = n === 'y' ? 7 : -7;
+        svgEl('line', { x1: a[0] + dx / L * 26 - dy / L * o, y1: a[1] + dy / L * 26 + dx / L * o, x2: a[0] + dx / L * (L - 30) - dy / L * o, y2: a[1] + dy / L * (L - 30) + dx / L * o, 'class': 'qa-nh' + (loop ? ' loop' : ''), 'marker-end': 'url(#qaArrCti)' }, svg);
+      });
+      qaAdTag(svg, P.x, P.y, 'x→y：0', false);
+      qaAdTag(svg, P.x, P.z, 'x→z：0', false);
+      var yz = poison && s.H.y === 'z', zy = poison && s.H.z === 'y';
+      qaAdTag(svg, P.y, P.z, 'y→z：' + (yz ? '∞' : s.D.y), yz);
+      qaAdTag(svg, P.z, P.y, 'z→y：' + (zy ? '∞' : s.D.z), zy);
+      Object.keys(P).forEach(function(n){
+        var p = P[n];
+        svgEl('circle', { cx: p[0], cy: p[1], r: 22, 'class': 'qa-node' + (s.who === n ? ' now' : '') + (n === 'x' ? ' dst' : '') }, svg);
+        svgEl('text', { x: p[0], y: p[1] + 5, 'text-anchor': 'middle', 'class': 'qa-nt' }, svg, n);
+      });
+      svgEl('text', { x: P.y[0] + 32, y: P.y[1] + 5, 'class': 'qa-dv' + (s.who === 'y' ? ' now' : '') }, svg, 'D(x) = ' + s.D.y + '，经 ' + s.H.y);
+      svgEl('text', { x: P.z[0], y: P.z[1] + 44, 'text-anchor': 'middle', 'class': 'qa-dv' + (s.who === 'z' ? ' now' : '') }, svg, 'D(x) = ' + s.D.z + '，经 ' + s.H.z);
+      svgEl('text', { x: 14, y: 22, 'class': 'qa-tag' }, svg, after ? '第 ' + s.k + ' 次更新（' + s.who + ' 在算）' : '变化前：已经收敛');
+      if (loop) svgEl('text', { x: 320, y: 244, 'text-anchor': 'middle', 'class': 'qa-tag bad' }, svg, '下一跳形成环路：y ⇄ z');
+      var N = R.seq.length - 1, intro = {
+        off: '变化前（slide 60）：y 直连 x，D<sub>y</sub> = 4；z 经 y 到 x，D<sub>z</sub> = 1 + 4 = 5（直连 50 太贵）。<b>没有毒性逆转</b>：大家都说真话，所以 z 告诉 y「5」，可这个 5 是经过 y 自己走的，y 不知道。<br>点"下一步"：x–y 的代价从 4 变成 <b>60</b>（坏消息），y 先算，然后 z、y 轮流。',
+        on: '变化前：y 直连 x（4），z 经 y（5）。<b>有毒性逆转</b>：z 的下一跳是 y，所以 z 对 y 说<b>「∞」</b>（"别想经过我去 x"）；y 的下一跳是 x，对 z 说真话 4。<br>点"下一步"：x–y 的代价从 4 变成 <b>60</b>。',
+        good: '变化前：y 直连 x（4），z 经 y（5）。<br>点"下一步"：x–y 的代价从 4 <b>降到 1</b>（好消息）。'
+      }[mode], fin = {
+        off: '<br><b>稳定了</b>：一共 ' + N + ' 次更新（讲义 slide 60 说 44 次迭代，计数方式不同会差几次）。y 和 z 互相用对方过时的距离，每次更新只涨 1，直到 z 发现直连 50 更便宜才停：<b>坏消息传得慢</b>，这就是无穷计数。',
+        on: '<br><b>稳定了</b>：只要 ' + N + ' 次更新，全程没有环路，最终结果和没有毒性逆转时一样（y 51、z 50）。两个路由器"我经你、你又经我"的环被 ∞ 堵住了。但三个及以上路由器的环防不住：看下面 N.5 slide 62 的 4 节点动画。',
+        good: '<br><b>稳定了</b>：' + N + ' 次更新就结束：<b>好消息传得快</b>。'
+      }[mode];
+      $('qaCtiNarr').innerHTML = k === 0 ? intro : s.html + (k === N ? fin : '');
+      $('qaCtiHist').textContent = 'D_y(x)：' + hist(k, 'y') + '\nD_z(x)：' + hist(k, 'z');
+    }
+    var pl = qaPlayer('qaCti', function(){ return R.seq.length - 1; }, render, 800);
+    qaChips('qaCtiMode', function(v){ mode = v; R = sim(); pl.reset(); });
+    $('qaCtiEnd').addEventListener('click', function(){ for (var i = 0; i < 300; i++){ if ($('qaCtiNext').disabled) break; $('qaCtiNext').click(); } });
+    pl.reset();
+  })();
+
   /* ---------- 动画 D：4 节点毒性逆转仍会失败（slide 60–62） ---------- */
   (function(){
     if (!$('qaPrSvg')) return;
@@ -6866,6 +6912,8 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
         var a = POS[n], b = POS[s.H[n]], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy);
         svgEl('line', { x1: a[0] + dx / L * 26, y1: a[1] + dy / L * 26, x2: a[0] + dx / L * (L - 30), y2: a[1] + dy / L * (L - 30), 'class': 'qa-nh' + (cyc && cyc.indexOf(n) >= 0 ? ' loop' : ''), 'marker-end': 'url(#qaArrow)' }, svg);
       });
+      qaAdTag(svg, POS.x, POS.y, 'x→y：0', false); qaAdTag(svg, POS.x, POS.z, 'x→z：0', false);
+      [['y', 'A'], ['A', 'z'], ['y', 'z']].forEach(function(e){ [[e[0], e[1]], [e[1], e[0]]].forEach(function(d){ var lie = poison && s.H[d[0]] === d[1]; qaAdTag(svg, POS[d[0]], POS[d[1]], d[0] + '→' + d[1] + '：' + (lie ? '∞' : s.D[d[0]]), lie); }); });
       var defs = svgEl('defs', {}, svg), mk = svgEl('marker', { id: 'qaArrow', viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto' }, defs);
       svgEl('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'qa-arrow' }, mk);
       Object.keys(POS).forEach(function(n){
