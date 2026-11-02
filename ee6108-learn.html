@@ -819,6 +819,8 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
 .qa-ad{font-size:10.5px; font-weight:600; fill:var(--ink-soft); paint-order:stroke; stroke:var(--surface); stroke-width:3px; stroke-linejoin:round;}
 .qa-ad.bad{fill:var(--warn); font-weight:800;}
 .qa-hist{font-size:12px; color:var(--muted); margin-top:6px; white-space:pre-wrap;}
+.rc-tr{display:none; font-size:13px; line-height:1.65; color:var(--ink-soft); margin:0 0 6px 0; padding:6px 0 0 0; border-top:1px dashed var(--line);}
+.rc-wrap.show-tr .rc-tr{display:block;}
 
 </style>
 </head>
@@ -2565,6 +2567,7 @@ netE 28</textarea></label>
 
 
 
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2631,6 +2634,7 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
 
 
 
@@ -3128,7 +3132,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                                                                                        <!-- QB:n3 -->
+                                                                                                                                                                                                                              <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3246,7 +3250,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                                                                                        <!-- QB:n4 -->
+                                                                                                                                                                                                                              <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3499,7 +3503,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                                                                                        <!-- QB:n7 -->
+                                                                                                                                                                                                                              <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3694,7 +3698,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                                                                                        <!-- QB:n8 -->
+                                                                                                                                                                                                                              <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -3808,7 +3812,7 @@ netE 28</textarea></label>
         <h4 id="n2-recite">二、概念题背诵卡（简明版，先背这个）</h4>
         <div class="rc-wrap" id="rcWrap">
           <p class="rc-intro">Quiz 范围（P2A）里所有可能考的<b>概念题</b>，答案压缩成考试够用的英文关键句，下面一行中文帮你理解。<b>先背这一页</b>，记不清某题时再看学习手册里的详细讲解。点 <b>「遮住答案自测」</b>：答案变模糊，先自己说一遍，再点卡片看对不对。</p>
-          <div class="rc-tools"><button class="btn primary rc-test" type="button">遮住答案自测</button></div>
+          <div class="rc-tools"><button class="btn primary rc-test" type="button">遮住答案自测</button> <button class="btn rc-trbtn" type="button">显示完整中文翻译</button></div>
           <div class="rc-nums">
             <div class="rc-nums-h">必背数字</div>
             <ul>
@@ -3824,21 +3828,27 @@ netE 28</textarea></label>
           <div class="rc-grid">
             <div class="rc" id="rc-fwd"><div class="rc-q"><span class="rc-n">1</span>Forwarding vs routing<span class="rc-qz nogl">转发和路由的区别</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Forwarding</b>: local — move a packet from an input port to the right output port by forwarding-table lookup.<br><b>Routing</b>: network-wide — determine the source-to-destination path; routing algorithms fill the forwarding tables.</p>
+              <p class="rc-tr nogl">转发：本地动作，路由器查转发表，把分组从输入端口送到正确的输出端口。<br>路由：全网范围，确定从源到目的的整条路径；路由算法负责算出转发表。</p>
               <p class="rc-zh nogl">转发：一台路由器查表换口。路由：全网算路径，结果写进转发表。</p></div></div>
             <div class="rc" id="rc-lpm"><div class="rc-q"><span class="rc-n">2</span>Why prefixes? Longest prefix matching<span class="rc-qz nogl">为什么写前缀；最长前缀匹配</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Listing every address (2<sup>32</sup>) is impossible → aggregate address ranges into <b>prefixes</b> (small table).<br>If an address matches several entries, use the <b>longest (most specific) prefix</b>.</p>
+              <p class="rc-tr nogl">不可能把每个地址（2<sup>32</sup> 个）都列出来 → 把地址范围聚合成前缀（表就小了）。<br>一个地址同时匹配几行时，用前缀最长（最具体）的那一行。</p>
               <p class="rc-zh nogl">地址太多只能写前缀；几行都匹配时选前缀最长的那行。</p></div></div>
             <div class="rc" id="rc-fab"><div class="rc-q"><span class="rc-n">3</span>Three switching fabrics<span class="rc-qz nogl">三种交换结构及其限制</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Memory</b>: CPU copies each packet in and out, 2 bus crossings → limited by memory bandwidth.<br><b>Bus</b>: one shared bus, one packet at a time → limited by bus bandwidth.<br><b>Crossbar</b> (2n buses): packets to different outputs in parallel; large fast crossbars are expensive.</p>
+              <p class="rc-tr nogl">内存：CPU 把每个分组拷进内存再拷出来，要过 2 次总线 → 受内存带宽限制。<br>总线：一条共享总线，一次只能过一个分组 → 受总线带宽限制。<br>Crossbar（2n 条总线）：去不同输出的分组可以并行通过；但大规模、高速的 crossbar 很贵。</p>
               <p class="rc-zh nogl">内存：过两次总线（÷2）；总线：一次一个；crossbar：可并行，但贵。</p></div></div>
             <div class="rc" id="rc-queue"><div class="rc-q"><span class="rc-n">4</span>Where does queuing occur?<span class="rc-qz nogl">路由器里哪里排队、丢包</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Input ports</b>: fabric slower than arriving traffic → queuing and HOL blocking.<br><b>Output ports</b>: arrivals from the fabric faster than the line rate → buffering, delay, and loss when the buffer overflows.</p>
+              <p class="rc-tr nogl">输入端口：交换结构比到达的流量慢 → 排队，还有 HOL 阻塞。<br>输出端口：从交换结构过来的分组比线路速率快 → 缓存、时延，缓冲区溢出就丢包。</p>
               <p class="rc-zh nogl">输入端：交换结构太慢（还有 HOL）；输出端：来得比线速快，缓冲满就丢包。</p></div></div>
             <div class="rc" id="rc-hol"><div class="rc-q"><span class="rc-n">5</span>HOL blocking<span class="rc-qz nogl">什么是队头阻塞</span></div><div class="rc-a">
               <p class="rc-en" lang="en">With FIFO input queues, a packet whose output is <b>idle</b> must wait behind the <b>head-of-line packet</b>, which is blocked because its output is busy (output contention).</p>
+              <p class="rc-tr nogl">在 FIFO 输入队列里，一个分组要去的输出明明空闲，却只能等在队首分组后面；而队首分组要去的输出正忙（输出争用），所以被挡住。</p>
               <p class="rc-zh nogl">队首等忙的输出，挡住了后面要去空闲输出的分组。</p></div></div>
             <div class="rc" id="rc-voq"><div class="rc-q"><span class="rc-n">6</span>Reducing HOL: VOQ, output queuing, lookahead<span class="rc-qz nogl">三种改进和代价</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>VOQ</b>: one queue per output at each input → no HOL blocking; N² queues, complex scheduling (expensive).<br><b>Output queuing</b>: fabric N× faster → no HOL; needs very fast fabric and memory.<br><b>Lookahead</b>: if the HOL packet is blocked, send one of the next w packets → reduces HOL.</p>
+              <p class="rc-tr nogl">VOQ：每个输入为每个输出各设一条队列 → 没有 HOL 阻塞；但要 N² 条队列、调度复杂（贵）。<br>输出排队：交换结构快 N 倍 → 没有 HOL；但交换结构和内存都要非常快。<br>前瞻：队首分组被挡住时，从后面 w 个分组里挑一个发 → 减少 HOL。</p>
               <p class="rc-zh nogl">VOQ 消除但贵；输出排队要 N 倍速；前瞻只能减少。</p></div></div>
           </div>
 
@@ -3846,33 +3856,43 @@ netE 28</textarea></label>
           <div class="rc-grid">
             <div class="rc" id="rc-lsdv"><div class="rc-q"><span class="rc-n">7</span>LS vs DV: what are they?<span class="rc-qz nogl">链路状态和距离向量</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>LS</b> (global): every router learns the complete topology by <b>flooding</b>, then runs <b>Dijkstra</b>.<br><b>DV</b> (decentralised): each router exchanges distance vectors <b>only with neighbours</b> and iterates the <b>Bellman-Ford</b> equation.</p>
+              <p class="rc-tr nogl">LS（全局）：每台路由器通过泛洪得到完整拓扑，然后运行 Dijkstra。<br>DV（分布式）：每台路由器只和邻居交换距离向量，反复迭代 Bellman-Ford 方程。</p>
               <p class="rc-zh nogl">LS：泛洪拿全图，自己跑 Dijkstra。DV：只和邻居交换距离，迭代 Bellman-Ford。</p></div></div>
             <div class="rc" id="rc-lsdv2"><div class="rc-q"><span class="rc-n">8</span>Compare LS and DV (slide 63)<span class="rc-qz nogl">消息量、收敛速度、健壮性</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Messages</b>: LS O(nE) (flooding); DV neighbours only.<br><b>Convergence</b>: LS O(n²), may oscillate; DV varies — routing loops, count-to-infinity.<br><b>Robustness</b>: LS — a faulty node can only advertise wrong link costs, and each node computes its own table; DV — wrong path costs are used by others and propagate through the network.</p>
+              <p class="rc-tr nogl">消息量：LS 要 O(nE) 条（泛洪）；DV 只在邻居之间交换。<br>收敛：LS 是 O(n²) 算法，可能振荡；DV 收敛时间不定，可能出现路由环路、无穷计数。<br>健壮性：LS 中出错的节点只会通告错误的链路代价，而且每个节点只算自己的表；DV 中错误的路径代价会被别人使用，并传遍全网。</p>
               <p class="rc-zh nogl">LS 消息多但收敛快、错误不扩散；DV 消息少，会无穷计数，错误传遍全网。</p></div></div>
             <div class="rc" id="rc-dij"><div class="rc-q"><span class="rc-n">9</span>Dijkstra's algorithm (pseudocode)<span class="rc-qz nogl">Dijkstra 三行写完</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Init</b>: N' = {u}; D(v) = c(u,v) for neighbours, else ∞.<br><b>Loop</b>: add w ∉ N' with minimum D(w) to N'; for each neighbour v ∉ N': D(v) = min(D(v), D(w) + c(w,v)), p(v) = w if improved.<br><b>Until</b> all nodes are in N' (link costs positive).</p>
+              <p class="rc-tr nogl">初始化：N' = {u}；邻居的 D(v) = c(u,v)，其余为 ∞。<br>循环：把 N' 外 D(w) 最小的 w 加入 N'；对 w 不在 N' 里的每个邻居 v：D(v) = min(D(v), D(w) + c(w,v))，变小时令 p(v) = w。<br>直到所有节点都在 N' 中（链路代价为正）。</p>
               <p class="rc-zh nogl">每轮选 D 最小的加入 N'，只更新它的邻居，变小就记前驱。</p></div></div>
             <div class="rc" id="rc-bf"><div class="rc-q"><span class="rc-n">10</span>Bellman-Ford equation<span class="rc-qz nogl">距离向量用的方程</span></div><div class="rc-a">
               <p class="rc-en" lang="en">D<sub>x</sub>(y) = min<sub>v</sub> { c(x,v) + D<sub>v</sub>(y) }, v = neighbours of x.<br>A node recomputes when a link cost or a neighbour's DV changes, and sends its new DV to its neighbours.</p>
+              <p class="rc-tr nogl">D<sub>x</sub>(y) = min<sub>v</sub> { c(x,v) + D<sub>v</sub>(y) }，v 取遍 x 的所有邻居。<br>链路代价或某个邻居的距离向量变化时，节点重新计算，并把新的距离向量发给邻居。</p>
               <p class="rc-zh nogl">到 y 的距离 = 经每个邻居（链路代价 + 邻居到 y 的距离）取最小。</p></div></div>
             <div class="rc" id="rc-cti"><div class="rc-q"><span class="rc-n">11</span>Count-to-infinity<span class="rc-qz nogl">无穷计数</span></div><div class="rc-a">
               <p class="rc-en" lang="en">When a link cost <b>increases</b>, a node uses a neighbour's <b>outdated</b> distance (which goes through itself); the two route via each other (<b>routing loop</b>) and their distances rise step by step — "bad news travels slowly".</p>
+              <p class="rc-tr nogl">链路代价升高时，节点会用邻居过时的距离（这个距离本身就是经过自己的）；两个节点互相经对方走（路由环路），距离一步步往上涨，"坏消息传得慢"。</p>
               <p class="rc-zh nogl">代价变大后两个节点互相指，距离一点点往上涨；好消息快，坏消息慢。</p></div></div>
             <div class="rc" id="rc-pr"><div class="rc-q"><span class="rc-n">12</span>Poisoned reverse — and why it fails<span class="rc-qz nogl">毒性逆转是什么，为什么不能根治</span></div><div class="rc-a">
               <p class="rc-en" lang="en">If Z routes to X <b>via Y</b>, Z tells Y its distance to X is <b>∞</b>, so Y will not route back via Z.<br>It only prevents <b>two-node</b> loops; loops of <b>three or more</b> nodes still count to infinity (slide 62).</p>
+              <p class="rc-tr nogl">如果 Z 经 Y 到 X，Z 就告诉 Y 自己到 X 的距离是 ∞，这样 Y 不会再经 Z 绕回来。<br>它只能防止两个节点之间的环路；三个及以上节点的环路照样无穷计数（slide 62）。</p>
               <p class="rc-zh nogl">经过谁就对谁说 ∞；只防两节点环，三节点以上的环防不住。</p></div></div>
             <div class="rc" id="rc-w"><div class="rc-q"><span class="rc-n">13</span>Setting link weights (slide 31–36, 64)<span class="rc-qz nogl">可靠性、最少跳、带宽、避开节点</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Most reliable</b>: max ∏p ⇔ min Σ(−log p) → w = −log p.<br><b>Min hops</b>: w = 1. <b>Capacity ≥ B</b>: delete links below B, then run Dijkstra. <b>Avoid node K</b>: delete K, then run.</p>
+              <p class="rc-tr nogl">最可靠路径：最大化 ∏p 等价于最小化 Σ(−log p) → 权值 w = −log p。<br>最少跳：w = 1。容量 ≥ B：先删掉低于 B 的链路再跑 Dijkstra。避开节点 K：先删掉 K 再跑。</p>
               <p class="rc-zh nogl">乘积取 −log 变加法；最少跳权值 1；有限制就先删掉不合格的链路或节点。</p></div></div>
             <div class="rc" id="rc-chg"><div class="rc-q"><span class="rc-n">14</span>Link removed / added: recompute everything?<span class="rc-qz nogl">链路断了或新增，要不要全部重算</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Removed</b>: no — only destinations whose shortest path (in the shortest-path tree) uses that link.<br><b>Added</b> (i–j, cost c): nothing changes if D(i) + c ≥ D(j) and D(j) + c ≥ D(i); otherwise update only from the end that gets shorter.</p>
+              <p class="rc-tr nogl">删掉链路：不用全部重算，只有最短路树里用到这条链路的目的节点要重算。<br>新增链路（i–j，代价 c）：如果 D(i) + c ≥ D(j) 且 D(j) + c ≥ D(i)，什么都不变；否则只从变短的那一端开始更新。</p>
               <p class="rc-zh nogl">断链只重算最短路树里用到它的；加链先看两端能不能变短。</p></div></div>
             <div class="rc" id="rc-2nd"><div class="rc-q"><span class="rc-n">15</span>Second shortest path (23/24 S1 Q3(b))<span class="rc-qz nogl">用最短路算法求第二短路径</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Find the shortest path P = (e<sub>1</sub>, …, e<sub>k</sub>) with Dijkstra. For each i, delete e<sub>i</sub> and rerun Dijkstra; the shortest of these k paths is the second shortest path (it may be as long as P).</p>
+              <p class="rc-tr nogl">先用 Dijkstra 求出最短路 P = (e<sub>1</sub>, …, e<sub>k</sub>)。对每个 i，删掉 e<sub>i</sub> 重跑一次 Dijkstra；这 k 条路径里最短的就是第二短路径（可能和 P 一样长）。</p>
               <p class="rc-zh nogl">第二短路径一定不含 P 的某条边：轮流删掉 P 的每条边重跑，取最短的。</p></div></div>
             <div class="rc" id="rc-cent"><div class="rc-q"><span class="rc-n">16</span>Centralised / distributed; static / dynamic<span class="rc-qz nogl">路由算法的分类</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Centralised</b>: one controller decides all routes — not scalable. <b>Distributed</b>: routers exchange state and compute routes — adaptive, scalable.<br><b>Static</b>: routes change slowly (by hand). <b>Dynamic</b>: routes follow topology / link-cost changes.</p>
+              <p class="rc-tr nogl">集中式：一个控制器决定所有路由，不可扩展。分布式：路由器交换状态、自己算路，能适应变化、可扩展。<br>静态：路由变化很慢（手工配置）。动态：路由随拓扑、链路代价的变化而变化。</p>
               <p class="rc-zh nogl">集中 vs 分布：谁来算；静态 vs 动态：路由会不会跟着网络变。</p></div></div>
           </div>
 
@@ -3880,30 +3900,39 @@ netE 28</textarea></label>
           <div class="rc-grid">
             <div class="rc" id="rc-hier"><div class="rc-q"><span class="rc-n">17</span>Why hierarchical routing / ASes?<span class="rc-qz nogl">为什么分自治系统</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Scale</b>: too many destinations — tables cannot hold them all and table exchange would swamp links.<br><b>Administrative autonomy</b>: each network admin wants to control routing in its own network.</p>
+              <p class="rc-tr nogl">规模：目的地太多，路由表存不下，交换路由表会把链路挤满。<br>管理自治：每个网络的管理员都想自己控制本网络里的路由。</p>
               <p class="rc-zh nogl">规模太大；各家网络想自己管自己。</p></div></div>
             <div class="rc" id="rc-psp"><div class="rc-q"><span class="rc-n">18</span>Why different intra-AS and inter-AS protocols?<span class="rc-qz nogl">域内、域间为什么用不同协议</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Policy</b>: inter-AS admins control who routes through their network; intra-AS has one admin.<br><b>Scale</b>: hierarchy saves table size and update traffic.<br><b>Performance</b>: intra-AS optimises performance; inter-AS, policy dominates.</p>
+              <p class="rc-tr nogl">策略：域间的管理员要控制谁能经过自己的网络；域内只有一个管理者。<br>规模：分层能减小路由表和更新流量。<br>性能：域内追求性能；域间以策略为主。</p>
               <p class="rc-zh nogl">三个词：Policy、Scale、Performance。</p></div></div>
             <div class="rc" id="rc-rip"><div class="rc-q"><span class="rc-n">19</span>RIP<span class="rc-qz nogl">RIP 要点</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Distance-vector protocol; metric = <b>hop count</b> (subnets passed, incl. destination), max <b>15</b>, <b>16 = ∞</b>.<br>Advertisements every <b>30 s</b>; neighbour / link declared dead after <b>180 s</b>; runs over <b>UDP port 520</b>.</p>
+              <p class="rc-tr nogl">距离向量协议；度量 = 跳数（经过的子网数，包括目的子网），最大 15，16 = ∞。<br>每 30 s 通告一次；180 s 收不到 → 判定邻居/链路失效；运行在 UDP 520 端口上。</p>
               <p class="rc-zh nogl">DV、数跳数、16 = 无穷、30 s 通告、180 s 判死。</p></div></div>
             <div class="rc" id="rc-ospf"><div class="rc-q"><span class="rc-n">20</span>OSPF vs RIP<span class="rc-qz nogl">OSPF 和 RIP 的区别</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>OSPF</b>: link state — floods link-state info, identical database, each router runs Dijkstra; converges faster.<br>Extras: flexible link costs, equal-cost multipath, authentication, CIDR masks, areas.<br><b>RIP</b>: distance vector, hop count only (max 15).</p>
+              <p class="rc-tr nogl">OSPF：链路状态，泛洪链路状态信息，各路由器的数据库相同，各自跑 Dijkstra；收敛更快。<br>附加功能：链路代价可灵活设置、等价多路径、认证、支持 CIDR 掩码、区域。<br>RIP：距离向量，只用跳数（最大 15）。</p>
               <p class="rc-zh nogl">OSPF = LS 泛洪 + Dijkstra，收敛快、功能多；RIP = DV 数跳数。</p></div></div>
             <div class="rc" id="rc-hospf"><div class="rc-q"><span class="rc-n">21</span>Hierarchical OSPF<span class="rc-qz nogl">层次化 OSPF 怎么工作</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Two levels: <b>local areas + backbone</b>. LSAs are flooded <b>only within an area</b>; <b>area border routers</b> summarise distances to their area and advertise them to other areas; the <b>boundary router</b> connects to other ASes.</p>
+              <p class="rc-tr nogl">两级：本地区域 + 主干。LSA 只在区域内泛洪；区域边界路由器把到本区域各网络的距离汇总后通告给其他区域；边界路由器连接其他 AS。</p>
               <p class="rc-zh nogl">分区域，LSA 只在区域内泛洪，区域边界路由器汇总后再通告，减少泛洪和计算量。</p></div></div>
             <div class="rc" id="rc-bgp"><div class="rc-q"><span class="rc-n">22</span>BGP basics<span class="rc-qz nogl">BGP 是什么</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Inter-AS (path-vector) protocol: <b>eBGP</b> learns reachability from neighbouring ASes; <b>iBGP</b> spreads it inside the AS.<br>An advertisement (prefix + <b>AS-PATH</b>, <b>NEXT-HOP</b>) is a <b>promise</b> to forward towards that prefix; sent over TCP.</p>
+              <p class="rc-tr nogl">AS 之间的（路径向量）协议：eBGP 从相邻 AS 获得可达性信息，iBGP 在 AS 内部传播。<br>一条通告（前缀 + AS-PATH、NEXT-HOP）就是承诺向这个前缀转发；通过 TCP 发送。</p>
               <p class="rc-zh nogl">eBGP 跨 AS 学，iBGP 在 AS 内转告；通告就是承诺替别人转发。</p></div></div>
             <div class="rc" id="rc-bgpsel"><div class="rc-q"><span class="rc-n">23</span>BGP route selection<span class="rc-qz nogl">BGP 选路顺序</span></div><div class="rc-a">
               <p class="rc-en" lang="en">1 highest <b>local preference</b> (policy) → 2 shortest <b>AS-PATH</b> → 3 closest <b>NEXT-HOP</b> (hot potato) → 4 other criteria.</p>
+              <p class="rc-tr nogl">① 本地偏好最高（策略）→ ② AS-PATH 最短 → ③ NEXT-HOP 最近（热土豆）→ ④ 其他准则。</p>
               <p class="rc-zh nogl">本地偏好 → AS 路径最短 → 最近出口 → 其他；前一条分出胜负就不看后面。</p></div></div>
             <div class="rc" id="rc-hot"><div class="rc-q"><span class="rc-n">24</span>Hot potato routing<span class="rc-qz nogl">热土豆路由</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Among equally good routes, choose the gateway with the <b>least intra-AS cost</b>: get the packet out of your own AS as soon as possible, ignoring the cost outside.</p>
+              <p class="rc-tr nogl">在同样好的几条路由里，选 AS 内部代价最小的网关：尽快把分组送出本 AS，不管外面的代价。</p>
               <p class="rc-zh nogl">选离自己最近的出口，尽快把分组扔出本 AS（自私）。</p></div></div>
             <div class="rc" id="rc-pol"><div class="rc-q"><span class="rc-n">25</span>BGP policy (provider / customer)<span class="rc-qz nogl">提供商为什么不帮别人转发</span></div><div class="rc-a">
               <p class="rc-en" lang="en">A provider only carries traffic <b>to/from its customers</b>: B does not advertise BAW to C (no revenue).<br>A dual-homed stub X does not advertise routes between its providers B and C (no transit through X).</p>
+              <p class="rc-tr nogl">提供商只为自己的客户承载进出流量：B 不会把 BAW 通告给 C（没有收入）。<br>双归属的桩网络 X 不会在两个提供商 B、C 之间通告路由（不让流量经 X 中转）。</p>
               <p class="rc-zh nogl">提供商只为客户转发；双归属的桩网络不帮两个提供商中转。</p></div></div>
           </div>
 
@@ -3911,21 +3940,27 @@ netE 28</textarea></label>
           <div class="rc-grid">
             <div class="rc" id="rc-sdn"><div class="rc-q"><span class="rc-n">26</span>Data plane, control plane, SDN<span class="rc-qz nogl">数据平面、控制平面、SDN 一句话</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Data plane</b>: local per-router forwarding. <b>Control plane</b>: network-wide routing logic.<br><b>SDN</b>: a logically centralised (remote) <b>controller</b> computes flow tables and installs them in simple switches.</p>
+              <p class="rc-tr nogl">数据平面：每台路由器本地的转发。控制平面：全网的路由逻辑。<br>SDN：一个逻辑集中的（远程）控制器计算流表，并把流表装到简单的交换机里。</p>
               <p class="rc-zh nogl">数据平面 = 查表转发；控制平面 = 算路；SDN 把控制集中到控制器。</p></div></div>
             <div class="rc" id="rc-why"><div class="rc-q"><span class="rc-n">27</span>Why a logically centralised control plane?<span class="rc-qz nogl">SDN 的好处（slide 103）</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Easier network management (fewer misconfigurations, flexible traffic flows); table-based forwarding is easy to "program" centrally; open, non-proprietary control plane.</p>
+              <p class="rc-tr nogl">网络管理更容易（配置错误少、流量走向灵活）；基于表的转发便于集中"编程"；控制平面开放、不被厂商垄断。</p>
               <p class="rc-zh nogl">好管理、好编程、开放。</p></div></div>
             <div class="rc" id="rc-layer"><div class="rc-q"><span class="rc-n">28</span>SDN architecture (3 layers)<span class="rc-qz nogl">SDN 三层结构</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Network-control apps</b> (routing, access control, load balancing) ↔ northbound API ↔ <b>SDN controller</b> (network OS) ↔ southbound API (e.g. <b>OpenFlow</b>) ↔ <b>switches</b> (simple, flow tables).</p>
+              <p class="rc-tr nogl">网络控制应用（路由、接入控制、负载均衡）↔ 北向接口 ↔ SDN 控制器（网络操作系统）↔ 南向接口（如 OpenFlow）↔ 交换机（简单，按流表转发）。</p>
               <p class="rc-zh nogl">应用 / 控制器 / 交换机；北向接口在上，南向接口（OpenFlow）在下。</p></div></div>
             <div class="rc" id="rc-of"><div class="rc-q"><span class="rc-n">29</span>OpenFlow flow table<span class="rc-qz nogl">流表项有哪几部分</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Each entry: <b>match</b> (L2/L3/L4 header fields) + <b>action</b> (forward, drop, modify, send to controller) + <b>priority</b> (resolve overlaps) + <b>counters</b> (packets, bytes). No match (table-miss) → controller.</p>
+              <p class="rc-tr nogl">每个表项：匹配（第 2/3/4 层首部字段）+ 动作（转发、丢弃、修改、交给控制器）+ 优先级（解决规则重叠）+ 计数器（分组数、字节数）。一条都不匹配（table-miss）→ 交给控制器。</p>
               <p class="rc-zh nogl">匹配 + 动作 + 优先级 + 计数器；匹配不上就交给控制器。</p></div></div>
             <div class="rc" id="rc-te"><div class="rc-q"><span class="rc-n">30</span>Why is traffic engineering hard without SDN?<span class="rc-qz nogl">流量工程（slide 104–105）</span></div><div class="rc-a">
               <p class="rc-en" lang="en">Destination-based forwarding gives <b>one next hop per destination</b>, so LS/DV routing cannot split u→z traffic over two paths or treat two flows to the same destination differently; SDN flow tables match many header fields, so they can.</p>
+              <p class="rc-tr nogl">基于目的地址的转发对每个目的地只有一个下一跳，所以 LS/DV 路由没法把 u→z 的流量分到两条路上，也没法区别对待去同一目的地的两股流量；SDN 的流表能匹配多个首部字段，所以做得到。</p>
               <p class="rc-zh nogl">传统按目的地址查表，一个目的地只有一个出口；SDN 能按多个字段分流。</p></div></div>
             <div class="rc" id="rc-chal"><div class="rc-q"><span class="rc-n">31</span>SDN challenges (slide 119)<span class="rc-qz nogl">SDN 面临的挑战</span></div><div class="rc-a">
               <p class="rc-en" lang="en"><b>Hardening the control plane</b> (dependable, reliable, performance-scalable, secure distributed system); protocols meeting <b>mission-specific requirements</b> (real-time, ultra-reliable, ultra-secure); <b>Internet scaling</b>.</p>
+              <p class="rc-tr nogl">加固控制平面（做成可依赖、可靠、性能可扩展、安全的分布式系统）；满足特定任务要求的协议（实时、超高可靠、超高安全）；扩展到整个互联网的规模。</p>
               <p class="rc-zh nogl">控制器要可靠、安全、能扩展；满足特殊业务需求；扩展到整个互联网。</p></div></div>
           </div>
         </div>
@@ -7558,6 +7593,18 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
     w.addEventListener('click', function(e){
       if (!w.classList.contains('testing') || e.target.closest('.star-btn, .rc-tools')) return;
       var c = e.target.closest('.rc'); if (c) c.classList.toggle('show');
+    });
+  });
+})();
+
+/* 背诵卡：显示 / 收起完整中文翻译 */
+(function(){
+  document.querySelectorAll('.rc-wrap').forEach(function(w){
+    var b = w.querySelector('.rc-trbtn'); if (!b) return;
+    b.addEventListener('click', function(){
+      var on = !w.classList.contains('show-tr');
+      w.classList.toggle('show-tr', on);
+      b.textContent = on ? '收起中文翻译' : '显示完整中文翻译';
     });
   });
 })();
