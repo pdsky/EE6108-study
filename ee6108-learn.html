@@ -821,6 +821,11 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
 .qa-hist{font-size:12px; color:var(--muted); margin-top:6px; white-space:pre-wrap;}
 .rc-tr{display:none; font-size:13px; line-height:1.65; color:var(--ink-soft); margin:0 0 6px 0; padding:6px 0 0 0; border-top:1px dashed var(--line);}
 .rc-wrap.show-tr .rc-tr{display:block;}
+/* 手机宽度：未包在 tablewrap 里的表格自己横向滚动；小测卡片的 ☆ 固定在右上角 */
+@media (max-width:640px){ table.mustlist, .ans-zh table, .ans-en table, .rc table{display:block; overflow-x:auto; max-width:100%;} }
+details.qcard{position:relative;}
+details.qcard > summary{padding-right:34px;}
+details.qcard > summary .star-btn{position:absolute; top:8px; right:6px; margin:0;}
 
 </style>
 </head>
@@ -956,6 +961,50 @@ h3.is-star, h4.is-star, li.is-star, p.is-star{border-radius:4px; padding-left:8p
         <li><a href="#tp-s10">可靠传输机制小结</a></li>
       </ul>
     </div>
+    <div class="navmod"><a href="#tcp"><span class="navcheck" data-mod="tcp" title="标记已掌握"></span><span class="tag">P2B</span> 传输层（下）：TCP <span class="qz fin">期末</span></a>
+      <ul class="navsub">
+        <li><a href="#tcp-s1">TCP 概览与报文段首部</a></li>
+        <li><a href="#tcp-s2">序号和确认号：按字节编号</a></li>
+        <li><a href="#tcp-s3">RTT 估计与超时时间</a></li>
+        <li><a href="#tcp-s4">TCP 的可靠传输：一个定时器、累积 ACK、快速重传</a></li>
+        <li><a href="#tcp-s5">流量控制：rwnd</a></li>
+        <li><a href="#tcp-s6">连接管理：三次握手与关闭连接</a></li>
+        <li><a href="#tcp-s7">拥塞控制原理：拥塞的原因和代价</a></li>
+        <li><a href="#tcp-s8">TCP 拥塞控制：AIMD、慢启动、拥塞避免、快速恢复</a></li>
+        <li><a href="#tcp-s9">TCP 吞吐量、高速网络与公平性</a></li>
+        <li><a href="#tcp-s10">网络层的拥塞控制：流量感知路由、准入控制、漏桶</a></li>
+        <li><a href="#tcp-s11">ECN：网络辅助的拥塞控制；逐跳控制</a></li>
+      </ul>
+    </div>
+    <div class="navmod"><a href="#app"><span class="navcheck" data-mod="app" title="标记已掌握"></span><span class="tag">P2C</span> 应用层 <span class="qz fin">期末</span></a>
+      <ul class="navsub">
+        <li><a href="#app-s1">网络应用与两种架构</a></li>
+        <li><a href="#app-s2">Web 与 HTTP 概述</a></li>
+        <li><a href="#app-s3">非持久与持久 HTTP：响应时间怎么算</a></li>
+        <li><a href="#app-s4">HTTP 报文格式：请求与响应</a></li>
+        <li><a href="#app-s5">Cookie：让无状态的 HTTP 记住用户</a></li>
+        <li><a href="#app-s6">Web 缓存（代理服务器）</a></li>
+        <li><a href="#app-s7">条件 GET：缓存里的副本过期了怎么办</a></li>
+        <li><a href="#app-s8">P2P 文件分发时间：客户-服务器 vs P2P</a></li>
+        <li><a href="#app-s9">BitTorrent：块、tracker、一报还一报</a></li>
+      </ul>
+    </div>
+    <div class="navmod"><a href="#sec"><span class="navcheck" data-mod="sec" title="标记已掌握"></span><span class="tag">P2D</span> 网络安全 <span class="qz fin">期末</span></a>
+      <ul class="navsub">
+        <li><a href="#sec-s1">什么是计算机安全：目标与 CIA 三要素</a></li>
+        <li><a href="#sec-s2">安全攻击：被动攻击 vs 主动攻击</a></li>
+        <li><a href="#sec-s3">密码学基本术语与密码分析</a></li>
+        <li><a href="#sec-s4">古典密码（一）：单表代换、Caesar、穷举与频率分析</a></li>
+        <li><a href="#sec-s5">古典密码（二）：Vigenère 多表代换</a></li>
+        <li><a href="#sec-s6">置换密码、乘积密码与隐写术</a></li>
+        <li><a href="#sec-s7">对称密钥加密与 DES / AES</a></li>
+        <li><a href="#sec-s8">非对称（公钥）加密与 RSA</a></li>
+        <li><a href="#sec-s9">混合方案与 Diffie–Hellman 密钥交换</a></li>
+        <li><a href="#sec-s10">Hash 函数、消息认证码 MAC 与数字签名</a></li>
+        <li><a href="#sec-s11">网络与 Internet 安全简介，以及更大的安全版图</a></li>
+      </ul>
+    </div>
+
   </nav>
 
   <main id="mainContent">
@@ -2568,6 +2617,7 @@ netE 28</textarea></label>
 
 
 
+
         <h4>转发表为什么要写成前缀（slide 11–12）</h4>
         <p>IP 地址有 32 位，如果每个目的地址写一行，表会大到无法使用。slide 11 改成按<b>地址范围</b>写：</p>
         <div class="tablewrap"><table>
@@ -2634,6 +2684,7 @@ netE 28</textarea></label>
           </div>
         </div>
 <!-- /QB:n1 -->
+
 
 
 
@@ -3132,7 +3183,7 @@ netE 28</textarea></label>
             <td>邻居之间交换到各目的地的距离列表；为每个目的地确定最佳下一跳；用<b>分布式 Bellman-Ford</b> 算法</td>
           </tr></tbody>
         </table></div>
-                                                                                                                                                                                                                              <!-- QB:n3 -->
+                                                                                                                                                                                                                                    <!-- QB:n3 -->
         <div class="exq wide" id="qb-n3">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 36 + 老师课上 · 可用计算器</span></div>
           <div class="exq-q"><b>Q4.</b> Two candidate paths from S to D: path P uses two links with success probabilities 0.9 and 0.95; path Q uses three links with 0.99, 0.97 and 0.96 (links fail independently). (a) How should link weights be set so that a shortest-path algorithm finds the <i>most reliable</i> path? (b) Compute the total weight and reliability of P and Q, and state which path is chosen. (c) Which weights give the minimum-hop path, and how would you find a path whose every link has at least 100 Mbps?</div>
@@ -3250,7 +3301,7 @@ netE 28</textarea></label>
           <div class="tablewrap"><table id="djTable"></table></div>
           <div class="workings" id="djWork" style="margin-top:10px"></div>
         </div>
-                                                                                                                                                                                                                              <!-- QB:n4 -->
+                                                                                                                                                                                                                                    <!-- QB:n4 -->
         <div class="exq wide" id="qb-n4">
           <div class="exq-h"><span class="exq-tag">例题 · 怎么考 · 怎么答</span><span class="exq-src">slide 40–45 · 老师："we may examine that"</span></div>
           <div class="exq-q"><b>Q5.</b> For the network with links A–B 2, A–C 5, B–C 1, B–D 4, C–D 1, C–E 3, D–E 1, run Dijkstra's algorithm from A. Show the table (N', D(v), p(v)) at each step, the shortest-path tree, and A's forwarding table.</div>
@@ -3503,7 +3554,7 @@ netE 28</textarea></label>
             <tr><td><b>性能</b></td><td>域内可以专注于性能；域间的策略常常压倒性能考虑</td></tr>
           </tbody>
         </table></div>
-                                                                                                                                                                                                                              <!-- QB:n7 -->
+                                                                                                                                                                                                                                    <!-- QB:n7 -->
         <div class="callout teal qa-explain" id="qb-n7-why"><div class="lbl">小白版：自治系统、BGP 通告和"热土豆"是什么</div>
           <ol>
             <li><span class="why">互联网是怎么分块管理的？</span> 互联网太大，被分成很多<b>自治系统 AS</b>：每个 ISP、每个大机构自己管一个 AS。AS <b>内部</b>用 OSPF、RIP 这类域内协议算路；AS <b>之间</b>用 <b>BGP</b>。动画里有三个 AS（三个灰色大框），子网 X 是一个目的网络，它同时连着 AS2 和 AS3。</li>
@@ -3698,7 +3749,7 @@ netE 28</textarea></label>
           </tr></tbody>
         </table></div>
         <p class="muted">slide 120 列了 SDN 的应用（安全 + NFV、融合存储、数据中心、视频、企业网）和主要厂商，了解即可。</p>
-                                                                                                                                                                                                                              <!-- QB:n8 -->
+                                                                                                                                                                                                                                    <!-- QB:n8 -->
         <div class="callout teal qa-explain" id="qb-n8-why"><div class="lbl">小白版：SDN、流表和"按优先级匹配"是什么</div>
           <ol>
             <li><span class="why">传统路由器和 SDN 有什么不同？</span> 传统路由器每台<b>自己</b>跑路由算法、自己算转发表（每台里都有"控制平面"），转发时<b>只看目的地址</b>。SDN 把"算"的部分搬到一个<b>集中的控制器</b>上，交换机只管按控制器下发的<b>流表</b>办事。</li>
@@ -3963,6 +4014,7 @@ netE 28</textarea></label>
               <p class="rc-tr nogl">加固控制平面（做成可依赖、可靠、性能可扩展、安全的分布式系统）；满足特定任务要求的协议（实时、超高可靠、超高安全）；扩展到整个互联网的规模。</p>
               <p class="rc-zh nogl">控制器要可靠、安全、能扩展；满足特殊业务需求；扩展到整个互联网。</p></div></div>
           </div>
+        <!--RC_FINAL-->
         </div>
 
         <h4>三、问答题：详细要点（背诵卡记不清时再看）</h4>
@@ -4616,6 +4668,1228 @@ rdt_rcv(rcvpkt) &amp;&amp; corrupt(rcvpkt):  Λ      // 出错的 ACK 不理</pr
       </div>
       <div class="nextmod"><a href="#n2">← 网络层 II（Quiz 范围）</a><a href="ee6108-practice.html">去做真题 →</a></div>
     </section>
+    <!-- ===================== PART II · TRANSPORT LAYER (下) TCP（P2B slides 71–140, Week 11） ===================== -->
+    <section class="module" id="tcp">
+      <div class="modhead"><span class="ref">PART II · TOPIC 2（下）</span><h2>传输层（下）：TCP 与拥塞控制</h2><span class="scope">期末考</span></div>
+      <p class="modintro">P2B 后半部分（<strong>slide 71–140</strong>，Week 11 讲完）。前半部分推出了可靠传输的各种机制（校验和、序号、ACK、定时器、流水线），这一章看真实的 <strong>TCP</strong> 怎么把它们装在一起：报文段首部、按<b>字节</b>编号的序号和确认号、RTT 估计和超时、快速重传、<b>流量控制</b>（rwnd）、<b>三次握手和四次挥手</b>；然后讲<b>拥塞控制</b>：拥塞的代价、TCP 的 AIMD、慢启动、拥塞避免、快速恢复（Tahoe / Reno）、吞吐量和公平性；最后简单介绍网络层的拥塞控制（流量感知路由、准入控制与漏桶、<b>ECN</b>）。往年期末每份卷子 Q3/Q4 里几乎都有一道 TCP 小题（5 分左右）：<b>三次握手填空、关闭连接填空 + 为什么要等、Reno 画 cwnd 曲线、流量控制 rwnd、ECN</b>。这些题都是"概念 + 背得出的标准答案"，本章每节最后都有"考试这样写"的英文句子。</p>
+      <div class="callout"><div class="lbl">怎么读这一章</div>
+        <p>先抓两条主线。<b>主线一：TCP 怎么可靠</b>（C.1–C.4）：它就是上一章 rdt 的"实战版"，更像 GBN：累积 ACK、一个定时器，再加快速重传。<b>主线二：TCP 怎么控制发送速度</b>：有两个"窗口"同时管着发送方——<b>rwnd</b>（接收方说"我的缓存还剩多少"，C.5 流量控制）和 <b>cwnd</b>（发送方自己估计"网络还能承受多少"，C.8 拥塞控制）。实际能发的未确认数据不超过两者中较小的那个。连接管理（C.6）是独立的一块，靠背图。</p>
+        <div class="legend-scope"><span class="qz fin">期末考</span>本章各节<span class="qz hot">期末常考</span>往年考过或老师点名<span class="mustc">必背</span>闭卷要背的公式和数字</div>
+      </div>
+
+      <div class="tablewrap"><table class="mustlist">
+        <caption>本章必背清单（期末闭卷）</caption>
+        <thead><tr><th>内容</th><th>公式 / 要点</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>TCP 首部</td><td>通常 <b>20 字节</b>，带选项最多 <b>60 字节</b>（首部长度 4 位，单位 4 字节，15×4）；序号、确认号各 <b>32 位</b>；窗口 16 位</td><td><a href="#tcp-s1">C.1</a> · slide 73–80</td></tr>
+          <tr><td>序号 / 确认号</td><td>序号 = 本段第一个<b>字节</b>的编号；确认号 = <b>下一个期待的字节</b>编号（累积确认）</td><td><a href="#tcp-s2">C.2</a> · slide 76–78</td></tr>
+          <tr><td>超时</td><td class="f">EstimatedRTT = (1−α)·EstimatedRTT + α·SampleRTT，α = 0.125<br>DevRTT = (1−β)·DevRTT + β·|SampleRTT − EstimatedRTT|，β = 0.25<br>TimeoutInterval = EstimatedRTT + 4·DevRTT</td><td><a href="#tcp-s3">C.3</a> · slide 83–85</td></tr>
+          <tr><td>快速重传</td><td>收到 <b>3 个重复 ACK</b> → 不等超时，立刻重传序号最小的未确认报文段</td><td><a href="#tcp-s4">C.4</a> · slide 92–93</td></tr>
+          <tr><td>流量控制</td><td class="f">rwnd = RcvBuffer − [LastByteRcvd − LastByteRead]<br>LastByteSent − LastByteAcked ≤ rwnd</td><td><a href="#tcp-s5">C.5</a> · slide 96–97</td></tr>
+          <tr><td>三次握手</td><td>SYN(Seq=x) → SYNACK(Seq=y, ACKnum=x+1) → ACK(ACKnum=y+1)</td><td><a href="#tcp-s6">C.6</a> · slide 99–100</td></tr>
+          <tr><td>关闭连接</td><td>FIN(seq=x) → ACK(x+1) … FIN(seq=y) → ACK(y+1)；客户端再等 <b>2×MSL</b>（TIMED_WAIT）</td><td><a href="#tcp-s6">C.6</a> · slide 101–102</td></tr>
+          <tr><td>拥塞控制</td><td>慢启动：cwnd 从 1 MSS 起<b>每 RTT 翻倍</b>；到 ssthresh 后拥塞避免：<b>每 RTT +1 MSS</b>；<b>3 个重复 ACK</b>（Reno）：ssthresh = cwnd/2，cwnd = ssthresh + 3；<b>超时</b>：ssthresh = cwnd/2，cwnd = 1 MSS；Tahoe 两种情况都回到 1</td><td><a href="#tcp-s8">C.8</a> · slide 113–118</td></tr>
+          <tr><td>发送速率 / 吞吐量</td><td class="f">rate ≈ cwnd / RTT；平均吞吐量 ≈ <b>0.75·W / RTT</b>；≈ 1.22·MSS / (RTT·√L)</td><td><a href="#tcp-s9">C.9</a> · slide 114、119–123</td></tr>
+          <tr><td>ECN</td><td>路由器在 IP 首部 ToS 字段的 <b>2 位</b>上标记拥塞 → 接收方在 ACK 里置 <b>ECE</b> 位 → 发送方减速</td><td><a href="#tcp-s11">C.11</a> · slide 138</td></tr>
+        </tbody></table></div>
+
+      <!-- ============ C.1 ============ -->
+      <div class="sub" id="tcp-s1">
+        <h3><span class="num">C.1</span> TCP 概览与报文段首部 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>TCP 要支持可靠传输、流量控制、拥塞控制这么多功能，首部自然比 UDP 复杂得多。</li><li>没有选项时首部是 5 行、每行 32 位（4 字节），所以通常是 <b>20 字节</b>。</li><li>首部里有一些"保留"字段，是当年为区分服务质量（QoS）预留的；提供不同 QoS 是"做了几十年的梦"，到今天也没做好。</li><li>TCP 的连接建立<b>不是</b>在网络里预留容量，只是两端先互相打招呼、准备好状态。</li></ul></div>
+        <h4>TCP 的特点（slide 72）</h4>
+        <ul class="speclist">
+          <li><b>点到点</b>：一个发送方、一个接收方（不支持多播）。</li>
+          <li><b>可靠、按序的字节流</b>：TCP 把应用数据看成一串没有边界但有顺序的字节；用户报文被切成报文段，上限 64 KB，一般约 1500 字节。</li>
+          <li><b>流水线</b>：窗口大小由拥塞控制和流量控制共同决定。</li>
+          <li><b>全双工</b>：同一条连接里两个方向都能传数据（所以 ACK 可以"捎带"在对方的数据报文段里）。</li>
+          <li><b>面向连接</b>：传数据之前先握手，初始化两端的状态。</li>
+          <li><b>有流量控制</b>：发送方不会淹没接收方。</li>
+        </ul>
+        <div class="diagram"><div class="dcap">TCP 报文段格式（slide 74），每行 32 位</div>
+          <div class="ipheader" style="max-width:560px">
+            <div class="iprow"><span style="flex:1">源端口（16）</span><span style="flex:1">目的端口（16）</span></div>
+            <div class="iprow"><span style="flex:1">序号 Sequence number（32）</span></div>
+            <div class="iprow"><span style="flex:1">确认号 Acknowledgment number（32）</span></div>
+            <div class="iprow"><span style="flex:4">首部长度（4）</span><span style="flex:6">保留（6）</span><span style="flex:6">URG ACK PSH RST SYN FIN</span><span style="flex:16">窗口大小 Window size（16）</span></div>
+            <div class="iprow"><span style="flex:1">校验和（16）</span><span style="flex:1">紧急指针（16）</span></div>
+            <div class="iprow opt"><span style="flex:3">选项 Options（可变）</span><span style="flex:1">填充</span></div>
+            <div class="iprow opt"><span style="flex:1">数据 Data</span></div>
+          </div></div>
+        <div class="tablewrap"><table>
+          <caption>各字段的作用（slide 75–82）</caption>
+          <thead><tr><th>字段</th><th>作用</th></tr></thead>
+          <tbody>
+            <tr><td>源 / 目的端口</td><td>标识两端进程；和 IP 首部里的源 / 目的 IP 一起组成<b>套接字对</b>（socket pair），唯一确定一条 TCP 连接。知名端口由 IANA 管理，如 ftp 21、telnet 23、http 80</td></tr>
+            <tr><td>序号（32 位）</td><td>本报文段数据第一个<b>字节</b>的编号；初始序号 ISN 在建立连接时由主机选定（见 <a href="#tcp-s2">C.2</a>）</td></tr>
+            <tr><td>确认号（32 位）</td><td>"捎带"的确认：发确认的一方<b>下一个期待收到的字节</b>编号；只有 <b>ACK 标志 = 1</b> 时才有效</td></tr>
+            <tr><td>首部长度（4 位）</td><td>以 <b>32 位字（4 字节）</b>为单位；最大 15 × 4 = <b>60 字节</b>，不带选项时是 5 × 4 = 20 字节。因为有选项，长度不固定，所以需要这个字段</td></tr>
+            <tr><td>6 个标志位</td><td><b>URG</b> 紧急指针有效（一般不用）；<b>ACK</b> 确认号有效；<b>PSH</b> 立即推送（一般不用）；<b>RST</b> 重置连接；<b>SYN</b> 发起连接；<b>FIN</b> 发送方数据发完了</td></tr>
+            <tr><td>窗口大小（16 位）</td><td>用于<b>流量控制</b>：本报文段的发送者现在还愿意接收多少<b>字节</b>（就是 rwnd，C.5）；16 位限定在 2 ～ 65535</td></tr>
+            <tr><td>校验和</td><td>覆盖 <b>12 字节伪首部</b> + TCP 首部 + 数据；1 的补码和再取反（和 UDP 一样）。伪首部含源 / 目的 IP、协议号 <b>6</b>（TCP）、TCP 长度（首部 + 数据）；只用于计算、不发送；作用是让接收方确认"目的 IP + 端口"是对的</td></tr>
+            <tr><td>选项 + 填充</td><td>选项长度可变（0–320 位，以 32 位为单位），格式为 kind（1 字节，必有）+ length（1 字节）+ data。例：kind 2 = <b>MSS</b>（接收方希望的最大报文段长度），kind 8 = 时间戳（用于测 RTT）。填充补 0，使首部在 32 位边界结束</td></tr>
+          </tbody></table></div>
+        <div class="callout warn"><div class="lbl">slide 80 选项编号的小问题</div><p>slide 80 写"option-kind 10 是时间戳、kind 4 是 MSS"。按 RFC，<b>MSS 是 kind 2，时间戳是 kind 8</b>（kind 4 是 SACK-permitted）。往年题没考过选项编号；如果考，写"MSS 选项、时间戳选项"这两个名字就够，不要硬背编号。</p></div>
+        <details class="qcard"><summary>一个 TCP 报文段的首部长度字段是 8，首部有多少字节？有选项吗？</summary><div class="a">单位是 4 字节：8 × 4 = <b>32 字节</b>。比基本的 20 字节多 12 字节，所以<b>有 12 字节的选项（含填充）</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> The header-length field of a TCP segment is 8. How many bytes is the header? Does it carry options?</p><p><b>A:</b> The field counts 32-bit (4-byte) words: 8 × 4 = <b>32 bytes</b>. That is 12 bytes more than the basic 20-byte header, so the segment carries <b>12 bytes of options (including padding)</b>.</p></div></div></details>
+        <details class="qcard"><summary>TCP 和 UDP 的伪首部有什么不同？伪首部会被发送吗？</summary><div class="a">结构一样（源 IP、目的 IP、全 0 字节、协议号、长度，共 12 字节），区别是协议号：TCP 填 <b>6</b>，UDP 填 17。伪首部<b>不发送</b>，只参与校验和计算，用来检查报文段是否送到了正确的 IP 地址和端口。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> How does the TCP pseudo header differ from the UDP one? Is the pseudo header transmitted?</p><p><b>A:</b> Same 12-byte layout (source IP, destination IP, a zero byte, protocol number, length); only the protocol number differs: <b>6</b> for TCP, 17 for UDP. The pseudo header is <b>not transmitted</b>; it is only included in the checksum computation so the receiver can verify the segment reached the correct IP address and port.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.2 ============ -->
+      <div class="sub" id="tcp-s2">
+        <h3><span class="num">C.2</span> 序号和确认号：按字节编号 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>rdt 里序号只要 1 位（0/1），TCP 却用 32 位：因为 TCP 发的是<b>字节流</b>，<b>每个字节</b>都有编号，序号是本段<b>第一个字节</b>的编号。</li><li>老师的例子：第一段装字节 0–999（1000 字节），下一段的序号是 <b>1000</b>（老师先口误说 1001，马上改正）。</li><li>确认号是"下一个我期待的字节"：收到 0–999，回的 ACK 是 <b>1000</b> 而不是 999。ACK = 2344 表示 2343 及以前全部按序收到。</li><li>ISN 通常<b>随机</b>选：如果大家都从 0 开始，旧连接的报文段和新连接的序号容易撞上，出错概率变大。</li><li>乱序到达的报文段丢掉还是先存着，标准<b>没有规定</b>；只要坚持累积确认，两种做法都对，存不存看缓存够不够、哪种效果好。</li></ul></div>
+        <div class="formula must">
+          <span class="fl"><b>序号</b> = 本报文段数据<b>第一个字节</b>的编号</span>
+          <span class="fl">下一段序号 = 本段序号 + 本段数据字节数</span>
+          <span class="fl"><b>确认号</b> = 期待对方发来的<b>下一个字节</b>编号（累积：之前的都收到了）</span>
+        </div>
+        <ul class="speclist">
+          <li>slide 76 的例子：第一段 800 字节、序号 <b>1500</b>（字节 1500–2299），下一段序号就是 1500 + 800 = <b>2300</b>。序号和确认号都<b>按字节数</b>算，不是按报文段个数。</li>
+          <li><b>累积确认</b>（slide 77）：ACK = k 的意思是"k 之前的所有字节都按序收到了，下一个要 k"。中间有空洞时，即使后面的字节已经收到，ACK 也停在空洞处。</li>
+          <li><b>乱序报文段怎么处理</b>：TCP 规范不管，由实现者决定——丢弃，或者缓存起来等空洞补上（slide 77）。</li>
+          <li>发送方的序号空间分成四段：已发已确认 | 已发未确认（"在途" in-flight）| 可用未发 | 还不能用（slide 77，和 GBN 的窗口图一样）。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">例子：telnet 回显（slide 78）——一定要会自己推一遍</div>
+          <p>telnet 里用户每敲一个字符，远端主机都把它<b>回显</b>（echo back）回来。设 A 当前序号 42、期待 B 的字节 79：</p>
+          <div class="tablewrap"><table style="max-width:640px">
+            <thead><tr><th>方向</th><th>Seq</th><th>ACK</th><th>数据</th><th>含义</th></tr></thead>
+            <tbody>
+              <tr><td>A → B</td><td>42</td><td>79</td><td>'C'</td><td>用户敲了 C；"我期待你的第 79 字节"</td></tr>
+              <tr><td>B → A</td><td>79</td><td><b>43</b></td><td>'C'</td><td>B 确认收到字节 42（期待 43），同时把 C 回显（ACK <b>捎带</b>在数据里）</td></tr>
+              <tr><td>A → B</td><td>43</td><td><b>80</b></td><td>无</td><td>A 确认收到回显的字节 79（期待 80）；没有数据，序号仍写 43</td></tr>
+            </tbody></table></div>
+          <p>规律：<b>我的 Seq = 对方上次给我的 ACK；我的 ACK = 对方的 Seq + 对方数据字节数</b>。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en">TCP numbers <b>bytes</b>, not segments: the sequence number of a segment is the byte-stream number of the <b>first byte</b> in its data.<br>The acknowledgment number is the sequence number of the <b>next byte expected</b> from the other side; TCP uses <b>cumulative ACKs</b>.<br>The initial sequence number is chosen <b>randomly</b> to avoid overlap with sequence numbers of earlier connections.</p></div>
+        <details class="qcard"><summary>A 发给 B 一个序号 1000、带 500 字节数据的报文段，B 全部正确收到且之前的都收到了。B 回的确认号是多少？A 下一个报文段的序号是多少？</summary><div class="a">数据占字节 1000–1499。B 期待 1500 → 确认号 <b>1500</b>；A 下一段序号也是 <b>1500</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A sends B a segment with sequence number 1000 carrying 500 bytes. B receives it correctly and has everything before it. What acknowledgment number does B send, and what is the sequence number of A's next segment?</p><p><b>A:</b> The data occupies bytes 1000–1499. B expects byte 1500 next, so the ACK number is <b>1500</b>; A's next segment also starts at sequence number <b>1500</b>.</p></div></div></details>
+        <details class="qcard"><summary>B 已按序收到字节 0–999，接着收到字节 1500–1999（1000–1499 丢了）。B 回什么 ACK？</summary><div class="a">还是 <b>ACK 1000</b>（累积确认停在空洞处，这是一个<b>重复 ACK</b>）。1500–1999 丢弃或缓存都行，由实现决定；如果缓存了，等 1000–1499 补上后可以直接回 ACK 2000。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> B has received bytes 0–999 in order, then receives bytes 1500–1999 (bytes 1000–1499 were lost). What ACK does B send?</p><p><b>A:</b> Still <b>ACK 1000</b>: the cumulative ACK stops at the gap, so this is a <b>duplicate ACK</b>. Whether B discards or buffers bytes 1500–1999 is up to the implementation; if buffered, once 1000–1499 arrives B can immediately send ACK 2000.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.3 ============ -->
+      <div class="sub" id="tcp-s3">
+        <h3><span class="num">C.3</span> RTT 估计与超时时间 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>超时太长：丢了包要等很久才重传；太短：<b>过早超时</b>，产生大量不必要的重复传输，"很麻烦"。</li><li>两步里第一步（估计 RTT）比第二步（安全余量）<b>更重要</b>。</li><li>老师的例子：上次估计 0.2，新测到 0.16，新估计 = 0.875 × 0.2 + 0.125 × 0.16；旧数据的权重每更新一次再乘 87.5%，按指数衰减，所以叫指数加权移动平均。</li><li>RTT 抖得厉害（网络状况变化快）→ 安全余量要大；RTT 很稳定（0.20、0.20、0.19…）→ 余量可以小。</li></ul></div>
+        <p>超时必须比 RTT 长，但 RTT 一直在变（slide 83）。思路：<b>超时 = 根据测量得到的 RTT 估计 + 安全余量</b>。</p>
+        <ul class="speclist">
+          <li><b>SampleRTT</b>：从发出某个报文段到收到它的 ACK 的时间。<b>重传的报文段不测</b>（收到 ACK 时分不清是对原始那次还是重传那次的确认）。多数实现一次只测一个 SampleRTT。</li>
+          <li>SampleRTT 波动大，所以要把最近几次<b>平均</b>一下，得到更"平滑"的 EstimatedRTT。</li>
+        </ul>
+        <div class="formula must">
+          <span class="fl">EstimatedRTT = (1 − α)·EstimatedRTT + α·SampleRTT　　<span class="cm">典型 α = 0.125</span></span>
+          <span class="fl">DevRTT = (1 − β)·DevRTT + β·|SampleRTT − EstimatedRTT|　<span class="cm">典型 β = 0.25</span></span>
+          <span class="fl"><b>TimeoutInterval = EstimatedRTT + 4·DevRTT</b>　<span class="cm">4·DevRTT = 安全余量</span></span>
+        </div>
+        <ul class="speclist">
+          <li><b>EWMA</b>（指数加权移动平均，slide 84）：一个旧样本的权重每更新一次就乘 (1 − α) = 0.875，影响按指数衰减：一次后 0.875，两次后 0.766，三次后 0.670……</li>
+          <li><b>DevRTT</b>（slide 85）估计 SampleRTT 偏离 EstimatedRTT 的程度。偏离大 → 余量大。</li>
+          <li>slide 89 底部：很多实现里<b>发生超时时把超时间隔加倍</b>，避免反复过早超时。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">例子 1：老师课上的数字（已用 python 核对）</div>
+          <p>EstimatedRTT = 0.2 s，新测 SampleRTT = 0.16 s：<br>EstimatedRTT = 0.875 × 0.2 + 0.125 × 0.16 = 0.175 + 0.02 = <b>0.195 s</b>（变小了一点：网络在变好）。<br>再测到 0.23 s：EstimatedRTT = 0.875 × 0.195 + 0.125 × 0.23 = <b>0.1994 s</b>。最早那个 0.2 现在只占 0.875² ≈ 77%。</p></div>
+        <div class="callout warn"><div class="lbl">口误提醒</div><p>课上老师算第一步时随口说"大概 0.165"，实际是 <b>0.195</b>：新估计一定落在旧估计（0.2）和新样本（0.16）之间，而且离旧估计更近（旧的占 87.5%）。</p></div>
+        <div class="callout teal"><div class="lbl">例子 2：算超时（已用 python 核对）</div>
+          <p>当前 EstimatedRTT = 100 ms，DevRTT = 10 ms，新测 SampleRTT = 120 ms。按 slide 的顺序先更新 EstimatedRTT 再算 DevRTT：</p>
+          <ul class="speclist">
+            <li>EstimatedRTT = 0.875 × 100 + 0.125 × 120 = <b>102.5 ms</b></li>
+            <li>DevRTT = 0.75 × 10 + 0.25 × |120 − 102.5| = 7.5 + 4.375 = <b>11.875 ms</b></li>
+            <li>TimeoutInterval = 102.5 + 4 × 11.875 = <b>150 ms</b></li>
+          </ul></div>
+        <div class="callout extra"><div class="lbl">课外补充：DevRTT 用新的还是旧的 EstimatedRTT</div><p>slide 没规定先后。RFC 6298 是先用<b>旧的</b> EstimatedRTT 算 DevRTT（上例会得 DevRTT = 12.5 ms，超时 152.5 ms）。考试写清楚自己用的顺序即可。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en">The timeout must be <b>longer than the RTT</b>, but RTT varies: too short causes <b>premature timeouts</b> and unnecessary retransmissions; too long reacts slowly to loss.<br>TCP smooths SampleRTT with an <b>EWMA</b>: EstimatedRTT = 0.875·EstimatedRTT + 0.125·SampleRTT, and estimates the variation with DevRTT.<br>TimeoutInterval = EstimatedRTT + <b>4·DevRTT</b> (a larger variation gives a larger safety margin).</p></div>
+        <details class="qcard"><summary>为什么不直接把超时设成 EstimatedRTT？</summary><div class="a">EstimatedRTT 只是平均值，大约一半的 SampleRTT 会比它大，那样会频繁<b>过早超时</b>、不必要地重传。所以要加一个跟 RTT 波动程度相关的安全余量 4·DevRTT。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why not simply set the timeout equal to EstimatedRTT?</p><p><b>A:</b> EstimatedRTT is only an average, so roughly half of the actual RTTs would exceed it, causing frequent <b>premature timeouts</b> and unnecessary retransmissions. A safety margin of 4·DevRTT, which grows with the RTT variation, is therefore added.</p></div></div></details>
+        <details class="qcard"><summary>EstimatedRTT = 50 ms，SampleRTT = 90 ms，α = 0.125。新的 EstimatedRTT？</summary><div class="a">0.875 × 50 + 0.125 × 90 = 43.75 + 11.25 = <b>55 ms</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> EstimatedRTT = 50 ms, SampleRTT = 90 ms, α = 0.125. What is the new EstimatedRTT?</p><p><b>A:</b> 0.875 × 50 + 0.125 × 90 = 43.75 + 11.25 = <b>55 ms</b>.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.4 ============ -->
+      <div class="sub" id="tcp-s4">
+        <h3><span class="num">C.4</span> TCP 的可靠传输：一个定时器、累积 ACK、快速重传 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>TCP 只用<b>一个</b>重传定时器，跟着最老的未确认报文段——<b>更像 GBN，不像选择重传</b>；简单的代价是损失一点性能。</li><li>TCP <b>没有 NAK</b>，用<b>重复 ACK</b> 代替。</li><li>延迟 ACK 最多等 500 ms，是为了<b>减少 ACK 的数量</b>。</li><li>快速重传的例子：收到 A、C、D、E，B 一直没来——后面的都到了，B 多半丢了，不必等超时，立刻重传。</li></ul></div>
+        <p>TCP 在不可靠的 IP 之上建立可靠传输（slide 87）：<b>流水线</b>发送、<b>累积 ACK</b>、<b>单个重传定时器</b>；重传由两类事件触发：<b>超时</b>和<b>重复 ACK</b>。</p>
+        <div class="tablewrap"><table>
+          <caption>简化的 TCP 发送方的三个事件（slide 88，先不管重复 ACK、流量控制、拥塞控制）</caption>
+          <thead><tr><th>事件</th><th>动作</th></tr></thead>
+          <tbody>
+            <tr><td>收到应用层数据</td><td>生成报文段，序号 = 第一个字节的编号；定时器没在运行就启动（定时器看作是给<b>最老的未确认段</b>的），超时间隔 = TimeoutInterval</td></tr>
+            <tr><td>超时</td><td>只重传<b>引起超时的那个</b>报文段（最老的未确认段），重启定时器</td></tr>
+            <tr><td>收到 ACK</td><td>如果它确认了之前未确认的段：更新"已确认"边界（SendBase），还有未确认段就重启定时器</td></tr>
+          </tbody></table></div>
+        <h4>三个重传场景（slide 89–90）</h4>
+        <ul class="speclist">
+          <li><b>ACK 丢失</b>：A 发 Seq=92（8 字节），B 回的 ACK=100 丢了 → A 超时重传 Seq=92 → B 收到重复数据，丢弃并再回 ACK=100。</li>
+          <li><b>过早超时</b>：A 连发 Seq=92（8 字节）和 Seq=100（20 字节），ACK 还在路上 A 就超时了 → 只重传 Seq=92；随后 ACK=100、ACK=120 到达，SendBase 推到 120，<b>Seq=100 不用重传</b>。</li>
+          <li><b>累积 ACK 救场</b>：ACK=100 丢了，但 ACK=120 在超时前到达 → 说明 120 之前都收到了，什么都不用重传，接着发 Seq=120。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>接收方什么时候发 ACK（slide 91，RFC 1122 / 2581）</caption>
+          <thead><tr><th>接收方遇到的事件</th><th>接收方动作</th></tr></thead>
+          <tbody>
+            <tr><td>按序报文段到达，之前的都已确认</td><td><b>延迟 ACK</b>：最多等 500 ms 看下一段来不来，不来再发 ACK</td></tr>
+            <tr><td>按序报文段到达，另有一个段的 ACK 还在等着</td><td>立刻发<b>一个</b>累积 ACK，把两段一起确认</td></tr>
+            <tr><td>乱序段到达（序号比期待的大，出现空洞）</td><td>立刻发<b>重复 ACK</b>，指明下一个期待的字节</td></tr>
+            <tr><td>到达的段部分或全部填补了空洞</td><td>如果它从空洞的低端开始，立刻发 ACK</td></tr>
+          </tbody></table></div>
+        <h4>快速重传 fast retransmit（slide 92–93）</h4>
+        <div class="formula must">
+          <span class="fl">收到同一数据的 <b>3 个重复 ACK</b>（triple duplicate ACKs）</span>
+          <span class="fl">→ 不等超时，立刻重传<b>序号最小的未确认报文段</b></span>
+        </div>
+        <ul class="speclist">
+          <li>为什么：超时时间通常比较长，丢包后要等很久。发送方往往连续发很多段，如果其中一个丢了，后面每个到达的段都会触发一个重复 ACK；收到好几个重复 ACK 基本可以肯定那一段丢了。</li>
+          <li>slide 93 的图：Seq=100（20 字节）丢了，后面的段到达时 B 一直回 ACK=100；A 收到第一个 ACK=100 后又收到 3 个重复的 ACK=100，在超时之前就重传 Seq=100。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en">TCP provides reliable data transfer on top of IP with <b>pipelined segments, cumulative ACKs and a single retransmission timer</b> (closer to GBN than to SR); retransmissions are triggered by <b>timeouts</b> and <b>duplicate ACKs</b>.<br><b>Fast retransmit</b>: if the sender receives <b>3 duplicate ACKs</b> for the same data, it resends the unACKed segment with the smallest sequence number without waiting for the timeout, because that segment is very likely lost.</p></div>
+        <details class="qcard"><summary>为什么快速重传要等 3 个重复 ACK，而不是收到 1 个就重传？</summary><div class="a">一个重复 ACK 也可能只是报文段<b>乱序</b>到达造成的（后发的先到），并不代表丢失。连续 3 个重复 ACK 说明后面已经有好几段到了、那一段还没来，丢失的可能性很大，这时重传就比较有把握，又不必等很长的超时。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does fast retransmit wait for 3 duplicate ACKs instead of retransmitting after the first one?</p><p><b>A:</b> A single duplicate ACK may just be caused by <b>reordering</b> (a later segment arriving first) rather than loss. Three duplicate ACKs mean several later segments have arrived while that one has not, so it is very likely lost; retransmitting then is reasonably safe and avoids waiting for the long timeout.</p></div></div></details>
+        <details class="qcard"><summary>A 发 Seq=92（8 字节）和 Seq=100（20 字节），ACK=100 丢失，ACK=120 在超时前到达。A 要重传什么？</summary><div class="a"><b>什么都不用重传</b>。ACK=120 是累积确认，表示 119 之前的字节都收到了（包括 92–99），A 把 SendBase 推到 120 继续发新数据。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A sends Seq=92 (8 bytes) and Seq=100 (20 bytes). ACK=100 is lost, but ACK=120 arrives before the timeout. What must A retransmit?</p><p><b>A:</b> <b>Nothing</b>. ACK=120 is cumulative: every byte up to 119 (including 92–99) has been received, so A advances SendBase to 120 and continues with new data.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.5 ============ -->
+      <div class="sub" id="tcp-s5">
+        <h3><span class="num">C.5</span> 流量控制：rwnd <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>流量控制：别让发送方发得太快，超过接收方能处理的。接收方通过报文段里的<b>窗口字段</b>告诉发送方"已发未确认的字节最多这么多"。</li><li>接收缓存里有一段是"已经收到（也已确认）但应用还没读走"的，它还占着缓存。</li><li>有同学问要不要逐字背公式：<b>不用逐字背名字，要理解意思</b>，理解了可以用自己的符号写出来。</li></ul></div>
+        <p>场景（slide 95）：TCP 把收到的数据放进<b>接收缓存</b>，应用进程从缓存里取走。如果应用取得比 TCP 交付得慢，缓存会满。<b>流量控制 = 接收方控制发送方</b>，让发送方不要发得太多太快，把接收缓存撑爆。</p>
+        <div class="formula must">
+          <span class="fl"><b>rwnd = RcvBuffer − [LastByteRcvd − LastByteRead]</b></span>
+          <span class="fl"><b>LastByteSent − LastByteAcked ≤ rwnd</b></span>
+        </div>
+        <ul class="speclist">
+          <li><b>接收方</b>（slide 96–97）：RcvBuffer 是缓存大小（通过 socket 选项设置，典型默认 4096 字节，很多操作系统会自动调整）；LastByteRcvd − LastByteRead = 已收到但应用还没读走的字节，占着缓存；剩下的空闲空间就是 <b>rwnd</b>。接收方把 rwnd 写进发回给发送方的每个报文段的<b>窗口字段</b>（"通告"advertise）。</li>
+          <li><b>发送方</b>：记录 LastByteSent 和 LastByteAcked，两者之差就是"在途"的未确认数据。只要让它 <b>≤ rwnd</b>，这些数据就算全部到达也装得下，<b>保证接收缓存不会溢出</b>。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">例子（已用 python 核对）</div>
+          <p>RcvBuffer = 4096 字节。接收方已收到到第 5000 字节（LastByteRcvd = 5000），应用读到第 3500 字节（LastByteRead = 3500）。<br>缓存里占用 5000 − 3500 = 1500 字节 → <b>rwnd = 4096 − 1500 = 2596 字节</b>。<br>发送方 LastByteSent = 8000、LastByteAcked = 6000：在途 2000 字节 ≤ 2596，还能<b>再发 596 字节</b>。</p></div>
+        <div class="callout extra"><div class="lbl">课外补充：rwnd = 0 时怎么办</div><p>rwnd 降到 0 后发送方停发，但如果接收方之后不再发报文段，发送方就永远不知道缓存又空了。教材里的做法是：rwnd = 0 时发送方继续发只带 1 字节数据的探测段，接收方回的 ACK 会带上新的 rwnd。讲义没讲，了解即可。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）——25S1 Q3(c) 原题</div>
+          <p lang="en">(i) The receiver computes <b>rwnd = RcvBuffer − [LastByteRcvd − LastByteRead]</b>, i.e. the free space left in its receive buffer, and advertises it in the <b>window field</b> of every segment it sends back.<br>(ii) The sender keeps the amount of unACKed (in-flight) data within rwnd: <b>LastByteSent − LastByteAcked ≤ rwnd</b>, so even if all in-flight data arrives it fits in the buffer and the buffer cannot overflow.</p></div>
+        <details class="qcard"><summary>流量控制和拥塞控制有什么区别？</summary><div class="a"><b>流量控制</b>是两端之间的事：防止发送方淹没<b>接收方的缓存</b>，由接收方通过 rwnd 告诉发送方。<b>拥塞控制</b>是为网络着想：防止发送方把<b>网络（路由器缓存、链路）</b>塞爆，发送方根据丢包等信号自己调整 cwnd。实际未确认数据不超过 min(rwnd, cwnd)。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the difference between flow control and congestion control?</p><p><b>A:</b> <b>Flow control</b> is end-to-end between the two hosts: it prevents the sender from overflowing the <b>receiver's buffer</b>, and the receiver tells the sender its rwnd. <b>Congestion control</b> protects the <b>network</b> (router buffers, links) from too much traffic; the sender adjusts its cwnd based on congestion signals such as loss. The unACKed data is limited by min(rwnd, cwnd).</p></div></div></details>
+        <details class="qcard"><summary>RcvBuffer = 8000 字节，LastByteRcvd = 12000，LastByteRead = 9000。rwnd 是多少？</summary><div class="a">8000 − (12000 − 9000) = <b>5000 字节</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> RcvBuffer = 8000 bytes, LastByteRcvd = 12000, LastByteRead = 9000. What is rwnd?</p><p><b>A:</b> 8000 − (12000 − 9000) = <b>5000 bytes</b>.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.6 ============ -->
+      <div class="sub" id="tcp-s6">
+        <h3><span class="num">C.6</span> 连接管理：三次握手与关闭连接 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>连接一般由客户端发起，但标准里<b>任何一方</b>都可以发起。</li><li>握手的前两个报文段<b>不带数据</b>；第三个可以带、也可以不带。</li><li>关闭时客户端发 FIN 后：客户端<b>不能再发数据</b>，但服务器仍然可以给客户端发。</li><li>课上老师专门问"为什么最后要等 2 倍最大报文段寿命"：因为最后那个 <b>ACK 可能丢</b>；丢了服务器会重发 FIN，客户端得还在、能再回一次 ACK。等多久没法精确判断，所以等一个足够长的固定时间。</li></ul></div>
+        <h4>三次握手（slide 99–100）—— 23S1 Q4(a) 考过填空</h4>
+        <div class="tablewrap"><table>
+          <thead><tr><th>#</th><th>方向</th><th>报文段内容</th><th>状态变化</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>客户端 → 服务器</td><td><b>SYNbit=1, Seq=x</b>（x = 客户端随机选的初始序号）</td><td>客户端 LISTEN → <b>SYNSENT</b></td></tr>
+            <tr><td>2</td><td>服务器 → 客户端</td><td><b>SYNbit=1, Seq=y; ACKbit=1, ACKnum=x+1</b>（SYNACK，"连接许可"段）</td><td>服务器 LISTEN → <b>SYN RCVD</b></td></tr>
+            <tr><td>3</td><td>客户端 → 服务器</td><td><b>ACKbit=1, ACKnum=y+1</b>（SYN 位不再置 1；可以带客户端到服务器的数据）</td><td>客户端收到 SYNACK → <b>ESTAB</b>；服务器收到 ACK → <b>ESTAB</b></td></tr>
+          </tbody></table></div>
+        <ul class="speclist">
+          <li>第 2 步：服务器选自己的 ISN = y，同时用 x + 1 确认客户端的 SYN。客户端收到它，就知道<b>服务器是活的</b>。</li>
+          <li>第 3 步：客户端用 y + 1 确认服务器的 SYN。服务器收到它，就知道<b>客户端是活的</b>。</li>
+          <li>ISN 随机选，避免和之前连接的序号重叠（slide 99）。</li>
+        </ul>
+        <div class="callout extra"><div class="lbl">课外补充：为什么确认号是 x+1？为什么要三次而不是两次？</div>
+          <p><b>x+1</b>：SYN 和 FIN 虽然不带数据，但各自<b>占用一个序号</b>，所以确认 SYN 时期待的下一个序号是 x+1（FIN 同理）。</p>
+          <p><b>为什么三次</b>：两端都要（1）告诉对方自己的 ISN，（2）确认对方的 ISN 收到了。服务器的 SYN 和 ACK 可以合并在一个报文段里，所以最少三次。只握两次的话，服务器不知道客户端是否收到了 y；而且网络里滞留的<b>旧 SYN</b> 迟到时，服务器会以为是新连接、白白建立连接并分配资源。第三次 ACK 让服务器确认"对方真的在、而且是这次连接"。讲义只说了"互相确认对方是活的"，这些是教材的补充说法，写在考卷上也对。</p></div>
+        <h4>关闭连接（slide 101–102）—— 24S1 Q4(a) 考过填空 + 为什么要等</h4>
+        <div class="tablewrap"><table>
+          <thead><tr><th>#</th><th>方向</th><th>报文段</th><th>客户端状态</th><th>服务器状态</th></tr></thead>
+          <tbody>
+            <tr><td>—</td><td colspan="2">客户端调用 clientSocket.close()</td><td>ESTAB</td><td>ESTAB</td></tr>
+            <tr><td>(1)</td><td>客户端 → 服务器</td><td><b>FINbit=1, seq=x</b></td><td><b>FIN_WAIT_1</b>：不能再发，但还能收</td><td>→ <b>CLOSE_WAIT</b></td></tr>
+            <tr><td>(2)</td><td>服务器 → 客户端</td><td><b>ACKbit=1; ACKnum=x+1</b></td><td><b>FIN_WAIT_2</b>：等服务器关闭</td><td>CLOSE_WAIT：<b>还可以发数据</b></td></tr>
+            <tr><td>(3)</td><td>服务器 → 客户端</td><td><b>FINbit=1, seq=y</b></td><td>→ <b>TIMED_WAIT</b></td><td><b>LAST_ACK</b>：不能再发数据</td></tr>
+            <tr><td>(4)</td><td>客户端 → 服务器</td><td><b>ACKbit=1; ACKnum=y+1</b></td><td>等 <b>2 × 最大报文段寿命（MSL）</b>后 → CLOSED</td><td>收到后 → <b>CLOSED</b></td></tr>
+          </tbody></table></div>
+        <ul class="speclist">
+          <li>两边<b>各自</b>关闭自己这一方向：发一个 FIN = 1 的报文段；收到 FIN 的一方回 ACK。收到 FIN 时，ACK 可以和自己的 FIN 合并在一个报文段里；双方同时发 FIN 也能处理（slide 101）。</li>
+          <li>(2) 和 (3) 之间服务器可能还在发剩下的数据（"半关闭"），所以通常是四个报文段。</li>
+        </ul>
+        <div class="formula must">
+          <span class="fl">为什么客户端最后要等 2×MSL（TIMED_WAIT）：</span>
+          <span class="fl">最后那个 <b>ACK 可能丢失</b>。丢了的话服务器会<b>超时重发 FIN</b>，</span>
+          <span class="fl">客户端必须还在、能<b>再发一次 ACK</b>，服务器才能正常关闭。</span>
+        </div>
+        <div class="callout extra"><div class="lbl">课外补充：TIMED_WAIT 的第二个作用</div><p>等 2×MSL 还能让这条连接在网络里残留的<b>旧报文段全部过期消失</b>，避免它们被马上用同样端口建立的新连接误收。官方答案只写了第一个原因（重发最后的 ACK），考试写第一个就够，写上第二个算加分。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en"><b>3-way handshake</b>: client sends SYN (SYNbit=1, Seq=x); server replies SYNACK (SYNbit=1, Seq=y, ACKbit=1, ACKnum=x+1); client sends ACK (ACKbit=1, ACKnum=y+1), which may carry data.<br><b>Close</b>: FIN (seq=x) → ACK (ACKnum=x+1); later FIN (seq=y) → ACK (ACKnum=y+1).<br>The client waits <b>2 × maximum segment lifetime</b> so that it can <b>resend the final ACK if that ACK is lost</b> (the server would retransmit its FIN).</p></div>
+        <details class="qcard"><summary>客户端 ISN = 2000，服务器 ISN = 7000。写出三次握手的三个报文段。</summary><div class="a">(1) SYN=1, Seq=<b>2000</b>；(2) SYN=1, Seq=<b>7000</b>, ACK=1, ACKnum=<b>2001</b>；(3) ACK=1, ACKnum=<b>7001</b>（Seq=2001，可以带数据）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> The client's ISN is 2000 and the server's ISN is 7000. Write the three segments of the handshake.</p><p><b>A:</b> (1) SYN=1, Seq=<b>2000</b>; (2) SYN=1, Seq=<b>7000</b>, ACK=1, ACKnum=<b>2001</b>; (3) ACK=1, ACKnum=<b>7001</b> (Seq=2001; it may carry data).</p></div></div></details>
+        <details class="qcard"><summary>客户端发出 FIN 并收到 ACK 之后，还能收到服务器的数据吗？</summary><div class="a"><b>能</b>。FIN 只关闭"客户端 → 服务器"这一个方向。客户端在 FIN_WAIT_2 等服务器关闭，这期间服务器在 CLOSE_WAIT 还可以继续发数据，直到它自己发 FIN。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> After the client has sent FIN and received its ACK, can it still receive data from the server?</p><p><b>A:</b> <b>Yes</b>. A FIN only closes the client-to-server direction. While the client waits in FIN_WAIT_2, the server (in CLOSE_WAIT) can still send data until it sends its own FIN.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.7 ============ -->
+      <div class="sub" id="tcp-s7">
+        <h3><span class="num">C.7</span> 拥塞控制原理：拥塞的原因和代价 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>拥塞控制"可能是这里最复杂的话题"：差错控制、流量控制都只发生在两端之间，拥塞却可能发生在网络<b>任何地方</b>，是全网的问题，到今天还是研究课题。</li><li>只要大家都少发，拥塞总能消除；难的是<b>又高效又公平</b>地消除。</li><li>拥塞会<b>往上游蔓延</b>，像公路堵车，一点堵住，几公里外都开始堵。</li><li>分组在某个路由器被丢掉，它在前面经过的所有资源都白用了。</li></ul></div>
+        <p><b>拥塞</b>（slide 104）：通俗说就是"太多的源、发太多的数据、发得太快，网络处理不过来"。<b>和流量控制不是一回事！</b>表现：<b>丢包</b>（路由器缓存溢出）和<b>长时延</b>（在路由器缓存里排队）。</p>
+        <div class="tablewrap"><table>
+          <caption>三个场景（slide 105–111）</caption>
+          <thead><tr><th>场景</th><th>设定</th><th>结论 / 代价</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>两对收发方，一个路由器，<b>无限缓存</b>，输出链路容量 R，不重传</td><td>每条连接最大吞吐量 R/2；到达速率接近 R/2 时<b>时延趋于无穷</b>。代价 1：<b>长时延</b></td></tr>
+            <tr><td>2</td><td>一个路由器，<b>有限缓存</b>，超时会重传。λ<sub>in</sub> = 原始数据，λ'<sub>in</sub> = 原始 + 重传（<b>offered load</b>）</td><td>理想（发送方完全知道缓存空闲才发）能达到 R/2；现实中会丢包、会<b>过早超时</b>发两份都送到。代价 2：同样的有效吞吐量（goodput）要<b>做更多工作（重传）</b>；代价 3：<b>不必要的重传</b>让链路运送同一分组的多个副本，goodput 下降</td></tr>
+            <tr><td>3</td><td>四个发送方，<b>多跳路径</b>，超时重传</td><td>红色流的 λ'<sub>in</sub> 增大时，上游路由器到达的蓝色分组全被丢掉，蓝色吞吐量 → 0。代价 4：分组被丢时，<b>它在上游已经用掉的传输能力全部浪费</b></td></tr>
+          </tbody></table></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en">Congestion: too many sources sending too much data too fast for the <b>network</b> to handle; it shows up as <b>lost packets</b> (router buffer overflow) and <b>long delays</b> (queueing). It is different from flow control.<br>Costs: large queueing delay as the load approaches capacity; <b>retransmissions</b> (including unneeded ones after premature timeouts) reduce goodput; when a packet is dropped, the <b>upstream transmission capacity</b> used for it is wasted.</p></div>
+        <details class="qcard"><summary>为什么说多跳网络里丢包特别浪费？</summary><div class="a">一个分组在第 k 跳被丢掉，它在前 k − 1 跳占用的链路带宽和缓存都白用了；重传还要再占一次。负载越重丢得越多，浪费越大，吞吐量甚至会下降到接近 0（slide 110–111）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why is packet loss especially wasteful in a multihop network?</p><p><b>A:</b> If a packet is dropped at hop k, the link bandwidth and buffers it used on the previous k − 1 hops are wasted, and the retransmission uses them again. Under heavy load more packets are dropped, more capacity is wasted, and throughput can even fall towards zero (slides 110–111).</p></div></div></details>
+      </div>
+
+      <!-- ============ C.8 ============ -->
+      <div class="sub" id="tcp-s8">
+        <h3><span class="num">C.8</span> TCP 拥塞控制：AIMD、慢启动、拥塞避免、快速恢复 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>AIMD 用大白话说就是：<b>慢慢加，快快减</b>。发现拥塞信号就赶紧降，然后再慢慢加上去，周而复始。</li><li>"慢启动"其实一点不慢：从 1 开始每个 RTT 翻倍（1、2、4、8、16…），叫"慢"只是因为比一开始就把整个窗口发出去要慢。</li><li>拥塞避免阶段的例子：cwnd = 10 MSS，每收到一个 ACK 加 1/10 MSS；一个 RTT 里最多收到 10 个 ACK，所以<b>每 RTT 大约加 1 MSS</b>。</li><li>快速恢复的例子：cwnd = 12 时收到 3 个重复 ACK → ssthresh = 6，cwnd = 6 + 3 = <b>9</b>。</li><li>Tahoe 不区分"超时"和"3 个重复 ACK"，都回到 1；Reno 区分这两种情况，<b>效果更好</b>。</li></ul></div>
+        <h4>AIMD 与 cwnd（slide 113–114）</h4>
+        <ul class="speclist">
+          <li>TCP 用的是<b>端到端</b>拥塞控制：网络不直接告诉发送方（另有网络辅助的方式，见 C.11），发送方根据<b>丢包</b>自己推断。丢了段 = 拥塞；收到 ACK = 送得过去。</li>
+          <li>发送方维护一个<b>拥塞窗口 cwnd</b>，限制发送速率：<b>LastByteSent − LastByteAcked ≤ cwnd</b>。大致是"发 cwnd 字节，等一个 RTT 收 ACK，再发"，所以 <b>rate ≈ cwnd / RTT 字节/秒</b>。</li>
+          <li><b>加性增 additive increase</b>：每个 RTT cwnd 加 1 个 MSS（最大报文段长度），一点点试探可用带宽，直到丢包。</li>
+          <li><b>乘性减 multiplicative decrease</b>：丢包后 cwnd 砍一半。</li>
+          <li>结果 cwnd 随时间呈<b>锯齿形</b>（sawtooth），就是在"探测带宽"。</li>
+        </ul>
+        <h4>三个阶段（slide 115–118）</h4>
+        <div class="tablewrap"><table>
+          <thead><tr><th>阶段</th><th>cwnd 怎么变</th><th>什么时候离开</th></tr></thead>
+          <tbody>
+            <tr><td><b>慢启动</b> slow start</td><td>开始时 cwnd = 1 MSS；<b>每收到一个 ACK 加 1 MSS</b> → 每 RTT <b>翻倍</b>（指数增长）</td><td>cwnd 到达 <b>ssthresh</b> → 拥塞避免；超时 → 重新慢启动；3 个重复 ACK → 快速恢复</td></tr>
+            <tr><td><b>拥塞避免</b> CA</td><td>每个新 ACK 加 MSS·(MSS/cwnd) → 每 RTT <b>加 1 MSS</b>（线性增长）</td><td>超时 → 慢启动；3 个重复 ACK → 快速恢复</td></tr>
+            <tr><td><b>快速恢复</b> fast recovery（Reno）</td><td>进入时 ssthresh = cwnd/2，cwnd = ssthresh + 3；之后每个重复 ACK 加 1 MSS</td><td>新 ACK 到达 → cwnd = ssthresh，进入拥塞避免；超时 → 慢启动</td></tr>
+          </tbody></table></div>
+        <div class="formula must">
+          <span class="fl">初始：cwnd = 1 MSS，ssthresh = 64 KB（slide 118）</span>
+          <span class="fl"><b>超时</b>：ssthresh = cwnd/2；cwnd = <b>1 MSS</b>；重传丢失段；进入慢启动</span>
+          <span class="fl"><b>3 个重复 ACK（Reno）</b>：ssthresh = cwnd/2；cwnd = <b>ssthresh + 3</b>；重传丢失段；进入快速恢复</span>
+          <span class="fl"><b>Tahoe</b>：超时和 3 个重复 ACK <b>都</b>让 cwnd = 1（ssthresh 同样减半）</span>
+          <span class="fl">慢启动 → 拥塞避免：cwnd 到达 ssthresh（= 上次拥塞前 cwnd 的一半）</span>
+        </div>
+        <ul class="speclist">
+          <li><b>为什么两种丢包信号处理不同</b>（slide 116）：<b>超时</b>可能意味着"什么都送不过去"，情况严重，回到 1；<b>3 个重复 ACK</b> 说明后面的段还能送到，网络还能工作，只是砍一半后线性增长。</li>
+          <li>快速恢复是"推荐但不强制"的；<b>TCP Reno</b> 实现了快速恢复，<b>TCP Tahoe</b> 没有（slide 117）。</li>
+          <li>为什么 cwnd = ssthresh + 3：3 个重复 ACK 说明已经有 3 个段离开网络到达了接收方，可以多算 3 个。</li>
+        </ul>
+        <div class="diagram"><div class="dcap">例子：cwnd 随传输轮次变化（Reno 实线，Tahoe 虚线；初始 ssthresh = 8 MSS）</div>
+          <div class="chartbox"><svg viewBox="0 0 640 270" role="img" aria-label="TCP Reno 与 Tahoe 的拥塞窗口变化">
+            <line x1="40" y1="230" x2="610" y2="230" class="svg-line"></line>
+            <line x1="40" y1="230" x2="40" y2="40" class="svg-line"></line>
+            <text x="34" y="234" text-anchor="end">0</text><text x="34" y="186" text-anchor="end">4</text><text x="34" y="138" text-anchor="end">8</text><text x="34" y="90" text-anchor="end">12</text><text x="34" y="66" text-anchor="end">14</text>
+            <text x="50" y="248" text-anchor="middle">1</text><text x="158" y="248" text-anchor="middle">5</text><text x="293" y="248" text-anchor="middle">10</text><text x="428" y="248" text-anchor="middle">15</text><text x="563" y="248" text-anchor="middle">20</text>
+            <text x="325" y="266" text-anchor="middle">传输轮次（每轮 = 1 个 RTT）</text>
+            <text x="14" y="40">cwnd（MSS）</text>
+            <line x1="50" y1="134" x2="239" y2="134" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1"></line>
+            <text x="60" y="128">ssthresh = 8</text>
+            <line x1="239" y1="158" x2="401" y2="158" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1"></line>
+            <text x="340" y="172">ssthresh=6</text>
+            <line x1="428" y1="146" x2="590" y2="146" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1"></line>
+            <text x="520" y="160">ssthresh = 7</text>
+            <polyline points="50,218 77,206 104,182 131,134 158,122 185,110 212,98 239,86 266,122 293,110 320,98 347,86 374,74 401,62 428,218 455,206 482,182 509,146 536,134 563,122 590,110" fill="none" stroke="var(--accent-strong)" stroke-width="2.2"></polyline>
+            <polyline points="239,86 266,218 293,206 320,182 347,158 374,146 401,134" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="6 4"></polyline>
+            <text x="239" y="76" text-anchor="middle" class="acc">3 dup ACK</text>
+            <text x="401" y="52" text-anchor="middle" class="acc">timeout</text>
+            <text x="110" y="206">慢启动</text>
+            <text x="120" y="96">拥塞避免</text>
+            <text x="270" y="140" class="ink">Reno：12→9</text>
+            <text x="232" y="200" text-anchor="end" class="ink">Tahoe：12→1</text>
+            <text x="500" y="215">超时→1，慢启动</text>
+          </svg></div></div>
+        <div class="tablewrap"><table>
+          <caption>上图的数字（Reno），逐轮看（已用 python 核对）</caption>
+          <thead><tr><th>轮次</th><th>cwnd</th><th>阶段 / 事件</th></tr></thead>
+          <tbody>
+            <tr><td>1–4</td><td>1, 2, 4, 8</td><td>慢启动，每轮翻倍；到 ssthresh = 8</td></tr>
+            <tr><td>5–8</td><td>9, 10, 11, 12</td><td>拥塞避免，每轮 +1；第 8 轮末收到 3 个重复 ACK</td></tr>
+            <tr><td>9–14</td><td>9, 10, 11, 12, 13, 14</td><td>ssthresh = 12/2 = 6，cwnd = 6 + 3 = 9，之后线性增长；第 14 轮末<b>超时</b></td></tr>
+            <tr><td>15–21</td><td>1, 2, 4, 7, 8, 9, 10</td><td>ssthresh = 14/2 = 7，cwnd = 1 重新慢启动；4 翻倍会超过 7，到 7 就转拥塞避免</td></tr>
+          </tbody></table></div>
+        <div class="callout warn"><div class="lbl">画图细节：快速恢复之后到底从 9 还是从 6 开始涨？</div><p>严格按 slide 118 的 FSM：进入快速恢复时 cwnd = ssthresh + 3 = 9，重复 ACK 每来一个再 +1，等到<b>新 ACK</b>到达时 cwnd 被设回 <b>ssthresh = 6</b>，再进入拥塞避免线性增长。很多教材的图（以及老师的官方答案"cwnd = cwnd/2 + 3，之后线性增长"）把这一步简化成从 9 直接线性往上画。期末画图两种都可以，<b>关键是写出 ssthresh = cwnd/2、cwnd = ssthresh + 3、超时回到 1、到 ssthresh 后由指数变线性</b>。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）——24S2 Q3(c) 题型</div>
+          <p lang="en"><b>AIMD</b>: additive increase (cwnd + 1 MSS per RTT) until loss, multiplicative decrease (cut cwnd in half) on loss → sawtooth; rate ≈ cwnd/RTT.<br><b>Slow start</b>: cwnd starts at 1 MSS and <b>doubles every RTT</b> until it reaches <b>ssthresh</b>; then <b>congestion avoidance</b>: + 1 MSS per RTT.<br><b>Reno</b>: on <b>3 duplicate ACKs</b>, ssthresh = cwnd/2, cwnd = ssthresh + 3 (<b>fast recovery</b>), then linear growth; on a <b>timeout</b>, ssthresh = cwnd/2 and cwnd = 1 MSS (slow start again). <b>Tahoe</b> sets cwnd = 1 in both cases.</p></div>
+        <details class="qcard"><summary>Reno 发送方 cwnd = 20 MSS 时收到 3 个重复 ACK。新的 ssthresh 和 cwnd？如果是超时呢？如果是 Tahoe 呢？</summary><div class="a">3 个重复 ACK（Reno）：ssthresh = <b>10</b>，cwnd = 10 + 3 = <b>13 MSS</b>，进入快速恢复。超时：ssthresh = <b>10</b>，cwnd = <b>1 MSS</b>，慢启动。Tahoe 收到 3 个重复 ACK：ssthresh = 10，cwnd = <b>1 MSS</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A Reno sender with cwnd = 20 MSS receives 3 duplicate ACKs. What are the new ssthresh and cwnd? What if a timeout occurs instead? What would Tahoe do?</p><p><b>A:</b> 3 duplicate ACKs (Reno): ssthresh = <b>10</b>, cwnd = 10 + 3 = <b>13 MSS</b>, enter fast recovery. Timeout: ssthresh = <b>10</b>, cwnd = <b>1 MSS</b>, slow start. Tahoe on 3 duplicate ACKs: ssthresh = 10, cwnd = <b>1 MSS</b>.</p></div></div></details>
+        <details class="qcard"><summary>ssthresh = 16 MSS，从 cwnd = 1 开始慢启动，没有丢包。cwnd 第几个 RTT 后达到 16？再过 4 个 RTT 是多少？</summary><div class="a">1 → 2 → 4 → 8 → 16：<b>4 个 RTT</b> 后到 16，转入拥塞避免；再过 4 个 RTT 每次 +1，cwnd = <b>20 MSS</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> ssthresh = 16 MSS and slow start begins at cwnd = 1 with no loss. After how many RTTs does cwnd reach 16? What is it 4 RTTs later?</p><p><b>A:</b> 1 → 2 → 4 → 8 → 16: it reaches 16 after <b>4 RTTs</b> and switches to congestion avoidance; 4 RTTs later, adding 1 each RTT, cwnd = <b>20 MSS</b>.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.9 ============ -->
+      <div class="sub" id="tcp-s9">
+        <h3><span class="num">C.9</span> TCP 吞吐量、高速网络与公平性 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>忽略慢启动，窗口在 W/2 和 W 之间来回，平均大约是 W 的 <b>0.75</b>。</li><li>要达到很高的吞吐量，丢包率必须<b>非常非常小</b>，这在很多传输介质上是很大的挑战，所以高速网络要改进 TCP。公式推导是自学内容（"self-learning"）。</li><li>公平性：两条 TCP 连接在比较宽松的条件下可以证明大致平分带宽。问题出在 <b>UDP</b>（没有任何机制保证公平）和<b>开多条并行 TCP 连接</b>的应用。</li></ul></div>
+        <div class="formula must">
+          <span class="fl">平均 TCP 吞吐量 ≈ <b>(3/4) · W / RTT</b> 字节/秒　<span class="cm">W = 发生丢包时的窗口（字节）</span></span>
+          <span class="fl">用丢包率 L 表示：TCP 吞吐量 ≈ <b>1.22 · MSS / (RTT · √L)</b>　<span class="cm">[Mathis 1997]</span></span>
+        </div>
+        <ul class="speclist">
+          <li><b>0.75 的来历</b>（slide 119）：忽略慢启动、假设总有数据要发。窗口在 W 时丢包，砍半到 W/2，再线性涨回 W——速率在 W/(2·RTT) 和 W/RTT 之间均匀变化，平均 = 3/4 · W/RTT。</li>
+          <li>例：W = 20 个 1500 字节的报文段，RTT = 100 ms → 平均吞吐量 = 0.75 × 20 × 1500 × 8 / 0.1 = <b>1.8 Mbps</b>。</li>
+          <li><b>"长肥管道"</b>（slide 120、123）：1500 字节报文段、RTT = 100 ms、要 10 Gbps → 平均要 10<sup>10</sup> × 0.1 / 12000 ≈ <b>83,333</b> 个在途报文段；代入 Mathis 公式需要丢包率 L ≈ <b>2×10<sup>−10</sup></b>，极小。所以要为高速环境设计新版本 TCP。</li>
+          <li>推导（slide 121–122，自学）：一个锯齿周期里只丢 1 个包，周期内发出的包约 (3/8)W² + (3/4)W 个（W 以报文段计），所以 L ≈ 8/(3W²)，W ≈ √(8/(3L))；代回 0.75·W·MSS/RTT 得 (3/4)√(8/3) ≈ 1.22。</li>
+        </ul>
+        <h4>公平性（slide 124–126）</h4>
+        <ul class="speclist">
+          <li><b>公平目标</b>：K 条 TCP 会话共享同一条带宽为 R 的瓶颈链路，每条平均速率应为 <b>R/K</b>。</li>
+          <li><b>为什么 TCP 是公平的</b>（slide 125，两条连接的吞吐量画成平面上的点）：加性增让两条连接<b>同样多地</b>增加（沿斜率 1 的线走），乘性减让两者<b>按比例</b>减少（朝原点方向退一半）。反复几次后，点会逐渐靠近"平分带宽"的那条线。</li>
+          <li><b>UDP</b>：多媒体应用常用 UDP，不想被拥塞控制限速，以恒定速率发、容忍丢包——对 TCP 不公平。</li>
+          <li><b>并行 TCP 连接</b>：应用可以在两台主机间开多条连接（浏览器就这样做）。例：速率 R 的链路已有 9 条连接，新应用开 1 条只得 <b>R/10</b>；开 11 条能得 11/20 = <b>0.55R &gt; R/2</b>。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写（English）</div>
+          <p lang="en">Ignoring slow start, the window oscillates between W/2 and W, so the average TCP throughput ≈ <b>0.75·W/RTT</b>; in terms of loss rate L, throughput ≈ <b>1.22·MSS/(RTT·√L)</b>, so high speeds require extremely small loss rates.<br><b>Fairness</b>: K TCP sessions sharing a bottleneck of rate R should each get <b>R/K</b>; AIMD achieves this because additive increase raises both flows equally while multiplicative decrease cuts them proportionally. UDP flows and <b>parallel TCP connections</b> can break fairness.</p></div>
+        <details class="qcard"><summary>丢包时窗口 W = 40 个报文段（MSS = 1000 字节），RTT = 200 ms。平均吞吐量大约多少？</summary><div class="a">0.75 × 40 × 1000 × 8 / 0.2 = <b>1.2 Mbps</b>（= 150 000 字节/秒）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> The window at loss is W = 40 segments (MSS = 1000 bytes) and RTT = 200 ms. What is the approximate average throughput?</p><p><b>A:</b> 0.75 × 40 × 1000 × 8 / 0.2 = <b>1.2 Mbps</b> (= 150,000 bytes/s).</p></div></div></details>
+        <details class="qcard"><summary>为什么"加性增、乘性减"能让两条连接趋向平分带宽，而"乘性增、乘性减"不行？</summary><div class="a">加性增时两条连接加同样的量，差距<b>不变</b>；乘性减时都减半，差距也<b>减半</b>。每个周期差距缩小一半，最终趋于相等。若增加也是按比例，差距会跟着放大再缩小，比例保持不变，永远不会靠拢。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does additive-increase/multiplicative-decrease drive two connections towards an equal share, while multiplicative increase would not?</p><p><b>A:</b> With additive increase both connections gain the same amount, so the <b>difference stays the same</b>; multiplicative decrease halves both, so the <b>difference is halved</b>. Each cycle the gap shrinks and the rates converge. With multiplicative increase the gap would grow in proportion, the ratio would stay fixed, and the rates would never converge.</p></div></div></details>
+      </div>
+
+      <!-- ============ C.10 ============ -->
+      <div class="sub" id="tcp-s10">
+        <h3><span class="num">C.10</span> 网络层的拥塞控制：流量感知路由、准入控制、漏桶 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>这一部分老师"快速过一遍"，是简介。</li><li>流量感知路由：把链路负载加进链路代价，路径就会避开重负载的链路；但不小心控制的话，<b>路由会来回振荡</b>：老师举了两条流都从代价 9 的路径跳到代价小的同一条链路、又一起跳回去的例子。</li><li>有<b>中央控制器</b>（全局信息）就好办：先算第一条路径，再把用满的链路"在纸上"删掉算第二条。要真正最优需要最大流之类的算法，本课不讲。</li><li>准入控制：一开始就不让过多的流量进入网络；漏桶用来规定每个用户最多能注入多少流量。</li></ul></div>
+        <p>网络层和传输层<b>共同</b>负责处理拥塞（slide 128）。网络层的主要方法（不是完整清单）：</p>
+        <div class="tablewrap"><table>
+          <thead><tr><th>方法</th><th>做法</th></tr></thead>
+          <tbody>
+            <tr><td><b>流量感知路由</b> traffic-aware routing</td><td>也叫 provisioning，<b>时间尺度长</b>，由长期流量趋势驱动；让路径避开拥塞的链路</td></tr>
+            <tr><td><b>准入控制</b> admission control</td><td>如果新连接会造成拥塞，就<b>拒绝</b>它（多用于虚电路网络，但不限于此）</td></tr>
+            <tr><td><b>流量节流</b> traffic throttling</td><td>路由器要求源<b>降低</b>发送速率，或自己把流量放慢（ECN 就是一种，见 C.11）</td></tr>
+            <tr><td><b>负载丢弃</b> load shedding</td><td>必要时直接<b>丢包</b></td></tr>
+          </tbody></table></div>
+        <h4>流量感知路由（slide 129–133）</h4>
+        <ul class="speclist">
+          <li>只用最短路径不一定能让整个网络高效。简单做法：链路权值 = 带宽、传播时延的函数 + <b>测得的负载或平均排队时延</b>，再找最小权值路径。</li>
+          <li>权值变化<b>太快</b>会让路由表剧烈<b>振荡</b>；变化慢一些、控制得当可以收敛。</li>
+          <li><b>多路径路由</b>（同一源到目的用多条路径）也有帮助，SDN 能很好地支持；有集中路由管理时可以用更复杂的方法。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">slide 130–133 的例子：约束最短路径</div>
+          <p>按顺序建立三条路径 1→8、2→8、3→8，每条需要带宽 B，每条链路容量 B。</p>
+          <ul class="speclist">
+            <li><b>普通最短路径</b>：三条都经过链路 (4, 8)，需要 3B &gt; 容量 B → (4, 8) 严重拥塞。</li>
+            <li><b>约束最短路径</b>：先在原拓扑上走路径 1：<b>1→4→8</b>；把已无空闲容量的链路 (1, 4)、(4, 8) 从拓扑中<b>删掉</b>；在剩下的拓扑上走路径 2：<b>2→4→5→8</b>；再删掉用满的链路，路径 3 走 <b>3→6→7→8</b>。三条流分散开，拥塞避免了。</li>
+          </ul></div>
+        <h4>准入控制与漏桶（slide 134–137）</h4>
+        <ul class="speclist">
+          <li>流和网络<b>协商合同</b>：说明峰值速率、平均/最小速率、最大突发长度、时延和丢失要求。网络算出需要的资源（"等效带宽"）；接受后，只要源遵守合同，网络就分配带宽保证 QoS。</li>
+          <li><b>漏桶</b>用来监管（policing）或整形（shaping）一个流的到达速率：每个虚连接/用户一个容量固定的桶，以<b>固定速率漏水</b>，桶空了就不漏。</li>
+          <li>每个分组到达时要往桶里加一定量的水（每个分组一样，或与分组长度成正比）。加了<b>不会溢出</b> → 分组<b>合规</b>（conforming）；会溢出 → <b>不合规</b>，而且桶里的水量<b>保持不变</b>（不合规的分组不算进去）。</li>
+          <li>slide 137 的例子：每个分组加 I = 4，L = 6，桶容量 L + I = 10，每单位时间漏 1。等价判据：到达时（漏掉之后的）水量 ≤ L 才合规。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">自己算一遍漏桶（I = 4，L = 6，漏速 1；已用 python 核对）</div>
+          <div class="tablewrap"><table style="max-width:600px">
+            <thead><tr><th>到达时刻</th><th>到达前水量（漏掉后）</th><th>判断</th><th>之后水量</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>0</td><td>≤ 6，合规</td><td>4</td></tr>
+              <tr><td>1</td><td>3</td><td>≤ 6，合规</td><td>7</td></tr>
+              <tr><td>2</td><td>6</td><td>≤ 6，合规</td><td>10（满）</td></tr>
+              <tr><td>3</td><td>9</td><td>&gt; 6，<b>不合规</b></td><td>9（不加水）</td></tr>
+              <tr><td>6</td><td>6</td><td>≤ 6，合规</td><td>10</td></tr>
+            </tbody></table></div></div>
+        <details class="qcard"><summary>流量感知路由为什么容易振荡？怎么缓解？</summary><div class="a">链路代价随负载变化：大家都避开拥塞链路去走另一条，另一条马上变拥塞、代价变大，大家又一起跳回来，路由表来回摆动。缓解：权值<b>变化慢一些</b>（受控地调整）、用<b>多路径</b>分流、或由<b>中央控制器</b>统一计算（如约束最短路径）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does traffic-aware routing tend to oscillate, and how can this be reduced?</p><p><b>A:</b> Link costs depend on load: flows all move away from a congested link onto another one, which then becomes congested and costly, so they all move back, and the routing tables swing back and forth. Remedies: change link weights <b>slowly</b> in a controlled way, use <b>multipath</b> routing, or compute paths with a <b>central controller</b> (e.g. constraint shortest-path routing).</p></div></div></details>
+      </div>
+
+      <!-- ============ C.11 ============ -->
+      <div class="sub" id="tcp-s11">
+        <h3><span class="num">C.11</span> ECN：网络辅助的拥塞控制；逐跳控制 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 11）</div><ul><li>TCP 在传输层，本来不知道网络里发生了什么，只能靠丢包、超时去猜，<b>这要花时间</b>。路由器看自己的缓存占用就知道快拥塞了，ECN 就是让路由器<b>直接告诉</b>两端"拥塞来了，请减速"。</li><li>用的是 IP 首部 <b>服务类型（ToS）字段</b>里的 2 位：这个字段本来为 QoS 预留，一直没真正用起来。</li><li>拥塞控制<b>不只是传输层的事</b>：链路层、应用层都能出力。</li><li>逐跳控制：路由器可以让<b>上游路由器</b>减速（"我的队列快满了"），可以做到，但控制开销不小。</li></ul></div>
+        <div class="diagram"><div class="dcap">ECN 的信息怎么走（slide 138）</div>
+          <div class="chartbox"><svg viewBox="0 0 640 150" role="img" aria-label="ECN 标记流程">
+            <rect x="10" y="40" width="110" height="50" rx="6" class="svg-box"></rect>
+            <text x="65" y="62" text-anchor="middle" class="ink">源主机</text><text x="65" y="80" text-anchor="middle">TCP 发送方</text>
+            <rect x="265" y="40" width="110" height="50" rx="6" class="svg-box"></rect>
+            <text x="320" y="62" text-anchor="middle" class="ink">拥塞的路由器</text><text x="320" y="80" text-anchor="middle">ECN 00 → 11</text>
+            <rect x="520" y="40" width="110" height="50" rx="6" class="svg-box"></rect>
+            <text x="575" y="62" text-anchor="middle" class="ink">目的主机</text><text x="575" y="80" text-anchor="middle">TCP 接收方</text>
+            <line x1="120" y1="55" x2="257" y2="55" class="svg-line"></line><polygon points="265,55 253,49 253,61" class="svg-acc"></polygon>
+            <line x1="375" y1="55" x2="512" y2="55" class="svg-line"></line><polygon points="520,55 508,49 508,61" class="svg-acc"></polygon>
+            <text x="190" y="34" text-anchor="middle">IP 数据报 ECN=00</text>
+            <text x="448" y="34" text-anchor="middle" class="acc">ECN=11（拥塞）</text>
+            <path d="M575,90 C575,135 65,135 65,95" fill="none" stroke="var(--teal)" stroke-width="1.8"></path>
+            <polygon points="65,91 59,103 71,103" class="svg-teal"></polygon>
+            <text x="320" y="146" text-anchor="middle" class="acc">TCP ACK 报文段 ECE=1 → 发送方减小 cwnd</text>
+          </svg></div></div>
+        <ul class="speclist">
+          <li><b>网络辅助的拥塞控制</b>：路由器在 IP 首部 <b>ToS 字段的两个位</b>上做标记，表示拥塞。</li>
+          <li>拥塞指示随数据报被带到<b>接收主机</b>。</li>
+          <li>接收方看到 IP 数据报里的拥塞指示后，在发回给发送方的 <b>ACK 报文段</b>里置 <b>ECE 位</b>，通知发送方有拥塞。</li>
+          <li>和 TCP 默认的端到端方式比：<b>不用等丢包</b>就能提前减速。</li>
+          <li><b>其他层也参与</b>拥塞控制（slide 138 的最后一句）。</li>
+        </ul>
+        <div class="callout extra"><div class="lbl">课外补充：其他层怎么帮忙（25S2 Q4(b) 第二问用得上）</div>
+          <p>官方答案的思路：<b>链路层</b>处理本地、逐链路的拥塞（队列和调度、链路级流量控制、标记）；TCP 的端到端拥塞控制也常依赖这些信号（丢包、ECN 标记）。<b>应用层</b>也能出力：例如视频的<b>自适应码率</b>（ABR，网络差就降清晰度）、应用自己限速 / 匀速发送。官方说明"高层次讨论即可"，不要求列全。</p></div>
+        <h4>端到端 vs 逐跳（slide 139）</h4>
+        <ul class="speclist">
+          <li><b>端到端</b>：拥塞信息一路传回源头，由源头减速。</li>
+          <li><b>逐跳</b>（hop-by-hop）：每一跳都把反馈给上游，上游立刻减速。适合<b>高速或长距离</b>通信，能<b>更快</b>缓解拥塞，代价是<b>上游要用掉更多缓存</b>（来不及发出去的分组要先存着）。</li>
+        </ul>
+        <div class="callout"><div class="lbl">本章最后一页（slide 140）：Cerf 和 Kahn 的互联原则（1973–74）</div><p><b>极简、自治</b>：互联网络不需要改动内部；<b>尽力而为</b>服务模型；<b>无状态路由器</b>；<b>分散控制</b>。这几条定义了今天的 Internet 架构。老师课上的故事：他们设计时网络只有大约 50 个节点，没想到后来能扩展到今天的规模。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写（English）——25S2 Q4(b) 原题</div>
+          <p lang="en"><b>ECN</b> (network-assisted congestion control): a congested router marks <b>two bits in the IP header (ToS field)</b>; the congestion indication is carried to the receiving host, which sets the <b>ECE bit</b> in its ACK segment back to the sender; the sender then reduces its sending rate without waiting for a loss.<br>Yes, other layers help: the <b>link layer</b> handles local per-link congestion (queueing, scheduling, link-level flow control, marking), and the <b>application layer</b> can adapt its rate (e.g. adaptive bitrate streaming, rate throttling).</p></div>
+        <details class="qcard"><summary>ECN 的拥塞标记是谁打的？最后谁减速？中间经过了哪两种首部？</summary><div class="a"><b>路由器</b>在 <b>IP 首部</b>（ToS 字段的 2 位）打标记；接收方在 <b>TCP 首部</b>（ACK 报文段的 ECE 位）把消息转告；最后是<b>发送方</b>减速（减小 cwnd）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In ECN, who sets the congestion mark, who finally slows down, and which two headers carry the information?</p><p><b>A:</b> The <b>router</b> marks the <b>IP header</b> (2 bits of the ToS field); the receiver passes the news on in the <b>TCP header</b> (ECE bit of the ACK segment); finally the <b>sender</b> slows down (reduces cwnd).</p></div></div></details>
+        <details class="qcard"><summary>逐跳拥塞控制比端到端好在哪？代价是什么？</summary><div class="a">好处：反馈只传到上一跳，上游马上减速，<b>拥塞缓解得更快</b>，适合高速或长距离链路。代价：上游节点要<b>存下更多分组</b>，占用更多缓存（以及更多控制开销）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the advantage of hop-by-hop congestion control over end-to-end, and what is the cost?</p><p><b>A:</b> Advantage: feedback only travels to the previous hop, which slows down immediately, so congestion is <b>relieved more quickly</b>; this suits high-speed or long-distance links. Cost: upstream nodes must <b>buffer more packets</b>, using more buffer space (and more control overhead).</p></div></div></details>
+      </div>
+    </section>
+    <!-- ===================== PART II · APPLICATION LAYER (P2C slides 1–55, Week 12 + video) ===================== -->
+    <section class="module" id="app">
+      <div class="modhead"><span class="ref">PART II · TOPIC 3</span><h2>应用层：HTTP、Web 缓存与 P2P</h2><span class="scope">期末考</span></div>
+      <p class="modintro">第三套 slides（P2C，55 页）是应用层的"简介"。老师说只用不到两小时讲，内容分三块：<strong>应用的两种架构</strong>（客户-服务器 vs P2P）、<strong>Web 与 HTTP</strong>（持久/非持久连接、报文格式、cookie、Web 缓存、条件 GET）、<strong>P2P 文件分发</strong>（分发时间公式、BitTorrent）。Week 12（11 月 2 日，CA2 Quiz 之后）课上讲到 cookie（slide 34），后面的部分老师说录视频补。slide 54 写明<strong>电子邮件和套接字编程不考</strong>（自学）。往年期末 Q4 几乎每年都有一两小题出自这里：HTTP 响应时间计算、解释 HTTP 请求行、条件 GET、客户-服务器分发时间的证明、BitTorrent 的搭便车 / 乐观疏通概率 / 分块校验。</p>
+      <div class="callout"><div class="lbl">怎么读这一章</div>
+        <p>这一章计算不多，<b>概念题占大头</b>（老师的 CA2 Quiz 全是概念回忆题）。每节末尾的"考试这样写"是 2–3 句可以直接背的英文；计算题只有三类：<a href="#app-s3">A.3</a> 的 HTTP 响应时间、<a href="#app-s6">A.6</a> 的缓存利用率、<a href="#app-s8">A.8</a> 的分发时间。先把下面的必背清单过一遍。</p>
+        <div class="legend-scope"><span class="qz fin">期末考</span>本章各节<span class="qz hot">期末常考</span>老师点名或往年考过<span class="mustc">必背</span>闭卷要背的公式和数字</div>
+      </div>
+
+      <div class="tablewrap"><table class="mustlist">
+        <caption>本章必背清单（期末闭卷）</caption>
+        <thead><tr><th>内容</th><th>公式 / 要点</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>两种架构</td><td>客户-服务器：服务器<b>常开、固定 IP</b>，客户之间不直接通信；P2P：没有常开服务器，对等方直接通信，<b>自扩展</b>（新对等方带来需求也带来服务能力）</td><td><a href="#app-s1">A.1</a> · slide 8–10</td></tr>
+          <tr><td>HTTP 基本</td><td>客户-服务器；用 <b>TCP、端口 80</b>；<b>无状态</b>（要记住用户靠 cookie）</td><td><a href="#app-s2">A.2</a> · slide 16–17</td></tr>
+          <tr><td>响应时间</td><td class="f">非持久：每个对象 <b>2·RTT + 传输时间</b>；持久（背靠背）：只在开头付一次 2·RTT，之后每个对象只加传输时间</td><td><a href="#app-s3">A.3</a> · slide 21–24</td></tr>
+          <tr><td>请求报文</td><td>请求行 <b>方法 空格 URL 空格 版本 \r\n</b> → 若干首部行 → <b>空行 \r\n</b> → 实体主体（GET 为空）</td><td><a href="#app-s4">A.4</a> · slide 25–27</td></tr>
+          <tr><td>状态码</td><td><b>200 OK</b>、301 Moved Permanently、400 Bad Request、<b>404 Not Found</b>、505 HTTP Version Not Supported、<b>304 Not Modified</b>（条件 GET）</td><td><a href="#app-s4">A.4</a> · slide 30、41</td></tr>
+          <tr><td>cookie 四部分</td><td>响应里的 <b>set-cookie</b> 首部、下次请求里的 <b>cookie</b> 首部、用户主机上的 cookie 文件、网站后端数据库</td><td><a href="#app-s5">A.5</a> · slide 32</td></tr>
+          <tr><td>缓存例子</td><td class="f">命中率 0.4：接入链路利用率 0.6 × 1.5 / 1.54 ≈ <b>0.58</b>；平均时延 0.6 × 2.01 + 0.4 × 0.01 ≈ <b>1.2 s</b></td><td><a href="#app-s6">A.6</a> · slide 37–40</td></tr>
+          <tr><td>条件 GET</td><td>缓存发 <b>If-modified-since: &lt;date&gt;</b>；没改过 → <b>304 Not Modified</b>（不带对象）；改过 → 200 OK + 数据</td><td><a href="#app-s7">A.7</a> · slide 41</td></tr>
+          <tr><td>分发时间</td><td class="f"><b>D<sub>cs</sub> ≥ max{NF/u<sub>s</sub>, F/d<sub>min</sub>}</b>；<b>D<sub>P2P</sub> ≥ max{F/u<sub>s</sub>, F/d<sub>min</sub>, NF/(u<sub>s</sub> + Σu<sub>i</sub>)}</b></td><td><a href="#app-s8">A.8</a> · slide 45–47</td></tr>
+          <tr><td>BitTorrent</td><td>文件切成 <b>256 Kb</b> 的块（chunk）；tracker；<b>最稀有优先</b>；一报还一报：给速率最高的 <b>4</b> 个对等方上传，<b>每 10 s</b> 重评；<b>每 30 s</b> 随机乐观疏通 1 个</td><td><a href="#app-s9">A.9</a> · slide 49–52</td></tr>
+        </tbody></table></div>
+
+      <!-- ============ A.1 ============ -->
+      <div class="sub" id="app-s1">
+        <h3><span class="num">A.1</span> 网络应用与两种架构 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 12）</div><ul><li>分层的好处：开发应用<b>不需要懂网络底层</b>，会调用下面的传输层就行。很多靠应用赚大钱的人对网络知道得很少，"这正是我们想要的"。</li><li>应用层协议是"软件跟软件说话"，软件很"笨"，所以第一行写什么、有几行、怎么表示结束，每一位都要定义清楚。</li><li>客户-服务器：服务器 7×24 开着、一直监听某个端口；客户想用才来，可以用动态 IP。P2P 里大家角色对等，流量更<b>对称</b>。</li><li>老师的故事：早年 ISP 很讨厌 P2P。一是安全（谁都可以"提供"文件，里面可能有病毒）；二是更大的原因——当时接入网按客户-服务器设计，<b>下行容量远大于上行</b>，大家用 BT 上传把上行链路堵死，连请求都发不出去。他读博时 BT 在学校被禁。现在网络上行容量大多了，P2P 流量已和客户-服务器差不多。</li></ul></div>
+        <ul class="speclist">
+          <li><b>网络应用</b>（slide 5–6）= 运行在<b>不同端系统</b>上、通过网络交换<b>报文</b>互相通信的程序（进程）。同一台主机上的进程通信叫进程间通信，由操作系统管，不归网络管。</li>
+          <li><b>网络核心设备（路由器、交换机）不运行用户应用</b>，所以写应用只需在端系统上写软件，这让新应用可以很快开发出来。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>两种应用架构（slide 8–10）</caption>
+          <thead><tr><th></th><th>客户-服务器 client-server</th><th>P2P peer-to-peer</th></tr></thead>
+          <tbody>
+            <tr><td>谁提供服务</td><td>服务器提供，客户请求；角色分明</td><td>每个对等方既向别人要服务、也向别人提供服务</td></tr>
+            <tr><td>在线情况</td><td>服务器（几乎）<b>常开</b>；客户可以时断时续</td><td><b>没有常开的服务器</b>；对等方时断时续</td></tr>
+            <tr><td>地址</td><td>服务器有<b>固定 IP</b>；客户可以用动态 IP</td><td>对等方会换 IP 地址</td></tr>
+            <tr><td>通信</td><td>客户之间<b>不直接通信</b></td><td>任意端系统<b>直接通信</b></td></tr>
+            <tr><td>扩展</td><td>用数据中心扩容</td><td><b>自扩展</b> self-scalability：新对等方带来新需求，也带来新服务能力</td></tr>
+            <tr><td>缺点</td><td>服务器是瓶颈，用户越多越慢</td><td><b>管理复杂</b>；安全；激励（怎么让人愿意贡献带宽，怎么避免太多<b>搭便车</b> free-rider）</td></tr>
+            <tr><td>例子</td><td>Web（HTTP）、电子邮件</td><td>BitTorrent 文件分发、迅雷看看（KanKan）流媒体、Skype（slide 43）</td></tr>
+          </tbody></table></div>
+        <h4>应用层协议要定义什么（slide 12）</h4>
+        <ul class="speclist">
+          <li><b>报文类型</b>（如请求报文、响应报文）；<b>报文语法</b>（有哪些字段、字段怎么分隔）；<b>报文语义</b>（字段里信息的含义）；<b>规则</b>（进程何时、如何发送和响应报文）。</li>
+          <li><b>开放协议</b>：在 RFC 里定义，可互操作，如 HTTP、SMTP；<b>专有协议</b>：不公开，如 Skype。</li>
+        </ul>
+        <div class="callout extra"><div class="lbl">课外补充：套接字，以及应用该选 TCP 还是 UDP</div>
+          <p>P2C 没有单独讲这两点，但 P2B 讲过、往年 25S1 Q4(a) 考过。<b>套接字</b>是应用进程和传输层之间的"门"：进程把报文塞进套接字，另一端从套接字取出。应用对传输服务的需求一般看四点：<b>可靠性</b>（能不能丢数据）、<b>时延/定时</b>、<b>吞吐量</b>、<b>安全</b>。要求不丢数据的（Web、邮件、文件传输、支付）用 <b>TCP</b>；对时延敏感、能容忍少量丢失的（实时游戏动作、语音视频通话、直播）常用 <b>UDP</b>，需要的话在应用层自己补可靠性。一个应用可以<b>混合</b>：不同部分走不同套接字、用不同协议。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>Client-server: an <b>always-on server</b> with a <b>permanent IP address</b> serves clients; clients may have dynamic IPs and do not talk to each other directly.</li>
+          <li>P2P: no always-on server; peers communicate directly and both request and provide service, so it is <b>self-scalable</b> (new peers bring new capacity as well as new demand), but management is complex.</li>
+          <li>P2P challenges: <b>security</b> (open and distributed, vulnerable to attacks) and <b>incentives</b> (persuading users to contribute bandwidth; avoiding free-riders).</li>
+        </ul></div>
+        <details class="qcard"><summary>P2P 的"自扩展"是什么意思？客户-服务器为什么没有这个性质？</summary><div class="a">P2P 里每个新加入的对等方既带来需求（要下载），也带来服务能力（它的上传带宽），所以用户越多，总服务能力也越大。客户-服务器里服务能力只来自服务器，用户增加只增加需求，服务器成为瓶颈。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What does "self-scalability" of P2P mean, and why does client-server not have it?</p><p><b>A:</b> In P2P every new peer brings new service demand but also new service capacity (its upload bandwidth), so total capacity grows with the number of users. In client-server all capacity comes from the server; more clients only add demand, so the server becomes the bottleneck.</p></div></div></details>
+        <details class="qcard"><summary>应用层协议需要定义哪四样东西？</summary><div class="a">报文类型（请求/响应）、报文语法（字段及其分隔方式）、报文语义（字段含义）、何时以及如何发送和响应报文的规则。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What four things does an application-layer protocol define?</p><p><b>A:</b> The types of messages exchanged (e.g. request, response), the message syntax (fields and how they are delineated), the message semantics (meaning of the fields), and the rules for when and how a process sends and responds to messages.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.2 ============ -->
+      <div class="sub" id="app-s2">
+        <h3><span class="num">A.2</span> Web 与 HTTP 概述 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 12）</div><ul><li>"我不会考 URL 的全称是什么"；如果考卷里用缩写，会同时给出全称（看往年卷就是这样）。</li><li>服务器一直在 <b>80 端口</b>监听；HTTP 跑在 TCP 上，先三次握手，传完再拆连接。</li><li>HTTP 本身<b>无状态</b>，不记得你过去做过什么；想记住就要另外设计，比如 cookie。</li></ul></div>
+        <ul class="speclist">
+          <li><b>Web</b>（slide 14）是最流行的客户-服务器应用：按需获取、找信息方便，也是很多其他应用的平台。<b>HTTP</b>（超文本传输协议）是 Web 的应用层协议，分<b>客户程序</b>和<b>服务器程序</b>两部分，规定 HTTP 报文的结构和交换方式。</li>
+          <li><b>网页由对象组成</b>（slide 15）：一个<b>基本 HTML 文件</b> + 若干<b>被引用的对象</b>（JPEG 图片、Java 小程序、音频……）。每个对象用一个 <b>URL</b> 定位，例如 <code>www.someschool.edu/someDept/pic.gif</code> = 主机名 <code>www.someschool.edu</code> + 路径名 <code>/someDept/pic.gif</code>。</li>
+          <li><b>客户</b> = 浏览器（请求、接收、"显示"对象）；<b>服务器</b> = Web 服务器（如 Apache，响应请求发送对象）（slide 16）。</li>
+          <li><b>用 TCP</b>（slide 17）：客户发起到服务器 <b>80 端口</b>的 TCP 连接（创建套接字）→ 服务器接受 → 双方交换 HTTP 报文 → 关闭 TCP 连接。</li>
+          <li><b>HTTP 是无状态的</b>：服务器不保存客户过去请求的任何信息。为什么？有状态的协议复杂：要维护历史；一方崩溃后两边对"状态"的看法可能不一致，还得协调。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>HTTP is the Web's application-layer protocol in the <b>client-server</b> model: the browser requests objects, the Web server sends them.</li>
+          <li>HTTP runs over <b>TCP, port 80</b>; it is <b>stateless</b> — the server keeps no information about past client requests (state can be added with cookies).</li>
+        </ul></div>
+        <details class="qcard"><summary>HTTP 为什么设计成无状态？</summary><div class="a">有状态的协议很复杂：必须保存过去的历史；如果服务器或客户崩溃，两边对状态的看法可能不一致，还要重新协调。无状态让服务器简单。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why is HTTP designed to be stateless?</p><p><b>A:</b> Protocols that maintain state are complex: past history must be kept, and if the server or client crashes their views of the state may become inconsistent and must be reconciled. Being stateless keeps the server simple.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.3 ============ -->
+      <div class="sub" id="app-s3">
+        <h3><span class="num">A.3</span> 非持久与持久 HTTP：响应时间怎么算 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 12）</div><ul><li>早年网页几乎只有文字，一个连接取一个文件就够，所以非持久没问题；现在每个网页都有很多对象，每个对象都要付 <b>2 个 RTT</b>，"不可接受"，于是有了持久 HTTP。</li><li>现在浏览器不但用持久连接，还会<b>同时开大约 10 条并行 TCP 连接</b>，所以网页下得快。</li><li>网页怎么<b>显示</b>不归 HTTP 管，由本机软件决定；所以同一网页在不同设备上看起来可能不一样。</li><li><b>"要小心 bit 和 byte"</b>：老师说考试和 Quiz 里一定会在这里设个小陷阱。1 kbyte = 8000 bit。</li><li>slide 23 的持久连接答案假设服务器把对象<b>背靠背</b>自动发过来；如果客户要先读完 HTML 再请求图片，就还要多一个 RTT。并行连接的情况算法会稍有不同。</li></ul></div>
+        <div class="tablewrap"><table>
+          <caption>两种连接（slide 18）</caption>
+          <thead><tr><th>非持久 HTTP non-persistent</th><th>持久 HTTP persistent</th></tr></thead>
+          <tbody>
+            <tr><td>一条 TCP 连接<b>最多传一个对象</b>，传完服务器就关连接；下载多个对象要建多条连接</td><td>服务器发完响应后<b>不关连接</b>；同一网页的多个对象，甚至同一服务器的多个网页，都走这一条连接</td></tr>
+            <tr><td>每个对象都要：1 个 RTT 建连接 + 1 个 RTT 请求 + 传输时间</td><td>可以<b>流水线</b>：背靠背发多个请求，不等回复；服务器背靠背发回对象</td></tr>
+            <tr><td></td><td>连接空闲超过一个可配置的超时时间后，服务器才关闭（slide 22）</td></tr>
+          </tbody></table></div>
+        <h4>非持久 HTTP 的步骤（slide 19–20）</h4>
+        <p>用户输入 <code>www.someSchool.edu/someDepartment/home.index</code>（文字 + 引用 10 张 JPEG）：1a 客户向服务器 80 端口发起 TCP 连接；1b 服务器接受；2 客户把请求报文（含 URL）写进套接字；3 服务器读请求、把对象装进响应报文发回；4 服务器<b>关闭</b> TCP 连接；5 客户收到 HTML，解析后发现 10 个 JPEG；6 对每个 JPEG <b>重复 1–5</b>。</p>
+        <h4>响应时间（slide 21）</h4>
+        <p><b>RTT</b> = 一个很小的分组从客户到服务器再回来的时间。取一个对象：第 1 个 RTT 建 TCP 连接（握手）；第 2 个 RTT 发请求、收到响应的头几个字节；然后是文件的传输时间。</p>
+        <div class="formula must">
+          <span class="fl">非持久，每个对象：<b>2·RTT + L/R</b>（L = 对象位数，R = 下载速率）</span>
+          <span class="fl">非持久串行，1 个基本文件 + n 个对象：<b>(n+1)·2·RTT + 全部位数 / R</b></span>
+          <span class="fl">持久、一条连接（背靠背）：<b>2·RTT + 全部位数 / R</b></span>
+          <span class="fl">单位：<b>1 kbyte = 8 × 10<sup>3</sup> bit</b>，1 Mbps = 10<sup>6</sup> bit/s</span>
+        </div>
+        <div class="callout teal"><div class="lbl">例子（slide 23，老师课上逐步讲）</div>
+          <p>网页 = 1 个文档（1 kbyte）+ 5 张图（各 50 kbyte）；下载速率 1 Mbps；RTT = 100 ms；DNS 等其他时延忽略。</p>
+          <ul class="speclist">
+            <li>先换单位：文档 1 kbyte = 8 × 10<sup>3</sup> bit → 传 8 × 10<sup>3</sup> / 10<sup>6</sup> = <b>0.008 s</b>；每张图 50 kbyte = 4 × 10<sup>5</sup> bit → <b>0.4 s</b>。</li>
+            <li><b>非持久、串行</b>：文档 2 × 0.1 + 0.008 = 0.208 s；每张图 2 × 0.1 + 0.4 = 0.6 s，共 5 张 = 3 s。合计 <b>3.208 s</b>。</li>
+            <li><b>持久、一条连接</b>：只在开头付一次 2 × 0.1 s，之后对象背靠背：0.2 + 0.008 + 5 × 0.4 = <b>2.208 s</b>。</li>
+            <li>差的 1 s 正好是省下的 5 × 2 RTT。</li>
+          </ul></div>
+        <div class="callout warn"><div class="lbl">往年考法：23S1 Q4(b)（8 分）</div><p>同样的结构，但文档 50 Kbytes、5 张图分别 100/200/300/400/500 Kbytes，还多问了"持久 + 4 条并行连接"的<b>最短</b>时间。答案：非持久串行 13.6 s；持久一条连接 12.6 s；4 条并行时 1 Mbps 下载速率是所有连接共享的，总共 12.4 Mbit 至少要 12.4 s，所以最短仍是 12.6 s。详见练习页"应用层 · 往年 Q4"。</p></div>
+        <h4>并行连接与网页显示（slide 23）</h4>
+        <ul class="speclist">
+          <li>取 10 张 JPEG 可以用 10 条<b>串行</b>连接，也可以用若干条<b>并行</b>连接；现代浏览器默认开 <b>5–10 条</b>并行 TCP 连接，每条处理一次请求-响应。并行能缩短响应时间，但在某些情况下会造成<b>不公平</b>（一个用户占了多条连接的带宽）。</li>
+          <li>HTTP 只规定客户和服务器之间怎么通信，<b>不管网页怎么显示</b>。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li><b>Non-persistent HTTP</b>: at most one object per TCP connection, then the connection is closed; each object costs <b>2 RTT</b> (one to set up TCP, one for request/first bytes of response) <b>+ transmission time</b>.</li>
+          <li><b>Persistent HTTP</b>: the server leaves the connection open, so all objects of the page are sent over one connection (back-to-back / pipelined), paying the 2 RTT set-up only once.</li>
+          <li>Example: 2×0.1 + 0.008 + 5×(2×0.1 + 0.4) = 3.208 s (non-persistent) vs 2×0.1 + 0.008 + 5×0.4 = 2.208 s (persistent).</li>
+        </ul></div>
+        <details class="qcard"><summary>RTT = 50 ms，下载速率 2 Mbps，网页 = 1 个 2 kbyte 的 HTML + 3 张 25 kbyte 的图。非持久串行和持久一条连接各要多久？</summary><div class="a">HTML：2 kbyte = 16000 bit → 0.008 s；每张图 25 kbyte = 2 × 10<sup>5</sup> bit → 0.1 s。非持久：4 × 2 × 0.05 + 0.008 + 3 × 0.1 = 0.4 + 0.308 = <b>0.708 s</b>。持久：2 × 0.05 + 0.008 + 0.3 = <b>0.408 s</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> RTT = 50 ms, download rate 2 Mbps, the page is one 2-kbyte HTML file plus three 25-kbyte images. How long do non-persistent HTTP with serial connections and persistent HTTP with one connection take?</p><p><b>A:</b> HTML: 2 kbyte = 16,000 bits → 0.008 s; each image 25 kbyte = 2×10⁵ bits → 0.1 s. Non-persistent: 4 × 2 × 0.05 + 0.008 + 3 × 0.1 = <b>0.708 s</b>. Persistent: 2 × 0.05 + 0.008 + 0.3 = <b>0.408 s</b>.</p></div></div></details>
+        <details class="qcard"><summary>为什么非持久 HTTP 每个对象要 2 个 RTT，而不是 1 个？</summary><div class="a">HTTP 跑在 TCP 上：第 1 个 RTT 用于建立 TCP 连接（握手），第 2 个 RTT 用于发出 HTTP 请求并收到响应的头几个字节；然后才是文件传输时间。非持久连接传完一个对象就关闭，下一个对象又要重新握手。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does non-persistent HTTP cost 2 RTTs per object rather than 1?</p><p><b>A:</b> HTTP runs over TCP: one RTT is needed to set up the TCP connection, and a second RTT for the HTTP request to go out and the first bytes of the response to come back, followed by the file transmission time. Since the connection is closed after each object, the next object must set up a new connection again.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.4 ============ -->
+      <div class="sub" id="app-s4">
+        <h3><span class="num">A.4</span> HTTP 报文格式：请求与响应 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 12）</div><ul><li>老师当场更正 slide 25：<b>第一行叫请求行，不算首部行</b>；首部行从<b>第二行</b>开始（图上"header lines"的箭头指高了）。</li><li><b>q 是相对质量因子</b>，表示客户的偏好：值越小越不想要。en-us 没写 q（默认 1），en 是 0.5 → 更想要美式英语，没有的话英式也行。</li><li><b>Keep-Alive: 115</b> = 连接空闲 115 秒后才拆，这是 Firefox 的典型值。</li><li>GET 的数据部分是空的；POST（填表）要带数据。POST 和 PUT 的区别：POST 多次提交不覆盖前面的，PUT 一般是<b>覆盖</b>。DELETE 只能删你有权限删的东西。</li><li>响应的第一行叫<b>状态行</b>。状态码给机器看，后面的短语给人看。报文都是 ASCII，"像普通英文一样能读懂"。</li></ul></div>
+        <p>HTTP 报文有两种：<b>请求</b>和<b>响应</b>，都是 <b>ASCII</b> 文本，人能直接读（slide 25）。下面是 slide 25 的请求报文，逐行解释：</p>
+        <div class="tablewrap"><table>
+          <caption>一个 HTTP 请求报文（slide 25；每行以 \r\n 结尾）</caption>
+          <thead><tr><th>行</th><th>意思</th></tr></thead>
+          <tbody>
+            <tr><td><code>GET /index.html HTTP/1.1\r\n</code></td><td><b>请求行</b>：方法 GET，请服务器发送对象 /index.html，使用（首选）HTTP/1.1 版本</td></tr>
+            <tr><td><code>Host: www-net.cs.umass.edu\r\n</code></td><td>首部行：对象所在的主机</td></tr>
+            <tr><td><code>User-Agent: Firefox/3.6.10\r\n</code></td><td>浏览器类型（用户代理）</td></tr>
+            <tr><td><code>Accept: text/html,application/xhtml+xml\r\n</code></td><td>能接受的对象类型</td></tr>
+            <tr><td><code>Accept-Language: en-us,en;q=0.5\r\n</code></td><td>能接受的语言：美式英语和英语都行，<b>更想要美式英语</b>；en 的相对质量因子 q = 0.5</td></tr>
+            <tr><td><code>Accept-Encoding: gzip,deflate\r\n</code></td><td>能接受的压缩编码</td></tr>
+            <tr><td><code>Accept-Charset: ISO-8859-1,utf-8;q=0.7\r\n</code></td><td>能接受的字符集，更想要 ISO-8859-1</td></tr>
+            <tr><td><code>Keep-Alive: 115\r\n</code></td><td><b>持久连接</b>在空闲 <b>115 秒</b>后超时关闭</td></tr>
+            <tr><td><code>\r\n</code></td><td><b>空行</b>（行首就是回车换行）= 首部行结束</td></tr>
+          </tbody></table></div>
+        <p><b>\r</b> 是回车（carriage return，光标回到行首），<b>\n</b> 是换行（line feed）。通用格式（slide 26）：</p>
+        <div class="formula must">
+          <span class="fl">请求行：<b>方法 sp URL sp 版本 cr lf</b></span>
+          <span class="fl">首部行：<b>首部字段名: 值 cr lf</b>（若干行）</span>
+          <span class="fl"><b>cr lf</b>（空行）→ 实体主体 entity body（GET 时为空）</span>
+          <span class="fl">响应：<b>状态行</b>（版本 状态码 短语）→ 首部行 → 空行 → 实体主体（请求的对象）</span>
+        </div>
+        <div class="tablewrap"><table>
+          <caption>请求方法（slide 27）</caption>
+          <thead><tr><th>方法</th><th>作用</th></tr></thead>
+          <tbody>
+            <tr><td><b>GET</b></td><td>请求一个对象；实体主体为空</td></tr>
+            <tr><td><b>POST</b></td><td>用户填表（如给搜索引擎输关键词）；实体主体装用户输入的内容</td></tr>
+            <tr><td><b>HEAD</b></td><td>和 GET 类似，但响应里<b>不带</b>请求的对象；常用于调试</td></tr>
+            <tr><td><b>PUT</b></td><td>把对象上传到 Web 服务器的指定目录（网页发布）</td></tr>
+            <tr><td><b>DELETE</b></td><td>删除 Web 服务器上的一个对象</td></tr>
+          </tbody></table></div>
+        <h4>响应报文（slide 29–31）</h4>
+        <p>三部分：<b>状态行</b>（协议版本、状态码、对应短语）、<b>首部行</b>、<b>实体主体</b>（请求的对象）。slide 31 的例子：</p>
+        <div class="tablewrap"><table>
+          <tbody>
+            <tr><td><code>HTTP/1.1 200 OK</code></td><td>状态行：版本 HTTP/1.1，成功</td></tr>
+            <tr><td><code>Connection: close</code></td><td>发完这条报文就关连接</td></tr>
+            <tr><td><code>Date: …</code></td><td>服务器发出响应的时间</td></tr>
+            <tr><td><code>Server: Apache/2.2.3 (CentOS)</code></td><td>生成报文的服务器软件</td></tr>
+            <tr><td><code>Last-Modified: …</code></td><td>对象创建或最后修改的时间（条件 GET 要用）</td></tr>
+            <tr><td><code>Content-Length: 6821</code></td><td>对象的<b>字节</b>数</td></tr>
+            <tr><td><code>Content-Type: text/html</code></td><td>实体主体是 HTML 文本</td></tr>
+          </tbody></table></div>
+        <div class="tablewrap"><table>
+          <caption>状态码（slide 30）</caption>
+          <tbody>
+            <tr><td><b>200 OK</b></td><td>请求成功，对象在报文后面</td></tr>
+            <tr><td><b>301 Moved Permanently</b></td><td>对象已永久移走，新位置在 Location: 首部里</td></tr>
+            <tr><td><b>400 Bad Request</b></td><td>服务器看不懂这个请求</td></tr>
+            <tr><td><b>404 Not Found</b></td><td>服务器上没有这个文档</td></tr>
+            <tr><td><b>505 HTTP Version Not Supported</b></td><td>不支持这个 HTTP 版本</td></tr>
+          </tbody></table></div>
+        <div class="callout teal"><div class="lbl">考试这样写（24S2 Q4(a) 原题就是解释下划线的行）</div><ul lang="en">
+          <li><code>GET /index.html HTTP/1.1</code> — request line: asks the server to send the object /index.html, using (preferably) HTTP version 1.1.</li>
+          <li><code>Accept-Language: en-us,en;q=0.5</code> — both US English and English are acceptable, US English is preferred; q = 0.5 is the relative quality factor (preference) of en.</li>
+          <li><code>Keep-Alive: 115</code> — the persistent connection times out after 115 s of inactivity.</li>
+        </ul></div>
+        <details class="qcard"><summary>请求报文里怎么知道首部行结束了？GET 和 POST 的实体主体有什么不同？</summary><div class="a">首部行之后有一个<b>空行</b>（单独一个 \r\n），表示首部行结束。GET 只是请求对象，实体主体为空；POST 用来提交表单，实体主体里装用户填的内容。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> How does the receiver know the header lines of a request have ended? How do the entity bodies of GET and POST differ?</p><p><b>A:</b> An empty line (a lone carriage return + line feed, \r\n) follows the header lines and marks their end. GET only requests an object, so its entity body is empty; POST submits a form, so the entity body carries what the user entered.</p></div></div></details>
+        <details class="qcard"><summary>HEAD 方法有什么用？404 和 301 分别是什么意思？</summary><div class="a">HEAD 和 GET 类似，但服务器只回响应报文、不带请求的对象，常用于调试。404 Not Found：服务器上没有这个文档；301 Moved Permanently：对象已永久移到新位置（在 Location: 首部给出）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the HEAD method for? What do 404 and 301 mean?</p><p><b>A:</b> HEAD is like GET but the response does not contain the requested object; it is often used for debugging. 404 Not Found: the requested document is not on this server. 301 Moved Permanently: the object has moved; the new location is given in the Location: header.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.5 ============ -->
+      <div class="sub" id="app-s5">
+        <h3><span class="num">A.5</span> Cookie：让无状态的 HTTP 记住用户 <span class="qz fin">期末考</span></h3><div class="callout teach"><div class="lbl">老师强调 · 课堂录音（Week 12）</div><ul><li>cookie 是由<b>服务器在响应报文里发起</b>的（set-cookie），不是客户请求"请记住我"。客户同意的话，以后请求时带上这个"名牌"，服务器就认得你。</li><li>现在很多国家<b>法律要求</b>设 cookie 要征得你同意；早年是悄悄设的，大家不喜欢。</li><li>方便（上次没货的书现在打折了，网站会推荐给你），代价是<b>隐私</b>：长期记录可以给你建很详细的档案，"Google 可能比我们更了解自己"。</li></ul></div>
+        <p>HTTP 服务器无状态，但网站常常需要<b>识别用户</b>：限制访问，或者按用户身份提供内容。办法是 cookie，<b>四个组成部分</b>（slide 32）：</p>
+        <ol class="speclist">
+          <li>HTTP <b>响应</b>报文里的 cookie 首部行，例如 <code>set-cookie: 1678</code>；</li>
+          <li>下一次 HTTP <b>请求</b>报文里的 cookie 首部行：<code>cookie: 1678</code>；</li>
+          <li>用户主机上的 <b>cookie 文件</b>，由浏览器管理；</li>
+          <li>网站的<b>后端数据库</b>。</li>
+        </ol>
+        <p><b>例子</b>（slide 33）：用户 cookie 文件里已有 <code>ebay 8734</code>。第一次访问 Amazon：发普通请求 → Amazon 服务器为他生成 ID 1678，在后端数据库建一条记录 → 响应里带 <code>set-cookie: 1678</code> → 浏览器在 cookie 文件里加一行 <code>amazon 1678</code>。之后（哪怕<b>一周以后</b>）每次请求 Amazon 都带 <code>cookie: 1678</code>，服务器查数据库，做"cookie 相关的动作"（推荐、购物车等）。</p>
+        <ul class="speclist">
+          <li><b>用途</b>（slide 34）：授权、购物车、推荐、用户会话状态（Web 邮件）。</li>
+          <li><b>怎么保持"状态"</b>：协议两端各自在多次交互中维护状态；或者用 cookie——<b>HTTP 报文携带状态</b>。</li>
+          <li><b>隐私</b>：cookie 让网站了解你很多；你提供的姓名、邮箱等，以及行为历史，都能和你的 ID 关联起来。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>HTTP is stateless; <b>cookies</b> let a site identify a user. Four components: a <b>set-cookie</b> header in the response, a <b>cookie</b> header in later requests, a cookie file on the user's host managed by the browser, and a back-end database at the site.</li>
+          <li>Uses: authorization, shopping carts, recommendations, session state; drawback: <b>privacy</b> — the site can build a profile of the user.</li>
+        </ul></div>
+        <details class="qcard"><summary>cookie 的 ID 是谁先产生的？是在请求还是响应里第一次出现？</summary><div class="a">由<b>服务器</b>产生：服务器为新用户生成 ID、写入后端数据库，在<b>响应</b>报文里用 set-cookie 首部发给浏览器；之后浏览器在<b>请求</b>报文里用 cookie 首部带回这个 ID。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Who creates the cookie ID, and does it first appear in a request or a response?</p><p><b>A:</b> The <b>server</b> creates it: it generates an ID for the new user, stores an entry in its back-end database, and sends the ID to the browser in a <b>set-cookie</b> header of the <b>response</b>. Afterwards the browser returns the ID in a <b>cookie</b> header of each request.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.6 ============ -->
+      <div class="sub" id="app-s6">
+        <h3><span class="num">A.6</span> Web 缓存（代理服务器） <span class="qz fin">期末考</span></h3>
+        <div class="callout"><div class="lbl">课堂进度</div><p>Week 12 课上讲到 cookie 就停了，从这里开始到本章结束，老师说会录视频补讲；下面按 slides 和往年官方答案整理。</p></div>
+        <ul class="speclist">
+          <li><b>目标</b>（slide 35）：不找原始服务器也能满足客户请求。Web 缓存（<b>代理服务器</b>）有自己的存储，保存最近被请求过的对象的副本。</li>
+          <li>用户把浏览器设成通过缓存访问 Web，浏览器的<b>所有 HTTP 请求都先发给缓存</b>：缓存里有 → 直接返回；没有 → 缓存向原始服务器请求，拿到后返回给客户（并留一份）。</li>
+          <li>缓存<b>既是服务器又是客户</b>（slide 36）：对发请求的客户是服务器，对原始服务器是客户。一般由 <b>ISP</b>（大学、公司、住宅 ISP）安装。</li>
+          <li><b>为什么要缓存</b>：①缩短客户请求的<b>响应时间</b>；②减少机构<b>接入链路上的流量</b>；③Internet 上到处是缓存，让"穷"的内容提供者也能有效地分发内容（P2P 文件共享也有这个作用）。</li>
+        </ul>
+        <h4>缓存例子（slide 37–40）</h4>
+        <p>条件：平均对象 100 Kbit；浏览器到原始服务器平均每秒 15 个请求 → 平均速率 15 × 0.1 = <b>1.50 Mbps</b>；机构路由器到任意原始服务器 RTT = 2 s；接入链路 1.54 Mbps；机构 LAN 100 Mbps。</p>
+        <div class="tablewrap"><table>
+          <thead><tr><th>方案</th><th>接入链路利用率</th><th>总时延 = Internet 时延 + 接入时延 + LAN 时延</th><th>代价</th></tr></thead>
+          <tbody>
+            <tr><td>原样</td><td>1.5/1.54 ≈ 97%（slide 写 99%）→ <b>快满了</b></td><td>2 s + <b>几分钟</b>（排队）+ 微秒级</td><td>—</td></tr>
+            <tr><td>接入链路升到 154 Mbps</td><td>1.5/154 ≈ <b>0.99%</b></td><td>2 s + 毫秒级 + 微秒级</td><td>贵</td></tr>
+            <tr><td>装本地缓存，命中率 0.4</td><td>只有 60% 的请求走接入链路：0.6 × 1.50 = 0.9 Mbps，0.9/1.54 ≈ <b>0.58</b></td><td>0.6 × 2.01 + 0.4 × 0.01 ≈ <b>1.2 s</b></td><td><b>便宜</b></td></tr>
+          </tbody></table></div>
+        <p>LAN 利用率三种情况都是 1.5/100 = 1.5%。利用率降到 0.58 后，接入链路的排队时延很小（slide 估成 0.01 s），所以走原始服务器的请求约 2.01 s，在缓存命中的约 0.01 s（估计值）。结论：<b>装缓存比换粗链路时延更小，还更便宜</b>。</p>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>A Web cache (proxy server) keeps copies of recently requested objects; the browser sends all requests to the cache, which returns the object if it has it, otherwise fetches it from the origin server. It acts as both <b>server</b> (to the client) and <b>client</b> (to the origin server).</li>
+          <li>Benefits: <b>reduces response time</b>, <b>reduces traffic on the institution's access link</b>, and lets "poor" content providers deliver content effectively.</li>
+          <li>Hit rate 0.4: access-link utilisation = 0.6 × 1.5/1.54 ≈ 0.58; average delay ≈ 0.6 × 2.01 + 0.4 × 0.01 ≈ 1.2 s.</li>
+        </ul></div>
+        <details class="qcard"><summary>同一例子，如果缓存命中率是 0.6，接入链路利用率和平均时延约为多少？</summary><div class="a">走接入链路的是 40%：0.4 × 1.5 = 0.6 Mbps，利用率 0.6/1.54 ≈ <b>0.39</b>。时延 ≈ 0.4 × 2.01 + 0.6 × 0.01 = <b>0.81 s</b>（沿用 slide 的估计：链路不拥塞时原始服务器 2.01 s、缓存 0.01 s）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In the same example, if the cache hit rate is 0.6, what are the access-link utilisation and the average delay?</p><p><b>A:</b> 40% of requests use the access link: 0.4 × 1.5 = 0.6 Mbps, utilisation 0.6/1.54 ≈ <b>0.39</b>. Delay ≈ 0.4 × 2.01 + 0.6 × 0.01 = <b>0.81 s</b> (using the slide's estimates: 2.01 s via the uncongested link to the origin server, 0.01 s from the cache).</p></div></div></details>
+      </div>
+
+      <!-- ============ A.7 ============ -->
+      <div class="sub" id="app-s7">
+        <h3><span class="num">A.7</span> 条件 GET：缓存里的副本过期了怎么办 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3>
+        <ul class="speclist">
+          <li><b>问题</b>（slide 41）：缓存里的副本可能已经<b>过时</b>（stale），原始服务器上的对象改过了。</li>
+          <li><b>目标</b>：如果缓存里的版本是最新的，服务器就<b>不要再发对象</b> → 没有对象传输时延，链路利用率更低。</li>
+          <li><b>缓存</b>：在 HTTP 请求里写上缓存副本的日期 <code>If-modified-since: &lt;date&gt;</code>。</li>
+          <li><b>服务器</b>：如果 &lt;date&gt; 之后对象没改过 → 回 <code>HTTP/1.0 304 Not Modified</code>，<b>不带对象</b>；改过 → 回 <code>HTTP/1.0 200 OK</code> + 数据。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>两种情况（slide 41）</caption>
+          <thead><tr><th>缓存 → 服务器</th><th>对象在 &lt;date&gt; 之后</th><th>服务器 → 缓存</th></tr></thead>
+          <tbody>
+            <tr><td>HTTP 请求 + If-modified-since: &lt;date&gt;</td><td>没改过</td><td>HTTP/1.0 <b>304 Not Modified</b>（无对象）</td></tr>
+            <tr><td>HTTP 请求 + If-modified-since: &lt;date&gt;</td><td>改过</td><td>HTTP/1.0 <b>200 OK</b> + &lt;data&gt;</td></tr>
+          </tbody></table></div>
+        <div class="callout warn"><div class="lbl">往年考法：25S2 Q4(c)（8 分）</div><p>先简述条件 GET，然后比较两种方案：(i) 只有客户请求到达时才发条件 GET；(ii) 没有客户请求时也（定期）发。官方答案：一般 (i) 更好——网络流量少、服务器负担轻、省资源；(ii) 适合<b>更新时间可预测的实时应用</b>（如每 5 秒更新一次的股价看板），可以提前验证，用户等得更少。老师还说<b>不要求记住 304 这个数字</b>，理解对就行。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>Conditional GET avoids sending an object the cache already has up to date: the cache adds <b>If-modified-since: &lt;date&gt;</b> to its request.</li>
+          <li>If the object has not been modified since &lt;date&gt;, the server replies <b>304 Not Modified</b> with no object; otherwise it replies <b>200 OK</b> with the new object.</li>
+          <li>Benefit: no object transmission delay and lower link utilisation.</li>
+        </ul></div>
+        <details class="qcard"><summary>条件 GET 时，如果对象没改过，服务器回什么？回的报文里有没有对象？这样省了什么？</summary><div class="a">回状态行 <b>304 Not Modified</b>，报文里<b>没有</b>对象。省掉了对象的传输时延，也减少了链路上的流量（利用率更低）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In a conditional GET, what does the server reply if the object has not been modified? Does the reply contain the object? What is saved?</p><p><b>A:</b> It replies <b>304 Not Modified</b> and the reply contains <b>no</b> object. This saves the object transmission delay and reduces link utilisation.</p></div></div></details>
+      </div>
+
+      <!-- ============ A.8 ============ -->
+      <div class="sub" id="app-s8">
+        <h3><span class="num">A.8</span> P2P 文件分发时间：客户-服务器 vs P2P <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3>
+        <p><b>问题</b>（slide 44）：一个服务器要把大小为 <b>F</b> 的文件分发给 <b>N</b> 个对等方，最少要多久？记号：u<sub>s</sub> = 服务器上传速率；u<sub>i</sub> = 对等方 i 的上传速率；d<sub>i</sub> = 对等方 i 的下载速率；d<sub>min</sub> = 最小的下载速率。假设网络核心带宽充足，瓶颈只在上传和下载速率。</p>
+        <h4>客户-服务器（slide 45）</h4>
+        <ul class="speclist">
+          <li><b>服务器</b>必须一份一份地上传 <b>N 份</b>：发一份要 F/u<sub>s</sub>，N 份要 <b>NF/u<sub>s</sub></b>。</li>
+          <li><b>每个客户</b>都要下载一份：最慢的客户至少要 <b>F/d<sub>min</sub></b>。</li>
+        </ul>
+        <h4>P2P（slide 46）</h4>
+        <ul class="speclist">
+          <li><b>服务器</b>至少上传<b>一份</b>：F/u<sub>s</sub>。</li>
+          <li><b>每个客户</b>下载一份：至少 F/d<sub>min</sub>。</li>
+          <li><b>全体</b>一共要下载 NF 位；系统最大上传速率是 <b>u<sub>s</sub> + Σu<sub>i</sub></b>（它也限制了最大下载速率），所以至少 <b>NF/(u<sub>s</sub> + Σu<sub>i</sub>)</b>。</li>
+        </ul>
+        <div class="formula must">
+          <span class="fl"><b>D<sub>c-s</sub> ≥ max{ NF/u<sub>s</sub> , F/d<sub>min</sub> }</b>　　N 大时 ≈ NF/u<sub>s</sub>，随 N <b>线性增长</b></span>
+          <span class="fl"><b>D<sub>P2P</sub> ≥ max{ F/u<sub>s</sub> , F/d<sub>min</sub> , NF/(u<sub>s</sub> + Σu<sub>i</sub>) }</b>　　分子分母都随 N 增长</span>
+        </div>
+        <p>P2P 的第三项分子 NF 随 N 线性增长，但分母也随 N 增长——<b>每个新对等方都带来服务能力</b>，这就是自扩展。slide 46 还说：假设每个对等方收到一位就能立刻转发出去，P2P 的这个下界是<b>可以达到的</b>（tight）。</p>
+        <div class="callout teal"><div class="lbl">例子（slide 47）</div>
+          <p>N = 10，F = 8000 Mb，u<sub>s</sub> = 20 Mbps，每个对等方 d<sub>i</sub> = 10 Mbps（slide 的分母 120 = 20 + 10 × 10，说明每个 u<sub>i</sub> 也是 10 Mbps）。</p>
+          <ul class="speclist">
+            <li>D<sub>c-s</sub> = max{10 × 8000 / 20, 8000 / 10} = max{4000, 800} = <b>4000 s</b></li>
+            <li>D<sub>P2P</sub> = max{8000 / 20, 8000 / 10, 80000 / 120} = max{400, 800, 666.7} = <b>800 s</b></li>
+            <li>P2P 快了 5 倍；这时 P2P 的瓶颈是对等方的下载速率。</li>
+          </ul></div>
+        <p>slide 48 的曲线：u = 客户上传速率，F/u = 1 小时，u<sub>s</sub> = 10u，d<sub>min</sub> ≥ u<sub>s</sub>。客户-服务器的最短时间 = N/10 小时，<b>直线上升</b>（N = 35 时 3.5 小时）；P2P = max{0.1, N/(10+N)} 小时，<b>始终小于 1 小时</b>（N = 30 时 0.75 小时）。</p>
+        <div class="callout warn"><div class="lbl">往年考法</div><ul class="speclist">
+          <li><b>25S1 Q4(b)（8 分）</b>：证明客户-服务器的最短分发时间是 max{NF/u<sub>s</sub>, F/d<sub>min</sub>}。(i) u<sub>s</sub>/N ≤ d<sub>min</sub> 时：服务器给每个客户<b>并行</b>以 u<sub>s</sub>/N 发送 → 每个客户用 NF/u<sub>s</sub> 收完；(ii) u<sub>s</sub>/N ≥ d<sub>min</sub> 时：并行以 d<sub>min</sub> 发送（总速率 N·d<sub>min</sub> ≤ u<sub>s</sub>）→ F/d<sub>min</sub>；(iii) 两种情况分别比较两项大小，合起来就是 max{…}。</li>
+          <li><b>23S1 Q4(c)（5 分）</b>：客户-服务器的最短时间是否随 F 线性增长？是：两项 NF/u<sub>s</sub> 和 F/d<sub>min</sub> 都和 F 成正比，max 也和 F 成正比。</li>
+        </ul></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>Client-server: the server must upload N copies (NF/u<sub>s</sub>) and the slowest client needs F/d<sub>min</sub>, so <b>D<sub>cs</sub> ≥ max{NF/u<sub>s</sub>, F/d<sub>min</sub>}</b>, which grows linearly in N.</li>
+          <li>P2P: the server uploads at least one copy (F/u<sub>s</sub>), each peer downloads F (F/d<sub>min</sub>), and NF bits in total are uploaded at most at u<sub>s</sub> + Σu<sub>i</sub>: <b>D<sub>P2P</sub> ≥ max{F/u<sub>s</sub>, F/d<sub>min</sub>, NF/(u<sub>s</sub> + Σu<sub>i</sub>)}</b>.</li>
+          <li>P2P scales because each new peer adds upload capacity as well as demand.</li>
+        </ul></div>
+        <details class="qcard"><summary><span class="qs">N = 20，F = 1 Gb，u<sub>s</sub> = 50 Mbps，每个对等方 u<sub>i</sub> = 5 Mbps、d<sub>i</sub> = 20 Mbps。D<sub>c-s</sub> 和 D<sub>P2P</sub> 的下界各是多少？</span></summary><div class="a">F = 1000 Mb。D<sub>c-s</sub> = max{20 × 1000/50, 1000/20} = max{400, 50} = <b>400 s</b>。D<sub>P2P</sub> = max{1000/50, 1000/20, 20000/(50 + 100)} = max{20, 50, 133.3} = <b>133.3 s</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> N = 20, F = 1 Gb, u<sub>s</sub> = 50 Mbps, each peer has u<sub>i</sub> = 5 Mbps and d<sub>i</sub> = 20 Mbps. What are the lower bounds D<sub>c-s</sub> and D<sub>P2P</sub>?</p><p><b>A:</b> F = 1000 Mb. D<sub>c-s</sub> = max{20 × 1000/50, 1000/20} = max{400, 50} = <b>400 s</b>. D<sub>P2P</sub> = max{1000/50, 1000/20, 20000/(50 + 100)} = max{20, 50, 133.3} = <b>133.3 s</b>.</p></div></div></details>
+        <details class="qcard"><summary>为什么客户-服务器的分发时间随 N 线性增长，而 P2P 不会无限增长？</summary><div class="a">客户-服务器里只有服务器在上传，N 份要 NF/u<sub>s</sub>，和 N 成正比。P2P 里第三项 NF/(u<sub>s</sub> + Σu<sub>i</sub>) 的分母也随 N 增长（每个对等方都贡献上传速率），所以它趋于一个上限（各 u<sub>i</sub> 相同时约为 F/u）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why does client-server distribution time grow linearly with N while P2P time does not grow without bound?</p><p><b>A:</b> In client-server only the server uploads, so N copies take NF/u<sub>s</sub>, proportional to N. In P2P the denominator of NF/(u<sub>s</sub> + Σu<sub>i</sub>) also grows with N because every peer contributes upload capacity, so the time approaches a ceiling (about F/u when all u<sub>i</sub> are equal).</p></div></div></details>
+      </div>
+
+      <!-- ============ A.9 ============ -->
+      <div class="sub" id="app-s9">
+        <h3><span class="num">A.9</span> BitTorrent：块、tracker、一报还一报 <span class="qz fin">期末考</span> <span class="qz hot">期末常考</span></h3>
+        <ul class="speclist">
+          <li><b>块</b>（slide 49）：文件被切成 <b>256 Kb</b> 的块（chunk；slide 上写 Kb），种子群里的对等方互相发送/接收块。</li>
+          <li><b>torrent（种子群）</b>：交换同一个文件的块的全部对等方。<b>tracker</b>：跟踪有哪些对等方在种子群里。对等方加入时向 tracker <b>注册</b>，之后定期告诉 tracker"我还在"。</li>
+          <li><b>新加入的对等方</b>（slide 50）：一开始一块也没有，慢慢从别人那里攒；从 tracker 拿到对等方列表（一个子集），连其中一部分作为<b>邻居</b>。<b>边下载边上传</b>；可以更换交换对象；对等方随时来去。下完整个文件后，可以<b>自私地离开</b>，也可以<b>无私地留下</b>继续上传。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>请求块和发送块（slide 51）</caption>
+          <thead><tr><th>请求块 requesting</th><th>发送块：一报还一报 tit-for-tat</th></tr></thead>
+          <tbody>
+            <tr><td>不同对等方手里有不同的块子集；Alice 定期问每个邻居有哪些块；向邻居请求自己缺的块，<b>最稀有的优先</b>（rarest first）</td><td>Alice 只给<b>当前给她发块速率最高的 4 个</b>对等方上传，这 4 个叫<b>疏通</b>（unchoked）；其他对等方被<b>阻塞</b>（choked），收不到她的块；<b>每 10 秒</b>重新评估前 4 名</td></tr>
+            <tr><td></td><td><b>每 30 秒</b>再<b>随机</b>选一个对等方开始给它发块 = <b>乐观疏通</b>（optimistically unchoke）；被选中的这个可能因此进入前 4</td></tr>
+          </tbody></table></div>
+        <p><b>一报还一报的过程</b>（slide 52）：(1) Alice 乐观疏通 Bob；(2) Alice 成为 Bob 的前 4 名提供者之一，Bob 回报她；(3) Bob 也成为 Alice 的前 4 名提供者。结论：<b>上传速率越高，越能找到好的交换伙伴，下载越快</b>——这就是 BitTorrent 的激励机制。slide 53 说 BitTorrent 实际很复杂，这里只讲最重要的机制。</p>
+        <div class="callout warn"><div class="lbl">往年考法（三年都有）</div><ul class="speclist">
+          <li><b>24S1 Q4(b)（7 分）搭便车</b>：Bob 只下载不上传，能拿到完整文件吗？官方答案：<b>能</b>，只要有足够多的对等方在种子群里待得足够久，Bob 可以一直靠别人的<b>乐观疏通</b>拿到块。更快的办法：在多台不同 IP 的机器上同时搭便车，各要不同的块，最后拼起来（这其实是 Sybil 攻击）。</li>
+          <li><b>24S2 Q4(b)（10 分）乐观疏通概率</b>：5 个老用户互为前 4，3 个新用户（含 Alice）不上传；每轮每个老用户从 3 个新用户里随机选一个 → Alice 一轮内没被任何人选中的概率 (2/3)<sup>5</sup> = 32/243；1 分钟内有 2 轮 → 至少拿到一块的概率 1 − (32/243)<sup>2</sup> ≈ <b>98.266%</b>。</li>
+          <li><b>24S1 Q4(d)（5 分）块的完整性</b>：见下面的补充。</li>
+        </ul></div>
+        <div class="callout extra"><div class="lbl">课外补充：怎么防止有人发假块（slides 没讲，24S1 Q4(d) 考过）</div><p>恶意对等方可以假装好人发<b>伪造的块</b>。官方答案的办法：把文件切成等大的块，对每块算一个<b>哈希</b>（如 MD5、SHA-1），所有块的哈希都放进 <b>.torrent 文件</b>；对等方每下载一块就自己算哈希，和 .torrent 里的比较：相同 → 块有效；不同 → 假块，丢弃（再向别人要）。前提是 .torrent 文件来自<b>完全可信</b>的来源。实际的 BitTorrent 就是这样做的（用 SHA-1）。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div><ul lang="en">
+          <li>BitTorrent splits the file into <b>chunks</b>; a <b>tracker</b> tracks the peers in the torrent; a new peer registers, gets a list of peers and requests missing chunks <b>rarest first</b>.</li>
+          <li><b>Tit-for-tat</b>: a peer uploads to the <b>4 peers</b> sending to it at the highest rate (unchoked), re-evaluated every <b>10 s</b>; all others are choked. Every <b>30 s</b> it <b>optimistically unchokes</b> one random peer, which may then join the top 4.</li>
+          <li>A free-rider can still get the file through other peers' optimistic unchokes, but slowly; uploading more finds better trading partners and gets the file faster.</li>
+        </ul></div>
+        <details class="qcard"><summary>乐观疏通有什么用？如果没有乐观疏通，新加入的对等方会怎样？</summary><div class="a">乐观疏通让对等方每 30 秒随机给一个"不在前 4 名"的对等方发块。新加入的对等方一块也没有，没法回报别人，如果只有一报还一报，它永远进不了任何人的前 4，就拿不到块。乐观疏通给它起步的机会，也让大家有机会发现更好的交换伙伴。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is optimistic unchoking for? Without it, what would happen to a newly joined peer?</p><p><b>A:</b> Every 30 s a peer randomly starts sending chunks to one peer outside its top 4. A new peer has no chunks and cannot reciprocate, so with pure tit-for-tat it would never enter anyone's top 4 and would never receive chunks. Optimistic unchoking gives it a chance to start, and lets peers discover better trading partners.</p></div></div></details>
+        <details class="qcard"><summary>为什么请求块时"最稀有的优先"？</summary><div class="a">最稀有的块只有少数对等方有，一旦他们离开，这块就可能从种子群里消失。先要最稀有的块，能让这些块尽快多一些副本，块在种子群中分布更均匀。（slides 只给了规则，这个理由是常见解释。）<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why are chunks requested "rarest first"?</p><p><b>A:</b> The rarest chunks are held by only a few peers; if those peers leave, the chunk may disappear from the torrent. Requesting the rarest chunks first quickly creates more copies of them and spreads chunks evenly across the torrent. (The slides give only the rule; this is the usual explanation.)</p></div></div></details>
+      </div>
+    </section>
+    <!-- ===================== PART II · SECURITY (P2D slides 1–60, recorded lecture) ===================== -->
+    <section class="module" id="sec">
+      <div class="modhead"><span class="ref">PART II · TOPIC 4</span><h2>密码学与网络安全简介</h2><span class="scope">期末考</span></div>
+      <p class="modintro">第四套 slides（P2D，60 页）是一个"简介"：先讲<b>安全是什么</b>（CIA 三要素）、<b>攻击怎么分</b>（被动 / 主动），再讲<b>古典密码</b>（Caesar、单表代换、Vigenère、置换），然后是现代密码学的三件工具：<b>对称加密</b>（DES/AES）、<b>非对称加密</b>（RSA、Diffie–Hellman）、<b>Hash / MAC / 数字签名</b>，最后几页简单介绍网络安全和"更大的安全版图"。老师这一章<b>不在课堂上讲</b>，会放录播视频，所以本章完全按 slides 写。<b>往年期末 Q4 的最后一两小问几乎每年都考这一章</b>：Vigenère 手算、密钥空间计数、重放攻击、对称 + 非对称混合使用。CA2 Quiz 全是概念题，期末这部分也以<b>概念 + 小计算</b>为主，概念答案要能直接背出来。</p>
+      <div class="callout"><div class="lbl">怎么读这一章</div>
+        <p>先把 <a href="#sec-s5">S.5 Vigenère</a> 的手算模板练熟（字母 → 数字 → 相加 → mod 26 → 字母），这是唯一"必须动笔算"的内容，往年考了三次。然后背 <a href="#sec-s2">S.2 攻击分类</a>、<a href="#sec-s7">S.7</a>–<a href="#sec-s9">S.9 对称 / 非对称 / 混合</a>、<a href="#sec-s10">S.10 Hash / MAC / 签名</a> 里每节的"考试这样写"英文句子。RSA 的数学 slide 上写着 <i>for self-learning</i>，知道步骤和"为什么难破"就够。</p>
+        <div class="legend-scope"><span class="qz fin">期末考</span>本章各节<span class="qz hot">期末常考</span>往年考过<span class="mustc">必背</span>闭卷要背的公式和数字</div>
+      </div>
+
+      <div class="tablewrap"><table class="mustlist">
+        <caption>本章必背清单（期末闭卷）</caption>
+        <thead><tr><th>内容</th><th>公式 / 要点</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>CIA 三要素</td><td><b>C</b>onfidentiality 机密性、<b>I</b>ntegrity 完整性、<b>A</b>vailability 可用性；另外两个：Authenticity 真实性、Accountability 可追责性</td><td><a href="#sec-s1">S.1</a> · slide 4–5</td></tr>
+          <tr><td>被动 / 主动攻击</td><td>被动：窃听、流量分析 → <b>难发现，重在预防</b>；主动：伪装、重放、篡改、抵赖、拒绝服务 → <b>难完全阻止，重在检测和恢复</b></td><td><a href="#sec-s2">S.2</a> · slide 6–9</td></tr>
+          <tr><td>Vigenère</td><td class="f">a–z ↔ 0–25；加密 <b>c = (p + k) mod 26</b>；解密 <b>p = (c − k) mod 26</b>；求密钥 <b>k = (c − p) mod 26</b></td><td><a href="#sec-s5">S.5</a> · slide 18</td></tr>
+          <tr><td>密钥空间</td><td class="f">Caesar：<b>25</b> 个有效密钥；单表代换：<b>26! ≈ 4×10<sup>26</sup></b>；已知 5 对 → 21!（缩小 26·25·24·23·22 = 7,893,600 倍）；n 字母 Vigenère：<b>26<sup>n</sup></b>；DES：<b>2<sup>56</sup></b></td><td><a href="#sec-s4">S.4</a>–<a href="#sec-s7">S.7</a> · slide 19、30</td></tr>
+          <tr><td>两个 Vigenère 密钥连用</td><td>m 字母 + n 字母 ⇒ 等价于一个长 <b>lcm(m, n)</b> 的密钥（4 + 3 → 12），但密钥字母之间有关联，安全性<b>不等于</b>真正的 12 字母随机密钥</td><td><a href="#sec-s5">S.5</a> · 24S1 Q4(c)</td></tr>
+          <tr><td>DES / AES</td><td>DES：对称分组密码，<b>64 位分组、56 位密钥、16 轮</b> Feistel，1977 年，现在不安全；AES 用 <b>128 位</b>密钥</td><td><a href="#sec-s7">S.7</a> · slide 30–32</td></tr>
+          <tr><td>公钥 / 私钥</td><td>公钥：加密、<b>验证</b>签名；私钥：解密、<b>生成</b>签名。加密给 Bob 用 <b>Bob 的公钥</b>；签名用<b>发送方自己的私钥</b></td><td><a href="#sec-s8">S.8</a> · slide 34–35、48</td></tr>
+          <tr><td>RSA 步骤</td><td class="f">n = pq；φ(n) = (p−1)(q−1)；gcd(e, φ) = 1；d = e<sup>−1</sup> mod φ；<b>c = m<sup>e</sup> mod n</b>，<b>m = c<sup>d</sup> mod n</b></td><td><a href="#sec-s8">S.8</a> · slide 36–38</td></tr>
+          <tr><td>混合方案</td><td>非对称加密传<b>会话密钥</b>（或做签名），对称加密加密<b>大量数据</b></td><td><a href="#sec-s9">S.9</a> · slide 41</td></tr>
+          <tr><td>Hash / MAC / 签名</td><td>Hash：<b>无密钥</b>，只保证完整性；MAC：<b>共享对称密钥</b>，完整性 + 认证；数字签名：<b>发送方私钥</b>加密 hash，认证 + 不可抵赖</td><td><a href="#sec-s10">S.10</a> · slide 45–49</td></tr>
+        </tbody></table></div>
+
+      <!-- ============ S.1 ============ -->
+      <div class="sub" id="sec-s1">
+        <h3><span class="num">S.1</span> 什么是计算机安全：目标与 CIA 三要素 <span class="qz fin">期末考</span></h3>
+        <p><b>NIST 定义</b>（P2D slide 3）：计算机安全就是对一个自动化信息系统的保护，目的是保住系统资源（硬件、软件、固件、信息/数据、通信）的<b>完整性、可用性和机密性</b>。</p>
+        <ul class="speclist">
+          <li><b>三个主要目标</b>（slide 3）：<b>预防 Prevention</b>（让攻击失败）、<b>检测 Detection</b>（在攻击之前 / 之中 / 之后发现它）、<b>恢复 Recovery</b>（制止攻击、评估并修复损失）。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>安全的几个维度（slide 4–5）</caption>
+          <thead><tr><th>维度</th><th>含义（大白话）</th><th>反例：被破坏时是什么样</th></tr></thead>
+          <tbody>
+            <tr><td><b>机密性 Confidentiality</b></td><td><b>数据机密性</b>：机密信息不给没授权的人看；<b>隐私 Privacy</b>：个人能控制自己的哪些信息被收集、存在哪、给谁看</td><td>你的成绩单被别人偷看</td></tr>
+            <tr><td><b>完整性 Integrity</b></td><td><b>数据完整性</b>：信息和程序只能按规定的、经授权的方式被修改；<b>系统完整性</b>：系统按设计功能正常工作，没有被故意或无意地非法操纵</td><td>转账金额 100 被改成 10000</td></tr>
+            <tr><td><b>可用性 Availability</b></td><td>系统及时工作，授权用户不会被拒绝服务（及时、足够的服务）</td><td>考前选课网站被 DoS 攻击打瘫</td></tr>
+            <tr><td>真实性 Authenticity</td><td>"是真的"，并且能被验证、能被信任（消息真的来自它声称的人）</td><td>假冒银行的邮件</td></tr>
+            <tr><td>可追责性 Accountability</td><td>每个动作都能唯一地追溯到做它的实体；系统要<b>留记录</b>，方便事后取证、处理交易纠纷</td><td>没有日志，查不出谁删了数据</td></tr>
+          </tbody></table></div>
+        <div class="formula must">
+          <span class="fl"><b>CIA triad</b> = <b>C</b>onfidentiality + <b>I</b>ntegrity + <b>A</b>vailability</span>
+          <span class="fl">其他常见要求：<b>Authenticity</b>、<b>Accountability</b></span>
+          <span class="fl">三个目标：<b>Prevention → Detection → Recovery</b></span>
+        </div>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">The CIA triad: <b>confidentiality</b> (information is not disclosed to unauthorised parties), <b>integrity</b> (data and systems are changed only in an authorised way) and <b>availability</b> (service is not denied to authorised users).</p>
+          <p lang="en">Two further goals are <b>authenticity</b> (genuine and verifiable) and <b>accountability</b> (every action can be traced to the entity that did it, using records/logs).</p></div>
+        <details class="qcard"><summary>CIA 三要素是哪三个？DoS 攻击主要破坏哪一个？</summary><div class="a">机密性、完整性、可用性。DoS（拒绝服务）让合法用户用不了服务，破坏的是<b>可用性</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What are the three elements of the CIA triad? Which one does a DoS attack mainly violate?</p><p><b>A:</b> Confidentiality, integrity and availability. A denial-of-service attack prevents authorised users from getting the service, so it mainly violates <b>availability</b>.</p></div></div></details>
+        <details class="qcard"><summary>计算机安全的三个主要目标是什么？</summary><div class="a"><b>预防</b>（让攻击失败）、<b>检测</b>（在攻击前、中、后发现它）、<b>恢复</b>（制止攻击并修复损失）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What are the three main goals of computer security?</p><p><b>A:</b> <b>Prevention</b> (make the attack fail), <b>detection</b> (discover the attack before, during or after it happens) and <b>recovery</b> (stop the attack and assess and repair the damage).</p></div></div></details>
+      </div>
+
+      <!-- ============ S.2 ============ -->
+      <div class="sub" id="sec-s2">
+        <h3><span class="num">S.2</span> 安全攻击：被动攻击 vs 主动攻击 <span class="qz hot">期末常考</span></h3>
+        <p>slide 6–7 把攻击分成两大类，判断标准只有一个：<b>攻击者有没有改动数据 / 制造假数据</b>。</p>
+        <div class="tablewrap"><table>
+          <caption>被动攻击 vs 主动攻击（slide 6–7）</caption>
+          <thead><tr><th></th><th>被动攻击 Passive attack</th><th>主动攻击 Active attack</th></tr></thead>
+          <tbody>
+            <tr><td>定义</td><td>想<b>获取或利用</b>系统里的信息，但<b>不影响</b>系统资源</td><td>会<b>修改数据</b>，或者<b>制造一串假数据</b></td></tr>
+            <tr><td>例子</td><td><b>窃听</b> eavesdropping；<b>监视传输 / 流量分析</b> traffic analysis（就算内容加密了，也能看出位置、身份、频率、长度）</td><td><b>伪装</b> masquerade、<b>重放</b> replay、<b>篡改消息</b> modification、<b>抵赖</b> repudiation、<b>拒绝服务</b> DoS</td></tr>
+            <tr><td>特点</td><td>不改数据 → <b>很难发现</b></td><td>手段太多 → <b>很难完全阻止</b></td></tr>
+            <tr><td>对策重点</td><td><b>预防</b>（如加密）</td><td><b>检测</b>，并从损失中<b>恢复</b></td></tr>
+          </tbody></table></div>
+        <div class="tablewrap"><table>
+          <caption>7 种攻击的一句话解释（slide 9 参考笔记）</caption>
+          <thead><tr><th>攻击</th><th>做了什么</th><th>类别</th><th>破坏</th></tr></thead>
+          <tbody>
+            <tr><td>窥探 Snooping</td><td>未授权地访问或截获数据</td><td>被动</td><td>机密性</td></tr>
+            <tr><td>流量分析 Traffic analysis</td><td>监视、收集通信情况，猜测交易的性质</td><td>被动</td><td>机密性</td></tr>
+            <tr><td>篡改 Modification</td><td>改动交换的数据内容</td><td>主动</td><td>完整性</td></tr>
+            <tr><td>伪装 Masquerading</td><td>冒充别人来获取数据</td><td>主动</td><td>完整性 / 真实性</td></tr>
+            <tr><td>重放 Replaying</td><td>把之前截获的用户消息再发一遍</td><td>主动</td><td>完整性 / 真实性</td></tr>
+            <tr><td>抵赖 Repudiation</td><td>发送方否认发过，或接收方否认收到</td><td>主动</td><td>可追责性</td></tr>
+            <tr><td>拒绝服务 DoS</td><td>让系统变慢或完全中断服务</td><td>主动</td><td>可用性</td></tr>
+          </tbody></table></div>
+        <h4>重放攻击 replay attack（24S2 Q4(d) 考过）</h4>
+        <p>slide 7 的小图画的就是重放：Darth 把 Bob 发给 Alice 的一条消息<b>录下来</b>，过一会儿<b>原样再发</b>给 Alice。关键点：<b>攻击者不需要能解密</b>。例子：Bob 登录时发出一个加密后的密码，Darth 截下这串密文，之后原样重发，服务器照样认为"密码正确"。又如"给 Darth 转账 100 元"的指令被重放 10 次。</p>
+        <ol>
+          <li>攻击者在网络上<b>窃听</b>，截获一个合法的数据包；</li>
+          <li><b>保存</b>下来；</li>
+          <li>稍后<b>重新发送</b>（或故意延迟发送）；</li>
+          <li>接收方以为这是合法消息，执行了相应操作。</li>
+        </ol>
+        <p><b>对策</b>：让每条消息<b>只能用一次</b>、过期作废。例如在消息里加入<b>时间戳 timestamp</b>、<b>序号 sequence number</b>、或者每次都不同的<b>一次性随机数 nonce / 唯一 ID</b>，并且这些字段要<b>被加密或被 MAC/签名保护</b>（攻击者改不了）。接收方发现时间戳太旧、序号用过、nonce 重复，就丢弃。</p>
+        <div class="callout extra"><div class="lbl">课外补充：挑战–应答（challenge–response）</div><p>另一种常见做法：服务器每次登录先发一个新的随机数（挑战），客户端要用密钥对它计算一个回答。每次挑战都不同，上次录下的回答这次就没用了。这在 slides 上没有，答题时写时间戳 / 序号 / nonce 就够了。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">A <b>passive attack</b> (eavesdropping, traffic analysis) only learns information and does not alter data, so it is hard to detect and must be <b>prevented</b> (e.g., by encryption). An <b>active attack</b> (masquerade, replay, modification, repudiation, DoS) modifies data or creates false data; it is hard to prevent absolutely, so we must <b>detect</b> it and <b>recover</b>.</p>
+          <p lang="en">In a <b>replay attack</b> the attacker captures a valid (possibly encrypted) message and retransmits it later; the receiver accepts it as legitimate even though the attacker never decrypted it. Countermeasure: include a <b>timestamp, sequence number or nonce</b> protected by encryption/MAC, so a repeated or stale message is detected and discarded.</p></div>
+        <details class="qcard"><summary>为什么说被动攻击要"预防"，主动攻击要"检测和恢复"？</summary><div class="a">被动攻击不改数据，系统里看不出任何异常，<b>很难发现</b>，所以只能事先预防（例如加密）。主动攻击的方式太多，<b>不可能完全挡住</b>，但它改了数据、会留下痕迹，所以重点是及时发现并恢复。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why should passive attacks be prevented, while active attacks are detected and recovered from?</p><p><b>A:</b> A passive attack does not alter any data, so it is very <b>difficult to detect</b>; the emphasis is therefore on prevention (e.g., encryption). Active attacks take so many forms that they are <b>difficult to prevent absolutely</b>, but because they modify data they can be detected, so the emphasis is on detection and recovery.</p></div></div></details>
+        <details class="qcard"><summary>攻击者截获了一个加密的登录密码，但不知道怎么解密。他还能登录吗？怎么防？</summary><div class="a">能：<b>重放攻击</b>，把密文原样再发一遍，服务器以为是合法用户。防法：在登录消息中加入<b>时间戳 / 序号 / nonce</b>（受加密或 MAC 保护），旧消息再发会被识别并丢弃。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> An attacker captures an encrypted login password but cannot decrypt it. Can he still log in? How can this be prevented?</p><p><b>A:</b> Yes, by a <b>replay attack</b>: he resends the captured ciphertext and the server accepts it as the legitimate user. Prevention: include a <b>timestamp, sequence number or nonce</b> (protected by encryption or a MAC) in each login message, so a replayed old message is recognised and rejected.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.3 ============ -->
+      <div class="sub" id="sec-s3">
+        <h3><span class="num">S.3</span> 密码学基本术语与密码分析 <span class="qz fin">期末考</span></h3>
+        <div class="tablewrap"><table>
+          <caption>术语（slide 10）</caption>
+          <thead><tr><th>英文</th><th>中文</th><th>含义</th></tr></thead>
+          <tbody>
+            <tr><td>Plaintext (cleartext)</td><td>明文</td><td>原始的、看得懂的消息</td></tr>
+            <tr><td>Ciphertext</td><td>密文</td><td>变换后看不懂的消息</td></tr>
+            <tr><td>Cipher</td><td>密码算法</td><td>用<b>密钥</b>把明文变成密文、再变回来的算法</td></tr>
+            <tr><td>Key</td><td>密钥</td><td>算法里用的、只有收发双方知道的信息</td></tr>
+            <tr><td>Private key</td><td>私钥</td><td>只有接收方（有时也包括发送方）知道</td></tr>
+            <tr><td>Public key</td><td>公钥</td><td>所有人都知道</td></tr>
+            <tr><td>Cryptography</td><td>密码学</td><td>设计密码的学问</td></tr>
+            <tr><td>Cryptanalysis</td><td>密码分析（破译）</td><td><b>不知道密钥</b>的情况下解密的原理和方法</td></tr>
+          </tbody></table></div>
+        <ul class="speclist">
+          <li><b>加密能提供什么</b>（slide 11）：机密性（数据隐私）和真实性（证明来源），还可以提供完整性。</li>
+          <li><b>算法公开，密钥保密</b>（slide 12）：加密 / 解密算法是公开的，安全全靠密钥。所以"保密"的对象是密钥，不是算法。</li>
+        </ul>
+        <div class="callout extra"><div class="lbl">课外补充：Kerckhoffs 原则</div><p>"算法公开、只有密钥保密，系统仍然安全"就是密码学里的 Kerckhoffs 原则。好处：算法可以被大家公开检验；密钥泄露了只要换密钥，不用换整个系统。</p></div>
+        <div class="tablewrap"><table>
+          <caption>密码分析的攻击类型（slide 13）：按攻击者"知道多少"分</caption>
+          <thead><tr><th>攻击类型</th><th>攻击者知道</th><th>例子</th></tr></thead>
+          <tbody>
+            <tr><td><b>唯密文</b> Ciphertext only</td><td>加密算法 + 密文</td><td>只截获了一段密文</td></tr>
+            <tr><td><b>已知明文</b> Known plaintext</td><td>上面的 + <b>一对或多对</b>用同一密钥产生的（明文, 密文）</td><td>知道信件都以 "Dear" 开头；24S2 Q4(c) 知道 5 个字母的对应</td></tr>
+            <tr><td><b>选择明文</b> Chosen plaintext</td><td>上面的 + 攻击者<b>自己挑</b>明文，并拿到对应密文</td><td>能让对方帮你加密任意一句话</td></tr>
+          </tbody></table></div>
+        <p>slide 13 的结论：一个加密算法<b>至少</b>要能扛住<b>已知明文攻击</b>。从上往下，攻击者知道的越来越多，攻击越来越强。</p>
+        <details class="qcard"><summary>"已知明文攻击"中，攻击者比"唯密文攻击"多知道什么？</summary><div class="a">多知道<b>一对或多对</b>用同一个密钥产生的（明文，密文）对应。好的算法至少要抵抗已知明文攻击。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> In a known-plaintext attack, what does the attacker know in addition to a ciphertext-only attack?</p><p><b>A:</b> He also knows <b>one or more (plaintext, ciphertext) pairs</b> produced with the same secret key. A good encryption algorithm should withstand at least a known-plaintext attack.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.4 ============ -->
+      <div class="sub" id="sec-s4">
+        <h3><span class="num">S.4</span> 古典密码（一）：单表代换、Caesar、穷举与频率分析 <span class="qz hot">期末常考</span></h3>
+        <p>slide 14 把古典加密技术分成三类：<b>代换</b>（substitution：把字母换成别的字母 / 数字 / 符号；分单表代换如 Caesar，多表代换如 Vigenère，还有 Playfair、Hill 等）、<b>置换</b>（transposition / permutation：字母本身不变，只打乱顺序；如栅栏、列置换）、<b>乘积密码</b>（代换和置换串起来用）。</p>
+        <h4>先把字母变成数字（整章都用这张表）</h4>
+        <div class="tablewrap"><table class="mono">
+          <caption>a–z ↔ 0–25</caption>
+          <tbody>
+            <tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td><td>k</td><td>l</td><td>m</td></tr>
+            <tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+            <tr><td>n</td><td>o</td><td>p</td><td>q</td><td>r</td><td>s</td><td>t</td><td>u</td><td>v</td><td>w</td><td>x</td><td>y</td><td>z</td></tr>
+            <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+          </tbody></table></div>
+        <p>"mod 26"就是除以 26 取余数：32 mod 26 = 6；26 mod 26 = 0；负数先加 26：−9 mod 26 = 17。</p>
+        <h4>Caesar 密码（slide 16）</h4>
+        <p>每个字母往后移 key 位（slide 16 的 key = 3：A→D，B→E，…，X→A，Y→B，Z→C）；解密往回移 key 位。</p>
+        <div class="formula must">
+          <span class="fl">Caesar：加密 <b>c = (p + k) mod 26</b>，解密 <b>p = (c − k) mod 26</b></span>
+          <span class="fl">有效密钥只有 <b>25</b> 个（k = 1…25；k = 0 等于没加密）→ <b>穷举 brute force</b> 一下就破</span>
+        </div>
+        <div class="tablewrap"><table class="mono">
+          <caption>例子：key = 3 加密 "network"（已用脚本核对）</caption>
+          <tbody>
+            <tr><th>明文</th><td>n</td><td>e</td><td>t</td><td>w</td><td>o</td><td>r</td><td>k</td></tr>
+            <tr><th>p</th><td>13</td><td>4</td><td>19</td><td>22</td><td>14</td><td>17</td><td>10</td></tr>
+            <tr><th>p + 3</th><td>16</td><td>7</td><td>22</td><td>25</td><td>17</td><td>20</td><td>13</td></tr>
+            <tr><th>密文</th><td><b>q</b></td><td><b>h</b></td><td><b>w</b></td><td><b>z</b></td><td><b>r</b></td><td><b>u</b></td><td><b>n</b></td></tr>
+          </tbody></table></div>
+        <h4>一般的单表代换（slide 15）</h4>
+        <p>不再是"统一移几位"，而是把 26 个字母<b>任意打乱</b>做成一张对照表（密钥就是这张表）。slide 15 的表：A→K，B→C，C→P，D→S，E→V，…；例如 "hello" → "fvwwr"。<b>明文字母和密文字母永远一一对应</b>（one-to-one）：同一个明文字母永远变成同一个密文字母。</p>
+        <div class="formula must">
+          <span class="fl">单表代换密钥数 = 26 个字母的排列数 = <b>26! ≈ 4.03 × 10<sup>26</sup></b>（slide 19："26! &gt; 4×10<sup>26</sup>"）</span>
+          <span class="fl">已知 r 对字母对应后：剩下 <b>(26 − r)!</b> 种；缩小倍数 = 26!/(26 − r)! = 26·25·…·(26 − r + 1)</span>
+        </div>
+        <p><b>为什么 26! 这么大还不安全？</b> 因为一一对应保留了<b>字母频率</b>（slide 19 的柱状图：英文里 e 最多约 12.7%，其次 t、a、o…）。在密文里数一数哪个字母出现最多，它多半就是 e；再看常见双字母（th、he）……几步就能猜出整张表，根本不用试 26! 种。这叫<b>频率分析</b> letter frequency analysis。</p>
+        <div class="callout teal"><div class="lbl">例子：已知明文攻击能省多少（24S2 Q4(c)，数字已核对）</div>
+          <p>知道了 5 个字母的（明文，密文）对应，这 5 个字母的映射就定了，剩下 21 个明文字母只能映射到剩下的 21 个密文字母：搜索空间从 <b>26!</b> 降到 <b>21!</b>。</p>
+          <p>缩小倍数 = 26!/21! = 26 × 25 × 24 × 23 × 22 = <b>7,893,600</b>（26! ≈ 4.03×10<sup>26</sup>，21! ≈ 5.11×10<sup>19</sup>）。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">A <b>Caesar cipher</b> has only <b>25</b> possible keys, so it is easily broken by <b>brute force</b>.</p>
+          <p lang="en">A general <b>monoalphabetic cipher</b> has <b>26! ≈ 4×10<sup>26</sup></b> keys, but because each plaintext letter always maps to the same ciphertext letter, the <b>letter frequencies</b> of the language are preserved, and it is easily broken by <b>frequency analysis</b>.</p>
+          <p lang="en">If r letter pairs are known, the search space drops from 26! to (26 − r)!, i.e., by a factor 26!/(26 − r)!.</p></div>
+        <details class="qcard"><summary>用 key = 3 的 Caesar 密码解密 "dwwdfn"。</summary><div class="a">每个字母往回移 3：d→a，w→t，w→t，d→a，f→c，n→k，明文 <b>attack</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Decrypt "dwwdfn" using a Caesar cipher with key = 3.</p><p><b>A:</b> Shift each letter back by 3: d→a, w→t, w→t, d→a, f→c, n→k, giving the plaintext <b>attack</b>.</p></div></div></details>
+        <details class="qcard"><summary>单表代换有 26! 个密钥，为什么还说它很容易破？</summary><div class="a">它是一一对应的，明文的<b>字母频率</b>原样保留到密文里。用频率分析（e 最常见，再看 th、he 等）很快就能还原对照表，不需要穷举 26! 种。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> A monoalphabetic cipher has 26! keys. Why is it still considered easy to break?</p><p><b>A:</b> The mapping is one-to-one, so the <b>letter frequencies</b> of the plaintext are preserved in the ciphertext. <b>Frequency analysis</b> (e.g., the most common letter is likely "e", then common digrams such as "th", "he") quickly recovers the table without trying all 26! keys.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.5 ============ -->
+      <div class="sub" id="sec-s5">
+        <h3><span class="num">S.5</span> 古典密码（二）：Vigenère 多表代换 <span class="qz hot">期末常考</span></h3>
+        <p><b>多表代换</b>（polyalphabetic，slide 17）：准备一组相关的单表代换规则，由<b>密钥决定每个位置用哪条规则</b>。所以同一个明文字母在不同位置会变成不同的密文字母，频率被"抹平"了。</p>
+        <p><b>Vigenère</b>（slide 18，1553 年由 Bellaso 提出，1586 年 Vigenère 再发明，曾被认为三百年不可破）就是最典型的多表代换：密钥是一个单词，<b>密钥第 i 个字母决定明文第 i 个字母移几位</b>；密钥比明文短就<b>循环重复</b>。等于"每个位置用一个不同的 Caesar"。slide 18 的 26×26 方表：行 = 密钥字母，列 = 明文字母，交叉处 = 密文字母。手算时直接用数字更快。</p>
+        <div class="formula must">
+          <span class="fl">a = 0, b = 1, …, z = 25；密钥循环：k<sub>i</sub> = 密钥第 (i mod 密钥长度) 个字母</span>
+          <span class="fl">加密：<b>c<sub>i</sub> = (p<sub>i</sub> + k<sub>i</sub>) mod 26</b></span>
+          <span class="fl">解密：<b>p<sub>i</sub> = (c<sub>i</sub> − k<sub>i</sub>) mod 26</b></span>
+          <span class="fl">已知明文和密文求密钥：<b>k<sub>i</sub> = (c<sub>i</sub> − p<sub>i</sub>) mod 26</b></span>
+          <span class="fl">n 个字母的随机密钥：<b>26<sup>n</sup></b> 种</span>
+        </div>
+        <div class="tablewrap"><table class="mono">
+          <caption>slide 18 的例子：明文 attack，密钥 Emily（已用脚本核对）</caption>
+          <tbody>
+            <tr><th>明文 p</th><td>a</td><td>t</td><td>t</td><td>a</td><td>c</td><td>k</td></tr>
+            <tr><th>p 数字</th><td>0</td><td>19</td><td>19</td><td>0</td><td>2</td><td>10</td></tr>
+            <tr><th>密钥 k（循环）</th><td>e</td><td>m</td><td>i</td><td>l</td><td>y</td><td>e</td></tr>
+            <tr><th>k 数字</th><td>4</td><td>12</td><td>8</td><td>11</td><td>24</td><td>4</td></tr>
+            <tr><th>p + k</th><td>4</td><td>31</td><td>27</td><td>11</td><td>26</td><td>14</td></tr>
+            <tr><th>mod 26</th><td>4</td><td>5</td><td>1</td><td>11</td><td>0</td><td>14</td></tr>
+            <tr><th>密文 c</th><td><b>e</b></td><td><b>f</b></td><td><b>b</b></td><td><b>l</b></td><td><b>a</b></td><td><b>o</b></td></tr>
+          </tbody></table></div>
+        <p>注意：两个 t 分别变成 f 和 b，两个 a 分别变成 e 和 l —— 这就是多表代换打乱频率的地方。密钥 5 个字母，第 6 个明文字母 k 又用回密钥第 1 个字母 e。</p>
+
+        <h4>Vigenère 手算模板（考场照着画）</h4>
+        <div class="tablewrap"><table class="mono">
+          <caption>模板 + 填好的例子：用密钥 "ntu" 加密 "network"（已核对）</caption>
+          <thead><tr><th>行</th><th>做什么</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+          <tbody>
+            <tr><th>①</th><td>写明文</td><td>n</td><td>e</td><td>t</td><td>w</td><td>o</td><td>r</td><td>k</td></tr>
+            <tr><th>②</th><td>明文 → 数字</td><td>13</td><td>4</td><td>19</td><td>22</td><td>14</td><td>17</td><td>10</td></tr>
+            <tr><th>③</th><td>密钥循环写到同样长</td><td>n</td><td>t</td><td>u</td><td>n</td><td>t</td><td>u</td><td>n</td></tr>
+            <tr><th>④</th><td>密钥 → 数字</td><td>13</td><td>19</td><td>20</td><td>13</td><td>19</td><td>20</td><td>13</td></tr>
+            <tr><th>⑤</th><td>② + ④</td><td>26</td><td>23</td><td>39</td><td>35</td><td>33</td><td>37</td><td>23</td></tr>
+            <tr><th>⑥</th><td>mod 26（≥ 26 就减 26）</td><td>0</td><td>23</td><td>13</td><td>9</td><td>7</td><td>11</td><td>23</td></tr>
+            <tr><th>⑦</th><td>数字 → 密文</td><td><b>a</b></td><td><b>x</b></td><td><b>n</b></td><td><b>j</b></td><td><b>h</b></td><td><b>l</b></td><td><b>x</b></td></tr>
+          </tbody></table></div>
+        <p>解密时把第 ⑤ 行换成"密文 − 密钥"，结果是负数就 +26；求密钥时换成"密文 − 明文"。<b>最后一定反过来验算一遍</b>（用求出的密钥再加密 / 解密一次，看能不能回到题目给的字母）。</p>
+        <div class="callout teal"><div class="lbl">例子：25S1 Q4(c) 两小问（已核对）</div>
+          <p>(i) 用 "ntueng" 加密 "crypto"：p = 2, 17, 24, 15, 19, 14；k = 13, 19, 20, 4, 13, 6；和 = 15, 36, 44, 19, 32, 20；mod 26 = 15, 10, 18, 19, 6, 20 → <b>pkstgu</b>。</p>
+          <p>(ii) 找一个密钥，让 "pkstgu" 解密成 "yunnan"：k = (c − p) mod 26 = (15−24, 10−20, 18−13, 19−13, 6−0, 20−13) = (−9, −10, 5, 6, 6, 7) → (17, 16, 5, 6, 6, 7) → <b>rqfggh</b>。验算：p − r = 15 − 17 = −2 → 24 = y ✓。详细讨论（包括老师答案里的符号问题）见练习页。</p></div>
+
+        <h4>为什么 Vigenère 也能破，怎样更安全（slide 19）</h4>
+        <ul class="speclist">
+          <li>密钥长 n，就是 n 个 Caesar 轮流用；同一位置组里的字母仍保留频率规律。攻击者可以分析<b>双字母组 digram</b>（两个字母的组合）和<b>三字母组 trigram</b> 的频率来破解。</li>
+          <li><b>密钥越长越安全</b>：重复周期越长，每组里能统计的字母越少。</li>
+          <li>如果密钥<b>和明文一样长、完全随机、只用一次</b>，就成了<b>一次一密 one-time pad</b>，slide 19 说它是<b>完全安全</b>的。</li>
+          <li>反过来：用自然语言单词做密钥（如 "emily"）不够随机，比随机字母组合更容易被 digram/trigram 分析（25S2 Q4(d) 老师答案的要点）。<b>经常换密钥</b>也能让攻击者来不及收集足够的统计数据。</li>
+        </ul>
+        <h4>两个密钥连续用（24S1 Q4(c)）</h4>
+        <p>先用 4 字母密钥加密，再用 3 字母密钥加密：第 i 个字母一共移了 k1<sub>i mod 4</sub> + k2<sub>i mod 3</sub> 位，这个模式每 <b>lcm(4, 3) = 12</b> 个字母重复一次，所以<b>等价于一个 12 字母密钥</b>。例：k1 = bcde（1 2 3 4），k2 = fgh（5 6 7）→ 等价密钥 6 8 10 9 7 9 8 10 8 7 9 11 = <b>gikjhjikihjl</b>。但它<b>不如</b>真正随机的 12 字母密钥安全：两把短钥只有 26<sup>7</sup> 种组合（≈ 8.0×10<sup>9</sup>），而 12 字母密钥有 26<sup>12</sup> 种（≈ 9.5×10<sup>16</sup>），而且 12 个位移之间有固定关系：例如第 1 与第 4 个位移之差 = 第 5 与第 8 个之差 = 第 9 与第 12 个之差（上例：6 − 9 = 7 − 10 = 8 − 11 = −3），真正随机的 12 字母密钥没有这种规律。完整解答见练习页。</p>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">Vigenère: map a–z to 0–25; <b>c<sub>i</sub> = (p<sub>i</sub> + k<sub>i</sub>) mod 26</b>, <b>p<sub>i</sub> = (c<sub>i</sub> − k<sub>i</sub>) mod 26</b>, where the keyword is repeated to the length of the message; the key letter can be found as <b>k<sub>i</sub> = (c<sub>i</sub> − p<sub>i</sub>) mod 26</b>.</p>
+          <p lang="en">It is polyalphabetic, so the same plaintext letter is mapped to different ciphertext letters, which hides single-letter frequencies; it can still be attacked by <b>digram/trigram frequency analysis</b>. <b>Longer, random and frequently changed keys</b> improve security; a random key as long as the message and used once is a <b>one-time pad</b>, which is perfectly secure.</p></div>
+        <details class="qcard"><summary>用密钥 "key" 加密 "hello"（先自己算再看答案）。</summary><div class="a">p = 7, 4, 11, 11, 14；k = k e y k e = 10, 4, 24, 10, 4；和 = 17, 8, 35, 21, 18；mod 26 = 17, 8, 9, 21, 18 → <b>rijvs</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Encrypt "hello" with the Vigenère keyword "key".</p><p><b>A:</b> p = 7, 4, 11, 11, 14; k = k e y k e = 10, 4, 24, 10, 4; sums = 17, 8, 35, 21, 18; mod 26 = 17, 8, 9, 21, 18, giving <b>rijvs</b>.</p></div></div></details>
+        <details class="qcard"><summary>什么情况下 Vigenère 变成"完全安全"？</summary><div class="a">密钥<b>和明文一样长</b>、<b>完全随机</b>、<b>只用一次</b> → 一次一密（one-time pad），slide 19 说它完全安全。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Under what condition does the Vigenère cipher become perfectly secure?</p><p><b>A:</b> When the key is <b>as long as the plaintext</b>, <b>totally random</b> and <b>used only once</b>; it then becomes a <b>one-time pad</b>, which is totally secure.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.6 ============ -->
+      <div class="sub" id="sec-s6">
+        <h3><span class="num">S.6</span> 置换密码、乘积密码与隐写术 <span class="qz fin">期末考</span></h3>
+        <p><b>置换</b>（transposition，slide 20）：字母<b>本身不变</b>，只<b>改变位置</b>。最简单的是<b>栅栏密码 Rail Fence</b>：把明文按对角线交替写成两行，再一行一行读出来。</p>
+        <div class="tablewrap"><table class="mono">
+          <caption>slide 20 的例子："meet me after the toga party"（已核对）</caption>
+          <tbody>
+            <tr><th>第 1 行（第 1、3、5…个字母）</th><td>m e m a t r h t g p r y</td></tr>
+            <tr><th>第 2 行（第 2、4、6…个字母）</th><td>e t e f e t e o a a t</td></tr>
+            <tr><th>密文 = 第 1 行 + 第 2 行</th><td><b>mematrhtgpryetefeteoaat</b></td></tr>
+          </tbody></table></div>
+        <ul class="speclist">
+          <li>更复杂的：<b>分组（列）置换</b>，把明文按行写进一个方阵，再<b>打乱列的顺序</b>读出；置换还可以<b>重复做几次</b>（slide 20 第二个例子）。</li>
+          <li><b>乘积密码 product cipher</b>（slide 21）：把几种简单变换（代换、置换、模加 / 模乘、线性变换）<b>依次执行</b>，通常重复很多<b>轮 rounds</b>。现代分组密码大多是这种：LUCIFER、<b>DES</b>、LOKI、FEAL、PES。</li>
+          <li><b>隐写术 steganography</b>（slide 22）：严格说<b>不是加密</b>。加密是让消息<b>看不懂</b>；隐写是<b>隐藏消息的存在</b>（例：把一张图藏在另一张图每个颜色分量的最低 2 位里）。</li>
+        </ul>
+        <details class="qcard"><summary>代换和置换的区别？隐写术和加密的区别？</summary><div class="a">代换：把字母<b>换成别的</b>字母或符号；置换：字母不变，只<b>打乱顺序</b>。加密让消息看不懂；隐写术让别人<b>不知道有消息存在</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the difference between substitution and transposition? Between steganography and encryption?</p><p><b>A:</b> Substitution <b>replaces</b> letters with other letters or symbols; transposition keeps the letters but <b>permutes their order</b>. Encryption makes the message unintelligible, while steganography <b>conceals the existence</b> of the message.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.7 ============ -->
+      <div class="sub" id="sec-s7">
+        <h3><span class="num">S.7</span> 对称密钥加密与 DES / AES <span class="qz hot">期末常考</span></h3>
+        <p><b>现代加密</b>（slide 23）对二进制明文、用固定长度的二进制密钥操作，分三大类：<b>对称密钥</b>（双方用<b>同一个</b>密钥：DES、3DES、AES；古典密码基本上都是对称的；基本操作还是代换和置换）、<b>非对称密钥</b>（两个密钥：Diffie–Hellman、ElGamal、RSA、ECC）、<b>Hash 函数</b>。</p>
+        <ul class="speclist">
+          <li><b>对称加密</b>（slide 24–25）：发送方加密、接收方解密用<b>同一个密钥</b>，两个方向共用。Alice 和 Bob 通信前必须先商量好一个<b>会话密钥 session key</b>。</li>
+          <li><b>主要难题</b>：怎么让双方<b>商量出密钥又不让别人知道</b>，而且密钥还要不时更换 → 需要一个不怕窃听的方法来交换密钥。</li>
+          <li><b>脆弱点</b>（slide 26）：被动攻击者获取 / 猜出密钥和算法后解密消息，或截获密文做唯密文攻击；主动攻击者可以打断信道（DoS），或用猜到的密钥<b>发假消息</b>。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>对称加密的优缺点（slide 27–28）</caption>
+          <thead><tr><th>优点</th><th>缺点</th></tr></thead>
+          <tbody>
+            <tr><td><b>快</b>：吞吐率高，硬件实现可达每秒几百 MB，软件也有每秒几 MB</td><td>密钥必须在<b>两端都保密</b></td></tr>
+            <tr><td><b>密钥短</b>：例如 128 位就被认为非常安全</td><td>大网络里要管理<b>很多对密钥</b></td></tr>
+            <tr><td></td><td>密钥应<b>经常更换</b>，最好每次会话一个</td></tr>
+            <tr><td colspan="2">一句话：问题都在<b>密钥保密、密钥分发、密钥管理</b>（key secrecy, key distribution, key management）</td></tr>
+          </tbody></table></div>
+        <div class="callout extra"><div class="lbl">课外补充：要管理多少把密钥</div><p>N 个人两两之间都用对称加密，需要 <b>N(N − 1)/2</b> 把密钥（100 人 → 4950 把）；用公钥加密每人只要一对，共 <b>2N</b> 把（100 人 → 200 把）。这就是 slide 28 "many key pairs to be managed" 的具体意思。</p></div>
+        <h4>流密码 vs 分组密码（slide 29）</h4>
+        <ul class="speclist">
+          <li><b>流密码 stream cipher</b>：一次加密数据流的<b>一位或一个字节</b>。slide 的例子：<b>Vigenère</b>。</li>
+          <li><b>分组密码 block cipher</b>：把一<b>块</b>明文作为整体，生成<b>等长</b>的密文块。例子：<b>DES、AES</b>。</li>
+        </ul>
+        <h4>DES（slide 30–32）</h4>
+        <div class="formula must">
+          <span class="fl">DES = 对称<b>分组</b>密码，NIST 1977 年发布</span>
+          <span class="fl"><b>64 位</b>明文分组 → <b>56 位</b>密钥 → <b>64 位</b>密文；<b>16 轮</b> Feistel</span>
+          <span class="fl">现在<b>不安全</b>（56 位密钥太短）→ 用 <b>3DES</b> 或 <b>AES（128 位密钥）</b></span>
+        </div>
+        <ol>
+          <li>64 位明文 P 先做<b>初始置换</b> IP：P<sub>0</sub> = IP(P)；</li>
+          <li>再做 <b>16 轮 Feistel 函数</b>，每轮包括代换、置换（查表）和<b>密钥混合</b>；</li>
+          <li>最后做<b>逆初始置换</b> IP<sup>−1</sup>，得到密文。</li>
+          <li>密钥部分：56 位密钥先过一个置换；每一轮用<b>循环移位 + 置换</b>生成一个子密钥 k<sub>i</sub>。</li>
+          <li>解密用<b>同样的步骤和同样的密钥</b>（子密钥倒序用）。</li>
+        </ol>
+        <div class="callout teal"><div class="lbl">例子：为什么 56 位不够（数字已核对）</div><p>56 位密钥共 2<sup>56</sup> ≈ 7.2×10<sup>16</sup> 种。slide 32 说超级计算机每秒能试 10<sup>13</sup> 次：全部试完要 2<sup>56</sup>/10<sup>13</sup> ≈ 7200 s ≈ 2 小时，<b>平均试一半就找到</b>，约 <b>1 小时</b>，正是 slide 上的"about 1 hour"。AES 的 128 位密钥按同样速度要试约 10<sup>18</sup> 年。</p></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">In <b>symmetric-key</b> encryption the <b>same secret key</b> is used for encryption and decryption (e.g., DES, 3DES, AES). Advantages: <b>fast</b> (high throughput) and <b>short keys</b> (128 bits is very safe). Disadvantages: the key must be kept secret at both ends, many keys must be managed in a large network, and keys should be changed frequently — i.e., <b>key distribution and key management</b> are the main problems.</p>
+          <p lang="en"><b>DES</b> is a symmetric block cipher (1977) that encrypts <b>64-bit blocks</b> with a <b>56-bit key</b> through <b>16 rounds</b>; it is no longer secure because the key is too short, so 3DES or <b>AES (128-bit key)</b> is used.</p></div>
+        <details class="qcard"><summary>对称加密最大的问题是什么？</summary><div class="a"><b>密钥分发与管理</b>：双方必须事先安全地共享同一个密钥，不能被窃听；密钥两端都要保密、要经常换；大网络里密钥对数量很多。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the main problem of symmetric-key encryption?</p><p><b>A:</b> <b>Key distribution and key management</b>: both parties must agree on the same secret key in advance without anyone else finding out; the key must stay secret at both ends and be changed frequently, and a large network needs many key pairs.</p></div></div></details>
+        <details class="qcard"><summary>DES 的分组长度、密钥长度、轮数各是多少？为什么现在不安全？</summary><div class="a">分组 <b>64 位</b>，密钥 <b>56 位</b>，<b>16 轮</b>。56 位密钥太短，2<sup>56</sup> 种可被穷举（slide：约 1 小时）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What are the block size, key size and number of rounds of DES? Why is it no longer secure?</p><p><b>A:</b> <b>64-bit</b> blocks, a <b>56-bit</b> key and <b>16 rounds</b>. The 56-bit key is too short: all 2<sup>56</sup> keys can be searched by brute force (about one hour according to the slides).</p></div></div></details>
+      </div>
+
+      <!-- ============ S.8 ============ -->
+      <div class="sub" id="sec-s8">
+        <h3><span class="num">S.8</span> 非对称（公钥）加密与 RSA <span class="qz hot">期末常考</span></h3>
+        <ul class="speclist">
+          <li>1976 年 <b>Diffie 和 Hellman</b> 提出，slide 33 称它是密码学史上"唯一真正的革命"。基于<b>数学函数</b>，而不是代换和置换；可用于<b>机密性</b>和<b>认证</b>。</li>
+          <li><b>每个用户两把钥匙</b>（slide 34）：<b>公钥</b>谁都可以知道，一般用来<b>加密</b>消息或<b>验证</b>签名；<b>私钥</b>只有主人知道，用来<b>解密</b>消息和<b>生成</b>签名。</li>
+          <li>两把钥匙<b>相关</b>，但从公钥<b>推不出</b>私钥（计算上不可行）。</li>
+          <li><b>用公钥加密</b>（slide 35）：Alice 给 Bob 发消息 → 用<b>接收方 Bob 的公钥</b>加密 → 只有 Bob 的<b>私钥</b>能解开。</li>
+        </ul>
+        <div class="formula must">
+          <span class="fl">要保密（给 Bob）：用 <b>Bob 的公钥</b>加密，<b>Bob 的私钥</b>解密</span>
+          <span class="fl">要认证 / 签名（Bob 发出）：用 <b>Bob 的私钥</b>加密（签名），<b>Bob 的公钥</b>解密（验证）</span>
+        </div>
+        <h4>RSA（slide 36–38，slide 上写 <i>for self-learning</i>）</h4>
+        <p>1977 年 MIT 的 Rivest、Shamir、Adleman 提出。只需要知道"用到哪种数学、为什么难破"。</p>
+        <ol>
+          <li>选两个不同的大素数 <b>p、q</b>（随机、位数相近）；</li>
+          <li><b>n = pq</b>，作为公钥和私钥共同的模数；n 的位数就是密钥长度；</li>
+          <li><b>φ(n) = (p − 1)(q − 1)</b>（欧拉函数：1…n 中与 n 互素的数的个数），保密；<b>不知道 p、q 很难算出 φ(n)</b>；</li>
+          <li>选 e，1 &lt; e &lt; φ(n)，且 <b>gcd(e, φ(n)) = 1</b>；e 是<b>公开</b>的指数；</li>
+          <li><b>d ≡ e<sup>−1</sup> mod φ(n)</b>（即 e·d mod φ(n) = 1），d 是<b>私钥</b>指数；p、q、φ(n) 也要保密，因为能用它们算出 d；</li>
+          <li>Alice 把公钥 <b>(n, e)</b> 给 Bob；Bob 把消息变成数 m（m &lt; n），算 <b>c = m<sup>e</sup> mod n</b> 发给 Alice；Alice 算 <b>m = c<sup>d</sup> mod n</b>。两步计算量都很大（RSA 密钥 2048 或 4096 位）。</li>
+        </ol>
+        <div class="callout teal"><div class="lbl">迷你例子（数字是我们选的，已用脚本核对；真实 RSA 的数大得多）</div>
+          <p>p = 3，q = 11 → n = 33，φ(n) = 2 × 10 = 20。选 e = 3（gcd(3, 20) = 1）。d：3·d mod 20 = 1 → d = 7（3 × 7 = 21 = 20 + 1）。公钥 (33, 3)，私钥 d = 7。</p>
+          <p>加密 m = 4：c = 4<sup>3</sup> mod 33 = 64 mod 33 = <b>31</b>。解密：31<sup>7</sup> mod 33 = <b>4</b> ✓。攻击者只知道 n = 33 和 e = 3；要算 d 就得先知道 φ(n)，也就是要把 n <b>分解</b>成 p × q —— n 有几百位时这做不到。</p></div>
+        <h4>对称 vs 非对称（slide 39–40）</h4>
+        <div class="tablewrap"><table>
+          <caption>对比</caption>
+          <thead><tr><th></th><th>对称 symmetric</th><th>非对称 asymmetric</th></tr></thead>
+          <tbody>
+            <tr><td>密钥</td><td>一把共享密钥</td><td>每人一对：公钥 + 私钥</td></tr>
+            <tr><td>基于</td><td>代换、置换</td><td>数学函数（大数分解、离散对数…）</td></tr>
+            <tr><td>速度</td><td><b>快得多</b></td><td>慢，计算量大</td></tr>
+            <tr><td>事先约定密钥</td><td><b>需要</b>（密钥交换难）</td><td><b>不需要</b>，公钥公开</td></tr>
+            <tr><td>能做签名 / 不可抵赖</td><td>不能（双方有同一把钥匙）</td><td><b>能</b></td></tr>
+            <tr><td>例子</td><td>DES、3DES、AES</td><td>RSA、Diffie–Hellman、ElGamal、ECC</td></tr>
+          </tbody></table></div>
+        <p><b>关于非对称加密的 3 个误解</b>（slide 40）：</p>
+        <ol>
+          <li>"它取代了对称加密" ✗ → 它是<b>补充</b>，不是取代；</li>
+          <li>"它更安全" ✗ → <b>没有证据</b>，安全性取决于<b>密钥长度</b>等；</li>
+          <li>"公钥是公开的，所以密钥分发很简单" ✗ → 分发<b>更容易</b>，但<b>不是轻而易举</b>（还得确认这把公钥真是 Bob 的）。</li>
+        </ol>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">In <b>asymmetric (public-key)</b> encryption each user has a <b>public key</b> (known to all; used to encrypt or verify signatures) and a <b>private key</b> (known only to the owner; used to decrypt or sign). The private key cannot feasibly be derived from the public key. To send Bob a confidential message, encrypt it with <b>Bob's public key</b>; only Bob's private key can decrypt it.</p>
+          <p lang="en">Symmetric ciphers are <b>much faster</b> but need a shared key agreed in advance; asymmetric ciphers avoid prior key agreement and support <b>digital signatures</b>, but are computationally expensive. Asymmetric encryption <b>complements</b> rather than replaces symmetric encryption; it is not inherently more secure, and key distribution becomes easier but not trivial.</p></div>
+        <details class="qcard"><summary>Alice 要给 Bob 发一封只有 Bob 能看的信，用谁的哪把钥匙加密？</summary><div class="a">用 <b>Bob 的公钥</b>加密；只有 Bob 有对应的<b>私钥</b>能解密。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Alice wants to send Bob a message that only Bob can read. Whose key, and which key, should she use to encrypt it?</p><p><b>A:</b> <b>Bob's public key</b>; only Bob holds the matching <b>private key</b> that can decrypt it.</p></div></div></details>
+        <details class="qcard"><summary>"非对称加密比对称加密更安全"对吗？</summary><div class="a">不对（slide 40 的误解之一）：没有证据说明它更安全，安全性主要取决于<b>密钥长度</b>和算法；它是对称加密的<b>补充</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Is it true that asymmetric encryption is more secure than symmetric encryption?</p><p><b>A:</b> No. This is one of the misconceptions on slide 40: there is no evidence that it is more secure; security depends mainly on the <b>key size</b> (and the algorithm). Asymmetric encryption <b>complements</b> symmetric encryption rather than replacing it.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.9 ============ -->
+      <div class="sub" id="sec-s9">
+        <h3><span class="num">S.9</span> 混合方案与 Diffie–Hellman 密钥交换 <span class="qz hot">期末常考</span></h3>
+        <h4>混合方案 hybrid scheme（slide 41）</h4>
+        <p>扬长避短，分两步：</p>
+        <ol>
+          <li>用<b>公钥加密</b>传递（或推导出）一个<b>秘密会话密钥 K</b>：发送方用接收方公钥 K<sub>e</sub> 加密 K 得到 C<sub>K</sub>，接收方用私钥 K<sub>d</sub> 解出 K；</li>
+          <li>再用 K 做<b>对称加密</b>，加密真正的（大量的）消息 M 得到 C<sub>M</sub>，接收方用 K 解密。</li>
+        </ol>
+        <p>slide 41 还说：公钥加密最初就是为了解决两件事 —— <b>密钥分发</b>和<b>数字签名（不可抵赖）</b>。</p>
+        <div class="tablewrap"><table>
+          <caption>混合方案里谁干什么</caption>
+          <thead><tr><th>工作</th><th>用什么</th><th>原因</th></tr></thead>
+          <tbody>
+            <tr><td>传会话密钥（很短）</td><td>非对称</td><td>不用事先约定密钥；数据量小，慢一点无所谓</td></tr>
+            <tr><td>加密正文、附件（很大）</td><td>对称</td><td>快</td></tr>
+            <tr><td>签名 / 认证</td><td>非对称（私钥签、公钥验）</td><td>只有发送方有私钥 → 不可抵赖</td></tr>
+          </tbody></table></div>
+        <div class="callout teach"><div class="lbl">老师在往年答案里的说法（25S1 Q4(d)，转述）</div><p>"先对称加密、再把密文整体用非对称加密再加密一遍"：可以预期安全性会提高，因为攻击者要两种都破才行；但现实中不这么用，因为<b>两种的缺点也一起背上了</b>：非对称的<b>计算量大</b>，对称的<b>密钥管理 / 分发复杂</b>，成本和实现复杂度都高。实际系统里两者<b>同时使用，但用于不同部分、不同目的</b>，例如电子邮件里用非对称做签名 / 认证，用对称加密正文和附件。</p></div>
+        <h4>Diffie–Hellman 算法（slide 42–44）：在公开信道上"商量"出一个共享密钥</h4>
+        <ol>
+          <li>公开两个数：大素数 <b>p</b>，和小于 p 的数 <b>g</b>；</li>
+          <li>Alice、Bob 各自选一个 512 位随机数 <b>S<sub>A</sub>、S<sub>B</sub></b>（私钥，不公开）；</li>
+          <li>各自算公钥：<b>T<sub>A</sub> = g<sup>S<sub>A</sub></sup> mod p</b>，<b>T<sub>B</sub> = g<sup>S<sub>B</sub></sup> mod p</b>，<b>明文</b>交换 T<sub>A</sub>、T<sub>B</sub>；</li>
+          <li>Alice 算 (T<sub>B</sub>)<sup>S<sub>A</sub></sup> mod p，Bob 算 (T<sub>A</sub>)<sup>S<sub>B</sub></sup> mod p，两者相等：<b>S = g<sup>S<sub>A</sub>S<sub>B</sub></sup> mod p</b>（依据：(a mod p)<sup>b</sup> mod p = a<sup>b</sup> mod p）；</li>
+          <li>Eve 就算截获 T<sub>A</sub>、T<sub>B</sub>，也很难算出 S。</li>
+        </ol>
+        <div class="callout teal"><div class="lbl">迷你例子（数字是我们选的，已核对）</div><p>p = 23，g = 5；S<sub>A</sub> = 6，S<sub>B</sub> = 15。T<sub>A</sub> = 5<sup>6</sup> mod 23 = 8，T<sub>B</sub> = 5<sup>15</sup> mod 23 = 19。Alice：19<sup>6</sup> mod 23 = <b>2</b>；Bob：8<sup>15</sup> mod 23 = <b>2</b>。共享密钥 S = 2。</p></div>
+        <p><b>弱点：中间人攻击 man-in-the-middle</b>（slide 43–44）：Alice 不能确定 T<sub>B</sub> 真的来自 Bob。Eve 截获并修改分组，给 Alice 和 Bob 都发 g<sup>c</sup>；于是 Alice 用 g<sup>ac</sup>、Bob 用 g<sup>bc</sup>，Eve 两个都知道，可以在中间解密、再加密转发。防御需要<b>双向认证</b> —— 又回到了<b>密钥分发</b>问题。</p>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en"><b>Hybrid scheme</b>: public-key encryption is used to exchange (or derive) a secret <b>session key</b>, and the session key is then used with fast <b>symmetric</b> encryption for the actual (bulk) data. Public-key cryptography is also used for <b>digital signatures</b> (non-repudiation).</p>
+          <p lang="en">Encrypting the whole message twice (symmetric then asymmetric) may add security, since both must be broken, but it inherits <b>both drawbacks</b> — the high computational cost of asymmetric encryption and the key-management complexity of symmetric encryption — so in practice the two are used for <b>different parts/purposes</b> (e.g., e-mail: asymmetric for signature/authentication, symmetric for content and attachments).</p>
+          <p lang="en"><b>Diffie–Hellman</b> lets two parties derive a shared secret S = g<sup>S<sub>A</sub>S<sub>B</sub></sup> mod p over a public channel, but without authentication it is vulnerable to a <b>man-in-the-middle</b> attack.</p></div>
+        <details class="qcard"><summary>为什么实际系统用"非对称传密钥 + 对称加密数据"，而不是全程非对称？</summary><div class="a">非对称加密<b>计算量大、很慢</b>，不适合大量数据；对称加密快，但<b>密钥难分发</b>。混合方案用非对称安全地送一个短的会话密钥，再用对称加密大量数据，两者优点都要了。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why do real systems use asymmetric encryption to send a key and symmetric encryption for the data, instead of asymmetric encryption throughout?</p><p><b>A:</b> Asymmetric encryption is <b>computationally expensive and slow</b>, so it is unsuitable for bulk data; symmetric encryption is fast but has a <b>key distribution problem</b>. The hybrid scheme uses asymmetric encryption to deliver a short session key securely and symmetric encryption for the bulk data, combining the advantages of both.</p></div></div></details>
+        <details class="qcard"><summary>Diffie–Hellman 的主要弱点是什么？怎么防？</summary><div class="a"><b>中间人攻击</b>：双方不能确认收到的 T 来自对方，Eve 可以和两边分别建立密钥。防御需要<b>双向认证</b>（又回到密钥分发问题）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the main weakness of Diffie–Hellman, and how is it defended against?</p><p><b>A:</b> The <b>man-in-the-middle attack</b>: neither party can be sure the received T value came from the other, so Eve can set up a separate key with each side. The defence requires <b>mutual authentication</b>, which brings us back to the key distribution problem.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.10 ============ -->
+      <div class="sub" id="sec-s10">
+        <h3><span class="num">S.10</span> Hash 函数、消息认证码 MAC 与数字签名 <span class="qz hot">期末常考</span></h3>
+        <h4>Hash 函数（slide 45）</h4>
+        <ul class="speclist">
+          <li>把<b>任意长度</b>的消息 M 映射成<b>固定长度</b>的 hash 值 h（也叫消息摘要 message digest）：<b>h = H(M)</b>。</li>
+          <li>"好"的 hash：对大量输入，输出<b>分布均匀、看起来随机</b>；M 中<b>任何一位</b>改动，hash 值都会以很高概率改变。</li>
+          <li>如果 hash 值能<b>安全地</b>传过去，改动内容几乎一定会改变 hash → 触发报警。</li>
+          <li>用途：<b>消息认证</b>和<b>数字签名</b>（还有 24S1 Q4(d) BitTorrent 里校验数据块）。</li>
+        </ul>
+        <div class="callout extra"><div class="lbl">课外补充：密码学 hash 的三个性质</div><p>教科书常列：<b>单向性</b>（给 h 找不到 M）、<b>抗第二原像</b>（给 M 找不到另一个 M′ 使 H(M′) = H(M)）、<b>抗碰撞</b>（找不到任意一对 M ≠ M′ 使 hash 相等）。slides 只讲到"输出均匀随机、改一位就变"，考试按 slides 写即可，加上这三条是加分。常见算法：MD5、SHA-1（已不推荐）、SHA-256。</p></div>
+        <h4>消息认证码 MAC（slide 46）：用对称密钥做认证</h4>
+        <ul class="speclist">
+          <li><b>消息认证</b>：确认收到的数据和发出的<b>完全一样</b>（没有被修改、插入、<b>重放</b>），并且发送方的身份是真的。</li>
+          <li><b>MAC</b>（也叫<b>带密钥的 hash</b> keyed hash function）：输入 = 任意长的消息 + <b>共享的对称密钥</b>，输出一个小的固定长度数据块（MAC 值）。</li>
+          <li>接收方有同一把密钥，自己再算一遍 MAC，相同 → 消息完整且来自持有密钥的一方。</li>
+          <li><b>Hash vs MAC</b>：hash <b>不需要密钥</b>，只保护<b>完整性</b>；MAC <b>需要共享密钥</b>，保护<b>完整性 + 认证</b>。</li>
+        </ul>
+        <h4>用非对称密钥认证与数字签名（slide 47–49）</h4>
+        <ul class="speclist">
+          <li>slide 47：Bob 用<b>自己的私钥</b>加密，只有 <b>Bob 的公钥</b>能解开 → Alice 知道消息一定来自 Bob。</li>
+          <li><b>数字签名</b>（slide 48）：纸质签名的数字版；消息的创建者附上一段代码当签名。做法：<b>用发送方私钥加密消息的 hash 值</b> → 提供认证。</li>
+          <li>流程（slide 49）：Bob 用私钥 + 消息 M 生成签名 S，把 (M, S) 发出；Alice 用 <b>Bob 的公钥</b>验证，结果"有效 / 无效"。</li>
+          <li>要让内容<b>只有 Alice 能看</b>：Bob 再用 <b>Alice 的公钥</b>加密（slide 49 底部）。</li>
+          <li><b>MAC vs 数字签名</b>：MAC 的生成和验证用<b>同一把秘密密钥</b>；签名是私钥生成、公钥验证。因为只有 Bob 有私钥，签名能防<b>抵赖</b>；MAC 双方都有密钥，Bob 可以说"是 Alice 自己算的"，所以<b>不能防抵赖</b>。</li>
+        </ul>
+        <div class="tablewrap"><table>
+          <caption>三者对比（必背）</caption>
+          <thead><tr><th></th><th>Hash</th><th>MAC</th><th>数字签名</th></tr></thead>
+          <tbody>
+            <tr><td>密钥</td><td>无</td><td>共享对称密钥</td><td>私钥签，公钥验</td></tr>
+            <tr><td>完整性</td><td>✓（hash 值要安全传送）</td><td>✓</td><td>✓</td></tr>
+            <tr><td>认证（来源）</td><td>✗</td><td>✓</td><td>✓</td></tr>
+            <tr><td>不可抵赖</td><td>✗</td><td>✗</td><td>✓</td></tr>
+          </tbody></table></div>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">A <b>hash function</b> maps a variable-length message to a <b>fixed-length</b> digest h = H(M); the output looks random and any change to M almost surely changes h, so it protects <b>integrity</b> (no key).</p>
+          <p lang="en">A <b>MAC</b> is a keyed hash computed with a <b>shared symmetric key</b>; it provides <b>integrity and authentication</b>. A <b>digital signature</b> is the hash of the message encrypted with the <b>sender's private key</b> and verified with the sender's public key; it provides authentication and <b>non-repudiation</b>, which a MAC cannot, because both MAC parties hold the same key.</p></div>
+        <details class="qcard"><summary>Hash 和 MAC 的区别？</summary><div class="a">Hash 不需要密钥，只能保护<b>完整性</b>；MAC 需要<b>共享的对称密钥</b>，同时保护<b>完整性和认证</b>（来源）。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is the difference between a hash function and a MAC?</p><p><b>A:</b> A hash function uses no key and protects <b>integrity</b> only; a MAC requires a <b>shared symmetric key</b> and protects both <b>integrity and authentication</b> (origin).</p></div></div></details>
+        <details class="qcard"><summary>为什么数字签名能防抵赖，MAC 不能？</summary><div class="a">签名用<b>只有发送方才有的私钥</b>生成，别人造不出来，发送方赖不掉。MAC 的密钥收发双方<b>都有</b>，接收方也能算出同样的 MAC，第三方无法判断是谁生成的。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why can a digital signature prevent repudiation while a MAC cannot?</p><p><b>A:</b> A signature is generated with the <b>sender's private key</b>, which nobody else has, so the sender cannot deny it. A MAC key is held by <b>both</b> sender and receiver, so the receiver could have produced the same MAC, and a third party cannot tell who generated it.</p></div></div></details>
+      </div>
+
+      <!-- ============ S.11 ============ -->
+      <div class="sub" id="sec-s11">
+        <h3><span class="num">S.11</span> 网络与 Internet 安全简介，以及更大的安全版图 <span class="qz fin">期末考</span></h3>
+        <p>slide 50 把整章串起来：CIA 三要素 → 攻击（被动 / 主动）→ 加解密（对称 / 非对称）→ Hash、MAC、数字签名 → 网络安全。</p>
+        <ul class="speclist">
+          <li><b>网络访问控制</b>（slide 51）：只让符合安全策略的终端和用户使用网络资源。<b>NPS（Network Policy Server）</b>做集中的<b>认证、授权、计费</b>（AAA），用于无线、认证交换机、远程拨号和 VPN 连接。</li>
+          <li><b>应用层安全</b>（slide 52）：<b>S/MIME</b>（邮件的公钥加密和签名标准，大多数邮件软件内置）；<b>PGP</b>（签名、加密文本 / 邮件 / 文件 / 整个磁盘分区）。PGP 依次用 <b>hash、数据压缩、对称加密、公钥加密</b> —— 正是 S.9 的混合方案。还有 <b>TLS</b>、<b>IPsec</b> 等。</li>
+          <li><b>无线网络安全</b>（slide 53）：风险比有线高，因为：<b>信道</b>开放（更容易被窃听、干扰 jamming）、<b>移动性</b>、<b>资源</b>有限（计算能力弱）、<b>物理上容易接触</b>。需要更仔细的认证、访问控制、隐私保护；协议如 WEP、IEEE 802.11i。</li>
+          <li><b>信息物理安全</b>（slide 54–55）：攻击可能同时针对物理系统和网络系统。防御：网络安全手段 + 系统保护和冗余 + 弹性恢复和隔离 + 综合多种数据做攻击检测和态势感知。slide 55 的例子：恶意车辆广播假的紧急刹车消息制造"幽灵车"，本车用激光雷达 / 雷达扫描那个位置发现没车 → 判定为欺骗攻击，不刹车，并上报交通云。</li>
+          <li><b>侧信道攻击</b>（slide 56）：不攻击算法本身，而是利用<b>物理实现</b>泄露的信息：时间、功耗、电磁泄漏甚至声音。</li>
+          <li><b>内部威胁</b>（slide 57）：员工、承包商、合作方滥用合法权限窃取数据或搞破坏（离职员工带走数据、员工疏忽泄露、凭证被盗）。</li>
+          <li><b>认知安全</b>（slide 58）：攻击人的心理和决策（虚假信息、deepfake、心理操纵），属于<b>社会工程</b>的一部分，利用信任、恐惧、好奇、紧迫感。</li>
+          <li>更大的版图（slide 59）：网络安全之外还有物理安全、运营安全、人员安全、治理风险与合规（GRC）、新兴领域（量子安全、AI 治理）等。slide 60：1945 年 <b>Shannon</b> 的《A mathematical theory of cryptography》被视为现代密码学的起点。</li>
+        </ul>
+        <div class="callout teal"><div class="lbl">考试这样写</div>
+          <p lang="en">Wireless networks face <b>higher security risks</b> than wired ones because of the open <b>channel</b> (easier eavesdropping and jamming), <b>mobility</b>, limited <b>resources</b> and <b>physical accessibility</b>; they need stronger authentication, access control and privacy protection (e.g., IEEE 802.11i).</p>
+          <p lang="en">PGP combines <b>hashing, compression, symmetric-key encryption and public-key encryption</b> to provide privacy and authentication for e-mail and files.</p></div>
+        <details class="qcard"><summary>为什么无线网络比有线网络安全风险更高？说出至少三点。</summary><div class="a">① 信道开放，更容易被<b>窃听</b>和<b>干扰</b>（被动、主动攻击都更容易）；② <b>移动性</b>让一些安全功能更难实现；③ 很多设备<b>计算资源有限</b>；④ 设备在<b>物理上容易被接触</b>。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> Why do wireless networks have higher security risks than wired networks? Give at least three reasons.</p><p><b>A:</b> (1) The open <b>channel</b> is more vulnerable to passive and active attacks such as <b>eavesdropping and jamming</b>; (2) <b>mobility</b> makes some security functions harder to provide; (3) many devices have <b>limited computing resources</b>; (4) devices are <b>physically accessible</b>.</p></div></div></details>
+        <details class="qcard"><summary>什么是侧信道攻击？</summary><div class="a">不去破解算法本身，而是利用密码系统<b>物理实现</b>泄露的信息（运算<b>时间</b>、<b>功耗</b>、<b>电磁泄漏</b>、甚至<b>声音</b>）来破解。<div class="ans-en" lang="en"><p class="ans-h">English</p><p><b>Q:</b> What is a side-channel attack?</p><p><b>A:</b> An attack that uses information leaked by the <b>physical implementation</b> of a cryptosystem — such as <b>timing</b>, <b>power consumption</b>, <b>electromagnetic leaks</b> or even <b>sound</b> — rather than brute force or theoretical weaknesses of the algorithm.</p></div></div></details>
+      </div>
+
+      <div class="nextmod"><a href="#app">← 应用层</a><a href="ee6108-practice.html">去做真题 →</a></div>
+    </section>
+
 
     <div class="callout" style="max-width:100%; margin-top:20px;">
       <div class="lbl">走到这里</div>
