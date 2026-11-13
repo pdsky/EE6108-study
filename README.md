@@ -9,7 +9,7 @@ NTU EE6108 Computer Networks 的中文自学网页：一份**学习手册**，�
 | 直接打开 | 内容 |
 |---|---|
 | [学习手册](https://pdsky.github.io/EE6108-study/ee6108-learn.html) | Part I 全部 + Part II 网络层 II（CA2 Quiz 范围，标了「Quiz 考」「必背」）+ 传输层（上、下：rdt、TCP、拥塞控制）+ 应用层（HTTP、P2P）+ 网络安全（加密）；18 个交互实验 + 10 个动画 |
-| [题库](https://pdsky.github.io/EE6108-study/ee6108-practice.html) | 往年期末 5 卷全解（每题有背诵版，Part II 附老师官方答案要点）、期末模拟卷 2 套、CA2 Quiz 模拟卷 5 套、课件例题、随机刷题 |
+| [题库](https://pdsky.github.io/EE6108-study/ee6108-practice.html) | 往年期末 5 卷全解（每份卷 Q1–Q4 按顺序排，每题有背诵版，Part II 附老师官方答案要点）、期末模拟卷 2 套、CA2 Quiz 模拟卷 5 套、课件例题、随机刷题 |
 | [概念题背诵卡](https://pdsky.github.io/EE6108-study/ee6108-practice.html#cards) | 116 张简明答案（期末 Part I 概念 + 公式方法、P2A、TCP、应用层、安全），英文关键句 + 中文翻译，可以遮住答案自测 |
 | [模拟卷](https://pdsky.github.io/EE6108-study/ee6108-practice.html#mock) | **期末模拟卷 2 套**：F + H、G + I（F、G = Part I 的 Q1 + Q2，H、I = Part II 的 Q3 + Q4），按往年期末题型出；另有 CA2 Quiz 模拟卷 A–E。都带翻译、背诵版、讲解、评分要点 |
 | [网络层 II（Quiz 范围）](https://pdsky.github.io/EE6108-study/ee6108-learn.html#n2) | 转发与路由、路由器结构、Dijkstra、DV、RIP/OSPF/BGP、SDN |
